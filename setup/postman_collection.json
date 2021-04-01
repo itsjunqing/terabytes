@@ -1,0 +1,714 @@
+{
+	"info": {
+		"_postman_id": "4b428b48-459d-431c-b15c-e93dff389969",
+		"name": "TeraBytes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "https://fit3077.com/api/v1/user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/user",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "competencies",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "competencies.subject",
+									"disabled": true
+								},
+								{
+									"key": "fields",
+									"value": "qualifications",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/user/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/user/:id",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"givenName\": \"testGivenName\",\n    \"familyName\": \"testFamilyName\",\n    \"userName\": \"testUserName\",\n    \"password\": \"testPassword\",\n    \"isStudent\": true,\n    \"isTutor\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fit3077.com/api/v1/user",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subject",
+			"item": [
+				{
+					"name": "https://fit3077.com/api/v1/subject",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/subject",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"subject"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/subject/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/subject/:id",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"subject",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/subject",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"string\",\n  \"description\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fit3077.com/api/v1/subject",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"subject"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Qualification",
+			"item": [
+				{
+					"name": "https://fit3077.com/api/v1/qualification",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/qualification",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"qualification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/qualification/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/qualification/:id",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"qualification",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/qualification",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"verified\": true,\n  \"ownerId\": \"string\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fit3077.com/api/v1/qualification",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"qualification"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Competency",
+			"item": [
+				{
+					"name": "https://fit3077.com/api/v1/competency",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/competency",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"competency"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/competency/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/competency/:id",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"competency",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/competency",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ownerId\": \"string\",\n  \"subjectId\": \"string\",\n  \"level\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fit3077.com/api/v1/competency",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"competency"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Contract",
+			"item": [
+				{
+					"name": "https://fit3077.com/api/v1/contract",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/contract",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contract"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/contract/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/contract/:id",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contract",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/contract",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstPartyId\": \"string\",\n  \"secondPartyId\": \"string\",\n  \"subjectId\": \"string\",\n  \"dateCreated\": \"2021-04-01T05:59:01.973Z\",\n  \"expiryDate\": \"2021-04-01T05:59:01.973Z\",\n  \"paymentInfo\": {},\n  \"lessonInfo\": {},\n  \"additionalInfo\": {}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fit3077.com/api/v1/contract",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contract"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bid",
+			"item": [
+				{
+					"name": "https://fit3077.com/api/v1/bid",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/bid",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/bid/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/bid/:id",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bid",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/bid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"string\",\n  \"initiatorId\": \"string\",\n  \"dateCreated\": \"2021-04-01T05:56:56.214Z\",\n  \"subjectId\": \"string\",\n  \"additionalInfo\": {}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fit3077.com/api/v1/bid",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"bid"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Message",
+			"item": [
+				{
+					"name": "https://fit3077.com/api/v1/message",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/message",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/message/:message_id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/message/:message_id",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"message",
+								":message_id"
+							],
+							"variable": [
+								{
+									"key": "message_id",
+									"value": "f9aab64d-d0e5-486d-bb5c-30d3014ddf1e"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"bidId\": \"string\",\n  \"posterId\": \"string\",\n  \"datePosted\": \"2021-04-01T05:53:29.186Z\",\n  \"content\": \"string\",\n  \"additionalInfo\": {}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fit3077.com/api/v1/message",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/message/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"string\",\n  \"additionalInfo\": {}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://fit3077.com/api/v1/message/:id",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"message",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://fit3077.com/api/v1/message/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://fit3077.com/api/v1/message/:id",
+							"protocol": "https",
+							"host": [
+								"fit3077",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"message",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{API Key}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
