@@ -13,5 +13,11 @@ public class Bid {
     private Date dateCreated;
     private Date dateClosedDown;
     private Subject subject;
-    private String additionalInfo;
+    private Extra additionalInfo;
+
+    // TODO: Inner class below to be modified
+    @Data
+    private class Extra {
+        private String info;
+    }
 }

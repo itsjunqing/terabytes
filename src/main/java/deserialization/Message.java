@@ -13,5 +13,11 @@ public class Message {
     private Date datePosted;
     private Date dateLastEdited;
     private String content;
-    private String additionalInfo;
+    private Extra additionalInfo;
+
+    // TODO: Inner class below to be modified
+    @Data
+    private class Extra {
+        private String info;
+    }
 }

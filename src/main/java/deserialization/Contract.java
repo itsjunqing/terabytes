@@ -20,6 +20,7 @@ public class Contract {
     private Lesson lessonInfo;
     private Extra additionalInfo;
 
+    // TODO: Inner-classes below to be modified
     @Data
     private class Payment {
         private String info;
