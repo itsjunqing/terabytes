@@ -1,10 +1,10 @@
 package engine;
 
-import deserialization.Bid;
-import deserialization.Contract;
-import deserialization.Message;
-import deserialization.User;
-import service.RestService;
+import api.RestService;
+import stream.Bid;
+import stream.Contract;
+import stream.Message;
+import stream.User;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -15,7 +15,23 @@ public class Driver {
             Logger.getLogger(Driver.class.getName()).info("Please set API_KEY as environment variable");
             return;
         }
-        testingLol();
+//        testingLol();
+//        Date date = new Date();
+//        System.out.println(date.toString());
+//        BidApi bidApi = new BidApi();
+//        List<Bid> bids = bidApi.getAll();
+////
+//        for (Bid b: bids) {
+////            System.out.println(b.getDateCreated());
+//            System.out.println(b);
+//        }
+//        Gson gson = new Gson();
+//        Bid bid = new Bid("open", "123", new Date(), "32132", null);
+//        String x = gson.toJson(bid);
+//        System.out.println(x);
+//        bidApi.postNew(bid);
+
+
 
     }
 
