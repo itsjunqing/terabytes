@@ -1,13 +1,17 @@
 package engine;
 
 import api.RestService;
+import controller.DashboardController;
 import controller.LoginController;
+import model.DashboardModel;
 import model.LoginModel;
 import stream.Bid;
 import stream.Contract;
 import stream.Message;
 import stream.User;
+import view.DashboardView;
 import view.LoginView;
+import view.StudentDashboard;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -24,6 +28,14 @@ public class Driver {
         LoginController loginController = new LoginController(loginModel, loginView);
 
         loginController.test();
+
+        // Testing Dashboard
+        DashboardModel dashboardModel = new DashboardModel();
+        DashboardView dashboardView = new StudentDashboard();
+        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
+        dashboardController.test();
+
+
 
 
 //        testingLol();
