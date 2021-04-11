@@ -1,11 +1,11 @@
-package service;
+package api;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import deserialization.Bid;
-import deserialization.Contract;
-import deserialization.Message;
-import deserialization.User;
+import stream.Bid;
+import stream.Contract;
+import stream.Message;
+import stream.User;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -15,6 +15,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+///**
+// * Deprecated
+// */
+@Deprecated
 public final class RestService {
     private final String ROOT_URL = "https://fit3077.com/api/v1";
     private final String USER_URL = "/user";
@@ -85,6 +90,7 @@ public final class RestService {
                     .build();
             Response response = httpClient.newCall(request).execute();
             if (response.isSuccessful()) {
+                System.out.println("hello");
                 return response.body().string();
             }
         } catch (IOException e) {
