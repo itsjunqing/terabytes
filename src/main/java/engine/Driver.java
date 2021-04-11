@@ -1,10 +1,13 @@
 package engine;
 
 import api.RestService;
+import controller.LoginController;
+import model.LoginModel;
 import stream.Bid;
 import stream.Contract;
 import stream.Message;
 import stream.User;
+import view.LoginView;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -15,6 +18,14 @@ public class Driver {
             Logger.getLogger(Driver.class.getName()).info("Please set API_KEY as environment variable");
             return;
         }
+
+        LoginModel loginModel = new LoginModel();
+        LoginView loginView = new LoginView();
+        LoginController loginController = new LoginController(loginModel, loginView);
+
+        loginController.test();
+
+
 //        testingLol();
 //        Date date = new Date();
 //        System.out.println(date.toString());
