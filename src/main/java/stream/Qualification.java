@@ -1,4 +1,4 @@
-package deserialization;
+package stream;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
