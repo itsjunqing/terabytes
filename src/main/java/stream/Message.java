@@ -1,6 +1,7 @@
 package stream;
 
 import lombok.Data;
+import model.BidInfo;
 
 import java.util.Date;
 
@@ -15,12 +16,13 @@ public class Message {
     private Date datePosted;
     private Date dateLastEdited;
     private String content;
-    private Extra additionalInfo;
+    private BidInfo additionalInfo;
 
     /**
      * Constructor for GET Message (Deserialization)
      */
-    public Message(String id, String bidId, User poster, Date datePosted, Date dateLastEdited, String content, Extra additionalInfo) {
+    public Message(String id, String bidId, User poster, Date datePosted, Date dateLastEdited,
+                   String content, BidInfo additionalInfo) {
         this.id = id;
         this.bidId = bidId;
         this.poster = poster;
@@ -33,7 +35,8 @@ public class Message {
     /**
      * Constructor for POST new Message (Serialization)
      */
-    public Message(String bidId, String posterId, Date datePosted, String content, Extra additionalInfo) {
+    public Message(String bidId, String posterId, Date datePosted, String content,
+                   BidInfo additionalInfo) {
         this.bidId = bidId;
         this.posterId = posterId;
         this.datePosted = datePosted;

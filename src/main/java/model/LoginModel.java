@@ -36,5 +36,7 @@ public class LoginModel {
         return false;
     }
 
-
+    public User getUser() {
+        return user;
+    }
 }

@@ -1,18 +1,13 @@
 package engine;
 
 import api.RestService;
-import controller.DashboardController;
-import controller.LoginController;
-import model.DashboardModel;
-import model.LoginModel;
 import stream.Bid;
 import stream.Contract;
 import stream.Message;
 import stream.User;
-import view.DashboardView;
-import view.LoginView;
-import view.StudentDashboard;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,17 +18,25 @@ public class Driver {
             return;
         }
 
-        LoginModel loginModel = new LoginModel();
-        LoginView loginView = new LoginView();
-        LoginController loginController = new LoginController(loginModel, loginView);
+        Date date = new Date();
+        System.out.println(date);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, 14);
+        Date d = c.getTime();
+        System.out.println(d);
 
-        loginController.test();
+//        LoginModel loginModel = new LoginModel();
+//        LoginView loginView = new LoginView();
+//        LoginController loginController = new LoginController(loginModel, loginView);
+//
+//        loginController.test();
 
         // Testing Dashboard
-        DashboardModel dashboardModel = new DashboardModel();
-        DashboardView dashboardView = new StudentDashboard();
-        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
-        dashboardController.test();
+//        DashboardModel dashboardModel = new DashboardModel();
+//        DashboardView dashboardView = new StudentDashboard();
+//        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
+//        dashboardController.test();
 
 
 
@@ -53,6 +56,9 @@ public class Driver {
 //        String x = gson.toJson(bid);
 //        System.out.println(x);
 //        bidApi.postNew(bid);
+
+//        OpenBiddingModel openBiddingModel = new OpenBiddingModel(1, null);
+
 
 
 

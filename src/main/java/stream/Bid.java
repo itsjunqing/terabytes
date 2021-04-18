@@ -15,14 +15,14 @@ public class Bid {
     private Date dateClosedDown;
     private Subject subject;
     private String subjectId;
-    private Extra additionalInfo;
+    private BidAdditionalInfo additionalInfo;
     private List<Message> messages;
 
     /**
      * Constructor used to GET Bid (Deserialization)
      */
     public Bid(String id, String type, User initiator, Date dateCreated,
-               Date dateClosedDown, Subject subject, Extra additionalInfo, List<Message> messages) {
+               Date dateClosedDown, Subject subject, BidAdditionalInfo additionalInfo, List<Message> messages) {
         this.id = id;
         this.type = type;
         this.initiator = initiator;
@@ -36,7 +36,7 @@ public class Bid {
     /**
      * Constructor used for creating and POST new Bid (Serialization)
      */
-    public Bid(String type, String initiatorId, Date dateCreated, String subjectId, Extra additionalInfo) {
+    public Bid(String type, String initiatorId, Date dateCreated, String subjectId, BidAdditionalInfo additionalInfo) {
         this.type = type;
         this.initiatorId = initiatorId;
         this.dateCreated = dateCreated;

@@ -64,18 +64,8 @@ public class Contract {
         this.dateSigned = dateSigned;
     }
 
-
-    // TODO: Inner-classes below to be modified
-    @Data
-    private class Payment {
-        private String info;
-    }
-    @Data
-    private class Lesson {
-        private String info;
-    }
-    @Data
     private class Extra {
-        private String info;
+
     }
+
 }

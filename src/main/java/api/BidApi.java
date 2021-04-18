@@ -9,11 +9,11 @@ public class BidApi extends BasicApi<Bid> {
     private final String BID_ENDPOINT = "/bid";
 
     public List<Bid> getAllBids() {
-        return getAllObjects(BID_ENDPOINT, Bid[].class);
+        return getAllObjects(BID_ENDPOINT + "?fields=messages", Bid[].class);
     }
 
     public Bid getBid(String id) {
-        String endpoint = BID_ENDPOINT + "/" + id;
+        String endpoint = BID_ENDPOINT + "/" + id + "?fields=messages";
         return getObject(endpoint, Bid.class);
     }
 
