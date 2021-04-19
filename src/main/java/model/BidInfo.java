@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
  */
 public class BidInfo {
 
-    private int initiatorId;
+    private String initiatorId;
     private String time;
     private String day;
     private int duration; // in hours
@@ -19,7 +19,7 @@ public class BidInfo {
     private int contractDuration; // in weeks
     private boolean bidSelected;
 
-    public BidInfo(int intiatorId, String time, String day, int duration, int rate, int numberOfSessions,
+    public BidInfo(String intiatorId, String time, String day, int duration, int rate, int numberOfSessions,
                    boolean freeLesson, int contractDuration) {
         this.initiatorId = intiatorId;
         this.time = time;

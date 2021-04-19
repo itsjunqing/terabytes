@@ -45,6 +45,13 @@ public class Bid {
     }
 
     /**
+     * Constructor for PATCH Bid (Serialization)
+     */
+    public Bid(BidAdditionalInfo additionalInfo) {
+        this.additionalInfo = additionalInfo;
+    }
+
+    /**
      * Constructor used for mark Bid as closed down (Serialization)
      */
     public Bid(Date dateClosedDown) {

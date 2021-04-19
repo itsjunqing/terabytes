@@ -1,6 +1,7 @@
 package engine;
 
 import api.RestService;
+import model.Qualification;
 import stream.Bid;
 import stream.Contract;
 import stream.Message;
@@ -25,6 +26,10 @@ public class Driver {
         c.add(Calendar.DATE, 14);
         Date d = c.getTime();
         System.out.println(d);
+
+        Qualification q = Qualification.BACHELOR;
+        System.out.println(q.toString());
+        System.out.println(q.name());
 
 //        LoginModel loginModel = new LoginModel();
 //        LoginView loginView = new LoginView();
