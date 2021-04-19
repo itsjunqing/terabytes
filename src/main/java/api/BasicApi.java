@@ -74,12 +74,22 @@ public class BasicApi<T> {
         return requestBuilder.build();
     }
 
-    private String getRequest(String url) {
+    private Response getRequest(String url) throws IOException {
         Request request = buildRequest(url, null, ApiType.GET);
+        return httpClient.newCall(request).execute();
+    }
+
+    private Response updateRequest(String url, String json, ApiType type) throws IOException {
+        Request request = buildRequest(url, json, type);
+        return httpClient.newCall(request).execute();
+    }
+
+    protected List<T> getAllObjects(String endpoint, Class<T[]> clazz) {
         try {
-            Response response = httpClient.newCall(request).execute();
+            Response response = getRequest(endpoint);
             if (response.isSuccessful()) {
-                return response.body().string();
+                String json = response.body().string();
+                return Arrays.asList(gson.fromJson(json, clazz));
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
@@ -87,10 +97,34 @@ public class BasicApi<T> {
         return null;
     }
 
-    private boolean updateRequest(String url, String json, ApiType type) {
-        Request request = buildRequest(url, json, type);
+    protected T getObject(String endpoint, Class<T> clazz) {
         try {
-            Response response = httpClient.newCall(request).execute();
+            Response response = getRequest(endpoint);
+            if (response.isSuccessful()) {
+                String json = response.body().string();
+                return gson.fromJson(json, clazz);
+            }
+        } catch (IOException e) {
+            Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return null;
+    }
+
+    protected T postObject(String endpoint, T object, Class<T> clazz) {
+        try {
+            Response response = updateRequest(endpoint, gson.toJson(object), ApiType.POST);
+            if (response.isSuccessful()) {
+                return gson.fromJson(response.body().string(), clazz);
+            }
+        } catch (IOException e) {
+            Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return null;
+    }
+
+    protected boolean postObject(String endpoint, T object) {
+        try {
+            Response response = updateRequest(endpoint, gson.toJson(object), ApiType.POST);
             if (response.isSuccessful()) {
                 return true;
             }
@@ -100,29 +134,28 @@ public class BasicApi<T> {
         return false;
     }
 
-    protected List<T> getAllObjects(String endpoint, Class<T[]> clazz) {
-        String json = getRequest(endpoint);
-//        below method doesn't work
-//        Type arrType = new TypeToken<ArrayList<T>>(){}.getType();
-//        System.out.println(arrType);
-//        System.out.println(clazz);
-        return Arrays.asList(gson.fromJson(json, clazz));
-    }
-
-    protected T getObject(String endpoint, Class<T> clazz) {
-        return gson.fromJson(getRequest(endpoint), clazz);
-    }
-
-    protected boolean postObject(String endpoint, T object) {
-        return updateRequest(endpoint, gson.toJson(object), ApiType.POST);
-    }
-
     protected boolean deleteObject(String url) {
-        return updateRequest(url, null, ApiType.DELETE);
+        try {
+            Response response = updateRequest(url, null, ApiType.DELETE);
+            if (response.isSuccessful()) {
+                return true;
+            }
+        } catch (IOException e) {
+            Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
     }
 
     protected boolean patchObject(String url, T object) {
-        return updateRequest(url, gson.toJson(object), ApiType.PATCH);
+        try {
+            Response response = updateRequest(url, gson.toJson(object), ApiType.POST);
+            if (response.isSuccessful()) {
+                return true;
+            }
+        } catch (IOException e) {
+            Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
     }
 
 

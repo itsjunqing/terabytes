@@ -17,8 +17,8 @@ public class ContractApi extends BasicApi<Contract> {
         return getObject(endpoint, Contract.class);
     }
 
-    public boolean addContract(Contract contract) {
-        return postObject(CONTRACT_ENDPOINT, contract);
+    public Contract addContract(Contract contract) {
+        return postObject(CONTRACT_ENDPOINT, contract, Contract.class);
     }
 
     public boolean patchContract(Contract contract) {
@@ -32,6 +32,5 @@ public class ContractApi extends BasicApi<Contract> {
     public boolean signContract(String id, Contract contract) {
         String endpoint = CONTRACT_ENDPOINT + "/" + id + "/sign";
         return postObject(endpoint, contract);
-
     }
 }
