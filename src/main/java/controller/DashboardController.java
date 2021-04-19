@@ -4,6 +4,7 @@ import model.*;
 import stream.User;
 import view.BiddingView;
 import view.DashboardView;
+import view.OfferingView;
 
 public class DashboardController {
 
@@ -30,6 +31,7 @@ public class DashboardController {
 
     private void listenInitiation() {
         // create bid initiation window for students
+
         // extract info from view -> check if open bid / close bid is selected
         // remember to delete bid initiation view after extracting the info
         // extract info from view:
@@ -58,13 +60,17 @@ public class DashboardController {
         biddingModel.createBid(dashboardModel.getUser(), bidPreference); // need further refactoring on passing User
 
         BiddingController biddingController = new BiddingController(biddingModel, biddingView);
-        // keep dashboard view, no need destroy
+        // keep dashboard view, no need destroy and let biddingcontroller to handle subsequent actions
 
     }
 
 
     private void listenOffering() {
-
+        // bid offering for tutors
+        OfferingModel offeringModel = new OfferingModel(dashboardModel.getUser());
+        OfferingView offeringView = new OfferingView();
+        OfferingController offeringController = new OfferingController(offeringModel, offeringView);
+        // keep dashboard view, no need destroy and let offeringcontroller to handle subsequent actions
     }
 }
 
