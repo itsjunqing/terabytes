@@ -1,24 +1,27 @@
 package model;
 
 import api.BidApi;
+import api.SubjectApi;
 import lombok.Getter;
-import observer.Subject;
+import lombok.Setter;
+import observer.OSubject;
 import stream.Bid;
+import stream.User;
 
 import java.util.Date;
 import java.util.List;
 
 
-@Getter
-public abstract class BiddingModel extends Subject {
+@Getter @Setter
+public abstract class BiddingModel extends OSubject implements ModelFeatures {
 
-    private int bidId;
+    private String bidId;
     private BidPreference bidPreference;
     private BidApi bidApi;
+    private SubjectApi subjectApi;
 
-    public BiddingModel(int bidId, BidPreference bidPreference) {
-        this.bidId = bidId;
-        this.bidPreference = bidPreference;
+    public BiddingModel() {
+//        this.bidPreference = bidPreference; // not sure if needed
         this.bidApi = new BidApi();
     }
 
@@ -31,9 +34,12 @@ public abstract class BiddingModel extends Subject {
         bidApi.closeBid(String.valueOf(bidId), bidDateClosed);
     }
 
-    public abstract void refreshBid();
+    public abstract void createBid(User user, BidPreference bidPreference);
 
     public abstract List<BidInfo> getBidInfos();
+
+
+
 
 
 }

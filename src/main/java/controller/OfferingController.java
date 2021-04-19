@@ -13,7 +13,7 @@ public class OfferingController {
     }
 
     public void refreshListener() {
-        offeringModel.refreshBids();
+        offeringModel.refresh();
     }
 
     public void listenToOffer() {

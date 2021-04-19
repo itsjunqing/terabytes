@@ -1,6 +1,8 @@
 package controller;
 
-import model.DashboardModel;
+import model.*;
+import stream.User;
+import view.BiddingView;
 import view.DashboardView;
 
 public class DashboardController {
@@ -13,12 +15,56 @@ public class DashboardController {
         this.dashboardView = dashboardView;
     }
 
-    public void test() {
-        System.out.println(dashboardModel.getContract("4ad8f1ed-4883-4c44-a9ab-a50bdee96ff9"));
-        System.out.println(dashboardModel.getContract("blah"));
-        assert dashboardModel.getContract("4ad8f1ed-4883-4c44-a9ab-a50bdee96ff9").stream()
-                .anyMatch(c -> c.getId().equals("d8890c50-6480-48db-8497-433b5ade22a2"));
-        assert dashboardModel.getContract("blah").isEmpty();
+    public void listenRefresh() {
+        dashboardModel.refresh();
+    }
+
+    public void listenAction() {
+        User user = dashboardModel.getUser();
+        if (user.getIsStudent()) {
+            listenInitiation(); // listen to bid initiation
+        } else {
+            listenOffering(); // listen to bid offering
+        }
+    }
+
+    private void listenInitiation() {
+        // create bid initiation window for students
+        // extract info from view -> check if open bid / close bid is selected
+        // remember to delete bid initiation view after extracting the info
+        // extract info from view:
+        Qualification qualification = Qualification.valueOf("Bachelor".toUpperCase()); // map string to enum
+        int competency = Integer.parseInt("1"); // assume text view only accepts string
+        String subject = "Physics";
+        String initiatorId = dashboardModel.getUser().getId();
+        String time = "-1";
+        String day = "-1";
+        int duration = 1;
+        int rate = 10;
+        int numberOfSessions = 10;
+        int contractDuration = 4; // weeks
+
+        BidInfo bidInfo = new BidInfo(initiatorId, time, day, duration, rate, numberOfSessions, contractDuration);
+        BidPreference bidPreference = new BidPreference(qualification, competency, subject, bidInfo);
+
+        BiddingView biddingView = new BiddingView();
+        BiddingModel biddingModel;
+        String action = "-1";
+        if (action.equals("Open")) {
+            biddingModel = new OpenBiddingModel();
+        } else {
+            biddingModel = new CloseBiddingModel();
+        }
+        biddingModel.createBid(dashboardModel.getUser(), bidPreference); // need further refactoring on passing User
+
+        BiddingController biddingController = new BiddingController(biddingModel, biddingView);
+        // keep dashboard view, no need destroy
+
+    }
+
+
+    private void listenOffering() {
+
     }
 }
 

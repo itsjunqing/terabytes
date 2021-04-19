@@ -3,7 +3,7 @@ package observer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Subject {
+public class OSubject {
 
     protected List<Observer> observers = new ArrayList<Observer>();
 

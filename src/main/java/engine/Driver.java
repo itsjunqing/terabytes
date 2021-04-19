@@ -31,6 +31,10 @@ public class Driver {
         System.out.println(q.toString());
         System.out.println(q.name());
 
+        String ba = "Masters";
+        Qualification q1 = Qualification.valueOf(ba.toUpperCase());
+        System.out.println(q1.toString());
+
 //        LoginModel loginModel = new LoginModel();
 //        LoginView loginView = new LoginView();
 //        LoginController loginController = new LoginController(loginModel, loginView);

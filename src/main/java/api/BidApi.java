@@ -17,8 +17,8 @@ public class BidApi extends BasicApi<Bid> {
         return getObject(endpoint, Bid.class);
     }
 
-    public boolean addBid(Bid bid) {
-        return postObject(BID_ENDPOINT, bid);
+    public Bid addBid(Bid bid) {
+        return postObject(BID_ENDPOINT, bid, Bid.class);
     }
 
     public boolean patchBid(String id, Bid bid) {

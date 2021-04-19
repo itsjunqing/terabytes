@@ -19,9 +19,9 @@ public class BidInfo {
     private int contractDuration; // in weeks
     private boolean bidSelected;
 
-    public BidInfo(String intiatorId, String time, String day, int duration, int rate, int numberOfSessions,
+    public BidInfo(String initiatorId, String time, String day, int duration, int rate, int numberOfSessions,
                    boolean freeLesson, int contractDuration) {
-        this.initiatorId = intiatorId;
+        this.initiatorId = initiatorId;
         this.time = time;
         this.day = day;
         this.duration = duration;
@@ -30,5 +30,15 @@ public class BidInfo {
         this.freeLesson = freeLesson;
         this.contractDuration = contractDuration;
         this.bidSelected = false;
+    }
+
+    public BidInfo(String initiatorId, String time, String day, int duration, int rate, int numberOfSessions, int contractDuration) {
+        this.initiatorId = initiatorId;
+        this.time = time;
+        this.day = day;
+        this.duration = duration;
+        this.rate = rate;
+        this.numberOfSessions = numberOfSessions;
+        this.contractDuration = contractDuration;
     }
 }

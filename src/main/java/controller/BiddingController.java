@@ -24,7 +24,7 @@ public class BiddingController {
 
     public void listenRefresh() {
         // add refresh listener here
-        biddingModel.refreshBid();
+        biddingModel.refresh();
     }
 
     public void listenSelectOffer() {
@@ -62,7 +62,7 @@ public class BiddingController {
         ContractView contractView = new ContractView();
         ContractModel contractModel = new ContractModel();
         ContractController contractController = new ContractController(contractModel, contractView);
-
+        contractController.createContract(contract);
 
     }
 

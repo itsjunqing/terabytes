@@ -4,7 +4,7 @@ import api.BidApi;
 import api.MessageApi;
 import lombok.Getter;
 import lombok.Setter;
-import observer.Subject;
+import observer.OSubject;
 import stream.Bid;
 import stream.BidAdditionalInfo;
 import stream.Message;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter @Setter
-public class OfferingModel extends Subject {
+public class OfferingModel extends OSubject implements ModelFeatures {
 
     private User currentUser;
     private BidApi bidApi;
@@ -27,7 +27,8 @@ public class OfferingModel extends Subject {
         this.bidApi = new BidApi();
     }
 
-    public void refreshBids() {
+    @Override
+    public void refresh() {
         bidsOnGoing.clear(); // for memory cleaning
 
         // Filter to ensure the tutor only gets display if the tutor has the qualification / competency
