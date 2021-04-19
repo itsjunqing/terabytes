@@ -15,7 +15,7 @@ public class StudentDashboard extends DashboardView {
     private JScrollPane scroller;
 
     public StudentDashboard(DashboardModel dashboardModel) {
-        super(dashboardModel, "Student Dashboard");
+        super(dashboardModel);
     }
 
     public void displayContracts() {

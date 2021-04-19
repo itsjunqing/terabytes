@@ -9,7 +9,7 @@ import java.awt.*;
 public class TutorDashboard extends DashboardView {
 
     public TutorDashboard(DashboardModel dashboardModel) {
-        super(dashboardModel, "Tutor Dashboard");
+        super(dashboardModel);
     }
 
     public void displayContracts() {
