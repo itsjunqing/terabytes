@@ -9,6 +9,10 @@ public class DashboardModel {
     private User user;
     private ContractApi contractApi;
 
+    public DashboardModel(User user) {
+        this.user = user;
+        this.contractApi = new ContractApi();
+    }
 
     // Get Contracts
     public List<Contract> getContract(String id) {

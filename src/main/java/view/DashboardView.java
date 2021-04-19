@@ -1,7 +1,14 @@
 package view;
+
 import model.DashboardModel;
 
 public abstract class DashboardView {
-    private model.DashboardModel DashboardModel;
+
+    private DashboardModel dashboardModel;
+
+    public DashboardView(DashboardModel dashboardModel) {
+        this.dashboardModel = dashboardModel;
+    }
+
     public abstract void displayContracts();
 }
