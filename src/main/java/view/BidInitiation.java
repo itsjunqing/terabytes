@@ -13,4 +13,7 @@ public class BidInitiation {
     private JComboBox comboBox7;
     private JComboBox comboBox8;
     private JComboBox comboBox9;
+    private JTextPane bidInitiationTextPane;
+    private JButton initiateOpenBidButton;
+    private JButton initiateCloseBidButton;
 }
