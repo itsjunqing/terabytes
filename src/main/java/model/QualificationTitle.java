@@ -1,6 +1,7 @@
 package model;
 
-public enum Qualification {
+// change
+public enum QualificationTitle {
     CERTIFICATE("Certificate"),
     DIPLOMA("Diploma"),
     BACHELOR("Bachelor"),
@@ -9,7 +10,7 @@ public enum Qualification {
 
     private String name;
 
-    Qualification(String name) {
+    QualificationTitle(String name) {
         this.name = name;
     }
 

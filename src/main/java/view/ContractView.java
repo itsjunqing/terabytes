@@ -1,4 +1,5 @@
 package view;
 
-public class ContractView {
+public class ContractView  {
+
 }

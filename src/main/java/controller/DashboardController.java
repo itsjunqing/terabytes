@@ -35,7 +35,7 @@ public class DashboardController {
         // extract info from view -> check if open bid / close bid is selected
         // remember to delete bid initiation view after extracting the info
         // extract info from view:
-        Qualification qualification = Qualification.valueOf("Bachelor".toUpperCase()); // map string to enum
+        QualificationTitle qualification = QualificationTitle.valueOf("Bachelor".toUpperCase()); // map string to enum
         int competency = Integer.parseInt("1"); // assume text view only accepts string
         String subject = "Physics";
         String initiatorId = dashboardModel.getUser().getId();

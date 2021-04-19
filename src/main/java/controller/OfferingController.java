@@ -38,6 +38,10 @@ public class OfferingController {
         offeringModel.sendOffer(bidIndexOnDisplay, bidInfo);
     }
 
+    public void listenBuyOut() {
+
+    }
+
     public void listenToReply() {
         // create reply view -> extract info from view -> create BidMessageInfo -> post to Message API
         // view must provide info on which bid did tutor selected
