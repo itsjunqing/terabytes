@@ -5,4 +5,5 @@ import javax.swing.*;
 public class LoginView extends JFrame {
 
     private JPanel loginPanel;
+    private JPanel LoginView;
 }
