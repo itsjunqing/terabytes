@@ -1,11 +1,14 @@
 package engine;
 
 import api.RestService;
-import model.Qualification;
+import controller.LoginController;
+import model.LoginModel;
+import model.QualificationTitle;
 import stream.Bid;
 import stream.Contract;
 import stream.Message;
 import stream.User;
+import view.LoginView;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -27,17 +30,18 @@ public class Driver {
         Date d = c.getTime();
         System.out.println(d);
 
-        Qualification q = Qualification.BACHELOR;
+        QualificationTitle q = QualificationTitle.BACHELOR;
         System.out.println(q.toString());
         System.out.println(q.name());
 
         String ba = "Masters";
-        Qualification q1 = Qualification.valueOf(ba.toUpperCase());
+        QualificationTitle q1 = QualificationTitle.valueOf(ba.toUpperCase());
         System.out.println(q1.toString());
 
-//        LoginModel loginModel = new LoginModel();
-//        LoginView loginView = new LoginView();
-//        LoginController loginController = new LoginController(loginModel, loginView);
+
+        LoginModel loginModel = new LoginModel();
+        LoginView loginView = new LoginView();
+        LoginController loginController = new LoginController(loginModel, loginView);
 //
 //        loginController.test();
 
