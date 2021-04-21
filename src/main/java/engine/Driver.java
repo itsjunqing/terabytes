@@ -9,7 +9,9 @@ import stream.Contract;
 import stream.Message;
 import stream.User;
 import view.LoginView;
+import view.BidInitiation;
 
+import javax.swing.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -38,11 +40,18 @@ public class Driver {
         QualificationTitle q1 = QualificationTitle.valueOf(ba.toUpperCase());
         System.out.println(q1.toString());
 
+        BidInitiation bidInitiation = new BidInitiation();
+        bidInitiation.display();
 
         LoginModel loginModel = new LoginModel();
         LoginView loginView = new LoginView();
+        loginView.display();
+
+
         LoginController loginController = new LoginController(loginModel, loginView);
-//
+
+
+
 //        loginController.test();
 
         // Testing Dashboard
