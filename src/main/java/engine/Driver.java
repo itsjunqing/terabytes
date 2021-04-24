@@ -53,7 +53,7 @@ public class Driver {
         LoginView loginView = new LoginView();
         loginView.display();
 
-        DynamicPanelList dynamic = new DynamicPanelList();
+//        DynamicPanelList dynamic = new DynamicPanelList();
 
 
         LoginController loginController = new LoginController(loginModel, loginView);

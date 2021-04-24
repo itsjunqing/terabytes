@@ -63,6 +63,7 @@ public class ContractPanel extends JPanel {
 
     private JTable getTable(Contract contractObject) {
         String[][] rec = {
+                {"Contract End Date", ""},
                 {"Tutor Name", contractObject.getSecondParty().getGivenName()},
                 {"Subject", contractObject.getSubject().getName()},
                 {"Number Of Sessions (per week)", "Kane"},
@@ -70,10 +71,12 @@ public class ContractPanel extends JPanel {
                 {"Duration (hours)", ""},
                 {"Rate (per hour)", ""},
         };
-        String[] col = {"Contract End Date", ""};
+        String[] col = {"", ""};
         JTable contractTable = new JTable(rec, col);
         return contractTable;
     }
+
+    // TODO: this is from https://stackoverflow.com/questions/17627431/auto-resizing-the-jtable-column-widths, rewrite
     public void resizeColumnWidth(JTable table) {
         TableColumnModel columnModel = table.getColumnModel();
         for (int column = 0; column < table.getColumnCount(); column++) {
