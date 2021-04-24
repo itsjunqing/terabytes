@@ -67,9 +67,19 @@ public class DynamicPanelList {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JPanel panel = new JPanel();
-                    panel.add(new JLabel("Proposed Contract"));
-                    panel.add(new JButton("Select Offer"));
                     panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
+                    String[][] rec = {
+                            { "1", "Steve" },
+                            { "2", "Virat"},
+                            { "3", "Kane"},
+                            { "4", "David"},
+                            { "5", "Ben"},
+                            { "6", "Eion"},
+                    };
+                    String[] col = {"field", "value"};
+                    JTable table = new JTable(rec, col);
+                    panel.add(table);
+                    panel.add(new JButton("Select Offer"));
                     GridBagConstraints gbc = new GridBagConstraints();
                     gbc.gridwidth = GridBagConstraints.REMAINDER;
                     gbc.gridheight = 2;
@@ -77,11 +87,6 @@ public class DynamicPanelList {
                     gbc.fill = GridBagConstraints.HORIZONTAL;
                     mainList.add(panel, gbc, 0);
 
-                    panel1 = new JPanel();
-                    table1 = makeTable();
-                    panel1.add(table1);
-                    panel1.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
-                    mainList.add(panel1);
                     validate();
                     repaint();
                 }
@@ -97,21 +102,21 @@ public class DynamicPanelList {
         }
     }
 
-    private JTable makeTable(){
-        JTable table = new JTable();
-        String data1 ="Hi";
-        String data2 = "here is some data";
-        String data3 = "here is more data";
-        String data4 = "here is even more data";
-
-        Object[] row = { data1, data2, data3, data4 };
-
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-        model.addRow(row);
-
-        return table;
-    }
+//    private JTable makeTable(){
+//        JTable table = new JTable();
+//        String data1 ="Hi";
+//        String data2 = "here is some data";
+//        String data3 = "here is more data";
+//        String data4 = "here is even more data";
+//
+//        Object[] row = { data1, data2, data3, data4 };
+//
+//        DefaultTableModel model = (DefaultTableModel) table.getModel();
+//
+//        model.addRow(row);
+//
+//        return table;
+//    }
 
 
 }

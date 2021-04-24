@@ -1,5 +1,6 @@
 package engine;
 
+import api.ContractApi;
 import api.RestService;
 import controller.LoginController;
 import model.LoginModel;
@@ -11,6 +12,7 @@ import stream.User;
 import view.DynamicPanelList;
 import view.LoginView;
 import view.BidInitiation;
+import view.StudentDashboardFinal;
 
 import javax.swing.*;
 import java.util.Calendar;
@@ -40,6 +42,9 @@ public class Driver {
         String ba = "Masters";
         QualificationTitle q1 = QualificationTitle.valueOf(ba.toUpperCase());
         System.out.println(q1.toString());
+        ContractApi contractApi = new ContractApi();
+        List<Contract> contractList = contractApi.getAllContracts();
+        StudentDashboardFinal studentDashboard = new StudentDashboardFinal(contractList);
 
         BidInitiation bidInitiation = new BidInitiation();
         bidInitiation.display();
