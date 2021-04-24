@@ -8,6 +8,7 @@ import stream.Bid;
 import stream.Contract;
 import stream.Message;
 import stream.User;
+import view.DynamicPanelList;
 import view.LoginView;
 import view.BidInitiation;
 
@@ -46,6 +47,8 @@ public class Driver {
         LoginModel loginModel = new LoginModel();
         LoginView loginView = new LoginView();
         loginView.display();
+
+        DynamicPanelList dynamic = new DynamicPanelList();
 
 
         LoginController loginController = new LoginController(loginModel, loginView);
