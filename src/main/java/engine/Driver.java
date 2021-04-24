@@ -9,7 +9,6 @@ import stream.Bid;
 import stream.Contract;
 import stream.Message;
 import stream.User;
-import view.DynamicPanelList;
 import view.LoginView;
 import view.BidInitiation;
 import view.StudentDashboardFinal;
@@ -53,7 +52,6 @@ public class Driver {
         LoginView loginView = new LoginView();
         loginView.display();
 
-//        DynamicPanelList dynamic = new DynamicPanelList();
 
 
         LoginController loginController = new LoginController(loginModel, loginView);
