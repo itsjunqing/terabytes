@@ -17,7 +17,8 @@ public class BidInfo {
     private int numberOfSessions;
     private boolean freeLesson;
     private int contractDuration; // in weeks
-    private boolean bidSelected;
+    private boolean bidSelected; // not too sure if we should keep this
+    private String parsedMessage;
 
     public BidInfo(String initiatorId, String time, String day, int duration, int rate, int numberOfSessions,
                    boolean freeLesson, int contractDuration) {
