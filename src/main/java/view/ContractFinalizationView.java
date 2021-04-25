@@ -3,15 +3,12 @@ package view;
 import stream.Contract;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
-public class StudentDashboardFinal {
+public class ContractFinalizationView {
 
-    public StudentDashboardFinal(List<Contract> contractList) {
+    public ContractFinalizationView(List<Contract> contractList) {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

@@ -2,11 +2,12 @@ package controller;
 
 import model.*;
 import stream.User;
-import view.BiddingView;
+//import view.BiddingView;
 import view.DashboardView;
-import view.OfferingView;
+//import view.OfferingView;
+import java.util.Observable;
 
-public class DashboardController {
+public class DashboardController extends Observable {
 
     private DashboardModel dashboardModel;
     private DashboardView dashboardView;
@@ -49,7 +50,7 @@ public class DashboardController {
         BidInfo bidInfo = new BidInfo(initiatorId, time, day, duration, rate, numberOfSessions, contractDuration);
         BidPreference bidPreference = new BidPreference(qualification, competency, subject, bidInfo);
 
-        BiddingView biddingView = new BiddingView();
+//        BiddingView biddingView = new BiddingView();
         BiddingModel biddingModel;
         String action = "-1";
         if (action.equals("Open")) {
@@ -59,7 +60,7 @@ public class DashboardController {
         }
         biddingModel.createBid(dashboardModel.getUser(), bidPreference); // need further refactoring on passing User
 
-        BiddingController biddingController = new BiddingController(biddingModel, biddingView);
+//        BiddingController biddingController = new BiddingController(biddingModel, biddingView);
         // keep dashboard view, no need destroy and let biddingcontroller to handle subsequent actions
 
     }
@@ -68,8 +69,8 @@ public class DashboardController {
     private void listenOffering() {
         // bid offering for tutors
         OfferingModel offeringModel = new OfferingModel(dashboardModel.getUser());
-        OfferingView offeringView = new OfferingView();
-        OfferingController offeringController = new OfferingController(offeringModel, offeringView);
+//        OfferingView offeringView = new OfferingView();
+//        OfferingController offeringController = new OfferingController(offeringModel, offeringView);
         // keep dashboard view, no need destroy and let offeringcontroller to handle subsequent actions
     }
 }

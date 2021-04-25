@@ -3,16 +3,17 @@ package controller;
 import model.BidInfo;
 import model.BidMessageInfo;
 import model.OfferingModel;
-import view.OfferingView;
+//import view.OfferingView;
 
 public class OfferingController {
 
     private OfferingModel offeringModel;
-    private OfferingView offeringView;
+//    private OfferingView offeringView;
 
-    public OfferingController(OfferingModel offeringModel, OfferingView offeringView) {
+//    public OfferingController(OfferingModel offeringModel, OfferingView offeringView) {
+    public OfferingController(OfferingModel offeringModel){
         this.offeringModel = offeringModel;
-        this.offeringView = offeringView;
+//        this.offeringView = offeringView;
     }
 
     public void listenRefresh() {

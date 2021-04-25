@@ -26,11 +26,12 @@
             <children>
               <component id="9ab5f" class="javax.swing.JTextPane" binding="bidInitiationTextPane" default-binding="true">
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="50"/>
                   </grid>
                 </constraints>
                 <properties>
+                  <font name="Arial" size="24" style="1"/>
                   <text value="Bid Initiation"/>
                 </properties>
               </component>
@@ -46,57 +47,45 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="4fc0d" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+              <component id="4fc0d" class="javax.swing.JComboBox" binding="Qualification" default-binding="true">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <model/>
+                </properties>
               </component>
-              <component id="1bd9f" class="javax.swing.JComboBox" binding="comboBox2" default-binding="true">
+              <component id="1bd9f" class="javax.swing.JComboBox" binding="Competency" default-binding="true">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <model/>
+                </properties>
               </component>
-              <component id="8957b" class="javax.swing.JComboBox" binding="comboBox3" default-binding="true">
+              <component id="8957b" class="javax.swing.JComboBox" binding="Subject" default-binding="true">
                 <constraints>
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <model/>
+                </properties>
               </component>
-              <component id="144d4" class="javax.swing.JComboBox" binding="comboBox4" default-binding="true">
+              <component id="144d4" class="javax.swing.JComboBox" binding="NumSessions" default-binding="true">
                 <constraints>
                   <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
-              <component id="e113f" class="javax.swing.JComboBox" binding="comboBox5" default-binding="true">
+              <component id="e113f" class="javax.swing.JComboBox" binding="Day" default-binding="true">
                 <constraints>
                   <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
-              <component id="de089" class="javax.swing.JComboBox" binding="comboBox6" default-binding="true">
-                <constraints>
-                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="adba" class="javax.swing.JComboBox" binding="comboBox7" default-binding="true">
+              <component id="adba" class="javax.swing.JComboBox" binding="Duration" default-binding="true">
                 <constraints>
                   <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="2209" class="javax.swing.JComboBox" binding="comboBox8" default-binding="true">
-                <constraints>
-                  <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="fc973" class="javax.swing.JComboBox" binding="comboBox9" default-binding="true">
-                <constraints>
-                  <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
               </component>
@@ -171,6 +160,30 @@
                 <properties>
                   <text value="Note"/>
                 </properties>
+              </component>
+              <component id="a70b9" class="javax.swing.JTextField" binding="Note" default-binding="true">
+                <constraints>
+                  <grid row="8" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="51d70" class="javax.swing.JFormattedTextField" binding="formattedTextField1" custom-create="true" default-binding="true">
+                <constraints>
+                  <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                    <preferred-size width="150" height="-1"/>
+                  </grid>
+                </constraints>
+                <properties/>
+              </component>
+              <component id="8106f" class="javax.swing.JComboBox" binding="Time">
+                <constraints>
+                  <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
               </component>
             </children>
           </grid>

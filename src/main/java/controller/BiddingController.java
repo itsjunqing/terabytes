@@ -7,20 +7,20 @@ import stream.Bid;
 import stream.Contract;
 import stream.Lesson;
 import stream.Payment;
-import view.BiddingView;
-import view.ContractView;
+//import view.BiddingView;
+//import view.ContractView;
 
 import java.util.Calendar;
 import java.util.Date;
 
 public class BiddingController {
     private BiddingModel biddingModel;
-    private BiddingView biddingView;
-
-    public BiddingController(BiddingModel biddingModel, BiddingView biddingView) {
-        this.biddingModel = biddingModel;
-        this.biddingView = biddingView;
-    }
+//    private BiddingView biddingView;
+//
+//    public BiddingController(BiddingModel biddingModel, BiddingView biddingView) {
+//        this.biddingModel = biddingModel;
+//        this.biddingView = biddingView;
+//    }
 
     public void listenRefresh() {
         // add refresh listener here
@@ -59,10 +59,10 @@ public class BiddingController {
     }
 
     private void createContract(Contract contract) {
-        ContractView contractView = new ContractView();
+//        ContractView contractView = new ContractView();
         ContractModel contractModel = new ContractModel();
-        ContractController contractController = new ContractController(contractModel, contractView);
-        contractController.createContract(contract);
+//        ContractController contractController = new ContractController(contractModel, contractView);
+//        contractController.createContract(contract);
 
     }
 

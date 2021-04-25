@@ -42,11 +42,11 @@ public class LoginController {
         DashboardModel dashboardModel = new DashboardModel(user);
         DashboardView dashboardView;
         if (user.getIsStudent()) {
-            dashboardView = new StudentDashboard(dashboardModel);
+//            dashboardView = new StudentDashboard(dashboardModel);
         } else {
-            dashboardView = new TutorDashboard(dashboardModel);
+//            dashboardView = new TutorDashboard(dashboardModel);
         }
-        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
+//        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
         loginView.dispose(); // destroy login view
     }
 

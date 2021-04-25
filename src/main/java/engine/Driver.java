@@ -11,9 +11,11 @@ import stream.Message;
 import stream.User;
 import view.LoginView;
 import view.BidInitiation;
-import view.StudentDashboardFinal;
+import view.ReplyOffer;
+import view.StudentDashboard;
 
-import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -37,22 +39,44 @@ public class Driver {
         QualificationTitle q = QualificationTitle.BACHELOR;
         System.out.println(q.toString());
         System.out.println(q.name());
-
         String ba = "Masters";
         QualificationTitle q1 = QualificationTitle.valueOf(ba.toUpperCase());
         System.out.println(q1.toString());
-        ContractApi contractApi = new ContractApi();
-        List<Contract> contractList = contractApi.getAllContracts();
-        StudentDashboardFinal studentDashboard = new StudentDashboardFinal(contractList);
 
-        BidInitiation bidInitiation = new BidInitiation();
-        bidInitiation.display();
-
+        // Login model test
         LoginModel loginModel = new LoginModel();
         LoginView loginView = new LoginView();
         loginView.display();
 
+        // Bid Initiation test
+        BidInitiation bidInitiation = new BidInitiation();
+        bidInitiation.display();
+        listenBid(bidInitiation);
 
+
+
+
+
+        //student dashboard test
+        ContractApi contractApi = new ContractApi();
+        List<Contract> contractList = contractApi.getAllContracts();
+        StudentDashboard studentDashboard = new StudentDashboard(contractList);
+
+
+
+        // open bidding dashboard test
+
+        // close bidding dashboard test
+
+        // reply message test
+        ReplyOffer replyOffer = new ReplyOffer();
+        replyOffer.display();
+
+        // offer bid test
+
+        // reply bid test
+
+        // contract finalization test
 
         LoginController loginController = new LoginController(loginModel, loginView);
 
@@ -117,4 +141,16 @@ public class Driver {
             System.out.println(b);
         }
     }
+
+
+
+    // bid listeners test
+    private static void listenBid(BidInitiation bidInitiation){
+        bidInitiation.getInitiateOpenBidButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+    }
+
 }
