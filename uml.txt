@@ -1,0 +1,40 @@
+getObject(String endpoint, Class<T> clazz)
+
+# getObject(endpoint: String, clazz: Class<T>): T
+# postObject(endpoint: String, clazz: Class<T>): T
+# postObject(endpoint: String, object: T): Boolean
+# deleteObject(endpoint: String): Boolean
+# patchObject(endpoint: String, object: T): Boolean
+
++ getAllUsers(): List<User>
++ getUser(id: String): User
++ addUser(user: User): Boolean
++ patchUser(user: User): Boolean
++ removeUser(id: String): Boolean
++ verifyUser(user: User): Boolean
+
++ getAllBids(): List<User>
++ getBid(id: String): Bid
++ addBid(bid: Bid): Boolean
++ patchBid(id: String, bid: Bid): Boolean
++ removeBid(id: String): Boolean
++ closeBid(id: String, bid: Bid): Boolean
+
++ getAllMessages(): List<Message>
++ getMessage(id: String): Message
++ addMessage(message: Message): Boolean
++ patchMessage(message: Message): Boolean
++ removeMessage(id: String): Boolean
+
++ getAllContracts(): List<Contract>
++ getContract(id: String): Contract
++ addContract(contract: Contract): Boolean
++ patchContract(contract: Contract): Boolean
++ removeContract(id: String); Boolean
++ signContract(id: String, contract: Contract): Boolean
+
++ getAllSubjects(): List<Subject>
++ getSubject(id: String): Subject
++ addSubject(subject: Subject): Subject
++ patchSubject(subject: Subject): Boolean
++ removeSubject(id: String): Boolean
