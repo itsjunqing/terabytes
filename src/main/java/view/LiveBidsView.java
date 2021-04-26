@@ -1,14 +1,15 @@
 package view;
 
 import stream.Contract;
+import view.panel.ContractPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class ContractFinalizationView {
+public class LiveBidsView {
 
-    public ContractFinalizationView(List<Contract> contractList) {
+    public LiveBidsView(List<Contract> contractList) {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

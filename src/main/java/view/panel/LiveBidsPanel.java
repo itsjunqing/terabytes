@@ -1,4 +1,4 @@
-package view;
+package view.panel;
 
 import stream.Contract;
 
@@ -9,13 +9,13 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.List;
 
-public class OfferingBidsPanel extends JPanel {
+public class LiveBidsPanel extends JPanel {
 
     private JPanel mainList;
     private JTable table1;
     private JPanel panel1;
 
-    public OfferingBidsPanel(List<Contract> contractList) {
+    public LiveBidsPanel(List<Contract> contractList) {
         setLayout(new BorderLayout());
 
         mainList = new JPanel(new GridBagLayout());

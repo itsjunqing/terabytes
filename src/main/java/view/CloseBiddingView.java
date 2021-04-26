@@ -1,14 +1,15 @@
 package view;
 
 import stream.Contract;
+import view.panel.ContractPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class OpenBidDashboard {
+public class CloseBiddingView {
 
-    public OpenBidDashboard(List<Contract> contractList) {
+    public CloseBiddingView(List<Contract> contractList) {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

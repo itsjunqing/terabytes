@@ -2,6 +2,8 @@ package view;
 
 import model.DashboardModel;
 import stream.Contract;
+import view.panel.DashboardButtonPanel;
+import view.panel.ContractPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,11 +30,10 @@ public class StudentDashboard extends DashboardView {
 
                 List<Contract> contractList = getDashboardModel().getContractsList();
                 ContractPanel contractPanel = new ContractPanel(contractList);
-                ButtonPanel buttonPanel = new ButtonPanel();
+                DashboardButtonPanel buttonPanel = new DashboardButtonPanel(contractList.size());
 
                 mainPanel.add(contractPanel);
                 mainPanel.add(buttonPanel);
-
 
                 JFrame frame = new JFrame("Student Dashboard");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

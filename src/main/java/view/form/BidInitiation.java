@@ -1,4 +1,4 @@
-package view;
+package view.form;
 
 import api.SubjectApi;
 import com.intellij.uiDesigner.core.GridConstraints;

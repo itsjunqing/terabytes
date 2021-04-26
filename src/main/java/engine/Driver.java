@@ -8,7 +8,7 @@ import stream.Bid;
 import stream.Contract;
 import stream.Message;
 import stream.User;
-import view.BidInitiation;
+import view.form.BidInitiation;
 import view.StudentDashboard;
 
 import java.awt.event.ActionEvent;

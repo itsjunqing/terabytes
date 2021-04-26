@@ -1,4 +1,4 @@
-package view;
+package view.trash;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;

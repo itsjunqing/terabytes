@@ -1,21 +1,16 @@
-package view;
-
-import stream.Contract;
+package view.panel;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.util.List;
 
-public class ButtonPanel extends JPanel {
+public class DashboardButtonPanel extends JPanel {
 
     private JPanel mainList;
     private JTable table1;
     private JPanel panel1;
 
-    public ButtonPanel() {
+    public DashboardButtonPanel(int contractSize) {
         setLayout(new BorderLayout());
 
         mainList = new JPanel(new GridBagLayout());

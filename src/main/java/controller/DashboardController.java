@@ -2,7 +2,7 @@ package controller;
 
 import model.*;
 import stream.User;
-import view.BidInitiation;
+import view.form.BidInitiation;
 import view.DashboardView;
 
 import java.awt.event.ActionEvent;

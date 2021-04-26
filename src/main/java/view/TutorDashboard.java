@@ -1,14 +1,22 @@
 package view;
 
+import model.DashboardModel;
 import stream.Contract;
+import view.panel.ContractPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class TutorDashboard {
+public class TutorDashboard extends DashboardView {
 
-    public TutorDashboard(List<Contract> contractList) {
+    public TutorDashboard(DashboardModel dashboardModel) {
+        super(dashboardModel);
+        displayContracts();
+    }
+
+    @Override
+    public void displayContracts() {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -16,6 +24,7 @@ public class TutorDashboard {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 } catch (Exception ex) {
                 }
+                List<Contract> contractList = getDashboardModel().getContractsList();
                 ContractPanel contractPanel = new ContractPanel(contractList);
                 JFrame frame = new JFrame("Contracts");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,9 +34,6 @@ public class TutorDashboard {
                 frame.setVisible(true);
             }
         });
-
     }
-
-
 
 }
