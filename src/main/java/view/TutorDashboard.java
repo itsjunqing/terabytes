@@ -26,7 +26,7 @@ public class TutorDashboard extends DashboardView {
                 }
                 List<Contract> contractList = getDashboardModel().getContractsList();
                 ContractPanel contractPanel = new ContractPanel(contractList);
-                JFrame frame = new JFrame("Contracts");
+                JFrame frame = new JFrame("Tutor Dashboard");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(contractPanel);
                 frame.pack();
