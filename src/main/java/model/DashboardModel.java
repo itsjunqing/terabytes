@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class DashboardModel extends OSubject implements ModelFeatures {
+public class DashboardModel extends OSubject {
     private User user; // DashboardView can access user to determine if it's tutor / user to initDisplay the correct view
     private ContractApi contractApi;
     private SubjectApi subjectApi;
@@ -23,7 +23,6 @@ public class DashboardModel extends OSubject implements ModelFeatures {
         refresh(); // populate initial values
     }
 
-    @Override
     public void refresh() {
         contractsList = contractApi.getAllContracts().stream()
                 .filter(c -> c.getFirstParty().getId().equals(user.getId()))

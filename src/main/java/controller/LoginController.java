@@ -22,7 +22,7 @@ public class LoginController {
         listenLogin();
     }
 
-    public void listenLogin() {
+    private void listenLogin() {
         loginView.getLoginButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,11 +42,11 @@ public class LoginController {
         DashboardModel dashboardModel = new DashboardModel(user);
         DashboardView dashboardView;
         if (user.getIsStudent()) {
-//            dashboardView = new StudentDashboard(dashboardModel);
+            dashboardView = new StudentDashboard(dashboardModel);
         } else {
-//            dashboardView = new TutorDashboard(dashboardModel);
+            dashboardView = new TutorDashboard(dashboardModel);
         }
-//        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
+        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
         loginView.dispose(); // destroy login view
     }
 

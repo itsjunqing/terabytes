@@ -1,15 +1,15 @@
 package engine;
 
 import api.RestService;
-import api.UserApi;
-import model.DashboardModel;
+import controller.LoginController;
+import model.LoginModel;
 import model.QualificationTitle;
 import stream.Bid;
 import stream.Contract;
 import stream.Message;
 import stream.User;
+import view.LoginView;
 import view.form.BidInitiation;
-import view.StudentDashboard;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -41,20 +41,21 @@ public class Driver {
         System.out.println(q1.toString());
 
         // Login model test
-//        LoginModel loginModel = new LoginModel();
-//        LoginView loginView = new LoginView();
+        LoginModel loginModel = new LoginModel();
+        LoginView loginView = new LoginView();
 //        loginView.display();
+        LoginController loginController = new LoginController(loginModel, loginView);
 
         // Bid Initiation test
 //        BidInitiation bidInitiation = new BidInitiation();
 //        listenBid(bidInitiation);
 
 
-        UserApi userApi = new UserApi();
-        User user = userApi.getUser("4ad8f1ed-4883-4c44-a9ab-a50bdee96ff9");
+//        UserApi userApi = new UserApi();
+//        User user = userApi.getUser("4ad8f1ed-4883-4c44-a9ab-a50bdee96ff9");
         //student dashboard test
-        DashboardModel dashboardModel= new DashboardModel(user);
-        StudentDashboard studentDashboard = new StudentDashboard(dashboardModel);
+//        DashboardModel dashboardModel= new DashboardModel(user);
+//        StudentDashboard studentDashboard = new StudentDashboard(dashboardModel);
 
 
 
@@ -72,7 +73,7 @@ public class Driver {
 
         // contract finalization test
 
-//        LoginController loginController = new LoginController(loginModel, loginView);
+
 
 
 
