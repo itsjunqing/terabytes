@@ -31,16 +31,16 @@ public class OfferingModel extends OSubject implements ModelFeatures {
     public void refresh() {
         bidsOnGoing.clear(); // for memory cleaning
 
-        // Filter to ensure the tutor only gets display if the tutor has the qualification / competency
+        // Filter to ensure the tutor only gets initDisplay if the tutor has the qualification / competency
         // If yes, then tutor can proceed to offer / reply / buy out instantly
         bidsOnGoing = bidApi.getAllBids().stream().filter(b -> {
             BidPreference bidPreference = b.getAdditionalInfo().getBidPreference();
 
-            // filter to check if the User has the qualification before display
+            // filter to check if the User has the qualification before initDisplay
             boolean hasQualification = currentUser.getQualifications().stream()
                     .anyMatch(q -> q.getTitle().equals(bidPreference.getQualification().toString()));
 
-            // filter to check if the User has the competency of the subject before display
+            // filter to check if the User has the competency of the subject before initDisplay
             boolean hasCompetency = currentUser.getCompetencies().stream()
                     .anyMatch(c -> c.getLevel() == bidPreference.getCompetency()
                             && c.getSubject().getName().equals(bidPreference.getSubject()));
@@ -52,14 +52,14 @@ public class OfferingModel extends OSubject implements ModelFeatures {
     }
 
     public List<Bid> getOpenBids() {
-        // to be used by view upon display
+        // to be used by view upon initDisplay
         return bidsOnGoing.stream()
                 .filter(b -> b.getType().equals("Open"))
                 .collect(Collectors.toList());
     }
 
     public List<Bid> getCloseBids() {
-        // to be used by view upon display
+        // to be used by view upon initDisplay
         return bidsOnGoing.stream()
                 .filter(b -> b.getType().equals("Close"))
                 .collect(Collectors.toList());

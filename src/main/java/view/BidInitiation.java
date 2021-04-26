@@ -5,12 +5,15 @@ import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 import model.QualificationTitle;
+import stream.Competency;
+import stream.Qualification;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.NumberFormatter;
 import javax.swing.text.StyleContext;
 import java.awt.*;
+import java.sql.Time;
 import java.text.NumberFormat;
 import java.time.DayOfWeek;
 import java.util.Arrays;
@@ -20,24 +23,29 @@ import java.util.Locale;
 @Getter
 public class BidInitiation {
     private JPanel panel1;
-    private JComboBox Qualification;
-    private JComboBox Competency;
-    private JComboBox Subject;
-    private JComboBox NumSessions;
-    private JComboBox Day;
-    private JComboBox Time;
-    private JComboBox Duration;
-    private JComboBox Rate;
+    private JComboBox qualificationBox;
+    private JComboBox competencyBox;
+    private JComboBox subjectBox;
+    private JComboBox numOfSessionBox;
+    private JComboBox dayBox;
+    private JComboBox timeBox;
+    private JComboBox durationBox;
+    private JComboBox rateBox;
     private JTextPane bidInitiationTextPane;
-    private JButton initiateOpenBidButton;
-    private JButton initiateCloseBidButton;
-    private JTextField Note;
-    private JFormattedTextField formattedTextField1;
+    private JButton openBidButton;
+    private JButton closeBidButton;
+    private JTextField noteField;
+    private JFormattedTextField rateField;
+    private JComboBox contractDurationBox;
 
     private JFrame frame;
 
+    public BidInitiation() {
+        initDisplay();
+    }
 
-    public void display() {
+
+    public void initDisplay() {
         JFrame frame = new JFrame();
         this.frame = frame;
         frame.setContentPane(this.panel1);
@@ -55,34 +63,77 @@ public class BidInitiation {
     // initializing the comboboxes with the relevant values
     private void setDetails(List<String> Qualifications, List<String> SubjectList) {
         for (String item : Qualifications) {
-            Qualification.addItem(item);
+            qualificationBox.addItem(item);
         }
 
         for (int i = 1; i < 5; i++) {
-            Competency.addItem(i);
+            competencyBox.addItem(i);
         }
 
         for (String item : SubjectList) {
-            Subject.addItem(item);
+            subjectBox.addItem(item);
         }
 
         for (int i = 1; i < 12; i++) {
-            NumSessions.addItem(i);
+            numOfSessionBox.addItem(i);
         }
 
         for (DayOfWeek d : DayOfWeek.values()) {
-            Day.addItem(d);
+            dayBox.addItem(d);
         }
 
         for (int i = 1; i < 5; i++) {
-            Duration.addItem(i);
+            durationBox.addItem(i);
         }
 
         for (int i = 8; i < 18; i++) {
-            Time.addItem(i);
+            timeBox.addItem(i);
         }
 
     }
+
+    // GETTERS SECTION
+    public QualificationTitle getQualification() throws NullPointerException {
+        return QualificationTitle.valueOf(qualificationBox.getSelectedItem().toString());
+    }
+
+    public int getCompetency() throws NullPointerException {
+        return Integer.parseInt(competencyBox.getSelectedItem().toString());
+    }
+
+    public String getSubject() throws NullPointerException {
+        return subjectBox.getSelectedItem().toString();
+    }
+
+    public int getNumOfSessions() throws NullPointerException {
+        return Integer.parseInt(numOfSessionBox.getSelectedItem().toString());
+    }
+
+    public String getDay() throws NullPointerException {
+        return dayBox.getSelectedItem().toString();
+    }
+
+    public String getTime() throws NullPointerException {
+        return timeBox.getSelectedItem().toString();
+    }
+
+    public int getDuration() throws NullPointerException {
+        return Integer.parseInt(durationBox.getSelectedItem().toString());
+    }
+
+    public int getRate() throws NullPointerException {
+        return Integer.parseInt(rateBox.getSelectedItem().toString());
+    }
+
+    public String getMessageNote() {
+        return noteField.getText();
+    }
+
+    public int getContractDuration() throws NullPointerException {
+        return Integer.parseInt(contractDurationBox.getSelectedItem().toString());
+    }
+
+
 
 
     {
@@ -171,14 +222,14 @@ public class BidInitiation {
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new GridLayoutManager(1, 5, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel5, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(24, 124), null, 0, false));
-        initiateOpenBidButton = new JButton();
-        initiateOpenBidButton.setText("Initiate Open Bid");
-        panel5.add(initiateOpenBidButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        openBidButton = new JButton();
+        openBidButton.setText("Initiate Open Bid");
+        panel5.add(openBidButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel5.add(spacer1, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        initiateCloseBidButton = new JButton();
-        initiateCloseBidButton.setText("Initiate Close Bid");
-        panel5.add(initiateCloseBidButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        closeBidButton = new JButton();
+        closeBidButton.setText("Initiate Close Bid");
+        panel5.add(closeBidButton, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         panel5.add(spacer2, new GridConstraints(0, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
@@ -223,7 +274,7 @@ public class BidInitiation {
         numberInput.setMaximum(Integer.MAX_VALUE);
         numberInput.setAllowsInvalid(false);
 
-        formattedTextField1 = new JFormattedTextField(numberInput);
+        rateField = new JFormattedTextField(numberInput);
     }
 }
 

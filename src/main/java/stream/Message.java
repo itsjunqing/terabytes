@@ -1,6 +1,7 @@
 package stream;
 
 import lombok.Data;
+import model.BidInfo;
 import model.BidMessageInfo;
 
 import java.util.Date;
@@ -15,8 +16,8 @@ public class Message {
 
     private Date datePosted;
     private Date dateLastEdited;
-    private String content;
-    private BidMessageInfo additionalInfo;
+    private String content; // may not use this
+    private BidInfo additionalInfo;
 
     /**
      * Constructor for GET Message (Deserialization)

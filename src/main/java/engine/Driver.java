@@ -50,7 +50,7 @@ public class Driver {
 
         // Bid Initiation test
         BidInitiation bidInitiation = new BidInitiation();
-        bidInitiation.display();
+        bidInitiation.initDisplay();
         listenBid(bidInitiation);
 
 
@@ -146,7 +146,7 @@ public class Driver {
 
     // bid listeners test
     private static void listenBid(BidInitiation bidInitiation){
-        bidInitiation.getInitiateOpenBidButton().addActionListener(new ActionListener() {
+        bidInitiation.getOpenBidButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             }

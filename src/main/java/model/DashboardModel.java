@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public class DashboardModel extends OSubject implements ModelFeatures {
-    private User user; // DashboardView can access user to determine if it's tutor / user to display the correct view
+    private User user; // DashboardView can access user to determine if it's tutor / user to initDisplay the correct view
     private ContractApi contractApi;
     private SubjectApi subjectApi;
     private List<Contract> contractsList;
@@ -30,6 +30,7 @@ public class DashboardModel extends OSubject implements ModelFeatures {
         notifyObservers();
     }
 
-
-
+    public String getUserId() {
+        return user.getId();
+    }
 }

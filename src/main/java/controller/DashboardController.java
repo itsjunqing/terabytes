@@ -2,10 +2,15 @@ package controller;
 
 import model.*;
 import stream.User;
-//import view.BiddingView;
+import view.BidInitiation;
 import view.DashboardView;
-//import view.OfferingView;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
+
+//import view.BiddingView;
+//import view.OfferingView;
 
 public class DashboardController extends Observable {
 
@@ -31,38 +36,67 @@ public class DashboardController extends Observable {
     }
 
     private void listenInitiation() {
-        // create bid initiation window for students
+        // BID INITIATION
+        BidInitiation form = new BidInitiation();
+        form.getOpenBidButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    BidPreference bp = extractFormInfo(form);
+                    initiateOpenBid(bp);
+                } catch (NullPointerException exception) {
+                    // TODO: Add error message on UI, similar to login
+                }
 
-        // extract info from view -> check if open bid / close bid is selected
-        // remember to delete bid initiation view after extracting the info
-        // extract info from view:
-        QualificationTitle qualification = QualificationTitle.valueOf("Bachelor".toUpperCase()); // map string to enum
-        int competency = Integer.parseInt("1"); // assume text view only accepts string
-        String subject = "Physics";
-        String initiatorId = dashboardModel.getUser().getId();
-        String time = "-1";
-        String day = "-1";
-        int duration = 1;
-        int rate = 10;
-        int numberOfSessions = 10;
-        int contractDuration = 4; // weeks
+            }
+        });
+        form.getCloseBidButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    BidPreference bp = extractFormInfo(form);
+                    initiateCloseBid(bp);
+                } catch (NullPointerException exception) {
+                    // TODO: Add error message on UI, similar to login
+                }
+            }
+        });
+    }
 
-        BidInfo bidInfo = new BidInfo(initiatorId, time, day, duration, rate, numberOfSessions, contractDuration);
-        BidPreference bidPreference = new BidPreference(qualification, competency, subject, bidInfo);
+    private BidPreference extractFormInfo(BidInitiation form) throws NullPointerException {
+        QualificationTitle q = form.getQualification();
+        int c = form.getCompetency();
+        String s = form.getSubject();
+        int numOfSession = form.getNumOfSessions();
+        String day = form.getDay();
+        String time = form.getTime();
+        int duration = form.getDuration();
+        int rate = form.getRate();
+        String messageNote = form.getMessageNote();
+        int contractDuration = form.getContractDuration();
+        String initiatorId = dashboardModel.getUserId();
+        BidInfo bidInfo = new BidInfo(initiatorId, time, day, duration, rate, numOfSession, contractDuration, messageNote);
+        return new BidPreference(q, c, s, bidInfo);
+    }
 
-//        BiddingView biddingView = new BiddingView();
-        BiddingModel biddingModel;
-        String action = "-1";
-        if (action.equals("Open")) {
-            biddingModel = new OpenBiddingModel();
-        } else {
-            biddingModel = new CloseBiddingModel();
-        }
-        biddingModel.createBid(dashboardModel.getUser(), bidPreference); // need further refactoring on passing User
+    private void initiateOpenBid(BidPreference bp) {
+        // TODO: Initialize OpenBidView here
 
-//        BiddingController biddingController = new BiddingController(biddingModel, biddingView);
-        // keep dashboard view, no need destroy and let biddingcontroller to handle subsequent actions
+        BiddingModel biddingModel = new OpenBiddingModel();
+        biddingModel.createBid(dashboardModel.getUserId(), bp);
 
+        // TODO: Create BiddingController after BiddingView is created, uncomment below
+        // BiddingController biddingController = new BiddingController(biddingModel, biddingView);
+    }
+
+    private void initiateCloseBid(BidPreference bp) {
+        // TODO: Initialize OpenBidView here
+
+        BiddingModel biddingModel = new CloseBiddingModel();
+        biddingModel.createBid(dashboardModel.getUserId(), bp);
+
+        // TODO: Create BiddingController after BiddingView is created, uncomment below
+        // BiddingController biddingController = new BiddingController(biddingModel, biddingView);
     }
 
 

@@ -15,8 +15,8 @@ public class Bid {
     private Date dateClosedDown;
     private Subject subject;
     private String subjectId;
-    private BidAdditionalInfo additionalInfo;
-    private List<Message> messages;
+    private BidAdditionalInfo additionalInfo; // used only for Open Bid
+    private List<Message> messages; // used only for Close Bid, offers are inside Message
 
     /**
      * Constructor used to GET Bid (Deserialization)
