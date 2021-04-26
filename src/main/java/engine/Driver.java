@@ -1,17 +1,14 @@
 package engine;
 
-import api.ContractApi;
 import api.RestService;
-import controller.LoginController;
-import model.LoginModel;
+import api.UserApi;
+import model.DashboardModel;
 import model.QualificationTitle;
 import stream.Bid;
 import stream.Contract;
 import stream.Message;
 import stream.User;
-import view.LoginView;
 import view.BidInitiation;
-import view.ReplyOffer;
 import view.StudentDashboard;
 
 import java.awt.event.ActionEvent;
@@ -44,23 +41,20 @@ public class Driver {
         System.out.println(q1.toString());
 
         // Login model test
-        LoginModel loginModel = new LoginModel();
-        LoginView loginView = new LoginView();
-        loginView.display();
+//        LoginModel loginModel = new LoginModel();
+//        LoginView loginView = new LoginView();
+//        loginView.display();
 
         // Bid Initiation test
-        BidInitiation bidInitiation = new BidInitiation();
-        bidInitiation.initDisplay();
-        listenBid(bidInitiation);
+//        BidInitiation bidInitiation = new BidInitiation();
+//        listenBid(bidInitiation);
 
 
-
-
-
+        UserApi userApi = new UserApi();
+        User user = userApi.getUser("4ad8f1ed-4883-4c44-a9ab-a50bdee96ff9");
         //student dashboard test
-        ContractApi contractApi = new ContractApi();
-        List<Contract> contractList = contractApi.getAllContracts();
-        StudentDashboard studentDashboard = new StudentDashboard(contractList);
+        DashboardModel dashboardModel= new DashboardModel(user);
+        StudentDashboard studentDashboard = new StudentDashboard(dashboardModel);
 
 
 
@@ -69,8 +63,8 @@ public class Driver {
         // close bidding dashboard test
 
         // reply message test
-        ReplyOffer replyOffer = new ReplyOffer();
-        replyOffer.display();
+//        ReplyOffer replyOffer = new ReplyOffer();
+//        replyOffer.display();
 
         // offer bid test
 
@@ -78,7 +72,7 @@ public class Driver {
 
         // contract finalization test
 
-        LoginController loginController = new LoginController(loginModel, loginView);
+//        LoginController loginController = new LoginController(loginModel, loginView);
 
 
 
@@ -149,6 +143,10 @@ public class Driver {
         bidInitiation.getOpenBidButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println(bidInitiation.getSubject());
+                System.out.println(bidInitiation.getSubject());
+                System.out.println(bidInitiation.getRate());
+                System.out.println(bidInitiation.getMessageNote());
             }
         });
     }

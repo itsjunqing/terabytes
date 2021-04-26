@@ -1,17 +1,21 @@
 package view;
 
+import model.DashboardModel;
 import stream.Contract;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
-public class StudentDashboard {
+public class StudentDashboard extends DashboardView {
 
-    public StudentDashboard(List<Contract> contractList) {
+    public StudentDashboard(DashboardModel dashboardModel) {
+        super(dashboardModel);
+        displayContracts();
+    }
+
+    @Override
+    public void displayContracts() {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -20,8 +24,9 @@ public class StudentDashboard {
                 } catch (Exception ex) {
                 }
                 JPanel mainPanel = new JPanel();
-
                 mainPanel.setLayout(new GridLayout(1,2));
+
+                List<Contract> contractList = getDashboardModel().getContractsList();
                 ContractPanel contractPanel = new ContractPanel(contractList);
                 ButtonPanel buttonPanel = new ButtonPanel();
 
@@ -29,7 +34,7 @@ public class StudentDashboard {
                 mainPanel.add(buttonPanel);
 
 
-                JFrame frame = new JFrame("Contracts");
+                JFrame frame = new JFrame("Student Dashboard");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(mainPanel);
                 frame.pack();
@@ -37,9 +42,5 @@ public class StudentDashboard {
                 frame.setVisible(true);
             }
         });
-
     }
-
-
-
 }

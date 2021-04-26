@@ -1,7 +1,9 @@
 package view;
 
+import lombok.Getter;
 import model.DashboardModel;
 
+@Getter
 public abstract class DashboardView {
 
     private DashboardModel dashboardModel;

@@ -2,31 +2,12 @@ package view;
 
 import stream.Contract;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.EventQueue;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Dimension;
-import java.awt.Color;
-import java.awt.*;
-import java.util.List;
-
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import java.awt.*;
+import java.util.List;
 
 public class ContractPanel extends JPanel {
 
@@ -49,6 +30,7 @@ public class ContractPanel extends JPanel {
             JPanel panel = new JPanel();
             JTable table = getTable(c);
             resizeColumnWidth(table);
+            table.setBounds(10, 10, 500, 100);
             panel.add(table);
             panel.add(new JButton("Select Offer"));
             panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));

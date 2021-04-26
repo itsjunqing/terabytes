@@ -2,7 +2,6 @@ package stream;
 
 import lombok.Data;
 import model.BidInfo;
-import model.BidMessageInfo;
 
 import java.util.Date;
 
@@ -23,7 +22,7 @@ public class Message {
      * Constructor for GET Message (Deserialization)
      */
     public Message(String id, String bidId, User poster, Date datePosted, Date dateLastEdited,
-                   String content, BidMessageInfo additionalInfo) {
+                   String content, BidInfo additionalInfo) {
         this.id = id;
         this.bidId = bidId;
         this.poster = poster;
@@ -37,7 +36,7 @@ public class Message {
      * Constructor for POST new Message (Serialization)
      */
     public Message(String bidId, String posterId, Date datePosted, String content,
-                   BidMessageInfo additionalInfo) {
+                   BidInfo additionalInfo) {
         this.bidId = bidId;
         this.posterId = posterId;
         this.datePosted = datePosted;

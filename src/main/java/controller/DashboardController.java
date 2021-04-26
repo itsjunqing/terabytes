@@ -45,7 +45,7 @@ public class DashboardController extends Observable {
                     BidPreference bp = extractFormInfo(form);
                     initiateOpenBid(bp);
                 } catch (NullPointerException exception) {
-                    // TODO: Add error message on UI, similar to login
+                    // TODO: Add error message in UI on incomplete forms, similar to login
                 }
 
             }
@@ -57,7 +57,7 @@ public class DashboardController extends Observable {
                     BidPreference bp = extractFormInfo(form);
                     initiateCloseBid(bp);
                 } catch (NullPointerException exception) {
-                    // TODO: Add error message on UI, similar to login
+                    // TODO: Add error message in UI on incomplete forms, similar to login
                 }
             }
         });

@@ -74,13 +74,13 @@ public class OfferingModel extends OSubject implements ModelFeatures {
         bidApi.patchBid(bidChosen.getId(), new Bid(bidAdditionalInfo));
     }
 
-    public void sendMessage(int bidIndex, BidMessageInfo bidMessageInfo) {
+    public void sendMessage(int bidIndex, BidInfo bidInfo) {
         Bid bidChosen = getCloseBids().get(bidIndex);
-        String posterId = bidMessageInfo.getInitiatorId();
+        String posterId = bidInfo.getInitiatorId();
         Date datePosted = new Date();
 
         // content will not be used, will use BidMessageInfo entirely
-        Message message = new Message(bidChosen.getId(), posterId, datePosted, "", bidMessageInfo);
+        Message message = new Message(bidChosen.getId(), posterId, datePosted, "", bidInfo);
         messageApi.addMessage(message);
     }
 

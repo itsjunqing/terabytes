@@ -32,7 +32,7 @@ public class BiddingController {
         int bidOfferId = 0; // replace bidOfferId with which button does the offer correspond to
         biddingModel.markBidClose(); // mark bid as closed
         Bid bidInitiated = biddingModel.getBid();
-        BidInfo bidSelected = biddingModel.getBidInfos().get(bidOfferId);
+        BidInfo bidSelected = biddingModel.getBidOffers().get(bidOfferId);
 
         // Construct Contract
         String studentId = bidInitiated.getInitiatorId();

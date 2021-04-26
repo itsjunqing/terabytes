@@ -34,4 +34,17 @@ public class BidInfo {
         this.contractDuration = contractDuration;
         this.parsedMessage = parsedMessage;
     }
+
+    public BidInfo(String initiatorId, String time, String day, int duration, int rate,
+                   int numberOfSessions, int contractDuration, String parsedMessage, boolean freeLesson) {
+        this.initiatorId = initiatorId;
+        this.time = time;
+        this.day = day;
+        this.duration = duration;
+        this.rate = rate;
+        this.numberOfSessions = numberOfSessions;
+        this.contractDuration = contractDuration;
+        this.parsedMessage = parsedMessage;
+        this.freeLesson = freeLesson;
+    }
 }

@@ -1,7 +1,6 @@
 package controller;
 
 import model.BidInfo;
-import model.BidMessageInfo;
 import model.OfferingModel;
 //import view.OfferingView;
 
@@ -34,7 +33,7 @@ public class OfferingController {
         boolean freeLesson = true;
         int contractDuration = 4;
 
-        BidInfo bidInfo = new BidInfo(tutorId, time, day, duration, rate, numberOfSessions, freeLesson, contractDuration);
+        BidInfo bidInfo = new BidInfo(tutorId, time, day, duration, rate, numberOfSessions, contractDuration, "", freeLesson);
 
         offeringModel.sendOffer(bidIndexOnDisplay, bidInfo);
     }
@@ -59,10 +58,10 @@ public class OfferingController {
         boolean freeLesson = true;
         int contractDuration = 4;
         String parsedMessage = "I am a pro tutor";
-        BidMessageInfo bidMessageInfo = new BidMessageInfo(tutorId, time, day, duration, rate, numberOfSessions, freeLesson,
-                contractDuration, parsedMessage);
+        BidInfo bidInfo = new BidInfo(tutorId, time, day, duration, rate, numberOfSessions, contractDuration,
+                parsedMessage, freeLesson);
 
-        offeringModel.sendMessage(bidIndexOnDisplay, bidMessageInfo);
+        offeringModel.sendMessage(bidIndexOnDisplay, bidInfo);
     }
 
 

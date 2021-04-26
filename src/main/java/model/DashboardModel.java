@@ -20,17 +20,22 @@ public class DashboardModel extends OSubject implements ModelFeatures {
     public DashboardModel(User user) {
         this.user = user;
         this.contractApi = new ContractApi();
+        refresh(); // populate initial values
     }
 
     @Override
     public void refresh() {
         contractsList = contractApi.getAllContracts().stream()
-                .filter(c -> c.getFirstPartyId().equals(user.getId()))
+                .filter(c -> c.getFirstParty().getId().equals(user.getId()))
                 .collect(Collectors.toList());
-        notifyObservers();
+//        notifyObservers();
     }
 
     public String getUserId() {
         return user.getId();
+    }
+
+    public List<Contract> getContractsList() {
+        return contractsList;
     }
 }
