@@ -22,6 +22,7 @@ public abstract class BiddingModel extends OSubject {
     public BiddingModel() {
         this.bidApi = new BidApi();
         this.subjectApi = new SubjectApi();
+        refresh();
     }
 
     public void markBidClose() {
