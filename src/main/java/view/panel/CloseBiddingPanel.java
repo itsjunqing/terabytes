@@ -1,6 +1,6 @@
 package view.panel;
 
-import stream.Contract;
+import stream.Bid;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -15,7 +15,7 @@ public class CloseBiddingPanel extends JPanel {
     private JTable table1;
     private JPanel panel1;
 
-    public CloseBiddingPanel(List<Contract> contractList) {
+    public CloseBiddingPanel(List<Bid> bidList) {
         setLayout(new BorderLayout());
 
         mainList = new JPanel(new GridBagLayout());
@@ -26,12 +26,19 @@ public class CloseBiddingPanel extends JPanel {
         mainList.add(new JPanel(), gbc);
         add(new JScrollPane(mainList));
 
-        for (Contract c: contractList) {
+        int bidIndex = bidList.size();
+        System.out.println(bidIndex);
+        for (Bid b: bidList) {
+            // Code to generate an open contract panel
             JPanel panel = new JPanel();
-            JTable table = getTable(c);
+            JTable table = getTable(b, bidIndex);
+            bidIndex -= 1;
             resizeColumnWidth(table);
+            table.setBounds(10, 10, 500, 100);
             panel.add(table);
-            panel.add(new JButton("Select Offer"));
+//            panel.setViewportView(table);
+
+//            panel.add(new JButton("Select Offer"));
             panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
             GridBagConstraints gbc1 = new GridBagConstraints();
             gbc1.gridwidth = GridBagConstraints.REMAINDER;
@@ -39,21 +46,28 @@ public class CloseBiddingPanel extends JPanel {
             gbc1.weightx = 1;
             gbc1.fill = GridBagConstraints.HORIZONTAL;
             mainList.add(panel, gbc1, 0);
+
+            // Code to generate a closed contract panel
+
         }
     }
 
-    private JTable getTable(Contract contractObject) {
+    private JTable getTable(Bid bidObject, int bidNo) {
         String[][] rec = {
-                {"Contract End Date", ""},
-                {"Tutor Name", contractObject.getSecondParty().getGivenName()},
-                {"Subject", contractObject.getSubject().getName()},
-                {"Number Of Sessions (per week)", "Kane"},
-                {"Day & Time", "David"},
-                {"Duration (hours)", ""},
-                {"Rate (per hour)", ""},
+                {"Bid Type", ""},
+                {"Student Name:", ""},
+                {"Subject:", ""},
+                {"Number of Sessions:", ""},
+                {"Day & Time:", ""},
+                {"Duration (hours):", ""},
+                {"Rate (per hour):", ""},
+                {"Message", ""}
         };
         String[] col = {"", ""};
         JTable contractTable = new JTable(rec, col);
+
+        contractTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
+
         return contractTable;
     }
 
@@ -67,9 +81,27 @@ public class CloseBiddingPanel extends JPanel {
                 Component comp = table.prepareRenderer(renderer, row, column);
                 width = Math.max(comp.getPreferredSize().width +1 , width);
             }
+            System.out.println(width);
             if(width > 300)
                 width=300;
+            if(width < 200)
+                width=200;
             columnModel.getColumn(column).setPreferredWidth(width);
+        }
+    }
+    private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
+        WordWrapCellRenderer() {
+            setLineWrap(true);
+            setWrapStyleWord(true);
+        }
+
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText(value.toString());
+            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
+            if (table.getRowHeight(row) != getPreferredSize().height) {
+                table.setRowHeight(row, getPreferredSize().height);
+            }
+            return this;
         }
     }
 }
