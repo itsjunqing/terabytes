@@ -2,7 +2,7 @@ package view;
 
 import model.DashboardModel;
 import stream.Contract;
-import view.panel.DashboardButtonPanel;
+import view.panel.StudentDashboardButtonPanel;
 import view.panel.ContractPanel;
 
 import javax.swing.*;
@@ -30,7 +30,7 @@ public class StudentDashboardView extends DashboardView {
 
                 List<Contract> contractList = getDashboardModel().getContractsList();
                 ContractPanel contractPanel = new ContractPanel(contractList);
-                DashboardButtonPanel buttonPanel = new DashboardButtonPanel(contractList.size());
+                StudentDashboardButtonPanel buttonPanel = new StudentDashboardButtonPanel(contractList.size());
 
                 mainPanel.add(contractPanel);
                 mainPanel.add(buttonPanel);

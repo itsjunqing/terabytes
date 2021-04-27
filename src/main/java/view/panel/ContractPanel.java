@@ -34,6 +34,8 @@ public class ContractPanel extends JPanel {
             resizeColumnWidth(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);
+//            panel.setViewportView(table);
+
 //            panel.add(new JButton("Select Offer"));
             panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
             GridBagConstraints gbc1 = new GridBagConstraints();
