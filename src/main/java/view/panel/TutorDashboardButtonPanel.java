@@ -5,18 +5,17 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 public class TutorDashboardButtonPanel extends DashboardButtonPanel {
-
-    private JPanel mainList;
-    private JPanel panel;
     private JComboBox contractChoice;
-
     public TutorDashboardButtonPanel(int contractSize) {
         super(contractSize);
         addButtons(contractSize);
     }
-
-    private void addButtons(int contractSize) {
-
+    @Override
+    protected void addButtons(int contractSize) {
+        JPanel panel = new JPanel();
+        GridBagLayout layout = new GridBagLayout();
+//        gbc2.fill = GridBagConstraints.HORIZONTAL;
+        panel.setLayout(layout);
         GridBagConstraints gbc2 = new GridBagConstraints();
         gbc2.gridwidth = GridBagConstraints.REMAINDER;
         gbc2.gridheight = 3;
@@ -39,8 +38,8 @@ public class TutorDashboardButtonPanel extends DashboardButtonPanel {
         gbc1.gridheight = 100;
         gbc1.weightx = 100;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
-        mainList.add(panel, gbc1, 0);
-        add(mainList, BorderLayout.CENTER);
+        this.mainList.add(panel, gbc1, 0);
+        add(this.mainList, BorderLayout.CENTER);
 
     }
 

@@ -25,7 +25,7 @@ public class DashboardModel extends OSubject {
 
     public void refresh() {
         contractsList = contractApi.getAllContracts().stream()
-                .filter(c -> c.getFirstParty().getId().equals(user.getId()))
+                .filter(c -> c.getFirstParty().getId().equals(user.getId()) || c.getSecondParty().getId().equals(user.getId()))
                 .collect(Collectors.toList());
 //        notifyObservers();
     }

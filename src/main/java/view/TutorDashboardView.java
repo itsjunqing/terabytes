@@ -31,7 +31,6 @@ public class TutorDashboardView extends DashboardView {
                 List<Contract> contractList = getDashboardModel().getContractsList();
                 ContractPanel contractPanel = new ContractPanel(contractList);
                 TutorDashboardButtonPanel buttonPanel = new TutorDashboardButtonPanel(contractList.size());
-
                 mainPanel.add(contractPanel);
                 mainPanel.add(buttonPanel);
 
