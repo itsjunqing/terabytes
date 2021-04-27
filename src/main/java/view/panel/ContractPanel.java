@@ -26,13 +26,15 @@ public class ContractPanel extends JPanel {
         mainList.add(new JPanel(), gbc);
         add(new JScrollPane(mainList));
 
+        int contractIndex = contractList.size();
         for (Contract c: contractList) {
             JPanel panel = new JPanel();
-            JTable table = getTable(c);
+            JTable table = getTable(c, contractIndex);
+            contractIndex -= 1;
             resizeColumnWidth(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);
-            panel.add(new JButton("Select Offer"));
+//            panel.add(new JButton("Select Offer"));
             panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
             GridBagConstraints gbc1 = new GridBagConstraints();
             gbc1.gridwidth = GridBagConstraints.REMAINDER;
@@ -43,8 +45,9 @@ public class ContractPanel extends JPanel {
         }
     }
 
-    private JTable getTable(Contract contractObject) {
+    private JTable getTable(Contract contractObject, int contractNo) {
         String[][] rec = {
+                {"Contract Number: ", Integer.toString(contractNo)},
                 {"Contract End Date", ""},
                 {"Tutor Name", contractObject.getSecondParty().getGivenName()},
                 {"Subject", contractObject.getSubject().getName()},
@@ -68,8 +71,11 @@ public class ContractPanel extends JPanel {
                 Component comp = table.prepareRenderer(renderer, row, column);
                 width = Math.max(comp.getPreferredSize().width +1 , width);
             }
+            System.out.println(width);
             if(width > 300)
                 width=300;
+            if(width < 200)
+                width=200;
             columnModel.getColumn(column).setPreferredWidth(width);
         }
     }

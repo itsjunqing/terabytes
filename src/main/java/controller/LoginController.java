@@ -5,8 +5,8 @@ import model.LoginModel;
 import stream.User;
 import view.DashboardView;
 import view.LoginView;
-import view.StudentDashboard;
-import view.TutorDashboard;
+import view.StudentDashboardView;
+import view.TutorDashboardView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,9 +42,9 @@ public class LoginController {
         DashboardModel dashboardModel = new DashboardModel(user);
         DashboardView dashboardView;
         if (user.getIsStudent()) {
-            dashboardView = new StudentDashboard(dashboardModel);
+            dashboardView = new StudentDashboardView(dashboardModel);
         } else {
-            dashboardView = new TutorDashboard(dashboardModel);
+            dashboardView = new TutorDashboardView(dashboardModel);
         }
         DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
         loginView.dispose(); // destroy login view

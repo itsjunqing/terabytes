@@ -9,6 +9,7 @@ public class DashboardButtonPanel extends JPanel {
     private JPanel mainList;
     private JTable table1;
     private JPanel panel1;
+    private JComboBox contractChoice;
 
     public DashboardButtonPanel(int contractSize) {
         setLayout(new BorderLayout());
@@ -32,7 +33,10 @@ public class DashboardButtonPanel extends JPanel {
 //        refresh.setPreferredSize(new Dimension(50, 20));
         panel.add(refresh, gbc2);
         JComboBox contractChoice = new JComboBox<>();
-        contractChoice.addItem("Contract 1");
+        for (int i = 1; i < contractSize + 1; i++) {
+            contractChoice.addItem(i);
+        }
+
         panel.add(contractChoice, gbc2);
         JButton initiate = new JButton("Initiate Bid");
 //        initiate.setPreferredSize(new Dimension(50, 20));

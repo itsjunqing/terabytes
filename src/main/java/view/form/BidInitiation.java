@@ -8,8 +8,11 @@ import lombok.Getter;
 import model.QualificationTitle;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.stream.IntStream;
 
 @Getter
@@ -73,7 +76,7 @@ public class BidInitiation {
         durationBox.setSelectedIndex(-1);
 
         String[] time = {"8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM", "1:00PM", "2:00PM",
-                            "3:00PM", "4:00PM", "5:00PM", "6:00PM", "7:00PM"};
+                "3:00PM", "4:00PM", "5:00PM", "6:00PM", "7:00PM"};
         Arrays.stream(time)
                 .forEach(t -> timeBox.addItem(t));
         timeBox.setSelectedIndex(-1);
@@ -250,7 +253,10 @@ public class BidInitiation {
                 resultName = currentFont.getName();
             }
         }
-        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
     /**
