@@ -29,6 +29,7 @@ public class OfferingModel extends OSubject implements ModelFeatures {
 
     @Override
     public void refresh() {
+
         bidsOnGoing.clear(); // for memory cleaning
 
         // Filter to ensure the tutor only gets initDisplay if the tutor has the qualification / competency

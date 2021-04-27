@@ -2,12 +2,11 @@ package view.panel;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 
-public class StudentDashboardButtonPanel extends DashboardButtonPanel {
+public class ClosedOfferButtonPanel extends DashboardButtonPanel {
     private JComboBox contractChoice;
-    public StudentDashboardButtonPanel(int contractSize) {
+    public ClosedOfferButtonPanel(int contractSize) {
         super(contractSize);
         addButtons(contractSize);
     }
@@ -25,15 +24,13 @@ public class StudentDashboardButtonPanel extends DashboardButtonPanel {
         JButton refresh = new JButton("Refresh");
 //        refresh.setPreferredSize(new Dimension(50, 20));
         panel.add(refresh, gbc2);
-        contractChoice = new JComboBox<>();
-        for (int i = 1; i < contractSize + 1; i++) {
-            contractChoice.addItem(i);
-        }
 
-        panel.add(contractChoice, gbc2);
-        JButton initiate = new JButton("Initiate Bid");
+        JButton initiate = new JButton("Reply Bid");
 //        initiate.setPreferredSize(new Dimension(50, 20));
         panel.add(initiate, gbc2);
+
+        JButton initiate2 = new JButton("Buy Out");
+        panel.add(initiate2, gbc2);
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();
         gbc1.gridwidth = GridBagConstraints.REMAINDER;
@@ -44,8 +41,6 @@ public class StudentDashboardButtonPanel extends DashboardButtonPanel {
         add(this.mainList, BorderLayout.CENTER);
 
     }
-
-
 
 
 

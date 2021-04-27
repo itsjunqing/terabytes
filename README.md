@@ -28,4 +28,8 @@ We focus on top 2 first.
 - Smart resizing
 - Scrollpane instead of jscrollpane to enable it to work for contracts of different sizes 
 - update method resize panel
+- user builder instead of inheritance
 
+6. `Contract` 
+- contain bid info? 
+- 

@@ -1,13 +1,18 @@
 package engine;
 
+import api.BidApi;
 import api.RestService;
+import api.UserApi;
 import controller.LoginController;
+import model.BiddingModel;
 import model.LoginModel;
+import model.OfferingModel;
 import model.QualificationTitle;
 import stream.Bid;
 import stream.Contract;
 import stream.Message;
 import stream.User;
+import view.ActiveRequestsView;
 import view.LoginView;
 import view.form.BidInitiation;
 
@@ -51,21 +56,12 @@ public class Driver {
 //        listenBid(bidInitiation);
 
 
-//        UserApi userApi = new UserApi();
-//        User user = userApi.getUser("4ad8f1ed-4883-4c44-a9ab-a50bdee96ff9");
-        //student dashboard test
-//        DashboardModel dashboardModel= new DashboardModel(user);
-//        StudentDashboard studentDashboard = new StudentDashboard(dashboardModel);
-
-
 
         // open bidding dashboard test
 
         // close bidding dashboard test
 
         // reply message test
-//        ReplyOffer replyOffer = new ReplyOffer();
-//        replyOffer.display();
 
         // offer bid test
 
@@ -73,38 +69,32 @@ public class Driver {
 
         // contract finalization test
 
+        // Active Request Dashboard test
+        // make a bid using stream.bid
+        // make a bidAdditionalInfo using stream.bidadditionalInfo
+        // make a bidInfo and bidPreference from model folder
+        UserApi userApi = new UserApi();
+        User testUser = userApi.getUser("bb495c2c-3e30-4e4a-80e7-3954c448d128");
+        OfferingModel testOfferingModel = new OfferingModel(testUser);
+        // create new bid for testing, complete with offers
+        // add open and closed bids
+//        testOfferingModel.setBidsOnGoing();
+        BidApi bidApi = new BidApi();
+        List<Bid> bidList = bidApi.getAllBids();
+
+//        testOfferingModel.refresh();
+        // Passing them a list of bids to test. Once the api is complete, will not pass bids
+        ActiveRequestsView activeRequestViewTest = new ActiveRequestsView(testOfferingModel, bidList);
+        activeRequestViewTest.displayContracts();
 
 
 
 
-//        loginController.test();
-
-        // Testing Dashboard
-//        DashboardModel dashboardModel = new DashboardModel();
-//        DashboardView dashboardView = new StudentDashboard();
-//        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
-//        dashboardController.test();
 
 
 
 
-//        testingLol();
-//        Date date = new Date();
-//        System.out.println(date.toString());
-//        BidApi bidApi = new BidApi();
-//        List<Bid> bids = bidApi.getAll();
-////
-//        for (Bid b: bids) {
-////            System.out.println(b.getDateCreated());
-//            System.out.println(b);
-//        }
-//        Gson gson = new Gson();
-//        Bid bid = new Bid("open", "123", new Date(), "32132", null);
-//        String x = gson.toJson(bid);
-//        System.out.println(x);
-//        bidApi.postNew(bid);
 
-//        OpenBiddingModel openBiddingModel = new OpenBiddingModel(1, null);
 
 
 
@@ -153,3 +143,21 @@ public class Driver {
     }
 
 }
+
+//        testingLol();
+//        Date date = new Date();
+//        System.out.println(date.toString());
+//        BidApi bidApi = new BidApi();
+//        List<Bid> bids = bidApi.getAll();
+////
+//        for (Bid b: bids) {
+////            System.out.println(b.getDateCreated());
+//            System.out.println(b);
+//        }
+//        Gson gson = new Gson();
+//        Bid bid = new Bid("open", "123", new Date(), "32132", null);
+//        String x = gson.toJson(bid);
+//        System.out.println(x);
+//        bidApi.postNew(bid);
+
+//        OpenBiddingModel openBiddingModel = new OpenBiddingModel(1, null);

@@ -1,6 +1,6 @@
 package view.panel;
 
-import stream.Contract;
+import stream.Bid;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -9,13 +9,13 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.List;
 
-public class ContractPanel extends JPanel {
+public class ClosedOfferPanel extends JPanel {
 
     private JPanel mainList;
     private JTable table1;
     private JPanel panel1;
 
-    public ContractPanel(List<Contract> contractList) {
+    public ClosedOfferPanel(List<Bid> bidList) {
         setLayout(new BorderLayout());
 
         mainList = new JPanel(new GridBagLayout());
@@ -26,45 +26,50 @@ public class ContractPanel extends JPanel {
         mainList.add(new JPanel(), gbc);
         add(new JScrollPane(mainList));
 
-        int contractIndex = contractList.size();
-        for (Contract c: contractList) {
-            JPanel panel = new JPanel();
-            JTable table = getTable(c, contractIndex);
-            contractIndex -= 1;
-            resizeColumnWidth(table);
-            table.setBounds(10, 10, 500, 100);
-            panel.add(table);
+        int bidIndex = bidList.size();
+        System.out.println(bidIndex);
+        for (Bid b: bidList) {
+            // Code to generate an open contract panel
+            if (1 == 1) {
+                JPanel panel = new JPanel();
+                JTable table = getTable(b, bidIndex);
+                bidIndex -= 1;
+                resizeColumnWidth(table);
+                table.setBounds(10, 10, 500, 100);
+                panel.add(table);
 //            panel.setViewportView(table);
 
 //            panel.add(new JButton("Select Offer"));
+                panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
+                GridBagConstraints gbc1 = new GridBagConstraints();
+                gbc1.gridwidth = GridBagConstraints.REMAINDER;
+                gbc1.gridheight = 2;
+                gbc1.weightx = 1;
+                gbc1.fill = GridBagConstraints.HORIZONTAL;
+                mainList.add(panel, gbc1, 0);
+            }
+            // Code to generate a closed contract panel
+            else {
 
-
-
-
-            panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
-            GridBagConstraints gbc1 = new GridBagConstraints();
-            gbc1.gridwidth = GridBagConstraints.REMAINDER;
-            gbc1.gridheight = 2;
-            gbc1.weightx = 1;
-            gbc1.fill = GridBagConstraints.HORIZONTAL;
-            mainList.add(panel, gbc1, 0);
+            }
         }
     }
 
-    private JTable getTable(Contract contractObject, int contractNo) {
+    private JTable getTable(Bid bidObject, int bidNo) {
         String[][] rec = {
-                {"Contract Number: ", Integer.toString(contractNo)},
-                {"Contract End Date", ""},
-                {"Tutor Name", contractObject.getSecondParty().getGivenName()},
-                {"Subject", contractObject.getSubject().getName()},
-                {"Number Of Sessions (per week)", "Kane"},
-                {"Day & Time", "David"},
-                {"Duration (hours)", ""},
-                {"Rate (per hour)", ""},
+                {"Bid Type", ""},
+                {"Student Name:", ""},
+                {"Subject:", ""},
+                {"Number of Sessions:", ""},
+                {"Day & Time:", ""},
+                {"Duration (hours):", ""},
+                {"Rate (per hour):", ""},
+                {"Message", ""}
         };
         String[] col = {"", ""};
         JTable contractTable = new JTable(rec, col);
 
+        contractTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
 
         return contractTable;
     }
@@ -87,8 +92,7 @@ public class ContractPanel extends JPanel {
             columnModel.getColumn(column).setPreferredWidth(width);
         }
     }
-
-    static class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
+    private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
         WordWrapCellRenderer() {
             setLineWrap(true);
             setWrapStyleWord(true);
