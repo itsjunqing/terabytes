@@ -20,11 +20,22 @@ public class DashboardController extends Observable {
     public DashboardController(DashboardModel dashboardModel, DashboardView dashboardView) {
         this.dashboardModel = dashboardModel;
         this.dashboardView = dashboardView;
+        listenDashboard();
     }
+
+    public void listenDashboard(){
+        dashboardView.getButtonPanel().getButton1().addActionListener(e -> {
+            System.out.println("The Refresh Button is pressed");
+        });
+        dashboardView.getButtonPanel().getButton2().addActionListener(e -> {
+            System.out.println("The second button is pressed");
+        });
+    };
 
     public void listenRefresh() {
         dashboardModel.refresh();
     }
+
 
     public void listenAction() {
         User user = dashboardModel.getUser();
@@ -38,17 +49,14 @@ public class DashboardController extends Observable {
     private void listenInitiation() {
         // BID INITIATION
         BidInitiation form = new BidInitiation();
-        form.getOpenBidButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    BidPreference bp = extractFormInfo(form);
-                    initiateOpenBid(bp);
-                } catch (NullPointerException exception) {
-                    // TODO: Add error message in UI on incomplete forms, similar to login
-                }
-
+        form.getOpenBidButton().addActionListener(e -> {
+            try {
+                BidPreference bp = extractFormInfo(form);
+                initiateOpenBid(bp);
+            } catch (NullPointerException exception) {
+                // TODO: Add error message in UI on incomplete forms, similar to login
             }
+
         });
         form.getCloseBidButton().addActionListener(new ActionListener() {
             @Override

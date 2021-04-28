@@ -1,5 +1,6 @@
 package view;
 
+import lombok.Getter;
 import model.DashboardModel;
 import stream.Contract;
 import view.panel.ContractPanel;
@@ -9,11 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+@Getter
 public class StudentDashboardView extends DashboardView {
 
-    private JPanel mainPanel;
-    private ContractPanel contractPanel;
-    private StudentDashboardButtonPanel buttonPanel;
+
 
     public StudentDashboardView(DashboardModel dashboardModel) {
         super(dashboardModel);

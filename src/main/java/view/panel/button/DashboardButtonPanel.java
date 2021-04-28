@@ -1,12 +1,18 @@
 package view.panel.button;
 
+import lombok.Getter;
+
 import javax.swing.*;
 import java.awt.*;
 
+@Getter
 public abstract class DashboardButtonPanel extends JPanel {
 
     protected JPanel mainList;
-    private JPanel panel;
+    protected JPanel panel;
+    protected JButton button1;
+    protected JButton button2;
+
 
 
     public DashboardButtonPanel(int contractSize) {

@@ -1,14 +1,16 @@
 package view.panel.button;
 
+import lombok.Getter;
+
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 
+@Getter
 public class StudentDashboardButtonPanel extends DashboardButtonPanel {
 
     private JComboBox contractChoice;
-    private JButton refreshButton;
-    private JButton initiateButton;
+
 
     public StudentDashboardButtonPanel(int contractSize) {
         super(contractSize);
@@ -17,7 +19,7 @@ public class StudentDashboardButtonPanel extends DashboardButtonPanel {
 
     @Override
     protected void addButtons(int contractSize) {
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 //        gbc2.fill = GridBagConstraints.HORIZONTAL;
         panel.setLayout(layout);
@@ -27,9 +29,9 @@ public class StudentDashboardButtonPanel extends DashboardButtonPanel {
         gbc2.weightx = 1;
 
 
-        refreshButton = new JButton("Refresh");
+        button1 = new JButton("Refresh");
 //        refresh.setPreferredSize(new Dimension(50, 20));
-        panel.add(refreshButton, gbc2);
+        panel.add(button1, gbc2);
 
         // contract choice not needed
 //        contractChoice = new JComboBox<>();
@@ -38,9 +40,9 @@ public class StudentDashboardButtonPanel extends DashboardButtonPanel {
 //        }
 //        panel.add(contractChoice, gbc2);
 
-        initiateButton = new JButton("Initiate Bid");
+        button2 = new JButton("Initiate Bid");
 //        initiate.setPreferredSize(new Dimension(50, 20));
-        panel.add(initiateButton, gbc2);
+        panel.add(button2, gbc2);
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();
         gbc1.gridwidth = GridBagConstraints.REMAINDER;
@@ -52,13 +54,7 @@ public class StudentDashboardButtonPanel extends DashboardButtonPanel {
 
     }
 
-    public JButton getRefreshButton() {
-        return refreshButton;
-    }
 
-    public JButton getInitiateButton() {
-        return initiateButton;
-    }
 }
 
 
