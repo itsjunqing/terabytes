@@ -3,7 +3,7 @@ package view;
 import model.DashboardModel;
 import stream.Contract;
 import view.panel.ContractPanel;
-import view.panel.TutorDashboardButtonPanel;
+import view.panel.button.TutorDashboardButtonPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,11 +13,11 @@ public class TutorDashboardView extends DashboardView {
 
     public TutorDashboardView(DashboardModel dashboardModel) {
         super(dashboardModel);
-        displayContracts();
+        updateContracts();
     }
 
     @Override
-    public void displayContracts() {
+    public void updateContracts() {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

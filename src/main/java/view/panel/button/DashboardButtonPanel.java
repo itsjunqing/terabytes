@@ -1,13 +1,13 @@
-package view.panel;
+package view.panel.button;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 public abstract class DashboardButtonPanel extends JPanel {
 
     protected JPanel mainList;
     private JPanel panel;
+
 
     public DashboardButtonPanel(int contractSize) {
         setLayout(new BorderLayout());

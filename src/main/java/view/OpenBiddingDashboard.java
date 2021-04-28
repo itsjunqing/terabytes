@@ -2,10 +2,8 @@ package view;
 
 import model.OfferingModel;
 import stream.Bid;
-import view.panel.OpenBiddingButtonPanel;
+import view.panel.button.OpenBiddingButtonPanel;
 import view.panel.OpenBiddingPanel;
-import view.panel.OpenOffersButtonPanel;
-import view.panel.OpenOffersPanel;
 
 import javax.swing.*;
 import java.awt.*;

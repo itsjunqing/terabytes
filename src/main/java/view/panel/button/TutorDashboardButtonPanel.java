@@ -1,16 +1,15 @@
-package view.panel;
+package view.panel.button;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 
-public class OpenOffersButtonPanel extends DashboardButtonPanel {
+public class TutorDashboardButtonPanel extends DashboardButtonPanel {
     private JComboBox contractChoice;
-    public OpenOffersButtonPanel(int contractSize) {
+    public TutorDashboardButtonPanel(int contractSize) {
         super(contractSize);
         addButtons(contractSize);
     }
-
     @Override
     protected void addButtons(int contractSize) {
         JPanel panel = new JPanel();
@@ -30,12 +29,9 @@ public class OpenOffersButtonPanel extends DashboardButtonPanel {
         }
 
         panel.add(contractChoice, gbc2);
-        JButton initiate = new JButton("Respond");
-        JButton initiate2 = new JButton("Buy Out");
-
+        JButton initiate = new JButton("Initiate Offer");
 //        initiate.setPreferredSize(new Dimension(50, 20));
         panel.add(initiate, gbc2);
-        panel.add(initiate2, gbc2);
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();
         gbc1.gridwidth = GridBagConstraints.REMAINDER;

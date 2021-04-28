@@ -1,13 +1,9 @@
 package view;
 
-import model.DashboardModel;
 import model.OfferingModel;
 import stream.Bid;
-import stream.Contract;
-import view.panel.ActiveRequestButtonPanel;
+import view.panel.button.ActiveRequestButtonPanel;
 import view.panel.ActiveRequestPanel;
-import view.panel.ContractPanel;
-import view.panel.StudentDashboardButtonPanel;
 
 import javax.swing.*;
 import java.awt.*;

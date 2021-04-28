@@ -12,5 +12,5 @@ public abstract class DashboardView {
         this.dashboardModel = dashboardModel;
     }
 
-    public abstract void displayContracts();
+    public abstract void updateContracts();
 }

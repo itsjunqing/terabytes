@@ -1,0 +1,6 @@
+List of checklists, features to be fulfilled:
+
+[ ] Fix StudentDashboard's Contract UI alignment
+[ ] Fix StudentDashboard's Contract's content
+[ ] Fix StudentDashboard's Contract selection
+[ ] 

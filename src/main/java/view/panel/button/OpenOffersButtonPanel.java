@@ -1,18 +1,18 @@
-package view.panel;
+package view.panel.button;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 
-public class CloseBiddingButtonPanel extends DashboardButtonPanel {
+public class OpenOffersButtonPanel extends DashboardButtonPanel {
     private JComboBox contractChoice;
-    public CloseBiddingButtonPanel(int contractSize) {
+    public OpenOffersButtonPanel(int contractSize) {
         super(contractSize);
         addButtons(contractSize);
     }
 
     @Override
-    protected void addButtons(int numItems) {
+    protected void addButtons(int contractSize) {
         JPanel panel = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 //        gbc2.fill = GridBagConstraints.HORIZONTAL;
@@ -24,19 +24,18 @@ public class CloseBiddingButtonPanel extends DashboardButtonPanel {
         JButton refresh = new JButton("Refresh");
 //        refresh.setPreferredSize(new Dimension(50, 20));
         panel.add(refresh, gbc2);
-
         contractChoice = new JComboBox<>();
-        for (int i = 1; i < numItems + 1; i++) {
+        for (int i = 1; i < contractSize + 1; i++) {
             contractChoice.addItem(i);
         }
-        JButton selectOffer = new JButton("Select Offer");
-//        initiate.setPreferredSize(new Dimension(50, 20));
-        panel.add(selectOffer, gbc2);
 
+        panel.add(contractChoice, gbc2);
+        JButton initiate = new JButton("Respond");
+        JButton initiate2 = new JButton("Buy Out");
 
-        JButton replyOffer = new JButton("Reply Offer");
 //        initiate.setPreferredSize(new Dimension(50, 20));
-        panel.add(replyOffer, gbc2);
+        panel.add(initiate, gbc2);
+        panel.add(initiate2, gbc2);
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();
         gbc1.gridwidth = GridBagConstraints.REMAINDER;

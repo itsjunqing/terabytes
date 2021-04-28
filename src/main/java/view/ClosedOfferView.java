@@ -2,7 +2,7 @@ package view;
 
 import model.OfferingModel;
 import stream.Bid;
-import view.panel.ClosedOfferButtonPanel;
+import view.panel.button.ClosedOfferButtonPanel;
 import view.panel.ClosedOfferPanel;
 
 import javax.swing.*;

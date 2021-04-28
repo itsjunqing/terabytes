@@ -16,7 +16,7 @@ public abstract class BiddingModel extends OSubject {
 
     private BidApi bidApi;
     private SubjectApi subjectApi;
-    private String bidId;
+    private String bidId; // Bid is not used because its content (offers / messages) are updated from time to time
     private List<BidInfo> bidOffers;
 
     public BiddingModel() {
