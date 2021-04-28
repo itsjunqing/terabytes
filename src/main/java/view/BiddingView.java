@@ -12,5 +12,5 @@ public abstract class BiddingView {
         this.biddingModel = biddingModel;
     }
 
-    public abstract void updateDisplay();
+//    public abstract void updateDisplay();
 }
