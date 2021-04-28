@@ -13,7 +13,7 @@ public class TutorDashboardButtonPanel extends DashboardButtonPanel {
     }
     @Override
     protected void addButtons(int contractSize) {
-        JPanel panel = new JPanel();
+        panel = new JPanel();
         GridBagLayout layout = new GridBagLayout();
 //        gbc2.fill = GridBagConstraints.HORIZONTAL;
         panel.setLayout(layout);
@@ -28,7 +28,6 @@ public class TutorDashboardButtonPanel extends DashboardButtonPanel {
         for (int i = 1; i < contractSize + 1; i++) {
             contractChoice.addItem(i);
         }
-
         panel.add(contractChoice, gbc2);
         button2 = new JButton("Initiate Offer");
 //        initiate.setPreferredSize(new Dimension(50, 20));
@@ -39,8 +38,8 @@ public class TutorDashboardButtonPanel extends DashboardButtonPanel {
         gbc1.gridheight = 100;
         gbc1.weightx = 100;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
-        this.mainList.add(panel, gbc1, 0);
-        add(this.mainList, BorderLayout.CENTER);
+        mainList.add(panel, gbc1, 0);
+        add(mainList, BorderLayout.CENTER);
 
     }
 

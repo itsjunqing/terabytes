@@ -14,12 +14,6 @@ import java.util.List;
 
 @Getter
 public class StudentView extends DashboardView {
-    private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
-    private JPanel contractPanel; // used to clear and update the content, only this need to be updated
-    private JButton refreshButton;
-    private JButton initiateButton;
-    // Note: once buttons are created, when refresh is called, only contractPanel is updated, buttons are not destroyed
-    // so the same buttons listened in the controller will continue to work
 
     public StudentView(DashboardModel dashboardModel) {
         super(dashboardModel);

@@ -22,6 +22,7 @@ public class OpenBiddingModel extends BiddingModel {
         Bid bid = new Bid("Open", userId, dateCreated, subjectId, bidAdditionalInfo);
         Bid bidCreated = getBidApi().addBid(bid); // post BID
         setBidId(bidCreated.getId()); // set ID for future references
+        refresh();
     }
 
     @Override

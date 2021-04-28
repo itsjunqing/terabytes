@@ -20,7 +20,7 @@ public class DashboardModel extends OSubject {
     public DashboardModel(User user) {
         this.user = user;
         this.contractApi = new ContractApi();
-        refresh(); // populate initial values
+        refresh(); // Note: MUST populate initial values otherwise view is not created
     }
 
     public void refresh() {

@@ -1,11 +1,12 @@
 package controller;
 
+import model.DashboardModel;
 import model.LoginModel;
 import stream.User;
+import view.DashboardView;
 import view.LoginView;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import view.builder.StudentView;
+import view.builder.TutorView;
 
 public class LoginController {
 
@@ -19,33 +20,27 @@ public class LoginController {
     }
 
     private void listenLogin() {
-        loginView.getLoginButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String username = loginView.getUserField().getText();
-                String password = String.valueOf(loginView.getPasswordField().getPassword());
-                if (loginModel.performLogin(username, password)) {
-                    loginView.getErrorLabel().setText("Success! Launching Dashboard...");
-                    loginSuccess(loginModel.getUser(username));
-                } else {
-                    loginView.getErrorLabel().setText("Error: Wrong credentials!");
-                }
+        loginView.getLoginButton().addActionListener(e -> {
+            String username = loginView.getUserField().getText();
+            String password = String.valueOf(loginView.getPasswordField().getPassword());
+            if (loginModel.performLogin(username, password)) {
+                loginView.getErrorLabel().setText("Success! Launching Dashboard...");
+                loginSuccess(loginModel.getUser(username));
+            } else {
+                loginView.getErrorLabel().setText("Error: Wrong credentials!");
             }
         });
     }
 
     private void loginSuccess(User user) {
-//        DashboardModel dashboardModel = new DashboardModel(user);
-//        DashboardView dashboardView;
-//        if (user.getIsStudent()) {
-//            dashboardView = new StudentDashboardView(dashboardModel);
-//        } else {
-//            dashboardView = new TutorDashboardView(dashboardModel);
-//        }
-//        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
-//        loginView.dispose(); // destroy login view
+        DashboardModel dashboardModel = new DashboardModel(user);
+        DashboardView dashboardView;
+        if (user.getIsStudent()) {
+            dashboardView = new StudentView(dashboardModel);
+        } else {
+            dashboardView = new TutorView(dashboardModel);
+        }
+        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
+        loginView.dispose(); // destroy login view
     }
-
-
-
 }

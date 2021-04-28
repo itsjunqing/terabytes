@@ -4,18 +4,19 @@ import model.BidInfo;
 import model.BiddingModel;
 import model.ContractModel;
 import stream.Contract;
+import view.BiddingView;
 
 //import view.BiddingView;
 //import view.ContractView;
 
 public class BiddingController {
     private BiddingModel biddingModel;
-//    private BiddingView biddingView;
+    private BiddingView biddingView;
 //
-//    public BiddingController(BiddingModel biddingModel, BiddingView biddingView) {
-//        this.biddingModel = biddingModel;
-//        this.biddingView = biddingView;
-//    }
+    public BiddingController(BiddingModel biddingModel, BiddingView biddingView) {
+        this.biddingModel = biddingModel;
+        this.biddingView = biddingView;
+    }
 
     public void listenRefresh() {
         // add refresh listener here

@@ -1,12 +1,12 @@
 package controller;
 
 import model.*;
-import stream.User;
+import view.BiddingView;
 import view.DashboardView;
+import view.builder.CloseBidView;
+import view.builder.OpenBidView;
 import view.form.BidInitiation;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 
 //import view.BiddingView;
@@ -20,56 +20,55 @@ public class DashboardController extends Observable {
     public DashboardController(DashboardModel dashboardModel, DashboardView dashboardView) {
         this.dashboardModel = dashboardModel;
         this.dashboardView = dashboardView;
-        listenDashboard();
-    }
-
-    public void listenDashboard(){
-//        dashboardView.getButtonPanel().getButton1().addActionListener(e -> {
-//            System.out.println("The Refresh Button is pressed");
-//        });
-//        dashboardView.getButtonPanel().getButton2().addActionListener(e -> {
-//            System.out.println("The second button is pressed");
-//        });
-    };
-
-    public void listenRefresh() {
-        dashboardModel.refresh();
-    }
-
-
-    public void listenAction() {
-        User user = dashboardModel.getUser();
-        if (user.getIsStudent()) {
-            listenInitiation(); // listen to bid initiation
+        if (dashboardModel.getUser().getIsStudent()) {
+            listenStudentView();
         } else {
-            listenOffering(); // listen to bid offering
+            listenTutorView();
         }
     }
 
-    private void listenInitiation() {
-        // BID INITIATION
-        BidInitiation form = new BidInitiation();
-        form.getOpenBidButton().addActionListener(e -> {
-            try {
-                BidPreference bp = extractFormInfo(form);
-                initiateOpenBid(bp);
-            } catch (NullPointerException exception) {
-                // TODO: Add error message in UI on incomplete forms, similar to login
-            }
+    private void listenStudentView() {
+        dashboardView.getInitiateButton().addActionListener(e -> {
+            System.out.println("From DashboardController: Initiate Button is pressed");
 
-        });
-        form.getCloseBidButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            BidInitiation form = new BidInitiation();
+            form.getOpenBidButton().addActionListener(ef -> {
                 try {
                     BidPreference bp = extractFormInfo(form);
-                    initiateCloseBid(bp);
+                    System.out.println("Extracted: " + bp);
+                     initiateOpenBid(bp);
+                    form.dispose();
                 } catch (NullPointerException exception) {
                     // TODO: Add error message in UI on incomplete forms, similar to login
                 }
-            }
+            });
+            form.getCloseBidButton().addActionListener(ef -> {
+                try {
+                    BidPreference bp = extractFormInfo(form);
+                    System.out.println("Extracted: " + bp);
+                    // initiateCloseBid(bp);
+                    form.dispose();
+                } catch (NullPointerException exception) {
+                    // TODO: Add error message in UI on incomplete forms, similar to login
+                }
+            });
+
+        });
+        dashboardView.getRefreshButton().addActionListener(e -> {
+            System.out.println("From DashboardController: Refresh Button is pressed");
+        });
+
+    }
+
+    private void listenTutorView() {
+        dashboardView.getInitiateButton().addActionListener(e -> {
+            System.out.println("From DashboardController: Initiate Button is pressed");
+        });
+        dashboardView.getRefreshButton().addActionListener(e -> {
+            System.out.println("From DashboardController: Refresh Button is pressed");
         });
     }
+
 
     private BidPreference extractFormInfo(BidInitiation form) throws NullPointerException {
         QualificationTitle q = form.getQualification();
@@ -80,41 +79,35 @@ public class DashboardController extends Observable {
         String time = form.getTime();
         int duration = form.getDuration();
         int rate = form.getRate();
-        String messageNote = form.getMessageNote();
-        int contractDuration = form.getContractDuration();
         String initiatorId = dashboardModel.getUserId();
-//        BidInfo bidInfo = new BidInfo(initiatorId, time, day, duration, rate, numOfSession, contractDuration, messageNote);
-        BidInfo bidInfo = null;
+        BidInfo bidInfo = new BidInfo(initiatorId, time, day, duration, rate, numOfSession);
         return new BidPreference(q, c, s, bidInfo);
     }
 
     private void initiateOpenBid(BidPreference bp) {
-        // TODO: Initialize OpenBidView here
-
         BiddingModel biddingModel = new OpenBiddingModel();
         biddingModel.createBid(dashboardModel.getUserId(), bp);
+        BiddingView biddingView = new OpenBidView(biddingModel);
 
-        // TODO: Create BiddingController after BiddingView is created, uncomment below
-        // BiddingController biddingController = new BiddingController(biddingModel, biddingView);
+        BiddingController biddingController = new BiddingController(biddingModel, biddingView);
     }
 
     private void initiateCloseBid(BidPreference bp) {
-        // TODO: Initialize OpenBidView here
-
         BiddingModel biddingModel = new CloseBiddingModel();
         biddingModel.createBid(dashboardModel.getUserId(), bp);
+        BiddingView biddingView = new CloseBidView(biddingModel);
 
-        // TODO: Create BiddingController after BiddingView is created, uncomment below
-        // BiddingController biddingController = new BiddingController(biddingModel, biddingView);
+         BiddingController biddingController = new BiddingController(biddingModel, biddingView);
     }
 
-
-    private void listenOffering() {
-        // bid offering for tutors
-        OfferingModel offeringModel = new OfferingModel(dashboardModel.getUser());
-//        OfferingView offeringView = new OfferingView();
-//        OfferingController offeringController = new OfferingController(offeringModel, offeringView);
-        // keep dashboard view, no need destroy and let offeringcontroller to handle subsequent actions
-    }
 }
 
+
+
+//    private void listenOffering() {
+//        // bid offering for tutors
+//        OfferingModel offeringModel = new OfferingModel(dashboardModel.getUser());
+////        OfferingView offeringView = new OfferingView();
+////        OfferingController offeringController = new OfferingController(offeringModel, offeringView);
+//        // keep dashboard view, no need destroy and let offeringcontroller to handle subsequent actions
+//    }

@@ -26,12 +26,15 @@ public class BidInitiation {
     private JButton closeBidButton;
     private JTextField noteField;
     private JFormattedTextField rateField;
-    private JComboBox contractDurationBox; // TODO: Add contract duration in weeks (min: 1 week, max: 4 weeks)
 
     private JFrame frame;
 
     public BidInitiation() {
         initDisplay();
+    }
+
+    public void dispose() {
+        this.frame.dispose();
     }
 
     public void initDisplay() {
@@ -68,7 +71,7 @@ public class BidInitiation {
                 .forEach(d -> dayBox.addItem(d));
         dayBox.setSelectedIndex(-1);
 
-        IntStream.range(1, 3)
+        IntStream.range(1, 6)
                 .forEach(v -> durationBox.addItem(v));
         durationBox.setSelectedIndex(-1);
 
@@ -81,7 +84,7 @@ public class BidInitiation {
 
     // GETTERS SECTION
     public QualificationTitle getQualification() throws NullPointerException {
-        return QualificationTitle.valueOf(qualificationBox.getSelectedItem().toString());
+        return QualificationTitle.valueOf(qualificationBox.getSelectedItem().toString().toUpperCase());
     }
 
     public int getCompetency() throws NullPointerException {
@@ -117,10 +120,6 @@ public class BidInitiation {
 
     public String getMessageNote() {
         return noteField.getText();
-    }
-
-    public int getContractDuration() throws NullPointerException {
-        return Integer.parseInt(contractDurationBox.getSelectedItem().toString());
     }
 
 
