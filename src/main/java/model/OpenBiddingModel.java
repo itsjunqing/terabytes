@@ -5,7 +5,6 @@ import lombok.Setter;
 import stream.Bid;
 import stream.BidAdditionalInfo;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 @Getter @Setter
@@ -13,7 +12,7 @@ public class OpenBiddingModel extends BiddingModel {
 
     @Override
     public void createBid(String userId, BidPreference bp) {
-        BidAdditionalInfo bidAdditionalInfo = new BidAdditionalInfo(bp, new ArrayList<>());
+        BidAdditionalInfo bidAdditionalInfo = new BidAdditionalInfo(bp);
         Date dateCreated = new Date();
         String subjectId = getSubjectApi().getAllSubjects().stream()
                 .filter(s -> s.getName().equals(bp.getSubject()))

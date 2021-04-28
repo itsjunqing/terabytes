@@ -8,5 +8,5 @@ public class Competency {
     private String id;
     private User owner;
     private Subject subject;
-    private int level;
+    private Integer level;
 }

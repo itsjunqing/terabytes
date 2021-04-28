@@ -23,13 +23,13 @@ public class Contract {
 
     private Payment paymentInfo;
     private Lesson lessonInfo;
-    private Extra additionalInfo;
+    private EmptyClass additionalInfo;
 
     /**
      * Constructor for GET Contract (Deserialization)
      */
     public Contract(String id, User firstParty, User secondParty, Subject subject, Date dateCreated,
-                    Date dateSigned, Payment paymentInfo, Lesson lessonInfo, Extra additionalInfo) {
+                    Date dateSigned, Payment paymentInfo, Lesson lessonInfo, EmptyClass additionalInfo) {
         this.id = id;
         this.firstParty = firstParty;
         this.secondParty = secondParty;
@@ -45,7 +45,7 @@ public class Contract {
      * Constructor for POST new Contract (Serialization)
      */
     public Contract(String firstPartyId, String secondPartyId, String subjectId, Date dateCreated,
-                    Date expiryDate, Payment paymentInfo, Lesson lessonInfo, Extra additionalInfo) {
+                    Date expiryDate, Payment paymentInfo, Lesson lessonInfo, EmptyClass additionalInfo) {
         this.firstPartyId = firstPartyId;
         this.secondPartyId = secondPartyId;
         this.subjectId = subjectId;
@@ -62,10 +62,6 @@ public class Contract {
      */
     public Contract(Date dateSigned) {
         this.dateSigned = dateSigned;
-    }
-
-    private class Extra {
-
     }
 
 }

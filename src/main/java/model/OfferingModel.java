@@ -7,15 +7,13 @@ import lombok.Setter;
 import observer.OSubject;
 import stream.Bid;
 import stream.BidAdditionalInfo;
-import stream.Message;
 import stream.User;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter @Setter
-public class OfferingModel extends OSubject implements ModelFeatures {
+public class OfferingModel extends OSubject {
 
     private User currentUser;
     private BidApi bidApi;
@@ -27,7 +25,6 @@ public class OfferingModel extends OSubject implements ModelFeatures {
         this.bidApi = new BidApi();
     }
 
-    @Override
     public void refresh() {
 
         bidsOnGoing.clear(); // for memory cleaning
@@ -76,13 +73,13 @@ public class OfferingModel extends OSubject implements ModelFeatures {
     }
 
     public void sendMessage(int bidIndex, BidInfo bidInfo) {
-        Bid bidChosen = getCloseBids().get(bidIndex);
-        String posterId = bidInfo.getInitiatorId();
-        Date datePosted = new Date();
-
-        // content will not be used, will use BidMessageInfo entirely
-        Message message = new Message(bidChosen.getId(), posterId, datePosted, "", bidInfo);
-        messageApi.addMessage(message);
+//        Bid bidChosen = getCloseBids().get(bidIndex);
+//        String posterId = bidInfo.getInitiatorId();
+//        Date datePosted = new Date();
+//
+//        // content will not be used, will use BidMessageInfo entirely
+//        Message message = new Message(bidChosen.getId(), posterId, datePosted, "", bidInfo);
+//        messageApi.addMessage(message);
     }
 
 

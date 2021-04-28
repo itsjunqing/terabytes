@@ -1,12 +1,8 @@
 package controller;
 
-import model.DashboardModel;
 import model.LoginModel;
 import stream.User;
-import view.DashboardView;
 import view.LoginView;
-import view.StudentDashboardView;
-import view.TutorDashboardView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,15 +35,15 @@ public class LoginController {
     }
 
     private void loginSuccess(User user) {
-        DashboardModel dashboardModel = new DashboardModel(user);
-        DashboardView dashboardView;
-        if (user.getIsStudent()) {
-            dashboardView = new StudentDashboardView(dashboardModel);
-        } else {
-            dashboardView = new TutorDashboardView(dashboardModel);
-        }
-        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
-        loginView.dispose(); // destroy login view
+//        DashboardModel dashboardModel = new DashboardModel(user);
+//        DashboardView dashboardView;
+//        if (user.getIsStudent()) {
+//            dashboardView = new StudentDashboardView(dashboardModel);
+//        } else {
+//            dashboardView = new TutorDashboardView(dashboardModel);
+//        }
+//        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
+//        loginView.dispose(); // destroy login view
     }
 
 

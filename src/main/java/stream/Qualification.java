@@ -9,6 +9,6 @@ public class Qualification {
     private String id;
     private String title;
     private String description;
-    private Boolean verified;
+    private boolean verified;
     private User owner;
 }

@@ -8,43 +8,44 @@ import lombok.NoArgsConstructor;
  * Class representing the info (offer) of a Bid initiated by student / tutor
  */
 public class BidInfo {
+    /*
+    BidInfo contains the information of a Bid either:
+    - preferred by Student
+    - offered by Tutor to Student
 
-    // Attributes common to both student (bid) and tutor (offer)
+    Note: no messages are included here.
+     */
     private String initiatorId;
-    private String time;
     private String day;
+    private String time;
     private int duration; // in hours
-    private int rate; // rate per hour
-    private int numberOfSessions;
-    private int contractDuration; // in weeks
-    private String parsedMessage; // only used for close bid
+    private int rate; // rate per session
+    private int numberOfSessions; // number of weeks
+    private boolean freeLesson; // for tutor only
 
-    // Attributes unique to tutor only
-    private boolean freeLesson;
-    private boolean bidSelected = false; // not too sure if we should keep this
-
-    public BidInfo(String initiatorId, String time, String day, int duration, int rate,
-                   int numberOfSessions, int contractDuration, String parsedMessage) {
+    /**
+     * Constructor used for Student's preference
+     */
+    public BidInfo(String initiatorId, String day, String time, int duration, int rate, int numberOfSessions) {
         this.initiatorId = initiatorId;
-        this.time = time;
         this.day = day;
+        this.time = time;
         this.duration = duration;
         this.rate = rate;
         this.numberOfSessions = numberOfSessions;
-        this.contractDuration = contractDuration;
-        this.parsedMessage = parsedMessage;
     }
 
-    public BidInfo(String initiatorId, String time, String day, int duration, int rate,
-                   int numberOfSessions, int contractDuration, String parsedMessage, boolean freeLesson) {
+    /**
+     * Constructor used for Tutor's offer
+     */
+    public BidInfo(String initiatorId, String day, String time, int duration, int rate, int numberOfSessions, boolean freeLesson) {
         this.initiatorId = initiatorId;
-        this.time = time;
         this.day = day;
+        this.time = time;
         this.duration = duration;
         this.rate = rate;
         this.numberOfSessions = numberOfSessions;
-        this.contractDuration = contractDuration;
-        this.parsedMessage = parsedMessage;
         this.freeLesson = freeLesson;
     }
+
 }

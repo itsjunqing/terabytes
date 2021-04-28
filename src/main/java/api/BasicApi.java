@@ -1,6 +1,7 @@
 package api;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import okhttp3.*;
 
 import javax.net.ssl.HostnameVerifier;
@@ -45,7 +46,9 @@ public class BasicApi<T> {
                     }
                 })
                 .build();
-        this.gson = new Gson(); // need to be replaced
+        this.gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                .create();
 
 
     }
@@ -100,37 +103,48 @@ public class BasicApi<T> {
     protected T getObject(String endpoint, Class<T> clazz) {
         try {
             Response response = getRequest(endpoint);
+            String json = response.body().string();
+            System.out.println(json);
             if (response.isSuccessful()) {
-                String json = response.body().string();
+                System.out.println("SUCCESSFULLY GET");
                 return gson.fromJson(json, clazz);
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
+        System.out.println("FAILED GET");
         return null;
     }
 
     protected T postObject(String endpoint, T object, Class<T> clazz) {
         try {
             Response response = updateRequest(endpoint, gson.toJson(object), ApiType.POST);
+            String json = response.body().string();
+            System.out.println(json);
             if (response.isSuccessful()) {
-                return gson.fromJson(response.body().string(), clazz);
+                System.out.println("SUCCESSFULLY POST");
+                return gson.fromJson(json, clazz);
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
+        System.out.println("FAILED POST");
         return null;
     }
 
     protected boolean postObject(String endpoint, T object) {
         try {
             Response response = updateRequest(endpoint, gson.toJson(object), ApiType.POST);
+            System.out.println(gson.toJson(object));
+            System.out.println(response.body().string());
             if (response.isSuccessful()) {
+                System.out.println("SUCCESSFULLY POST");
                 return true;
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
+        System.out.println("FAILED POST");
         return false;
     }
 
@@ -148,13 +162,16 @@ public class BasicApi<T> {
 
     protected boolean patchObject(String url, T object) {
         try {
-            Response response = updateRequest(url, gson.toJson(object), ApiType.POST);
+            Response response = updateRequest(url, gson.toJson(object), ApiType.PATCH);
+            System.out.println(response.body().string());
             if (response.isSuccessful()) {
+                System.out.println("SUCCESSFULLY PATCH");
                 return true;
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
+        System.out.println("FAILED PATCH");
         return false;
     }
 }

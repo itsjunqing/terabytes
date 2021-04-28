@@ -5,11 +5,12 @@ import lombok.Data;
 
 @Data @AllArgsConstructor
 public class Lesson {
-
-    private String time;
+    // basically a replication of BidInfo, but without the message
+    private String subject;
     private String day;
-    private int duration; // in hours
-    private int numberOfSessions;
-    private boolean freeLesson;
+    private String time;
+    private Integer duration; // in hours
+    private Integer numberOfSessions;
+    private Boolean freeLesson;
 
 }

@@ -5,7 +5,5 @@ import lombok.Data;
 
 @Data @AllArgsConstructor
 public class Payment {
-
-    private int totalPrice;
-
+    private Integer totalPrice;
 }

@@ -4,19 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import stream.Bid;
 import stream.BidAdditionalInfo;
-import stream.Message;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter @Setter
 public class CloseBiddingModel extends BiddingModel {
 
     @Override
     public void createBid(String userId, BidPreference bp) {
-        BidAdditionalInfo bidAdditionalInfo = new BidAdditionalInfo(bp, new ArrayList<>());
+        BidAdditionalInfo bidAdditionalInfo = new BidAdditionalInfo(bp);
         Date dateCreated = new Date();
         String subjectId = getSubjectApi().getAllSubjects().stream()
                 .filter(s -> s.getName().equals(bp.getSubject()))
@@ -30,13 +26,13 @@ public class CloseBiddingModel extends BiddingModel {
 
     @Override
     public void refresh() {
-        Bid bid = getBidApi().getBid(getBidId());
-        List<Message> messages = bid.getMessages();
-        List<BidInfo> bidMessages = messages.stream()
-                                            .map(Message::getAdditionalInfo)
-                                            .collect(Collectors.toList());
-        setBidOffers(bidMessages);
-        notifyObservers();
+//        Bid bid = getBidApi().getBid(getBidId());
+//        List<Message> messages = bid.getMessages();
+//        List<BidInfo> bidMessages = messages.stream()
+//                                            .map(Message::getAdditionalInfo)
+//                                            .collect(Collectors.toList());
+//        setBidOffers(bidMessages);
+//        notifyObservers();
     }
 
 }

@@ -1,6 +1,5 @@
 package controller;
 
-import model.BidInfo;
 import model.OfferingModel;
 //import view.OfferingView;
 
@@ -33,9 +32,9 @@ public class OfferingController {
         boolean freeLesson = true;
         int contractDuration = 4;
 
-        BidInfo bidInfo = new BidInfo(tutorId, time, day, duration, rate, numberOfSessions, contractDuration, "", freeLesson);
+//        BidInfo bidInfo = new BidInfo(tutorId, time, day, duration, rate, numberOfSessions, contractDuration, "", freeLesson);
 
-        offeringModel.sendOffer(bidIndexOnDisplay, bidInfo);
+//        offeringModel.sendOffer(bidIndexOnDisplay, bidInfo);
     }
 
     public void listenBuyOut() {
@@ -58,10 +57,10 @@ public class OfferingController {
         boolean freeLesson = true;
         int contractDuration = 4;
         String parsedMessage = "I am a pro tutor";
-        BidInfo bidInfo = new BidInfo(tutorId, time, day, duration, rate, numberOfSessions, contractDuration,
-                parsedMessage, freeLesson);
-
-        offeringModel.sendMessage(bidIndexOnDisplay, bidInfo);
+//        BidInfo bidInfo = new BidInfo(tutorId, time, day, duration, rate, numberOfSessions, contractDuration,
+//                parsedMessage, freeLesson);
+//
+//        offeringModel.sendMessage(bidIndexOnDisplay, bidInfo);
     }
 
 

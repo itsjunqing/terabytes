@@ -2,8 +2,8 @@ package controller;
 
 import model.*;
 import stream.User;
-import view.form.BidInitiation;
 import view.DashboardView;
+import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,12 +24,12 @@ public class DashboardController extends Observable {
     }
 
     public void listenDashboard(){
-        dashboardView.getButtonPanel().getButton1().addActionListener(e -> {
-            System.out.println("The Refresh Button is pressed");
-        });
-        dashboardView.getButtonPanel().getButton2().addActionListener(e -> {
-            System.out.println("The second button is pressed");
-        });
+//        dashboardView.getButtonPanel().getButton1().addActionListener(e -> {
+//            System.out.println("The Refresh Button is pressed");
+//        });
+//        dashboardView.getButtonPanel().getButton2().addActionListener(e -> {
+//            System.out.println("The second button is pressed");
+//        });
     };
 
     public void listenRefresh() {
@@ -83,7 +83,8 @@ public class DashboardController extends Observable {
         String messageNote = form.getMessageNote();
         int contractDuration = form.getContractDuration();
         String initiatorId = dashboardModel.getUserId();
-        BidInfo bidInfo = new BidInfo(initiatorId, time, day, duration, rate, numOfSession, contractDuration, messageNote);
+//        BidInfo bidInfo = new BidInfo(initiatorId, time, day, duration, rate, numOfSession, contractDuration, messageNote);
+        BidInfo bidInfo = null;
         return new BidPreference(q, c, s, bidInfo);
     }
 

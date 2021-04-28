@@ -21,8 +21,9 @@ public class MessageApi extends BasicApi<Message> {
         return postObject(MESSAGE_ENDPOINT, message);
     }
 
-    public boolean patchMessage(Message message) {
-        return patchObject(MESSAGE_ENDPOINT, message);
+    public boolean patchMessage(String id, Message message) {
+        String endpoint = MESSAGE_ENDPOINT + "/" + id;
+        return patchObject(endpoint, message);
     }
 
     public boolean removeMessage(String id) {
