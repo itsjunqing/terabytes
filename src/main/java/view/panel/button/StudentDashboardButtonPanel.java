@@ -12,7 +12,7 @@ public class StudentDashboardButtonPanel extends DashboardButtonPanel {
     private JComboBox contractChoice;
 
 
-    public StudentDashboardButtonPanel(int contractSize) {
+    public StudentDashboardButtonPanel(int contractSize, String buttonName2) {
         super(contractSize);
         addButtons(contractSize);
     }
@@ -49,8 +49,8 @@ public class StudentDashboardButtonPanel extends DashboardButtonPanel {
         gbc1.gridheight = 100;
         gbc1.weightx = 100;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
-        this.mainList.add(panel, gbc1, 0);
-        add(this.mainList, BorderLayout.CENTER);
+        mainList.add(panel, gbc1, 0);
+        add(mainList, BorderLayout.CENTER);
 
     }
 

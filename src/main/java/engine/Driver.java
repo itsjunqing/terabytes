@@ -18,9 +18,12 @@ import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Logger;
 
 public class Driver {
@@ -30,6 +33,11 @@ public class Driver {
             return;
         }
 
+//        TimeZone tz = TimeZone.getTimeZone("UTC");
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+//        df.setTimeZone(tz);
+//        String nowAsISO = df.format(new Date());
+//        System.out.println(nowAsISO);
         Date date = new Date();
         System.out.println(date);
         Calendar c = Calendar.getInstance();
@@ -73,19 +81,19 @@ public class Driver {
         // make a bid using stream.bid
         // make a bidAdditionalInfo using stream.bidadditionalInfo
         // make a bidInfo and bidPreference from model folder
-        UserApi userApi = new UserApi();
-        User testUser = userApi.getUser("bb495c2c-3e30-4e4a-80e7-3954c448d128");
-        OfferingModel testOfferingModel = new OfferingModel(testUser);
-        // create new bid for testing, complete with offers
-        // add open and closed bids
-//        testOfferingModel.setBidsOnGoing();
-        BidApi bidApi = new BidApi();
-        List<Bid> bidList = bidApi.getAllBids();
-
-//        testOfferingModel.refresh();
-        // Passing them a list of bids to test. Once the api is complete, will not pass bids
-        ActiveRequestsView activeRequestViewTest = new ActiveRequestsView(testOfferingModel, bidList);
-        activeRequestViewTest.displayContracts();
+//        UserApi userApi = new UserApi();
+//        User testUser = userApi.getUser("bb495c2c-3e30-4e4a-80e7-3954c448d128");
+//        OfferingModel testOfferingModel = new OfferingModel(testUser);
+//        // create new bid for testing, complete with offers
+//        // add open and closed bids
+////        testOfferingModel.setBidsOnGoing();
+//        BidApi bidApi = new BidApi();
+//        List<Bid> bidList = bidApi.getAllBids();
+//
+////        testOfferingModel.refresh();
+//        // Passing them a list of bids to test. Once the api is complete, will not pass bids
+//        ActiveRequestsView activeRequestViewTest = new ActiveRequestsView(testOfferingModel, bidList);
+//        activeRequestViewTest.displayContracts();
 
 
 

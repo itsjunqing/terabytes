@@ -10,10 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-@Getter
+
 public class StudentDashboardView extends DashboardView {
-
-
 
     public StudentDashboardView(DashboardModel dashboardModel) {
         super(dashboardModel);

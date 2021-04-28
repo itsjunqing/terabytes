@@ -16,21 +16,32 @@ public class DashboardController extends Observable {
 
     private DashboardModel dashboardModel;
     private DashboardView dashboardView;
+    private User user;
 
     public DashboardController(DashboardModel dashboardModel, DashboardView dashboardView) {
         this.dashboardModel = dashboardModel;
         this.dashboardView = dashboardView;
-        listenDashboard();
+        this.user = dashboardModel.getUser();
+        if (user.getIsStudent() == true) {
+            listenStudentDashboard();
+        }
+        else{
+            listenTutorDashboard();
+        };
+
     }
 
-    public void listenDashboard(){
+    public void listenStudentDashboard(){
         dashboardView.getButtonPanel().getButton1().addActionListener(e -> {
             System.out.println("The Refresh Button is pressed");
         });
         dashboardView.getButtonPanel().getButton2().addActionListener(e -> {
-            System.out.println("The second button is pressed");
+            listenInitiation();
+
         });
     };
+
+    public void listenTutorDashboard(){};
 
     public void listenRefresh() {
         dashboardModel.refresh();
@@ -38,8 +49,7 @@ public class DashboardController extends Observable {
 
 
     public void listenAction() {
-        User user = dashboardModel.getUser();
-        if (user.getIsStudent()) {
+        if (this.user.getIsStudent()) {
             listenInitiation(); // listen to bid initiation
         } else {
             listenOffering(); // listen to bid offering

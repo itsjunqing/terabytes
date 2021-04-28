@@ -84,7 +84,7 @@ public class BidInitiation {
 
     // GETTERS SECTION
     public QualificationTitle getQualification() throws NullPointerException {
-        return QualificationTitle.valueOf(qualificationBox.getSelectedItem().toString());
+        return QualificationTitle.valueOf(qualificationBox.getSelectedItem().toString().toUpperCase());
     }
 
     public int getCompetency() throws NullPointerException {
