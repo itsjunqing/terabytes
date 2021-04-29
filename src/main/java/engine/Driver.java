@@ -85,9 +85,9 @@ public class Driver {
 
 //        ActiveRequestsView activeRequestViewTest = new ActiveRequestsView(testOfferingModel, bidList);
 //        activeRequestViewTest.displayContracts();
-        sampleUsageStudentBid();
-        sampleUsageOffering();
-//        sampleUsageOffering2();
+//        sampleUsageStudentBid();
+//        sampleUsageOffering();
+        sampleUsageOffering2();
 
 
 
@@ -131,15 +131,13 @@ public class Driver {
         // TODO: For nick to run to see, this is to be displayed in OfferingView for the list of bids currently active
         OfferingModel offeringModel = new OfferingModel("b1e0f080-0a8d-4ab0-9c8c-39a607cd5bc9");
         offeringModel.refresh();
-        OfferingView offeringView = new OfferingView(offeringModel);
+//        OfferingView offeringView = new OfferingView(offeringModel);
 
         System.out.println(">> ALL BIDS ON GOING ARE: ");
         List<Bid> ongoing = offeringModel.getBidsOnGoing();
-//        ongoing.stream().forEach(b -> System.out.println(b));
+        ongoing.stream().forEach(b -> System.out.println(b));
 
-
-        Bid bid = ongoing.get(1);
-
+//
 //        System.out.println((bid.getInitiator().getGivenName()));
 //        System.out.println(bid.getSubject().getName());
 //        System.out.println(bid.getAdditionalInfo().getBidPreference().getPreferences().getNumberOfSessions());
@@ -148,29 +146,30 @@ public class Driver {
 
 //
 //        // TODO: this is to be displayed in Offering View, when tutor selects ID and view its offers, then check open or close
-//        int selectedBid = 2; // second is open bid
+        int selectedBid = 2; // second is open bid
 //        Bid selected = ongoing.get(selectedBid-1);
 //        if (selected.getType().equals("Open")) {
 ////            System.out.println(">> OPEN BIDS ON GOING ARE: ");
 ////            selected
 //        }
+        OpenOffersView openOffersView = new OpenOffersView(offeringModel, selectedBid);
 ////
-        int selectedBid = 1; // first is close bid, tutor selects number 1
-        Bid selected = ongoing.get(selectedBid-1);
-        if (selected.getType().equals("Close")) {
-            System.out.println(">> CLOSE BIDS ON GOING ARE: ");
-            MessagePair pair = offeringModel.getCloseOffers(selectedBid-1);
-            // TODO: always display student's message, because it will always exist
-            System.out.println(pair.getStudentMsg());
-            // TODO: need to check if the tutor message exist or not
-            if (pair.getTutorMsg() != null) {
-                System.out.println(pair.getTutorMsg());
-            } else {
-                System.out.println("No messages sent to student yet");
-            }
-
-        }
-        CloseOfferView closeOfferView = new CloseOfferView(offeringModel, selectedBid);
+//        int selectedBid = 1; // first is close bid, tutor selects number 1
+//        Bid selected = ongoing.get(selectedBid-1);
+//        if (selected.getType().equals("Close")) {
+//            System.out.println(">> CLOSE BIDS ON GOING ARE: ");
+//            MessagePair pair = offeringModel.getCloseOffers(selectedBid-1);
+//            // TODO: always display student's message, because it will always exist
+//            System.out.println(pair.getStudentMsg());
+//            // TODO: need to check if the tutor message exist or not
+//            if (pair.getTutorMsg() != null) {
+//                System.out.println(pair.getTutorMsg());
+//            } else {
+//                System.out.println("No messages sent to student yet");
+//            }
+//
+//        }
+//        CloseOfferView closeOfferView = new CloseOfferView(offeringModel, selectedBid);
     }
 
     private static void sampleUsageOffering2() {
@@ -182,32 +181,37 @@ public class Driver {
         // TODO: For nick to run to see, this is to be displayed in OfferingView for the list of bids currently active
         OfferingModel offeringModel = new OfferingModel("d90f9f94-7603-4231-805c-eb62158ad3c6");
         offeringModel.refresh();
+        OfferingView offeringView = new OfferingView(offeringModel);
 
-        System.out.println(">> ALL BIDS ON GOING ARE: ");
+//        System.out.println(">> ALL BIDS ON GOING ARE: ");
         List<Bid> ongoing = offeringModel.getBidsOnGoing();
-        ongoing.stream().forEach(b -> System.out.println(b));
+//        ongoing.stream().forEach(b -> System.out.println(b));
 
         // TODO: this is to be displayed in Offering View, when tutor selects ID and view its offers, then check open or close
         int selectedBid = 2; // second is open bid
         Bid selected = ongoing.get(selectedBid-1);
         if (selected.getType().equals("Open")) {
-            System.out.println(">> OPEN BIDS ON GOING ARE: ");
-            offeringModel.getOpenOffers(selectedBid-1).stream().forEach(o -> System.out.println(o));
+            OpenOffersView openOffersView = new OpenOffersView(offeringModel, 2);
+//            System.out.println(">> OPEN BIDS ON GOING ARE: ");
+//            offeringModel.getOpenOffers(selectedBid-1).stream().forEach(o -> System.out.println(o));
+
         }
 
         selectedBid = 1; // first is close bid, tutor selects number 1
         selected = ongoing.get(selectedBid-1);
         if (selected.getType().equals("Close")) {
-            System.out.println(">> CLOSE BIDS ON GOING ARE: ");
-            MessagePair pair = offeringModel.getCloseOffers(selectedBid-1);
-            // TODO: always display student's message, because it will always exist
-            System.out.println(pair.getStudentMsg());
-            // TODO: need to check if the tutor message exist or not
-            if (pair.getTutorMsg() != null) {
-                System.out.println(pair.getTutorMsg());
-            } else {
-                System.out.println("No messages sent to student yet");
-            }
+//            System.out.println(">> CLOSE BIDS ON GOING ARE: ");
+//            MessagePair pair = offeringModel.getCloseOffers(selectedBid-1);
+//            // TODO: always display student's message, because it will always exist
+//            System.out.println(pair.getStudentMsg());
+//            // TODO: need to check if the tutor message exist or not
+//            if (pair.getTutorMsg() != null) {
+//                System.out.println(pair.getTutorMsg());
+//            } else {
+//                System.out.println("No messages sent to student yet");
+//            }
+            CloseOfferView closeOfferView = new CloseOfferView(offeringModel, 1);
+
         }
 
     }

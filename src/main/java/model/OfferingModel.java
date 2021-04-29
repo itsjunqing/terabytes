@@ -111,6 +111,15 @@ public class OfferingModel extends OSubject {
         return new MessagePair(tutorBidMessage, studentBidMessage);
     }
 
+    public String getUserName(String Id){
+        UserApi userApi = new UserApi();
+        User user = userApi.getUser(Id);
+        String givenName = user.getGivenName();
+        String familyName = user.getFamilyName();
+        return givenName + " " + familyName;
+    }
+
+
 
 
     public void sendOffer(int bidIndex, BidInfo bidInfo) {
@@ -131,6 +140,8 @@ public class OfferingModel extends OSubject {
 //        Message message = new Message(bidChosen.getId(), posterId, datePosted, "", bidInfo);
 //        messageApi.addMessage(message);
     }
+
+
 
 
 
