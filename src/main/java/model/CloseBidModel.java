@@ -72,6 +72,8 @@ public class CloseBidModel extends BiddingModel {
         Bid bid = getBidApi().getBid(getBidId());
         List<Message> messages = bid.getMessages();
         List<MessageBidInfo> messageBidInfos = new ArrayList<>();
+
+        // get the Messages where the initiator (poster) is a tutor
         for (Message m: messages) {
             if (!m.getPoster().getId().equals(getUserId())) {
                 messageBidInfos.add(convertObject(m));
@@ -79,6 +81,7 @@ public class CloseBidModel extends BiddingModel {
         }
         closeBidOffers.addAll(messageBidInfos);
 
+        // get the Messages where the initiator (poster) is me myself (a student)
         BidPreference sp = bid.getAdditionalInfo().getBidPreference();
         BidInfo spInfo = sp.getPreferences();
         for (MessageBidInfo tutorBidMessage: messageBidInfos) {
