@@ -32,14 +32,16 @@ public class OfferingView {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
 
+        updateContent();
+
         JFrame frame = new JFrame("Tutor Offering View");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
+        frame.setMinimumSize(new Dimension(830, 400));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        updateContent();
     }
 
     public void updateContent() {
@@ -151,12 +153,12 @@ public class OfferingView {
     private JTable getOpenTable(Bid bidObject, int bidNo) {
         String[][] rec = {
                 {"Bid Type", "Open"},
-                {"Student Name:", ""},
-                {"Subject:", ""},
-                {"Number of Sessions:", ""},
-                {"Day & Time:", ""},
-                {"Duration (hours):", ""},
-                {"Rate (per hour):", ""},
+                {"Student Name:", bidObject.getInitiator().getGivenName() + " " + bidObject.getInitiator().getFamilyName()},
+                {"Subject:", bidObject.getSubject().getName()},
+                {"Number of Sessions:", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getNumberOfSessions())},
+                {"Day & Time:", bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDay() + " " + bidObject.getAdditionalInfo().getBidPreference().getPreferences().getTime()},
+                {"Duration (hours):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDuration())},
+                {"Rate (per hour):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getRate())},
         };
         String[] col = {"", ""};
         JTable contractTable = new JTable(rec, col);
@@ -166,12 +168,12 @@ public class OfferingView {
     private JTable getCloseTable(Bid bidObject, int bidNo) {
         String[][] rec = {
                 {"Bid Type", "Close"},
-                {"Student Name:", ""},
-                {"Subject:", ""},
-                {"Number of Sessions:", ""},
-                {"Day & Time:", ""},
-                {"Duration (hours):", ""},
-                {"Rate (per hour):", ""}, // TODO: add a parsedMessage column here
+                {"Student Name:", bidObject.getInitiator().getGivenName() + " " + bidObject.getInitiator().getFamilyName()},
+                {"Subject:", bidObject.getSubject().getName()},
+                {"Number of Sessions:", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getNumberOfSessions())},
+                {"Day & Time:", bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDay() + " " + bidObject.getAdditionalInfo().getBidPreference().getPreferences().getTime()},
+                {"Duration (hours):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDuration())},
+                {"Rate (per hour):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getRate())},
         };
         String[] col = {"", ""};
         JTable contractTable = new JTable(rec, col);

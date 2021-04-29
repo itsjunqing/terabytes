@@ -8,6 +8,7 @@ import model.OpenBidModel;
 import entity.QualificationTitle;
 import view.builder.CloseBidView;
 import view.builder.CloseMessageView;
+import view.builder.OfferingView;
 import view.builder.OpenBidView;
 import stream.Bid;
 import view.form.BidInitiation;
@@ -31,20 +32,15 @@ public class Driver {
 //        df.setTimeZone(tz);
 //        String nowAsISO = df.format(new Date());
 //        System.out.println(nowAsISO);
-        Date date = new Date();
-        System.out.println(date);
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.add(Calendar.DATE, 14);
-        Date d = c.getTime();
-        System.out.println(d);
+//        Date date = new Date();
+//        System.out.println(date);
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(date);
+//        c.add(Calendar.DATE, 14);
+//        Date d = c.getTime();
+//        System.out.println(d);
 
-        QualificationTitle q = QualificationTitle.BACHELOR;
-        System.out.println(q.toString());
-        System.out.println(q.name());
-        String ba = "Masters";
-        QualificationTitle q1 = QualificationTitle.valueOf(ba.toUpperCase());
-        System.out.println(q1.toString());
+
 
 
 
@@ -94,40 +90,38 @@ public class Driver {
 //        activeRequestViewTest.displayContracts();
 
         sampleUsageOffering();
-        sampleUsageOffering2();
-
-
+//        sampleUsageOffering2();
 
 
 
 
     }
 
-    private static void sampleUsageStudentBid() {
-        // TODO: for Nick to run to see, this is to be displayed in the view
-//        OpenBidModel openBidModel = new OpenBidModel();
-//        openBidModel.setBidId("c9b04eee-6a57-4b1f-ba06-7c1f7c2e87b3");
-//        openBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
-//        openBidModel.refresh();
-////        OpenBidView openBidView = new OpenBidView(openBidModel);
+//    private static void sampleUsageStudentBid() {
+//        // TODO: for Nick to run to see, this is to be displayed in the view
+////        OpenBidModel openBidModel = new OpenBidModel();
+////        openBidModel.setBidId("c9b04eee-6a57-4b1f-ba06-7c1f7c2e87b3");
+////        openBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
+////        openBidModel.refresh();
+//////        OpenBidView openBidView = new OpenBidView(openBidModel);
+////
+////        openBidModel.getOpenBidOffers().stream().forEach(b -> System.out.println(b));
 //
-//        openBidModel.getOpenBidOffers().stream().forEach(b -> System.out.println(b));
-
-
-        // TODO: For Nick to run to see, we gonna use this to manipulate the view
-        CloseBidModel closeBidModel = new CloseBidModel();
-        closeBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
-        closeBidModel.setBidId("51ab43a7-25aa-4ff2-a052-418e5a46b774");
-        closeBidModel.refresh();
-//        CloseBidView closeBidView = new CloseBidView(closeBidModel);
-
-        closeBidModel.getCloseBidOffers().stream().forEach(m -> System.out.println(m));
-        closeBidModel.getCloseBidMessages().stream().forEach(m -> System.out.println(m));
-        List<MessagePair> messagePairs= closeBidModel.getCloseBidMessages();
-        MessagePair sampleMessagePair = messagePairs.get(0);
-
-        CloseMessageView closeMessageView = new CloseMessageView(sampleMessagePair);
-    }
+//
+//        // TODO: For Nick to run to see, we gonna use this to manipulate the view
+//        CloseBidModel closeBidModel = new CloseBidModel();
+//        closeBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
+//        closeBidModel.setBidId("51ab43a7-25aa-4ff2-a052-418e5a46b774");
+//        closeBidModel.refresh();
+////        CloseBidView closeBidView = new CloseBidView(closeBidModel);
+//
+//        closeBidModel.getCloseBidOffers().stream().forEach(m -> System.out.println(m));
+//        closeBidModel.getCloseBidMessages().stream().forEach(m -> System.out.println(m));
+//        List<MessagePair> messagePairs= closeBidModel.getCloseBidMessages();
+//        MessagePair sampleMessagePair = messagePairs.get(0);
+//
+//        CloseMessageView closeMessageView = new CloseMessageView(sampleMessagePair);
+//    }
 
     private static void sampleUsageOffering() {
         /**
@@ -139,33 +133,46 @@ public class Driver {
         // TODO: For nick to run to see, this is to be displayed in OfferingView for the list of bids currently active
         OfferingModel offeringModel = new OfferingModel("b1e0f080-0a8d-4ab0-9c8c-39a607cd5bc9");
         offeringModel.refresh();
+        OfferingView offeringView = new OfferingView(offeringModel);
 
         System.out.println(">> ALL BIDS ON GOING ARE: ");
-        List<Bid> ongoing = offeringModel.getBidsOnGoing();
-        ongoing.stream().forEach(b -> System.out.println(b));
+//        List<Bid> ongoing = offeringModel.getBidsOnGoing();
+//        ongoing.stream().forEach(b -> System.out.println(b));
 
-        // TODO: this is to be displayed in Offering View, when tutor selects ID and view its offers, then check open or close
-        int selectedBid = 2; // second is open bid
-        Bid selected = ongoing.get(selectedBid-1);
-        if (selected.getType().equals("Open")) {
-            System.out.println(">> OPEN BIDS ON GOING ARE: ");
-            offeringModel.getOpenOffers(selectedBid-1).stream().forEach(o -> System.out.println(o));
-        }
 
-        selectedBid = 1; // first is close bid, tutor selects number 1
-        selected = ongoing.get(selectedBid-1);
-        if (selected.getType().equals("Close")) {
-            System.out.println(">> CLOSE BIDS ON GOING ARE: ");
-            MessagePair pair = offeringModel.getCloseOffers(selectedBid-1);
-            // TODO: always display student's message, because it will always exist
-            System.out.println(pair.getStudentMsg());
-            // TODO: need to check if the tutor message exist or not
-            if (pair.getTutorMsg() != null) {
-                System.out.println(pair.getTutorMsg());
-            } else {
-                System.out.println("No messages sent to student yet");
-            }
-        }
+
+//        Bid bid = ongoing.get(1);
+//        System.out.println((bid.getInitiator().getGivenName()));
+//        System.out.println(bid.getSubject().getName());
+//        System.out.println(bid.getAdditionalInfo().getBidPreference().getPreferences().getNumberOfSessions());
+
+
+
+
+
+//
+//        // TODO: this is to be displayed in Offering View, when tutor selects ID and view its offers, then check open or close
+//        int selectedBid = 2; // second is open bid
+//        Bid selected = ongoing.get(selectedBid-1);
+//        if (selected.getType().equals("Open")) {
+//            System.out.println(">> OPEN BIDS ON GOING ARE: ");
+//            offeringModel.getOpenOffers(selectedBid-1).stream().forEach(o -> System.out.println(o));
+//        }
+//
+//        selectedBid = 1; // first is close bid, tutor selects number 1
+//        selected = ongoing.get(selectedBid-1);
+//        if (selected.getType().equals("Close")) {
+//            System.out.println(">> CLOSE BIDS ON GOING ARE: ");
+//            MessagePair pair = offeringModel.getCloseOffers(selectedBid-1);
+//            // TODO: always display student's message, because it will always exist
+//            System.out.println(pair.getStudentMsg());
+//            // TODO: need to check if the tutor message exist or not
+//            if (pair.getTutorMsg() != null) {
+//                System.out.println(pair.getTutorMsg());
+//            } else {
+//                System.out.println("No messages sent to student yet");
+//            }
+//        }
     }
 
     private static void sampleUsageOffering2() {
