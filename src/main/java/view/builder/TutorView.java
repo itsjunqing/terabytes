@@ -11,6 +11,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 
 @Getter @Setter
@@ -37,10 +38,6 @@ public class TutorView extends DashboardView {
         frame.setVisible(true);
 
 
-
-
-
-
     }
 
     public void updateContracts() {
@@ -65,6 +62,7 @@ public class TutorView extends DashboardView {
 
         // get the list of contracts and update accordingly
         List<Contract> contractList = getDashboardModel().getContractsList();
+        Collections.reverse(contractList);
         int contractIndex = contractList.size();
         for (Contract c: contractList) {
             JPanel panel = new JPanel();

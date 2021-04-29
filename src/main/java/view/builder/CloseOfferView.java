@@ -12,6 +12,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 
 @Getter

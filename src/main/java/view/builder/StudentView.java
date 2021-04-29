@@ -10,6 +10,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -25,14 +26,8 @@ public class StudentView extends DashboardView {
         mainPanel.setLayout(new GridLayout(1,2));
 
         JFrame frame = new JFrame("Student Dashboard");
-
-
         updateContracts();
         addButtons();
-
-
-
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
@@ -64,6 +59,7 @@ public class StudentView extends DashboardView {
 
         // get the list of contracts and update accordingly
         List<Contract> contractList = getDashboardModel().getContractsList();
+        Collections.reverse(contractList);
         int contractIndex = contractList.size();
         for (Contract c: contractList) {
             JPanel panel = new JPanel();

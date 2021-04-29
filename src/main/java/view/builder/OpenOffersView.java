@@ -12,6 +12,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -102,7 +103,7 @@ public class OpenOffersView {
         gbc1.weightx = 1;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
-
+        Collections.reverse(otherBidInfo);
         int bidIndex = otherBidInfo.size();
         for (BidInfo b : otherBidInfo) {
             // Code to add open bid panel

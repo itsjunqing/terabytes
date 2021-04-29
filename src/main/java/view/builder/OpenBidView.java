@@ -11,6 +11,8 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -52,6 +54,7 @@ public class OpenBidView {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         Bid bid = openBidModel.getBid();
         List<BidInfo> bidInfoList = openBidModel.getOpenBidOffers();
+        Collections.reverse(bidInfoList);
 
         int bidIndex = bidInfoList.size();
         updateView(bidInfoList, bid);

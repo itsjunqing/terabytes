@@ -9,6 +9,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -48,6 +49,7 @@ public class OfferingView {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         List<Bid> bidList = offeringModel.getBidsOnGoing();
         int bidSize = bidList.size();
+        Collections.reverse(bidList);
         updateView(bidList);
         updateButtons(bidSize);
     }
