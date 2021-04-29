@@ -91,7 +91,7 @@ public class Driver {
 
 
 
-
+        sampleUsage();
 
 
 
@@ -99,7 +99,7 @@ public class Driver {
 
     }
 
-    private void sampleUsage() {
+    private static void sampleUsage() {
         // TODO: for Nick to run to see, this is to be displayed in the view
         OpenBidModel openBidModel = new OpenBidModel();
         openBidModel.setBidId("c9b04eee-6a57-4b1f-ba06-7c1f7c2e87b3");
