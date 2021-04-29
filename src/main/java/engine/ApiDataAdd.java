@@ -194,4 +194,67 @@ public class ApiDataAdd {
 
 
     }
+
+    public static void addBid1() {
+        BidApi bidApi = new BidApi();
+        Calendar c = Calendar.getInstance();
+
+        // mbrown123 initiates
+        String initiatorId = "ecc52cc1-a3e4-4037-a80f-62d3799645f4";
+        String day = "Friday";
+        String time = "4:00PM";
+        int duration = 1;
+        int rate = 12;
+        int sessions = 8; // 8 weeks
+
+        BidInfo bidInfo = new BidInfo(initiatorId, day, time, duration, rate, sessions);
+        BidPreference bp = new BidPreference(QualificationTitle.CERTIFICATE, 2, "Music", bidInfo);
+        BidAdditionalInfo bi = new BidAdditionalInfo(bp);
+        Bid bid = new Bid("Open", initiatorId, new Date(), "88f6ee80-4e7b-49b2-847b-23612d8a6f2f", bi);
+        Bid bidAdded = bidApi.addBid(bid); // POST TO API
+
+    }
+
+    public static void addBid2() {
+        BidApi bidApi = new BidApi();
+        Calendar c = Calendar.getInstance();
+
+        // mbrown123 initiates
+        String initiatorId = "ecc52cc1-a3e4-4037-a80f-62d3799645f4";
+        String day = "Wednesday";
+        String time = "8:00AM";
+        int duration = 2;
+        int rate = 13;
+        int sessions = 6; // 6 weeks
+
+        BidInfo bidInfo = new BidInfo(initiatorId, day, time, duration, rate, sessions);
+        BidPreference bp = new BidPreference(QualificationTitle.CERTIFICATE, 1, "Accounting", bidInfo);
+        BidAdditionalInfo bi = new BidAdditionalInfo(bp);
+        Bid bid = new Bid("Close", initiatorId, new Date(), "d89f2232-6ae9-4d79-b018-a088ab55bddb", bi);
+        Bid bidAdded = bidApi.addBid(bid); // POST TO API
+
+    }
+
+    public static void modifyOpenBid() {
+        BidApi bidApi = new BidApi();
+        // bigben provides offer
+        BidInfo bidInfo = new BidInfo("d90f9f94-7603-4231-805c-eb62158ad3c6", "Thursday", "2:00PM", 2, 14, 5, true);
+        String bidId = "36778fc2-70b2-4b75-844d-3d07665583b4";
+        Bid bid = bidApi.getBid(bidId);
+        BidAdditionalInfo bi = bid.getAdditionalInfo();
+        bi.getBidOffers().add(bidInfo);
+        bidApi.patchBid(bidId, new Bid(bi));
+    }
+
+    public static void modifyCloseBid() {
+        BidApi bidApi = new BidApi();
+        MessageApi messageApi = new MessageApi();
+        String closeBidId = "a7e6d855-3226-409c-a4d9-ce8b743918d5";
+        Bid bid  = bidApi.getBid(closeBidId);
+        // offer by bigben
+        MessageAdditionalInfo info = new MessageAdditionalInfo(bid.getInitiator().getId(), "Tuesday", "5:00PM", 2, 20, 14, false); // send to initiator
+        Message message = new Message(closeBidId, "d90f9f94-7603-4231-805c-eb62158ad3c6", new Date(), "I am a pro in accounting, " +
+                "very experienced in industry, but no free lesson", info);
+        messageApi.addMessage(message);
+    }
 }

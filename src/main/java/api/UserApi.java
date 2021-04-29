@@ -15,7 +15,10 @@ public class UserApi extends BasicApi<User> {
     }
 
     public User getUser(String id) {
-        return getObject(USER_ENDPOINT + "/" + id, User.class);
+        String endpoint = USER_ENDPOINT + "/" + id +
+                "?fields=competencies&fields=competencies.subject&" +
+                "fields=qualifications&fields=initiatedBids";
+        return getObject(endpoint, User.class);
     }
 
     public boolean addUser(User user) {
