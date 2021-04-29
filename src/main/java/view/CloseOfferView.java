@@ -5,6 +5,7 @@ import entity.MessagePair;
 import lombok.Getter;
 import model.CloseBidModel;
 import model.OfferingModel;
+import observer.Observer;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -16,8 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class CloseOfferView {
-    private CloseBidModel closeBidModel;
+public class CloseOfferView implements Observer {
     private JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
@@ -45,7 +45,7 @@ public class CloseOfferView {
         updateContent();
 
         JFrame frame = new JFrame("Close Message View");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(830, 400));
@@ -140,8 +140,8 @@ public class CloseOfferView {
     }
 
     private JTable getStudentMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson = new String();
-        if (messageBidInfo.isFreeLesson() == true) {
+        String freeLesson;
+        if (messageBidInfo.isFreeLesson()) {
             freeLesson = "Yes";
         } else {
             freeLesson = "No";
@@ -166,8 +166,8 @@ public class CloseOfferView {
     }
 
     private JTable getTutorMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson = new String();
-        if (messageBidInfo.isFreeLesson() == true) {
+        String freeLesson;
+        if (messageBidInfo.isFreeLesson()) {
             freeLesson = "Yes";
         } else {
             freeLesson = "No";
@@ -190,6 +190,11 @@ public class CloseOfferView {
         contractTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
 
         return contractTable;
+    }
+
+    @Override
+    public void update() {
+
     }
 
 

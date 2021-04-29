@@ -135,6 +135,15 @@ public class StudentView extends DashboardView {
 
         initiateButton = new JButton("Initiate Bid");
         panel.add(initiateButton, gbc2);
+
+        errorLabel = new JLabel();
+        errorLabel.setForeground(new Color(-4521974));
+        errorLabel.setHorizontalAlignment(0);
+        errorLabel.setHorizontalTextPosition(0);
+        errorLabel.setText("");
+        errorLabel.setToolTipText("");
+        panel.add(errorLabel);
+
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();
         gbc1.gridwidth = GridBagConstraints.REMAINDER;
@@ -143,5 +152,13 @@ public class StudentView extends DashboardView {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
+
+
+
+    }
+
+    @Override
+    public void update() {
+
     }
 }

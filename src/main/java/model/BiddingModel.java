@@ -48,6 +48,7 @@ public abstract class BiddingModel extends OSubject {
 
     public abstract void createBid(String userId, BidPreference bp);
     public abstract void refresh();
+    public abstract void lookForBid(String userId);
 
     public String getUserName(String Id){
         UserApi userApi = new UserApi();

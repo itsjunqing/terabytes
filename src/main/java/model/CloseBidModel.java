@@ -13,6 +13,7 @@ import stream.Message;
 import stream.MessageAdditionalInfo;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 public class CloseBidModel extends BiddingModel {
@@ -109,6 +110,17 @@ public class CloseBidModel extends BiddingModel {
             closeBidMessages.add(new MessagePair(tutorBidMessage, studentBidMessage));
         }
 //        notifyObservers();
+    }
+
+    @Override
+    public void lookForBid(String userId) {
+        this.setUserId(userId);
+        List<Bid> bidList = getBidApi().getAllBids().stream()
+                .filter(b -> b.getDateClosedDown() == null)
+                .filter(b -> b.getType().equalsIgnoreCase("Close"))
+                .filter(b -> b.getInitiator().getId().equals(getUserId()))
+                .collect(Collectors.toList());
+        this.setBidId(bidList.get(0).getId());
     }
 
     private MessageBidInfo convertObject(Message message) {

@@ -147,4 +147,11 @@ public class TutorView extends DashboardView {
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
+
+
+
+    @Override
+    public void update() {
+
+    }
 }

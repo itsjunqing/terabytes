@@ -44,8 +44,9 @@ public class BidInitiation {
         this.frame = frame;
         frame.setContentPane(this.panel1);
         setDetails();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(500, 400);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 

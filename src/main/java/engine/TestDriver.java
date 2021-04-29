@@ -11,20 +11,15 @@ import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class Driver {
+public class TestDriver {
     public static void main( String[] args ) {
         if (System.getenv("API_KEY") == null) {
             Logger.getLogger(Driver.class.getName()).info("Please set API_KEY as environment variable");
             return;
         }
-
-        List<String> someInt = new ArrayList<String>();
-        Collections.reverse(someInt);
 
          //Login model test
         LoginModel loginModel = new LoginModel();

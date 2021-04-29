@@ -36,6 +36,7 @@ public class LoginView {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 400);
         frame.setTitle("Tutor Matching Program");
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 

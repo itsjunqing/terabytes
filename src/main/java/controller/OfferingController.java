@@ -1,22 +1,46 @@
 package controller;
 
 import model.OfferingModel;
+import stream.Bid;
+import view.CloseOfferView;
 import view.OfferingView;
+import view.OpenOffersView;
+
+import java.util.List;
 //import view.OfferingView;
 
 public class OfferingController {
 
     private OfferingModel offeringModel;
     private OfferingView offeringView;
+    private String userId;
 
 //    public OfferingController(OfferingModel offeringModel, OfferingView offeringView) {
-    public OfferingController(OfferingModel offeringModel){
-        this.offeringModel = offeringModel;
+    public OfferingController(String userId){
+        this.userId = userId;
+        this.offeringModel = new OfferingModel(userId);
 //        this.offeringView = offeringView;
+        this.offeringModel.refresh();
+        this.offeringView = new OfferingView(offeringModel);
+        listenOfferingView();
     }
 
     public void listenRefresh() {
         offeringModel.refresh();
+    }
+
+    private void listenOfferingView(){
+        this.offeringView.getViewOffersButton().addActionListener(e -> {
+            int selectedBid = this.offeringView.getBidNumber();
+            List<Bid> ongoing = offeringModel.getBidsOnGoing();
+            Bid selected = ongoing.get(selectedBid-1);
+        if (selected.getType().equals("Open")) {
+            OpenOffersView openOffersView = new OpenOffersView(offeringModel, selectedBid);
+        }else {
+            CloseOfferView closeOfferView = new CloseOfferView(offeringModel, selectedBid);
+        }
+        });
+
     }
 
     public void listenToOffer() {

@@ -2,27 +2,63 @@ package controller;
 
 import entity.BidInfo;
 import model.BiddingModel;
+import model.CloseBidModel;
 import model.ContractModel;
+import model.OpenBidModel;
 import stream.Contract;
 import view.CloseBidView;
+import view.CloseMessageView;
 import view.OpenBidView;
+import view.form.ReplyMessage;
 
 //import view.BiddingView;
 //import view.ContractView;
 
 public class BiddingController {
-    private BiddingModel biddingModel;
-    private OpenBidView biddingView;
+    private CloseBidModel closeBidModel;
+    private OpenBidModel openBidModel;
+    private OpenBidView openBidView;
     private CloseBidView closeBidView;
+    private CloseMessageView closeMessageView;
 
-    public BiddingController(BiddingModel biddingModel, OpenBidView biddingView) {
-        this.biddingModel = biddingModel;
-        this.biddingView = biddingView;
+    public BiddingController(OpenBidModel openBidModel, OpenBidView openBidView) {
+        this.openBidModel = openBidModel;
+        this.openBidView = openBidView;
+        listenOpenBid();
+
+    }
+    public BiddingController(CloseBidModel closeBidModel, CloseBidView closeBidView) {
+        this.closeBidModel = closeBidModel;
+        this.closeBidView = closeBidView;
+        listenCloseBid();
     }
 
     public void listenRefresh() {
         // add refresh listener here
-        biddingModel.refresh();
+//        biddingModel.refresh();
+    }
+    public void listenOpenBid() {
+        openBidView.getSelectOfferButton().addActionListener(e -> {
+            System.out.println("Contract " + openBidView.getOfferSelection());
+        });
+    };
+    public void listenCloseBid() {
+        closeBidView.getSelectOfferButton().addActionListener(e -> {
+            System.out.println("Contract " + closeBidView.getOfferSelection());
+        });
+        closeBidView.getRespondMessageButton().addActionListener(e -> {
+            closeMessageView = new CloseMessageView(closeBidModel, closeBidView.getOfferSelection());
+            listenCloseMessage();
+        });
+    };
+    public void listenCloseMessage(){
+        closeMessageView.getRespondMessageButton().addActionListener(e -> {
+            ReplyMessage replyMessage = new ReplyMessage();
+        });
+        closeMessageView.getSelectBidButton().addActionListener(e -> {
+            System.out.println("Create Contract");
+
+        });
     }
 
     public void listenSelectOffer() {

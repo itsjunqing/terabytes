@@ -4,6 +4,7 @@ import entity.BidInfo;
 import lombok.Getter;
 import model.OfferingModel;
 import model.OpenBidModel;
+import observer.Observer;
 import stream.Bid;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Getter
-public class OpenOffersView {
+public class OpenOffersView implements Observer {
     private OpenBidModel openBidModel;
     private JPanel mainPanel;
     private JPanel openBidPanel;
@@ -46,7 +47,7 @@ public class OpenOffersView {
         updateContent();
 
         JFrame frame = new JFrame("All Open Offers for this Bid");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(830, 400));
@@ -60,14 +61,11 @@ public class OpenOffersView {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         Bid bid = offeringModel.getBidsOnGoing().get(selectedBid-1);
         List<BidInfo> bidInfoList = bid.getAdditionalInfo().getBidOffers();
-        int bidIndex = bidInfoList.size();
-
         for (int myIndex = 0; myIndex < bidInfoList.size(); myIndex ++){
-            if (bidInfoList.get(myIndex).getInitiatorId() == offeringModel.getUserId()){
+            if (bidInfoList.get(myIndex).getInitiatorId().equals(offeringModel.getUserId())){
                 myBidInfo = bidInfoList.get(myIndex);
             }
         }
-
         List<BidInfo> otherBidInfo= bidInfoList.stream()
                 .filter(b -> !b.getInitiatorId().equals(offeringModel.getUserId()))
                 .collect(Collectors.toList());
@@ -277,4 +275,8 @@ public class OpenOffersView {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
+    @Override
+    public void update() {
+
+    }
 }

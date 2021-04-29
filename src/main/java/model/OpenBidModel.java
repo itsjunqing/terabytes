@@ -7,8 +7,10 @@ import lombok.Setter;
 import stream.Bid;
 import stream.BidAdditionalInfo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 public class OpenBidModel extends BiddingModel {
@@ -35,6 +37,18 @@ public class OpenBidModel extends BiddingModel {
     public void refresh() {
         bid = getBidApi().getBid(getBidId());
         openBidOffers = bid.getAdditionalInfo().getBidOffers();
+
 //        notifyObservers();
+    }
+
+    @Override
+    public void lookForBid(String userId) {
+        this.setUserId(userId);
+        List<Bid> bidList = getBidApi().getAllBids().stream()
+                .filter(b -> b.getDateClosedDown() == null)
+                .filter(b -> b.getType().equalsIgnoreCase("Open"))
+                .filter(b -> b.getInitiator().getId().equals(getUserId()))
+                .collect(Collectors.toList());
+        this.setBidId(bidList.get(0).getId());
     }
 }

@@ -33,14 +33,7 @@ public class LoginController {
     }
 
     private void loginSuccess(User user) {
-        DashboardModel dashboardModel = new DashboardModel(user);
-        DashboardView dashboardView;
-        if (user.getIsStudent()) {
-            dashboardView = new StudentView(dashboardModel);
-        } else {
-            dashboardView = new TutorView(dashboardModel);
-        }
-        DashboardController dashboardController = new DashboardController(dashboardModel, dashboardView);
+        DashboardController dashboardController = new DashboardController(user);
         loginView.dispose(); // destroy login view
     }
 }

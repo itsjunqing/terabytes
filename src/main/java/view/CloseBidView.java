@@ -5,6 +5,7 @@ import lombok.Getter;
 import entity.BidInfo;
 import model.CloseBidModel;
 import model.OpenBidModel;
+import observer.Observer;
 import stream.Bid;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class CloseBidView {
+public class CloseBidView implements Observer {
     private CloseBidModel closeBidModel;
     private JPanel mainPanel;
     private JPanel openBidPanel;
@@ -40,7 +41,7 @@ public class CloseBidView {
         updateContent();
 
         JFrame frame = new JFrame("Closed Offers");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(830, 400));
@@ -188,4 +189,12 @@ public class CloseBidView {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
+    public int getOfferSelection() throws NullPointerException {
+        return Integer.parseInt(offerSelection.getSelectedItem().toString());
+    }
+
+    @Override
+    public void update() {
+
+    }
 }

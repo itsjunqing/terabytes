@@ -2,6 +2,7 @@ package view;
 
 import lombok.Getter;
 import model.OfferingModel;
+import observer.Observer;
 import stream.Bid;
 
 import javax.swing.*;
@@ -13,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class OfferingView {
+public class OfferingView implements Observer {
 
     private OfferingModel offeringModel;
 
@@ -36,7 +37,7 @@ public class OfferingView {
         updateContent();
 
         JFrame frame = new JFrame("Tutor Offering View");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(830, 400));
@@ -199,5 +200,14 @@ public class OfferingView {
                 width=200;
             columnModel.getColumn(column).setPreferredWidth(width);
         }
+    }
+
+    public int getBidNumber() throws NullPointerException {
+        return Integer.parseInt(bidSelection.getSelectedItem().toString());
+    }
+
+    @Override
+    public void update() {
+
     }
 }

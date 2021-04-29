@@ -4,8 +4,8 @@ import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import model.CloseBidModel;
+import observer.Observer;
 import stream.Message;
-import view.panel.CloseBiddingPanel;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -16,13 +16,14 @@ import java.awt.*;
 import java.util.List;
 
 @Getter
-public class CloseMessageView {
+public class CloseMessageView implements Observer {
     private CloseBidModel closeBidModel;
     private JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
     private JButton refreshButton;
     private JButton respondMessageButton;
+    private JButton selectBidButton;
     private int bidIndex;
 
     // maybe remove this
@@ -44,7 +45,7 @@ public class CloseMessageView {
         updateContent();
 
         JFrame frame = new JFrame("Closed Messages");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(830, 400));
@@ -92,27 +93,29 @@ public class CloseMessageView {
         gbc1.weightx = 1;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
-            // code to add message panel 1
-            JPanel panel = new JPanel();
-            JTable table = getStudentMessageTable(messagePair.getStudentMsg());
-            resizeColumnWidth(table);
-            table.setBounds(10, 10, 500, 100);
-            panel.add(table);
-            TitledBorder title;
-            title = BorderFactory.createTitledBorder("Initial Request and Message");
-            panel.setBorder(title);
-            mainList.add(panel, gbc1, 0);
 
-            // code to add message panel 2
-            JPanel panel1 = new JPanel();
-            JTable table2 = getTutorMessageTable(messagePair.getTutorMsg());
-            resizeColumnWidth(table2);
-            table2.setBounds(10, 10, 500, 100);
-            panel1.add(table2);
-            TitledBorder title2;
-            title2 = BorderFactory.createTitledBorder("Tutor Bid and Message");
-            panel1.setBorder(title2);
-            mainList.add(panel1, gbc1, 0);
+        // code to add message panel 2
+        JPanel panel1 = new JPanel();
+        JTable table2 = getTutorMessageTable(messagePair.getTutorMsg());
+        resizeColumnWidth(table2);
+        table2.setBounds(10, 10, 500, 100);
+        panel1.add(table2);
+        TitledBorder title2;
+        title2 = BorderFactory.createTitledBorder("Tutor Bid and Message");
+        panel1.setBorder(title2);
+        mainList.add(panel1, gbc1, 0);
+
+        // code to add message panel 1
+        JPanel panel = new JPanel();
+        JTable table = getStudentMessageTable(messagePair.getStudentMsg());
+        resizeColumnWidth(table);
+        table.setBounds(10, 10, 500, 100);
+        panel.add(table);
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder("Initial Request and Message");
+        panel.setBorder(title);
+        mainList.add(panel, gbc1, 0);
+
 
 
 
@@ -172,6 +175,11 @@ public class CloseMessageView {
         contractTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
 
         return contractTable;
+    }
+
+    @Override
+    public void update() {
+
     }
 
 
@@ -237,6 +245,9 @@ public class CloseMessageView {
 
         respondMessageButton = new JButton("Respond");
         panel.add(respondMessageButton, gbc2);
+
+        selectBidButton =new JButton("Select Bid");
+        panel.add(selectBidButton, gbc2);
 
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
