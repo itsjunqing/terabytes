@@ -1,6 +1,7 @@
 package entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor
@@ -47,5 +48,6 @@ public class BidInfo {
         this.numberOfSessions = numberOfSessions;
         this.freeLesson = freeLesson;
     }
+
 
 }

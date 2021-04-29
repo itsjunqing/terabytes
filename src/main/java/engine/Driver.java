@@ -1,14 +1,19 @@
 package engine;
 
+import entity.MessagePair;
 import model.CloseBidModel;
 import model.OpenBidModel;
 import entity.QualificationTitle;
+import view.builder.CloseBidView;
+import view.builder.CloseMessageView;
+import view.builder.OpenBidView;
 import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class Driver {
@@ -101,20 +106,28 @@ public class Driver {
 
     private static void sampleUsage() {
         // TODO: for Nick to run to see, this is to be displayed in the view
-        OpenBidModel openBidModel = new OpenBidModel();
-        openBidModel.setBidId("c9b04eee-6a57-4b1f-ba06-7c1f7c2e87b3");
-        openBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
-        openBidModel.refresh();
-        openBidModel.getOpenBidOffers().stream().forEach(b -> System.out.println(b));
+//        OpenBidModel openBidModel = new OpenBidModel();
+//        openBidModel.setBidId("c9b04eee-6a57-4b1f-ba06-7c1f7c2e87b3");
+//        openBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
+//        openBidModel.refresh();
+////        OpenBidView openBidView = new OpenBidView(openBidModel);
+//
+//        openBidModel.getOpenBidOffers().stream().forEach(b -> System.out.println(b));
+
 
         // TODO: For Nick to run to see, we gonna use this to manipulate the view
         CloseBidModel closeBidModel = new CloseBidModel();
         closeBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
         closeBidModel.setBidId("51ab43a7-25aa-4ff2-a052-418e5a46b774");
         closeBidModel.refresh();
+//        CloseBidView closeBidView = new CloseBidView(closeBidModel);
+
         closeBidModel.getCloseBidOffers().stream().forEach(m -> System.out.println(m));
         closeBidModel.getCloseBidMessages().stream().forEach(m -> System.out.println(m));
+        List<MessagePair> messagePairs= closeBidModel.getCloseBidMessages();
+        MessagePair sampleMessagePair = messagePairs.get(0);
 
+        CloseMessageView closeMessageView = new CloseMessageView(sampleMessagePair);
     }
 
 

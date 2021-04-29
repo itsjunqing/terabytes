@@ -32,19 +32,23 @@ public class OpenBidView {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
 
+        updateContent();
+
         JFrame frame = new JFrame("Open Offers");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
+        frame.setMinimumSize(new Dimension(830, 400));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
-        updateContent();
+
     }
 
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         List<BidInfo> bidInfoList = openBidModel.getOpenBidOffers();
+
         int bidIndex = bidInfoList.size();
         updateView(bidInfoList);
         updateButtons(bidIndex);
@@ -91,15 +95,22 @@ public class OpenBidView {
     }
 
     private JTable getOpenBidTable(BidInfo bidInfo, int bidNo) {
+        String freeLesson = new String();
+        if (bidInfo.isFreeLesson() == true) {
+            freeLesson = "Yes";
+        } else {
+            freeLesson = "No";
+        }
+
         String[][] rec = {
-                {"Proposed Contract End Date", ""},
+                {"Offer Number: ", Integer.toString(bidNo)},
                 {"Tutor Name:", ""},
                 {"Subject:", ""},
-                {"Number of Sessions:", ""},
-                {"Day & Time:", ""},
-                {"Duration (hours):", ""},
-                {"Rate (per hour):", ""},
-                {"Free Lesson?", ""},
+                {"Number of Sessions:", Integer.toString(bidInfo.getNumberOfSessions())},
+                {"Day & Time:", bidInfo.getDay() + " " + bidInfo.getTime()},
+                {"Duration (hours):", Integer.toString(bidInfo.getDuration())},
+                {"Rate (per hour):", Integer.toString(bidInfo.getRate())},
+                {"Free Lesson?", freeLesson},
 
         };
         String[] col = {"", ""};
