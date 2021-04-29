@@ -85,7 +85,7 @@ public class Driver {
 
 //        ActiveRequestsView activeRequestViewTest = new ActiveRequestsView(testOfferingModel, bidList);
 //        activeRequestViewTest.displayContracts();
-//        sampleUsageStudentBid();
+        sampleUsageStudentBid();
         sampleUsageOffering();
 //        sampleUsageOffering2();
 

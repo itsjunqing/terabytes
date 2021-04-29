@@ -92,34 +92,29 @@ public class CloseMessageView {
         gbc1.weightx = 1;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
-        // code to add message panel 2
+            // code to add message panel 1
+            JPanel panel = new JPanel();
+            JTable table = getStudentMessageTable(messagePair.getStudentMsg());
+            resizeColumnWidth(table);
+            table.setBounds(10, 10, 500, 100);
+            panel.add(table);
+            TitledBorder title;
+            title = BorderFactory.createTitledBorder("Initial Request and Message");
+            panel.setBorder(title);
+            mainList.add(panel, gbc1, 0);
 
-        JPanel panel1 = new JPanel();
-        JTable table2 = getTutorMessageTable(messagePair.getStudentMsg());
+            // code to add message panel 2
+            JPanel panel1 = new JPanel();
+            JTable table2 = getTutorMessageTable(messagePair.getTutorMsg());
+            resizeColumnWidth(table2);
+            table2.setBounds(10, 10, 500, 100);
+            panel1.add(table2);
+            TitledBorder title2;
+            title2 = BorderFactory.createTitledBorder("Tutor Bid and Message");
+            panel1.setBorder(title2);
+            mainList.add(panel1, gbc1, 0);
 
-        resizeColumnWidth(table2);
-        table2.setBounds(10, 10, 500, 100);
-        panel1.add(table2);
 
-        TitledBorder title2;
-        title2 = BorderFactory.createTitledBorder("Tutor response and Message");
-        panel1.setBorder(title2);
-
-        mainList.add(panel1, gbc1, 0);
-
-        // code to add message panel 1
-        JPanel panel = new JPanel();
-        JTable table = getStudentMessageTable(messagePair.getStudentMsg());
-
-        resizeColumnWidth(table);
-        table.setBounds(10, 10, 500, 100);
-        panel.add(table);
-
-        TitledBorder title;
-        title = BorderFactory.createTitledBorder("Initial Request and Message");
-        panel.setBorder(title);
-
-        mainList.add(panel, gbc1, 0);
 
 
 
@@ -141,7 +136,7 @@ public class CloseMessageView {
                 {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
                 {"Rate (per hour):", Integer.toString(messageBidInfo.getRate())},
                 {"Free Lesson?:", freeLesson},
-                {"Message to Tutor:", messageBidInfo.getContent() + "This subject is really hard, are you really smart enough to teach me"}
+                {"Message to Tutor:", messageBidInfo.getContent() }
 
         };
         String[] col = {"", ""};
@@ -168,7 +163,7 @@ public class CloseMessageView {
                 {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
                 {"Rate (per hour):", Integer.toString(messageBidInfo.getRate())},
                 {"Free Lesson?", freeLesson},
-                {"Message from tutor:", messageBidInfo.getContent() + "Yes, I am, I got the top in my class in MIT, followed by a fellowship in harvard and I also am a world champion in"}
+                {"Message from tutor:", messageBidInfo.getContent()}
 
         };
         String[] col = {"", ""};
