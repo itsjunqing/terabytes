@@ -23,6 +23,7 @@ public class CloseMessageView {
     private JPanel buttonPanel;
     private JButton refreshButton;
     private JButton respondMessageButton;
+    private int bidIndex;
 
     // maybe remove this
     private MessagePair messagePair;
@@ -30,8 +31,9 @@ public class CloseMessageView {
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
 
-    public CloseMessageView(MessagePair messagePair) {
-        this.messagePair = messagePair;
+    public CloseMessageView(CloseBidModel closeBidModel, int bidIndex) {
+        this.bidIndex = bidIndex;
+        this.closeBidModel = closeBidModel;
         initView();
     }
 
@@ -54,7 +56,8 @@ public class CloseMessageView {
 
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-
+        List<MessagePair> messagePairs= closeBidModel.getCloseBidMessages();
+        messagePair = messagePairs.get(bidIndex-1);
         updateView(messagePair);
         updateButtons();
     }
