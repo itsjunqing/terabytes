@@ -129,7 +129,6 @@ public class Driver {
                 System.out.println(bidInitiation.getSubject());
                 System.out.println(bidInitiation.getSubject());
                 System.out.println(bidInitiation.getRate());
-                System.out.println(bidInitiation.getMessageNote());
             }
         });
     }
