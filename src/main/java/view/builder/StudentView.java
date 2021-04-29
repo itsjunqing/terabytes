@@ -25,14 +25,16 @@ public class StudentView extends DashboardView {
         mainPanel.setLayout(new GridLayout(1,2));
 
         JFrame frame = new JFrame("Student Dashboard");
+
+
+        updateContracts();
+        addButtons();
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-        updateContracts();
-        addButtons();
     }
 
     public void updateContracts() {
