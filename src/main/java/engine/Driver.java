@@ -88,7 +88,7 @@ public class Driver {
 
 //        ActiveRequestsView activeRequestViewTest = new ActiveRequestsView(testOfferingModel, bidList);
 //        activeRequestViewTest.displayContracts();
-
+        sampleUsageStudentBid();
         sampleUsageOffering();
 //        sampleUsageOffering2();
 
@@ -97,23 +97,23 @@ public class Driver {
 
     }
 
-//    private static void sampleUsageStudentBid() {
+    private static void sampleUsageStudentBid() {
 //        // TODO: for Nick to run to see, this is to be displayed in the view
-////        OpenBidModel openBidModel = new OpenBidModel();
-////        openBidModel.setBidId("c9b04eee-6a57-4b1f-ba06-7c1f7c2e87b3");
-////        openBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
-////        openBidModel.refresh();
-//////        OpenBidView openBidView = new OpenBidView(openBidModel);
-////
+        OpenBidModel openBidModel = new OpenBidModel();
+        openBidModel.setBidId("c9b04eee-6a57-4b1f-ba06-7c1f7c2e87b3");
+        openBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
+        openBidModel.refresh();
+        OpenBidView openBidView = new OpenBidView(openBidModel);
+
 ////        openBidModel.getOpenBidOffers().stream().forEach(b -> System.out.println(b));
 //
 //
 //        // TODO: For Nick to run to see, we gonna use this to manipulate the view
-//        CloseBidModel closeBidModel = new CloseBidModel();
-//        closeBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
-//        closeBidModel.setBidId("51ab43a7-25aa-4ff2-a052-418e5a46b774");
-//        closeBidModel.refresh();
-////        CloseBidView closeBidView = new CloseBidView(closeBidModel);
+        CloseBidModel closeBidModel = new CloseBidModel();
+        closeBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
+        closeBidModel.setBidId("51ab43a7-25aa-4ff2-a052-418e5a46b774");
+        closeBidModel.refresh();
+        CloseBidView closeBidView = new CloseBidView(closeBidModel);
 //
 //        closeBidModel.getCloseBidOffers().stream().forEach(m -> System.out.println(m));
 //        closeBidModel.getCloseBidMessages().stream().forEach(m -> System.out.println(m));
@@ -121,7 +121,7 @@ public class Driver {
 //        MessagePair sampleMessagePair = messagePairs.get(0);
 //
 //        CloseMessageView closeMessageView = new CloseMessageView(sampleMessagePair);
-//    }
+    }
 
     private static void sampleUsageOffering() {
         /**

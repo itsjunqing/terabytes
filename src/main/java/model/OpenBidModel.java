@@ -14,6 +14,7 @@ import java.util.List;
 public class OpenBidModel extends BiddingModel {
 
     private List<BidInfo> openBidOffers;
+    private Bid bid;
 
     @Override
     public void createBid(String userId, BidPreference bp) {
@@ -32,7 +33,7 @@ public class OpenBidModel extends BiddingModel {
 
     @Override
     public void refresh() {
-        Bid bid = getBidApi().getBid(getBidId());
+        bid = getBidApi().getBid(getBidId());
         openBidOffers = bid.getAdditionalInfo().getBidOffers();
 //        notifyObservers();
     }

@@ -2,7 +2,9 @@ package view.builder;
 
 import lombok.Getter;
 import entity.BidInfo;
+import model.BiddingModel;
 import model.OpenBidModel;
+import stream.Bid;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -20,6 +22,7 @@ public class OpenBidView {
     private JComboBox offerSelection;
     private JButton refreshButton;
     private JButton selectOfferButton;
+
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
 
@@ -47,14 +50,15 @@ public class OpenBidView {
 
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
+        Bid bid = openBidModel.getBid();
         List<BidInfo> bidInfoList = openBidModel.getOpenBidOffers();
 
         int bidIndex = bidInfoList.size();
-        updateView(bidInfoList);
+        updateView(bidInfoList, bid);
         updateButtons(bidIndex);
     }
 
-    private void updateView(List<BidInfo> bidInfoList) {
+    private void updateView(List<BidInfo> bidInfoList, Bid bid) {
         // to be used upon refresh to update both openBidPanel and buttonPanel
         if (openBidPanel != null) {
             openBidPanel.removeAll();
@@ -78,7 +82,7 @@ public class OpenBidView {
         for (BidInfo b : bidInfoList) {
             // Code to add open bid panel
             JPanel panel = new JPanel();
-            JTable table = getOpenBidTable(b, bidIndex);
+            JTable table = getOpenBidTable(b, bidIndex, bid);
             bidIndex -= 1;
             resizeColumnWidth(table);
             table.setBounds(10, 10, 500, 100);
@@ -94,7 +98,7 @@ public class OpenBidView {
         }
     }
 
-    private JTable getOpenBidTable(BidInfo bidInfo, int bidNo) {
+    private JTable getOpenBidTable(BidInfo bidInfo, int bidNo, Bid bid) {
         String freeLesson = new String();
         if (bidInfo.isFreeLesson() == true) {
             freeLesson = "Yes";
@@ -104,8 +108,8 @@ public class OpenBidView {
 
         String[][] rec = {
                 {"Offer Number: ", Integer.toString(bidNo)},
-                {"Tutor Name:", ""},
-                {"Subject:", ""},
+                {"Tutor Name:", this.openBidModel.getUserName(bidInfo.getInitiatorId())},
+                {"Subject:", bid.getSubject().getName()},
                 {"Number of Sessions:", Integer.toString(bidInfo.getNumberOfSessions())},
                 {"Day & Time:", bidInfo.getDay() + " " + bidInfo.getTime()},
                 {"Duration (hours):", Integer.toString(bidInfo.getDuration())},

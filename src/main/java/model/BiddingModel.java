@@ -2,11 +2,13 @@ package model;
 
 import api.BidApi;
 import api.SubjectApi;
+import api.UserApi;
 import entity.BidPreference;
 import lombok.Getter;
 import lombok.Setter;
 import observer.OSubject;
 import stream.Bid;
+import stream.User;
 
 import java.util.Date;
 
@@ -46,4 +48,12 @@ public abstract class BiddingModel extends OSubject {
 
     public abstract void createBid(String userId, BidPreference bp);
     public abstract void refresh();
+
+    public String getUserName(String Id){
+        UserApi userApi = new UserApi();
+        User user = userApi.getUser(Id);
+        String givenName = user.getGivenName();
+        String familyName = user.getFamilyName();
+        return givenName + " " + familyName;
+    }
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import entity.BidInfo;
 import model.CloseBidModel;
 import model.OpenBidModel;
+import stream.Bid;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -50,14 +51,15 @@ public class CloseBidView {
 
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
+        Bid bid = closeBidModel.getBid();
         List<MessageBidInfo> messageBidInfoList = closeBidModel.getCloseBidOffers();
 
         int bidIndex = messageBidInfoList.size();
-        updateView(messageBidInfoList);
+        updateView(messageBidInfoList, bid);
         updateButtons(bidIndex);
     }
 
-    private void updateView(List<MessageBidInfo> messageBidInfoList) {
+    private void updateView(List<MessageBidInfo> messageBidInfoList, Bid bid) {
         // to be used upon refresh to update both openBidPanel and buttonPanel
         if (openBidPanel != null) {
             openBidPanel.removeAll();
@@ -81,7 +83,7 @@ public class CloseBidView {
         for (MessageBidInfo b : messageBidInfoList) {
             // Code to add open bid panel
             JPanel panel = new JPanel();
-            JTable table = getOpenBidTable(b, bidIndex);
+            JTable table = getOpenBidTable(b, bidIndex, bid);
             bidIndex -= 1;
             resizeColumnWidth(table);
             table.setBounds(10, 10, 500, 100);
@@ -97,7 +99,7 @@ public class CloseBidView {
         }
     }
 
-    private JTable getOpenBidTable(MessageBidInfo messageBidInfo, int bidNo) {
+    private JTable getOpenBidTable(MessageBidInfo messageBidInfo, int bidNo, Bid bid) {
         String freeLesson = new String();
         if (messageBidInfo.isFreeLesson() == true) {
             freeLesson = "Yes";
@@ -107,8 +109,8 @@ public class CloseBidView {
 
         String[][] rec = {
                 {"Offer Number: ", Integer.toString(bidNo)},
-                {"Tutor Name:", ""},
-                {"Subject:", ""},
+                {"Tutor Name:", this.closeBidModel.getUserName(messageBidInfo.getInitiatorId())},
+                {"Subject:", bid.getSubject().getName()},
                 {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
                 {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
                 {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
