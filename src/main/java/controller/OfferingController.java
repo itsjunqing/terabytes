@@ -1,7 +1,7 @@
 package controller;
 
 import model.OfferingModel;
-import view.builder.OfferingView;
+import view.OfferingView;
 //import view.OfferingView;
 
 public class OfferingController {

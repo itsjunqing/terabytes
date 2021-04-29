@@ -1,4 +1,4 @@
-package view.builder;
+package view;
 
 import entity.MessageBidInfo;
 import lombok.Getter;

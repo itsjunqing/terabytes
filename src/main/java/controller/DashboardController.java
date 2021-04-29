@@ -5,7 +5,7 @@ import entity.BidPreference;
 import entity.QualificationTitle;
 import model.*;
 import view.DashboardView;
-import view.builder.OpenBidView;
+import view.OpenBidView;
 import view.form.BidInitiation;
 
 import java.util.Observable;

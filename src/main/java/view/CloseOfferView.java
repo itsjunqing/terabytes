@@ -1,11 +1,10 @@
-package view.builder;
+package view;
 
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import model.CloseBidModel;
-import stream.Message;
-import view.panel.CloseBiddingPanel;
+import model.OfferingModel;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -13,27 +12,29 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class CloseMessageView {
+public class CloseOfferView {
     private CloseBidModel closeBidModel;
     private JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
     private JButton refreshButton;
     private JButton respondMessageButton;
-    private int bidIndex;
 
     // maybe remove this
     private MessagePair messagePair;
+    private OfferingModel offeringModel;
+    private int bidIndex;
 
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
 
-    public CloseMessageView(CloseBidModel closeBidModel, int bidIndex) {
+    public CloseOfferView(OfferingModel offeringModel, int bidIndex) {
+        this.offeringModel = offeringModel;
         this.bidIndex = bidIndex;
-        this.closeBidModel = closeBidModel;
         initView();
     }
 
@@ -43,7 +44,7 @@ public class CloseMessageView {
 
         updateContent();
 
-        JFrame frame = new JFrame("Closed Messages");
+        JFrame frame = new JFrame("Close Message View");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
@@ -56,8 +57,7 @@ public class CloseMessageView {
 
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        List<MessagePair> messagePairs= closeBidModel.getCloseBidMessages();
-        messagePair = messagePairs.get(bidIndex-1);
+        this.messagePair= offeringModel.getCloseOffers(bidIndex-1);
         updateView(messagePair);
         updateButtons();
     }
@@ -92,17 +92,8 @@ public class CloseMessageView {
         gbc1.weightx = 1;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
-            // code to add message panel 1
-            JPanel panel = new JPanel();
-            JTable table = getStudentMessageTable(messagePair.getStudentMsg());
-            resizeColumnWidth(table);
-            table.setBounds(10, 10, 500, 100);
-            panel.add(table);
-            TitledBorder title;
-            title = BorderFactory.createTitledBorder("Initial Request and Message");
-            panel.setBorder(title);
-            mainList.add(panel, gbc1, 0);
 
+        if (messagePair.getTutorMsg() != null) {
             // code to add message panel 2
             JPanel panel1 = new JPanel();
             JTable table2 = getTutorMessageTable(messagePair.getTutorMsg());
@@ -110,9 +101,36 @@ public class CloseMessageView {
             table2.setBounds(10, 10, 500, 100);
             panel1.add(table2);
             TitledBorder title2;
-            title2 = BorderFactory.createTitledBorder("Tutor Bid and Message");
+            title2 = BorderFactory.createTitledBorder("Our Bid and Message");
             panel1.setBorder(title2);
             mainList.add(panel1, gbc1, 0);
+        }else {            // code to add message panel 2
+            JPanel panel1 = new JPanel();
+            String[][] noOffer = { {"No Offer", " Please Input Offer"}};
+            String[] col = {"", ""};
+            JTable noOfferTable = new JTable(noOffer, col);
+
+            noOfferTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
+
+            resizeColumnWidth(noOfferTable);
+            noOfferTable.setBounds(10, 10, 500, 100);
+            panel1.add(noOfferTable);
+
+            TitledBorder title2;
+            title2 = BorderFactory.createTitledBorder("Our Bid and Message");
+            panel1.setBorder(title2);
+            mainList.add(panel1, gbc1, 0);
+        };
+            // code to add message panel 1
+            JPanel panel = new JPanel();
+            JTable table = getStudentMessageTable(messagePair.getStudentMsg());
+            resizeColumnWidth(table);
+            table.setBounds(10, 10, 500, 100);
+            panel.add(table);
+            TitledBorder title;
+            title = BorderFactory.createTitledBorder("Student Request and Message");
+            panel.setBorder(title);
+            mainList.add(panel, gbc1, 0);
 
 
 
@@ -136,7 +154,7 @@ public class CloseMessageView {
                 {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
                 {"Rate (per hour):", Integer.toString(messageBidInfo.getRate())},
                 {"Free Lesson?:", freeLesson},
-                {"Message to Tutor:", messageBidInfo.getContent() }
+                {"Message to Tutor:", messageBidInfo.getContent() + "This subject is really hard, are you really smart enough to teach me"}
 
         };
         String[] col = {"", ""};
@@ -163,7 +181,7 @@ public class CloseMessageView {
                 {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
                 {"Rate (per hour):", Integer.toString(messageBidInfo.getRate())},
                 {"Free Lesson?", freeLesson},
-                {"Message from tutor:", messageBidInfo.getContent()}
+                {"Message from tutor:", messageBidInfo.getContent() + "Yes, I am, I got the top in my class in MIT, followed by a fellowship in harvard and I also am a world champion in"}
 
         };
         String[] col = {"", ""};

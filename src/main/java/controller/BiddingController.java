@@ -4,16 +4,18 @@ import entity.BidInfo;
 import model.BiddingModel;
 import model.ContractModel;
 import stream.Contract;
-import view.BiddingView;
+import view.CloseBidView;
+import view.OpenBidView;
 
 //import view.BiddingView;
 //import view.ContractView;
 
 public class BiddingController {
     private BiddingModel biddingModel;
-    private BiddingView biddingView;
-//
-    public BiddingController(BiddingModel biddingModel, BiddingView biddingView) {
+    private OpenBidView biddingView;
+    private CloseBidView closeBidView;
+
+    public BiddingController(BiddingModel biddingModel, OpenBidView biddingView) {
         this.biddingModel = biddingModel;
         this.biddingView = biddingView;
     }

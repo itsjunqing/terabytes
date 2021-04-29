@@ -1,4 +1,4 @@
-package view.builder;
+package view;
 
 import lombok.Getter;
 import entity.BidInfo;

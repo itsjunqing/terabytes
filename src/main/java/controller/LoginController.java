@@ -5,8 +5,8 @@ import model.LoginModel;
 import stream.User;
 import view.DashboardView;
 import view.LoginView;
-import view.builder.StudentView;
-import view.builder.TutorView;
+import view.StudentView;
+import view.TutorView;
 
 public class LoginController {
 
