@@ -4,7 +4,7 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
-import model.QualificationTitle;
+import entity.QualificationTitle;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;

@@ -1,6 +1,6 @@
 package controller;
 
-import model.BidInfo;
+import entity.BidInfo;
 import model.BiddingModel;
 import model.ContractModel;
 import stream.Contract;

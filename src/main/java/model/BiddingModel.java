@@ -2,6 +2,7 @@ package model;
 
 import api.BidApi;
 import api.SubjectApi;
+import entity.BidPreference;
 import lombok.Getter;
 import lombok.Setter;
 import observer.OSubject;

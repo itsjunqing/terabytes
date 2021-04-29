@@ -1,7 +1,11 @@
 package controller;
 
+import entity.BidInfo;
+import entity.BidPreference;
+import entity.QualificationTitle;
 import model.*;
 import view.DashboardView;
+import view.builder.OpenBidView;
 import view.form.BidInitiation;
 
 import java.util.Observable;
@@ -84,8 +88,8 @@ public class DashboardController extends Observable {
     private void initiateOpenBid(BidPreference bp) {
         OpenBidModel openBidModel = new OpenBidModel();
         openBidModel.createBid(dashboardModel.getUserId(), bp);
-//        OpenBidView openBidView = new OpenBidView(openBidModel);
-//
+        OpenBidView openBidView = new OpenBidView(openBidModel);
+
 //        BiddingController biddingController = new BiddingController(openBidModel, biddingView);
     }
 

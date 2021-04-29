@@ -1,7 +1,7 @@
 package view.builder;
 
 import lombok.Getter;
-import model.BidInfo;
+import entity.BidInfo;
 import model.OpenBidModel;
 
 import javax.swing.*;

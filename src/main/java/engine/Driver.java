@@ -2,7 +2,7 @@ package engine;
 
 import model.CloseBidModel;
 import model.OpenBidModel;
-import model.QualificationTitle;
+import entity.QualificationTitle;
 import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;

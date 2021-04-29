@@ -1,6 +1,10 @@
 package model;
 
 
+import entity.BidInfo;
+import entity.BidPreference;
+import entity.MessageBidInfo;
+import entity.MessagePair;
 import lombok.Getter;
 import lombok.Setter;
 import stream.Bid;

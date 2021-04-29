@@ -1,8 +1,8 @@
 package stream;
 
 import lombok.Data;
-import model.BidInfo;
-import model.BidPreference;
+import entity.BidInfo;
+import entity.BidPreference;
 
 import java.util.ArrayList;
 import java.util.List;

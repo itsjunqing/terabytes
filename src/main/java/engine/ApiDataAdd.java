@@ -3,9 +3,9 @@ package engine;
 import api.BidApi;
 import api.ContractApi;
 import api.MessageApi;
-import model.BidInfo;
-import model.BidPreference;
-import model.QualificationTitle;
+import entity.BidInfo;
+import entity.BidPreference;
+import entity.QualificationTitle;
 import stream.*;
 
 import java.util.Calendar;

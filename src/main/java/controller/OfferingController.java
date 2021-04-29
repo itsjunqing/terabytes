@@ -1,12 +1,13 @@
 package controller;
 
 import model.OfferingModel;
+import view.builder.OfferingView;
 //import view.OfferingView;
 
 public class OfferingController {
 
     private OfferingModel offeringModel;
-//    private OfferingView offeringView;
+    private OfferingView offeringView;
 
 //    public OfferingController(OfferingModel offeringModel, OfferingView offeringView) {
     public OfferingController(OfferingModel offeringModel){
