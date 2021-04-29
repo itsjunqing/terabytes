@@ -1,9 +1,8 @@
 package engine;
 
-import controller.LoginController;
-import model.LoginModel;
+import model.CloseBidModel;
+import model.OpenBidModel;
 import model.QualificationTitle;
-import view.LoginView;
 import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;
@@ -42,19 +41,12 @@ public class Driver {
 
 
         // Login model test
-        LoginModel loginModel = new LoginModel();
-        LoginView loginView = new LoginView();
-        LoginController loginController = new LoginController(loginModel, loginView);
-
-        // Bid Initiation test
-//        BidInitiation bidInitiation = new BidInitiation();
-//        listenBid(bidInitiation);
+//        LoginModel loginModel = new LoginModel();
+//        LoginView loginView = new LoginView();
+//        LoginController loginController = new LoginController(loginModel, loginView);
 
 
 
-        // open bidding dashboard test
-
-        // close bidding dashboard test
 
         // reply message test
 
@@ -106,6 +98,25 @@ public class Driver {
 
 
     }
+
+    private void sampleUsage() {
+        // TODO: for Nick to run to see, this is to be displayed in the view
+        OpenBidModel openBidModel = new OpenBidModel();
+        openBidModel.setBidId("c9b04eee-6a57-4b1f-ba06-7c1f7c2e87b3");
+        openBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
+        openBidModel.refresh();
+        openBidModel.getOpenBidOffers().stream().forEach(b -> System.out.println(b));
+
+        // TODO: For Nick to run to see, we gonna use this to manipulate the view
+        CloseBidModel closeBidModel = new CloseBidModel();
+        closeBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
+        closeBidModel.setBidId("51ab43a7-25aa-4ff2-a052-418e5a46b774");
+        closeBidModel.refresh();
+        closeBidModel.getCloseBidOffers().stream().forEach(m -> System.out.println(m));
+        closeBidModel.getCloseBidMessages().stream().forEach(m -> System.out.println(m));
+
+    }
+
 
 
 

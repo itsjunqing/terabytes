@@ -2,8 +2,7 @@ package view.builder;
 
 import lombok.Getter;
 import model.BidInfo;
-import model.BiddingModel;
-import view.BiddingView;
+import model.OpenBidModel;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -13,7 +12,8 @@ import java.awt.*;
 import java.util.List;
 
 @Getter
-public class OpenBidView extends BiddingView {
+public class OpenBidView {
+    private OpenBidModel openBidModel;
     private JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
@@ -23,8 +23,8 @@ public class OpenBidView extends BiddingView {
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
 
-    public OpenBidView(BiddingModel biddingModel) {
-        super(biddingModel);
+    public OpenBidView(OpenBidModel openBidModel) {
+        this.openBidModel = openBidModel;
         initView();
     }
 
@@ -44,7 +44,7 @@ public class OpenBidView extends BiddingView {
 
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        List<BidInfo> bidInfoList = getBiddingModel().getBidOffers();
+        List<BidInfo> bidInfoList = openBidModel.getOpenBidOffers();
         int bidIndex = bidInfoList.size();
         updateView(bidInfoList);
         updateButtons(bidIndex);
@@ -126,7 +126,7 @@ public class OpenBidView extends BiddingView {
         }
     }
 
-    public void updateButtons(int count) {
+    private void updateButtons(int count) {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();

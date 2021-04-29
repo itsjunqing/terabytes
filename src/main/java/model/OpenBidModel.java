@@ -6,9 +6,12 @@ import stream.Bid;
 import stream.BidAdditionalInfo;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter @Setter
-public class OpenBiddingModel extends BiddingModel {
+public class OpenBidModel extends BiddingModel {
+
+    private List<BidInfo> openBidOffers;
 
     @Override
     public void createBid(String userId, BidPreference bp) {
@@ -28,7 +31,7 @@ public class OpenBiddingModel extends BiddingModel {
     @Override
     public void refresh() {
         Bid bid = getBidApi().getBid(getBidId());
-        setBidOffers(bid.getAdditionalInfo().getBidOffers());
-        notifyObservers();
+        openBidOffers = bid.getAdditionalInfo().getBidOffers();
+//        notifyObservers();
     }
 }

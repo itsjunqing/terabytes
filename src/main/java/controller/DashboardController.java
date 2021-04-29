@@ -1,10 +1,7 @@
 package controller;
 
 import model.*;
-import view.BiddingView;
 import view.DashboardView;
-import view.builder.CloseBidView;
-import view.builder.OpenBidView;
 import view.form.BidInitiation;
 
 import java.util.Observable;
@@ -85,19 +82,19 @@ public class DashboardController extends Observable {
     }
 
     private void initiateOpenBid(BidPreference bp) {
-        BiddingModel biddingModel = new OpenBiddingModel();
-        biddingModel.createBid(dashboardModel.getUserId(), bp);
-        BiddingView biddingView = new OpenBidView(biddingModel);
-
-        BiddingController biddingController = new BiddingController(biddingModel, biddingView);
+        OpenBidModel openBidModel = new OpenBidModel();
+        openBidModel.createBid(dashboardModel.getUserId(), bp);
+//        OpenBidView openBidView = new OpenBidView(openBidModel);
+//
+//        BiddingController biddingController = new BiddingController(openBidModel, biddingView);
     }
 
     private void initiateCloseBid(BidPreference bp) {
-        BiddingModel biddingModel = new CloseBiddingModel();
+        BiddingModel biddingModel = new CloseBidModel();
         biddingModel.createBid(dashboardModel.getUserId(), bp);
-        BiddingView biddingView = new CloseBidView(biddingModel);
+//        BiddingView biddingView = new CloseBidView(biddingModel);
 
-         BiddingController biddingController = new BiddingController(biddingModel, biddingView);
+//         BiddingController biddingController = new BiddingController(biddingModel, biddingView);
     }
 
 }
