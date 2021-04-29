@@ -32,8 +32,13 @@ public class TutorView extends DashboardView {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
+        frame.setMinimumSize(new Dimension(830, 400));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+
+
+
 
 
     }
