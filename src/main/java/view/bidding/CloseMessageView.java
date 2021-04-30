@@ -3,8 +3,6 @@ package view.bidding;
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
-import model.bidding.CloseBidModel;
-import observer.Observer;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -12,32 +10,25 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.util.List;
 
 
 /**
  * This might need to be updated to cater for the latest Bidding design
  */
 @Getter
-public class CloseMessageView implements Observer {
-    private CloseBidModel closeBidModel;
+public class CloseMessageView {
+
     private JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
-    private JButton refreshButton;
-    private JButton respondMessageButton;
-    private JButton selectBidButton;
-    private int bidIndex;
-
-    // maybe remove this
+    private JButton refreshButton; // TODO: remove this
+    private JButton respondMessageButton; // only keep a respond button
+    private JButton selectBidButton; // TODO: remove this
     private MessagePair messagePair;
+    private JFrame frame;
 
-    // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
-    // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
-
-    public CloseMessageView(CloseBidModel closeBidModel, int bidIndex) {
-        this.bidIndex = bidIndex;
-        this.closeBidModel = closeBidModel;
+    public CloseMessageView(MessagePair messagePair) {
+        this.messagePair = messagePair;
         initView();
     }
 
@@ -48,25 +39,25 @@ public class CloseMessageView implements Observer {
         updateContent();
 
         JFrame frame = new JFrame("Closed Messages");
+        this.frame = frame;
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(830, 400));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-
     }
 
-    public void updateContent() {
-        // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        List<MessagePair> messagePairs= closeBidModel.getCloseBidMessages();
-        messagePair = messagePairs.get(bidIndex-1);
-        updateView(messagePair);
+    public void dispose() {
+        this.frame.dispose();
+    }
+
+    private void updateContent() {
+        updateView();
         updateButtons();
     }
 
-    private void updateView(MessagePair messagePair) {
+    private void updateView() {
         // to be used upon refresh to update both openBidPanel and buttonPanel
         if (openBidPanel != null) {
             openBidPanel.removeAll();
@@ -75,7 +66,6 @@ public class CloseMessageView implements Observer {
             openBidPanel.setLayout(new BorderLayout());
             mainPanel.add(openBidPanel);
         }
-
 
         JPanel mainList = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -118,18 +108,11 @@ public class CloseMessageView implements Observer {
         title = BorderFactory.createTitledBorder("Initial Request and Message");
         panel.setBorder(title);
         mainList.add(panel, gbc1, 0);
-
-
-
-
-
-
-
     }
 
     private JTable getStudentMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson = new String();
-        if (messageBidInfo.isFreeLesson() == true) {
+        String freeLesson;
+        if (messageBidInfo.isFreeLesson()) {
             freeLesson = "Yes";
         } else {
             freeLesson = "No";
@@ -154,8 +137,8 @@ public class CloseMessageView implements Observer {
     }
 
     private JTable getTutorMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson = new String();
-        if (messageBidInfo.isFreeLesson() == true) {
+        String freeLesson;
+        if (messageBidInfo.isFreeLesson()) {
             freeLesson = "Yes";
         } else {
             freeLesson = "No";
@@ -179,12 +162,6 @@ public class CloseMessageView implements Observer {
 
         return contractTable;
     }
-
-    @Override
-    public void update() {
-
-    }
-
 
     private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
         WordWrapCellRenderer() {

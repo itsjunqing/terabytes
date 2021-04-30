@@ -1,14 +1,10 @@
 package engine;
 
 import controller.LoginController;
-import model.bidding.CloseBidModel;
 import model.LoginModel;
 import model.offering.OfferingModel;
-import model.bidding.OpenBidModel;
-import view.*;
 import stream.Bid;
-import view.bidding.CloseMessageView;
-import view.bidding.OpenBidView;
+import view.LoginView;
 import view.form.BidInitiation;
 import view.offering.CloseOfferView;
 import view.offering.OfferingView;
@@ -99,20 +95,20 @@ public class TestDriver {
 
     private static void sampleUsageStudentBid() {
 //        // TODO: for Nick to run to see, this is to be displayed in the view
-        OpenBidModel openBidModel = new OpenBidModel();
-        openBidModel.setBidId("c9b04eee-6a57-4b1f-ba06-7c1f7c2e87b3");
-        openBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
-        openBidModel.refresh();
-        OpenBidView openBidView = new OpenBidView(openBidModel);
+//        OpenBidModel openBidModel = new OpenBidModel();
+//        openBidModel.setBidId("c9b04eee-6a57-4b1f-ba06-7c1f7c2e87b3");
+//        openBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
+//        openBidModel.refresh();
+//        OpenBidView openBidView = new OpenBidView(openBidModel);
 
 ////        openBidModel.getOpenBidOffers().stream().forEach(b -> System.out.println(b));
 //
 //
 //        // TODO: For Nick to run to see, we gonna use this to manipulate the view
-        CloseBidModel closeBidModel = new CloseBidModel();
-        closeBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
-        closeBidModel.setBidId("51ab43a7-25aa-4ff2-a052-418e5a46b774");
-        closeBidModel.refresh();
+//        CloseBidModel closeBidModel = new CloseBidModel();
+//        closeBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
+//        closeBidModel.setBidId("51ab43a7-25aa-4ff2-a052-418e5a46b774");
+//        closeBidModel.refresh();
 //        CloseBidView closeBidView = new CloseBidView(closeBidModel);
 //
 //        closeBidModel.getCloseBidOffers().stream().forEach(m -> System.out.println(m));
@@ -121,7 +117,7 @@ public class TestDriver {
 //        MessagePair sampleMessagePair = messagePairs.get(0);
 //
         int selectedBid = 1;
-        CloseMessageView closeMessageView = new CloseMessageView(closeBidModel, selectedBid);
+//        CloseMessageView closeMessageView = new CloseMessageView(closeBidModel, selectedBid);
     }
 
     private static void sampleUsageOffering() {

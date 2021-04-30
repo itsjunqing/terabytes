@@ -2,6 +2,7 @@ package controller.bidding;
 
 import entity.BidPreference;
 import entity.MessageBidInfo;
+import entity.MessagePair;
 import model.bidding.CloseBidModel;
 import stream.Bid;
 import view.bidding.CloseBidView;
@@ -53,15 +54,20 @@ public class CloseBidController extends BiddingController {
 
     private void handleViewMessage(ActionEvent e) {
         int selection = closeBidView.getOfferSelection();
-        CloseMessageView closeMessageView = new CloseMessageView(closeBidModel, selection);
+        MessagePair messagePair = closeBidModel.getCloseBidMessages().get(selection-1);
 
-        // TODO: Handle refresh + message reply (push to API, maybe go through CloseBidModel)
-        closeMessageView.getRefreshButton().addActionListener(ef -> {
-            System.out.println("Refresh MessagePair");
-        });
-        closeMessageView.getRespondMessageButton().addActionListener(ef -> {
+        CloseMessageView closeMessageView = new CloseMessageView(messagePair);
+        closeMessageView.getRespondMessageButton().addActionListener(e1 -> {
             ReplyMessage replyMessage = new ReplyMessage();
-            System.out.println("Reply Message");
+
+            // When student has pressed "Reply":
+            // Send the Message --> Close ReplyMessage window --> Close CloseMessageView window
+            replyMessage.getReplyButton().addActionListener(e2 -> {
+                String studentMsg = replyMessage.getMessageText().getText();
+                closeBidModel.sendMessage(messagePair, studentMsg);
+                replyMessage.dispose();
+                closeMessageView.dispose();
+            });
         });
     }
 
