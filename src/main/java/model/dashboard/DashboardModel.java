@@ -50,22 +50,6 @@ public class DashboardModel extends OSubject {
         return DashboardStatus.PASS;
     }
 
-//    // TODO: maybe change return type to boolean?
-//    public String checkBids(){
-//        List<Bid> bidList = bidApi.getAllBids().stream()
-//                .filter(b -> b.getDateClosedDown() == null)
-//                .filter(b -> b.getInitiator().getId().equals(user.getId()))
-//                .collect(Collectors.toList());
-//        System.out.println(bidList.size());
-//        if (bidList.size() != 0){
-//            return bidList.get(0).getType();
-//        } else if (contractApi.getAllContracts().stream().filter(c -> c.getFirstPartyId().equals(user.getId())).count() == 5) {
-//            return "max";
-//        } else { return "pass";
-//
-//        }
-//    }
-
     public String getUserId() {
         return user.getId();
     }

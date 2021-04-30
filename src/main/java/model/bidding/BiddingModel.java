@@ -51,13 +51,12 @@ public abstract class BiddingModel extends OSubject {
     }
 
     protected Bid extractBid(String userId, String type) {
-        // Question: Does this guarantee user will have a Bid? orElse(null)?
         return bidApi.getAllBids().stream()
                 .filter(b -> b.getDateClosedDown() == null)
                 .filter(b -> b.getType().equalsIgnoreCase(type))
                 .filter(b -> b.getInitiator().getId().equals(userId))
                 .findFirst()
-                .orElse(null);
+                .orElse(null); // can never exist
     }
 
     public void markBidClose() {
@@ -70,7 +69,6 @@ public abstract class BiddingModel extends OSubject {
     }
 
     public abstract void refresh();
-    public abstract void lookForBid(String userId);
 
     public String getUserName(String Id){
         UserApi userApi = new UserApi();

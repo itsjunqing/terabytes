@@ -8,7 +8,6 @@ import stream.Bid;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter @Setter
 public class OpenBidModel extends BiddingModel {
@@ -47,20 +46,4 @@ public class OpenBidModel extends BiddingModel {
 //        notifyObservers();
     }
 
-
-
-    /*
-    OLD STUFFS BELOW HERE
-     */
-
-    @Override
-    public void lookForBid(String userId) {
-        this.setUserId(userId);
-        List<Bid> bidList = getBidApi().getAllBids().stream()
-                .filter(b -> b.getDateClosedDown() == null)
-                .filter(b -> b.getType().equalsIgnoreCase("Open"))
-                .filter(b -> b.getInitiator().getId().equals(getUserId()))
-                .collect(Collectors.toList());
-        this.setBidId(bidList.get(0).getId());
-    }
 }

@@ -68,7 +68,7 @@ public class CloseBidController extends BiddingController {
     private void handleOfferSelection(ActionEvent e) {
         int selection = closeBidView.getOfferSelection();
         Bid currentBid = closeBidModel.getBid();
-        MessageBidInfo messageBidInfo = closeBidModel.getCloseBidOffers().get(selection);
+        MessageBidInfo messageBidInfo = closeBidModel.getCloseBidOffers().get(selection-1);
         System.out.println("Contract " + selection);
         // TODO: handle contract formation + mark bid as closed
         createContract(currentBid, messageBidInfo);

@@ -13,7 +13,6 @@ import stream.MessageAdditionalInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter @Setter
 public class CloseBidModel extends BiddingModel {
@@ -129,23 +128,6 @@ public class CloseBidModel extends BiddingModel {
         MessageAdditionalInfo info = message.getAdditionalInfo();
         return new MessageBidInfo(initiatorId, info.getDay(), info.getTime(), info.getDuration(), info.getRate(),
                 info.getNumberOfSessions(), info.getFreeLesson(), content);
-    }
-
-
-
-    /*
-    OLD STUFFS BELOW HERE
-     */
-
-    @Override
-    public void lookForBid(String userId) {
-        this.setUserId(userId);
-        List<Bid> bidList = getBidApi().getAllBids().stream()
-                .filter(b -> b.getDateClosedDown() == null)
-                .filter(b -> b.getType().equalsIgnoreCase("Close"))
-                .filter(b -> b.getInitiator().getId().equals(getUserId()))
-                .collect(Collectors.toList());
-        this.setBidId(bidList.get(0).getId());
     }
 
 

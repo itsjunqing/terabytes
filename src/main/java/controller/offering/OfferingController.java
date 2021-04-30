@@ -6,6 +6,7 @@ import view.offering.CloseOfferView;
 import view.offering.OfferingView;
 import view.offering.OpenOffersView;
 
+import java.awt.event.ActionEvent;
 import java.util.List;
 //import view.offering.OfferingView;
 
@@ -13,17 +14,35 @@ public class OfferingController {
 
     private OfferingModel offeringModel;
     private OfferingView offeringView;
-    private String userId;
 
-//    public OfferingController(OfferingModel offeringModel, OfferingView offeringView) {
-    public OfferingController(String userId){
-        this.userId = userId;
+    public OfferingController(String userId) {
         this.offeringModel = new OfferingModel(userId);
-//        this.offeringView = offeringView;
-        this.offeringModel.refresh();
         this.offeringView = new OfferingView(offeringModel);
-        listenOfferingView();
+        listenViewActions();
     }
+
+    private void listenViewActions() {
+        offeringView.getRefreshButton().addActionListener(this::handleRefresh);
+        offeringView.getViewOffersButton().addActionListener(this::handleViewOffers);
+    }
+
+    private void handleRefresh(ActionEvent e) {
+        System.out.println("From OfferingController: Refresh Button is pressed");
+        offeringModel.refresh();
+    }
+
+    private void handleViewOffers(ActionEvent e) {
+        System.out.println("From OfferingController: ViewOffers Button is pressed");
+        int selection = offeringView.getBidNumber();
+        Bid bid = offeringModel.getBidsOnGoing().get(selection-1);
+        if (bid.getType().equals("Open")) {
+            OpenOffersController openOffersController = new OpenOffersController(bid.getId());
+        } else {
+
+        }
+
+    }
+
 
     public void listenRefresh() {
         offeringModel.refresh();

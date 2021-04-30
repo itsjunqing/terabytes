@@ -50,7 +50,7 @@ public class OpenBidController extends BiddingController {
     private void handleOfferSelection(ActionEvent e) {
         int selection = openBidView.getOfferSelection();
         Bid currentBid = openBidModel.getBid();
-        BidInfo bidInfo = openBidModel.getOpenBidOffers().get(selection);
+        BidInfo bidInfo = openBidModel.getOpenBidOffers().get(selection-1);
         System.out.println("Contract " + selection);
         // TODO: handle contract formation + mark bid as closed
         createContract(currentBid, bidInfo);
