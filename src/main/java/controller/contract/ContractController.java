@@ -17,6 +17,7 @@ public class ContractController {
         this.contractId = contractId;
         this.contractModel = new ContractModel(contract);
         this.contractView = new ContractView(contractModel);
+        listenViewActions();
     }
 
     public void listenViewActions() {

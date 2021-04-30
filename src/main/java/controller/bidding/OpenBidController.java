@@ -32,6 +32,7 @@ public class OpenBidController extends BiddingController {
     public OpenBidController(String userId) {
         this.openBidModel = new OpenBidModel(userId);
         this.openBidView = new OpenBidView(openBidModel);
+        listenViewActions();
     }
 
     @Override

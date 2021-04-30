@@ -30,7 +30,7 @@ public class ContractView {
     }
 
     public void dispose() {
-        this.frame.dispose();
+        dispose();
     }
 
     public void initDisplay() {
