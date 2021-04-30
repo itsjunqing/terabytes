@@ -7,7 +7,7 @@ import view.contract.ContractFinalization;
 public class ContractController {
 
     private ContractModel contractModel;
-    private ContractFinalization contractFinalization;
+    private ContractFinalization contractFinalization; // replace this with ContractView
 
     public ContractController(ContractModel contractModel) {
         this.contractModel = contractModel;
@@ -22,10 +22,10 @@ public class ContractController {
         // delete view after accepting
     }
 
-//    public void listenReject() {
-//        contractModel.declineContract();
-//        // delete view after rejecting
-//    }
+    public void listenReject() {
+        contractModel.declineContract();
+        // delete view after rejecting
+    }
 
 
 }

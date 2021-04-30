@@ -11,11 +11,6 @@ import view.form.ReplyMessage;
 
 import java.awt.event.ActionEvent;
 
-/**
- * Remaining:
- * 1) Integration of View Message
- * 2) Integration of Contract formation
- */
 
 public class CloseBidController extends BiddingController {
 
@@ -39,7 +34,6 @@ public class CloseBidController extends BiddingController {
         this.closeBidModel = new CloseBidModel(userId);
         this.closeBidView = new CloseBidView(closeBidModel);
     }
-
 
     @Override
     public void listenViewActions() {
@@ -76,8 +70,9 @@ public class CloseBidController extends BiddingController {
         Bid currentBid = closeBidModel.getBid();
         MessageBidInfo messageBidInfo = closeBidModel.getCloseBidOffers().get(selection-1);
         System.out.println("Contract " + selection);
-        // TODO: handle contract formation + mark bid as closed
-        createContract(currentBid, messageBidInfo);
+        closeBidModel.markBidClose(); // mark bid as close
+        createContract(currentBid, messageBidInfo); // create contract
+        closeBidView.dispose(); // remove view after select offer
     }
 
 

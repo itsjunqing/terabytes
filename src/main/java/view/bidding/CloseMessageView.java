@@ -38,8 +38,7 @@ public class CloseMessageView {
 
         updateContent();
 
-        JFrame frame = new JFrame("Closed Messages");
-        this.frame = frame;
+        frame = new JFrame("Closed Messages");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();

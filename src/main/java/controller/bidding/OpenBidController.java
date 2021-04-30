@@ -8,10 +8,6 @@ import view.bidding.OpenBidView;
 
 import java.awt.event.ActionEvent;
 
-/**
- * Remaining:
- * 1) Integration of Contract formation
- */
 
 public class OpenBidController extends BiddingController {
 
@@ -52,7 +48,7 @@ public class OpenBidController extends BiddingController {
         Bid currentBid = openBidModel.getBid();
         BidInfo bidInfo = openBidModel.getOpenBidOffers().get(selection-1);
         System.out.println("Contract " + selection);
-        // TODO: handle contract formation + mark bid as closed
+        openBidModel.markBidClose();
         createContract(currentBid, bidInfo);
     }
 }

@@ -27,4 +27,9 @@ public class ContractModel {
     public void declineContract() {
         contractApi.removeContract(contractId);
     }
+
+    // use this to display in the ContractView
+    public Contract getContract() {
+        return contractApi.getContract(contractId);
+    }
 }
