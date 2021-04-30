@@ -151,9 +151,6 @@ public class StudentView extends DashboardView {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
-
-
-
     }
 
     @Override

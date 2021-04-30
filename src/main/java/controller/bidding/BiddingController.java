@@ -40,7 +40,6 @@ public abstract class BiddingController {
     }
 
     private void handleContract(Contract contract) {
-        System.out.println("hi");
         ContractController contractController = new ContractController(contract);
     }
 

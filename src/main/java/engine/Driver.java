@@ -1,12 +1,21 @@
 package engine;
 
+import api.BidApi;
+import api.ContractApi;
 import controller.LoginController;
+import entity.BidInfo;
 import model.LoginModel;
+import stream.*;
 import view.LoginView;
 import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.OffsetDateTime;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 public class Driver {
@@ -20,14 +29,28 @@ public class Driver {
 //        Collections.reverse(someInt);
 
          //Login model test
-        LoginModel loginModel = new LoginModel();
-        LoginView loginView = new LoginView();
-        LoginController loginController = new LoginController(loginModel, loginView);
+//        LoginModel loginModel = new LoginModel();
+//        LoginView loginView = new LoginView();
+//        LoginController loginController = new LoginController(loginModel, loginView);
 
 
+        BidApi bidApi = new BidApi();
 
+        List<Bid> allBids = bidApi.getAllBids();
 
+        Bid bid = allBids.get(0);
+        Date then = bid.getDateCreated();
 
+        Date now = new Date();
+        long difference = now.getTime() - then.getTime();
+        long minuteDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
+        long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
+        if (minuteDifference > 30){
+            System.out.println("over 30 minutes");
+        }
+        if (dayDifference > 7){
+            System.out.println("over one week");
+        }
 
 //        TimeZone tz = TimeZone.getTimeZone("UTC");
 //        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
@@ -41,8 +64,6 @@ public class Driver {
 //        c.add(Calendar.DATE, 14);
 //        Date d = c.getTimeBox();
 //        System.out.println(d);
-
-
 
 
 
@@ -89,10 +110,85 @@ public class Driver {
 //        sampleUsageOffering();
 //        sampleUsageOffering2();
 
-
-
-
     }
+    // true if expired, false otherwise
+    public static boolean isExpired(Bid bid){
+        Date then = bid.getDateCreated();
+        Date now = new Date();
+        long difference = now.getTime() - then.getTime();
+        long minuteDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
+        long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
+        if (bid.getType().equals("Open") ) {
+            return minuteDifference > 30;
+        } else {
+                return dayDifference > 7;
+        }
+    }
+    // true if has offer, false otherwise
+    public static boolean hasOffer(Bid bid) {
+        return bid.getAdditionalInfo().getBidOffers().size() != 0;
+    }
+    public static void checkExpired(Bid bid){
+        BidApi bidApi = new BidApi();
+        ContractApi contractApi = new ContractApi();
+        // if not closed
+        // TODO: change this
+        if (bid.getDateClosedDown() != null) {
+            System.out.println("Bid is not closed down");
+            // if open
+            if (bid.getType().equals("Open")) {
+                System.out.println("Bid is Open bid");
+                // if is expired
+                if (isExpired(bid)) {
+                    System.out.println("Bid expired");
+                    // if has offer, get latest offer
+                    if (hasOffer(bid)) {
+                        System.out.println("Bid has offer");
+                        // close the bid
+                        bidApi.closeBid(bid.getId(), bid);
+                        // get last bid
+                        BidInfo bidInfo = bid.getAdditionalInfo().getBidOffers().get(bid.getAdditionalInfo().getBidOffers().size() - 1);
+                        // create contract
+                        String studentId = bid.getInitiator().getId();
+                        String tutorId = bidInfo.getInitiatorId();
+                        String subjectId = bid.getSubject().getId();
+                        Date dateCreated = new Date();
+
+                        // take currentDate + number of sessions (weeks) to get expiry date
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(dateCreated);
+                        c.add(Calendar.WEEK_OF_YEAR, bidInfo.getNumberOfSessions());
+                        Date expiryDate = c.getTime();
+
+                        // calculate payment = rate per session * number of sessions
+                        Payment payment = new Payment(bidInfo.getRate() * bidInfo.getNumberOfSessions());
+                        Lesson lesson = new Lesson(bid.getSubject().getName(), bidInfo.getDay(), bidInfo.getTime(),
+                                bidInfo.getDuration(), bidInfo.getNumberOfSessions(), bidInfo.isFreeLesson());
+                        Contract contract = new Contract(studentId, tutorId, subjectId, dateCreated,
+                                expiryDate, payment, lesson, new EmptyClass());
+                        contractApi.addContract(contract);
+                    }
+                    // if no offer, close
+                    else {
+                        System.out.println("Bid has no offer");
+                        bidApi.closeBid(bid.getId(), bid);
+                    }
+                }// if not expired pass
+            }
+            // if close
+            else {
+                System.out.println("Bid is a closed bid");
+                // if is expired, close bid
+                if (isExpired(bid)) {
+                    System.out.println("Bid is expired");
+                    bidApi.closeBid(bid.getId(), bid);
+                    // close bid
+                }
+                // if not expired pass
+            }
+        }
+    }
+
 
     private static void sampleUsageStudentBid() {
 //        // TODO: for Nick to run to see, this is to be displayed in the view
