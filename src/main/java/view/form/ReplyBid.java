@@ -142,6 +142,7 @@ public class ReplyBid {
         Time = new JComboBox();
         panel4.add(Time, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         replyMessage = new JTextArea();
+        replyMessage.setLineWrap(true);
         replyMessage.setText("");
         panel4.add(replyMessage, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         final JPanel panel5 = new JPanel();

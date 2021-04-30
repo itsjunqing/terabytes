@@ -134,6 +134,7 @@
                   </grid>
                 </constraints>
                 <properties>
+                  <lineWrap value="true"/>
                   <text value=""/>
                 </properties>
               </component>
