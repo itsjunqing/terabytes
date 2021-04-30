@@ -56,7 +56,7 @@ public class StudentController extends DashboardController {
                 OpenBidController openBidController = new OpenBidController(dashboardModel.getUserId());
 
                 /*
-                 * Old code
+                 * Old code, you may delete if you wish, keeping cause you might wanna see the old code
                  *
                     OpenBidController openBidController = new OpenBidController();
                     OpenBidModel openBidModel = new OpenBidModel();
@@ -79,7 +79,7 @@ public class StudentController extends DashboardController {
                 CloseBidController closeBidController = new CloseBidController(dashboardModel.getUserId());
 
                 /*
-                 * Old code
+                 * Old code, you may delete if you wish, keeping cause you might wanna see the old code
                  *
                     CloseBidModel closebidModel = new CloseBidModel();
                     closebidModel.lookForBid(dashboardModel.getUserId());
@@ -111,7 +111,7 @@ public class StudentController extends DashboardController {
             OpenBidController openBidController = new OpenBidController(dashboardModel.getUserId(), bp);
 
             /*
-             * Old code
+             * Old code, you may delete if you wish, keeping cause you might wanna see the old code
              *
                 OpenBidModel openBidModel = new OpenBidModel();
                 openBidModel.refresh();
@@ -135,7 +135,7 @@ public class StudentController extends DashboardController {
             CloseBidController closeBidController = new CloseBidController(dashboardModel.getUserId(), bp);
 
             /*
-             * Old code
+             * Old code, you may delete if you wish, keeping cause you might wanna see the old code
              *
                 CloseBidModel closebidModel = new CloseBidModel();
                 closebidModel.refresh();
