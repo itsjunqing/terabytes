@@ -40,51 +40,59 @@ public void refresh() {
 }
 
 private MessagePair getCloseOffers(Bid bidSelected) {
-    // Look for student's message to me (tutor)
-    Message studentMessage = null;
-    List<Message> messages = bidSelected.getMessages();
-    for (Message m: messages) {
-        if (m.getAdditionalInfo().getReceiverId().equals(userId)) {
-            studentMessage = m;
-            break;
+        String studentMessageId;
+        String tutorMessageId;
+        // Look for student's message to me (tutor)
+        Message studentMessage = null;
+        List<Message> messages = bidSelected.getMessages();
+        for (Message m: messages) {
+            if (m.getAdditionalInfo().getReceiverId().equals(userId)) {
+                studentMessage = m;
+                break;
+            }
         }
-    }
-    /*
-    Possible scenarios:
-    1. Student has sent a message to tutor
-    - a MessageBidInfo is created with the message sent
+        /*
+        Possible scenarios:
+        1. Student has sent a message to tutor
+        - a MessageBidInfo is created with the message sent
 
-    2. Student has not sent a message to tutor yet
-    - a MessageBidInfo is created with no message and student's bid preferences
-     */
-    MessageBidInfo studentBidMessage;
-    BidInfo spInfo = bidSelected.getAdditionalInfo().getBidPreference().getPreferences();
-    if (studentMessage != null) {
-        studentBidMessage = new MessageBidInfo(studentMessage.getPoster().getId(), spInfo.getDay(),
-                spInfo.getTime(), spInfo.getDuration(), spInfo.getRate(), spInfo.getNumberOfSessions(),
-                studentMessage.getContent());
-    } else {
-        studentBidMessage = new MessageBidInfo(spInfo.getInitiatorId(), spInfo.getDay(),
-                spInfo.getTime(), spInfo.getDuration(), spInfo.getRate(), spInfo.getNumberOfSessions(),
-                "");
-    }
-
-    // Look for outgoing message from me to the student
-    Message tutorMessage = null;
-    for (Message m: messages) {
-        if (m.getPoster().getId().equals(userId)) {
-            tutorMessage = m;
-            break;
+        2. Student has not sent a message to tutor yet
+        - a MessageBidInfo is created with no message and student's bid preferences
+         */
+        MessageBidInfo studentBidMessage;
+        BidInfo spInfo = bidSelected.getAdditionalInfo().getBidPreference().getPreferences();
+        if (studentMessage != null) {
+            studentBidMessage = new MessageBidInfo(studentMessage.getPoster().getId(), spInfo.getDay(),
+                    spInfo.getTime(), spInfo.getDuration(), spInfo.getRate(), spInfo.getNumberOfSessions(),
+                    studentMessage.getContent());
+            studentMessageId = studentMessage.getId();
+        } else {
+            studentBidMessage = new MessageBidInfo(spInfo.getInitiatorId(), spInfo.getDay(),
+                    spInfo.getTime(), spInfo.getDuration(), spInfo.getRate(), spInfo.getNumberOfSessions(),
+                    "");
+            studentMessageId = null;
         }
-    }
 
-    MessageBidInfo tutorBidMessage = null;
-    if (tutorMessage != null) {
-        MessageAdditionalInfo info = tutorMessage.getAdditionalInfo();
-        tutorBidMessage = new MessageBidInfo(tutorMessage.getPoster().getId(), info.getDay(), info.getTime(),
-                info.getDuration(), info.getRate(), info.getNumberOfSessions(), info.getFreeLesson(),
-                tutorMessage.getContent());
-    }
-    return new MessagePair(tutorBidMessage, studentBidMessage);
+        // Look for outgoing message from me to the student
+        Message tutorMessage = null;
+        for (Message m: messages) {
+            if (m.getPoster().getId().equals(userId)) {
+                tutorMessage = m;
+
+                break;
+            }
+        }
+
+        MessageBidInfo tutorBidMessage = null;
+        if (tutorMessage != null) {
+            MessageAdditionalInfo info = tutorMessage.getAdditionalInfo();
+            tutorBidMessage = new MessageBidInfo(tutorMessage.getPoster().getId(), info.getDay(), info.getTime(),
+                    info.getDuration(), info.getRate(), info.getNumberOfSessions(), info.getFreeLesson(),
+                    tutorMessage.getContent());
+            tutorMessageId = tutorMessage.getId();
+        } else{
+            tutorMessageId = null;
+        }
+    return new MessagePair(tutorMessageId, tutorBidMessage, studentMessageId, studentBidMessage);
     }
 }
