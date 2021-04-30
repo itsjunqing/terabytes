@@ -47,7 +47,7 @@ public class CloseBidModel extends BiddingModel {
     Eg: Student press "View Offer 1", then it gets the closeBidMessages.get(0).getTutorMsg
      */
 
-    private List<MessageBidInfo> closeBidOffers;
+    private List<MessageBidInfo> closeBidOffers ;
     private List<MessagePair> closeBidMessages;
     private MessageApi messageApi;
 
@@ -85,7 +85,6 @@ public class CloseBidModel extends BiddingModel {
     public void refresh() {
         closeBidOffers.clear();
         closeBidMessages.clear();
-
         Bid bid = bidApi.getBid(bidId);
         BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
 

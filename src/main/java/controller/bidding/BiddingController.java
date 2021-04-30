@@ -1,5 +1,6 @@
 package controller.bidding;
 
+import controller.contract.ContractController;
 import entity.BidInfo;
 import stream.*;
 
@@ -39,9 +40,11 @@ public abstract class BiddingController {
     }
 
     private void handleContract(Contract contract) {
-        // TODO: handle Contract pushing + Contract MVC construction
+        System.out.println("hi");
+        ContractController contractController = new ContractController(contract);
     }
 
     public abstract void listenViewActions();
+
 
 }

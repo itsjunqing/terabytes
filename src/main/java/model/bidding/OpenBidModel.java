@@ -20,6 +20,7 @@ public class OpenBidModel extends BiddingModel {
      * @param bp
      */
     public OpenBidModel(String userId, BidPreference bp) {
+
         Bid bidCreated = createBid(userId, bp, "Open");
         this.bidId = bidCreated.getId(); // set ID for future references
         this.userId = userId;
@@ -35,6 +36,7 @@ public class OpenBidModel extends BiddingModel {
         Bid existingBid = extractBid(userId, "Open");
         this.bidId = existingBid.getId();
         this.userId = userId;
+        this.openBidOffers = new ArrayList<>();
         refresh();
     }
 

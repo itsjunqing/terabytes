@@ -42,6 +42,7 @@ public class DashboardModel extends OSubject {
                 .findFirst()
                 .orElse(null);
         refresh();
+        System.out.println(currentBid);
         if (currentBid != null) {
             return currentBid.getType().equalsIgnoreCase("Open")? DashboardStatus.OPEN: DashboardStatus.CLOSE;
         } else if (contractsList.size() == 5) {

@@ -1,5 +1,6 @@
 package controller.bidding;
 
+import controller.contract.ContractController;
 import entity.BidInfo;
 import entity.BidPreference;
 import model.bidding.OpenBidModel;
@@ -31,6 +32,7 @@ public class OpenBidController extends BiddingController {
     public OpenBidController(String userId) {
         this.openBidModel = new OpenBidModel(userId);
         this.openBidView = new OpenBidView(openBidModel);
+        listenViewActions();
     }
 
     @Override

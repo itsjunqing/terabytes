@@ -2,19 +2,11 @@ package engine;
 
 import controller.LoginController;
 import model.LoginModel;
-import model.offering.OfferingModel;
-import stream.Bid;
 import view.LoginView;
 import view.form.BidInitiation;
-import view.offering.CloseOfferView;
-import view.offering.OfferingView;
-import view.offering.OpenOffersView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class Driver {
@@ -31,6 +23,9 @@ public class Driver {
         LoginModel loginModel = new LoginModel();
         LoginView loginView = new LoginView();
         LoginController loginController = new LoginController(loginModel, loginView);
+
+
+
 
 
 

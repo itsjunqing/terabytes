@@ -1,17 +1,32 @@
 package model.contract;
 
 import api.ContractApi;
+import lombok.Getter;
 import stream.Contract;
 
 import java.util.Date;
 
+@Getter
 public class ContractModel {
 
     private ContractApi contractApi;
     private String contractId;
+    private Contract contract;
 
-    public ContractModel() {
+    public ContractModel(Contract contract) {
         this.contractApi = new ContractApi();
+        this.contract = contract;
+        createContract(contract);
+//        this.contractId = contract.getId();
+    }
+
+    public void obtainContract (){
+        for (Contract c :contractApi.getAllContracts()){
+            if (c.getId() == contractId){
+                this.contract = c;
+            }
+        };
+
     }
 
     public void createContract(Contract contract) {

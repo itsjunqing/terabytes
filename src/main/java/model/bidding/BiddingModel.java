@@ -35,7 +35,6 @@ public abstract class BiddingModel extends OSubject {
     protected BiddingModel() {
         this.bidApi = new BidApi();
         this.subjectApi = new SubjectApi();
-        refresh();
     }
 
     protected Bid createBid(String userId, BidPreference bp, String type) {

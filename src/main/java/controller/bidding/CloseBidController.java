@@ -33,6 +33,7 @@ public class CloseBidController extends BiddingController {
     public CloseBidController(String userId) {
         this.closeBidModel = new CloseBidModel(userId);
         this.closeBidView = new CloseBidView(closeBidModel);
+        listenViewActions();
     }
 
     @Override
@@ -66,6 +67,7 @@ public class CloseBidController extends BiddingController {
     }
 
     private void handleOfferSelection(ActionEvent e) {
+        System.out.println("offer selection");
         int selection = closeBidView.getOfferSelection();
         Bid currentBid = closeBidModel.getBid();
         MessageBidInfo messageBidInfo = closeBidModel.getCloseBidOffers().get(selection-1);
