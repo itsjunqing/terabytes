@@ -1,5 +1,6 @@
 package controller.bidding;
 
+import controller.contract.ContractController;
 import entity.BidInfo;
 import entity.BidPreference;
 import model.bidding.OpenBidModel;
