@@ -63,7 +63,9 @@
                 <constraints>
                   <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
+                <properties>
+                  <model/>
+                </properties>
               </component>
               <component id="38a45" class="javax.swing.JLabel">
                 <constraints>
@@ -105,13 +107,15 @@
                   <text value="Rate (per hour)"/>
                 </properties>
               </component>
-              <component id="51d70" class="javax.swing.JFormattedTextField" binding="formattedTextField1" custom-create="true" default-binding="true">
+              <component id="51d70" class="javax.swing.JFormattedTextField" binding="Rate" custom-create="true">
                 <constraints>
                   <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
-                <properties/>
+                <properties>
+                  <text value=""/>
+                </properties>
               </component>
               <component id="8106f" class="javax.swing.JComboBox" binding="Time">
                 <constraints>
@@ -127,7 +131,7 @@
                   <text value="Free Lesson"/>
                 </properties>
               </component>
-              <component id="7a672" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+              <component id="7a672" class="javax.swing.JComboBox" binding="freeLesson">
                 <constraints>
                   <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>

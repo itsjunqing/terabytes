@@ -96,21 +96,34 @@ public class Driver {
     }
 
     private static void sampleUsageStudentBid() {
+<<<<<<< HEAD
 //        // TODO: for Nick to run to see, this is to be displayed in the view
+=======
+////        // TODO: for Nick to run to see, this is to be displayed in the view
+>>>>>>> f2fa36308cfd6cf3865fa0496ed43212906598b2
 //        OpenBidModel openBidModel = new OpenBidModel();
 //        openBidModel.setBidId("c9b04eee-6a57-4b1f-ba06-7c1f7c2e87b3");
 //        openBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
 //        openBidModel.refresh();
 //        OpenBidView openBidView = new OpenBidView(openBidModel);
+<<<<<<< HEAD
 
 ////        openBidModel.getOpenBidOffers().stream().forEach(b -> System.out.println(b));
 //
 //
 //        // TODO: For Nick to run to see, we gonna use this to manipulate the view
+=======
+//
+//////        openBidModel.getOpenBidOffers().stream().forEach(b -> System.out.println(b));
+////
+////
+////        // TODO: For Nick to run to see, we gonna use this to manipulate the view
+>>>>>>> f2fa36308cfd6cf3865fa0496ed43212906598b2
 //        CloseBidModel closeBidModel = new CloseBidModel();
 //        closeBidModel.setUserId("1ed84243-50ac-437e-872e-39dbce04c5a4");
 //        closeBidModel.setBidId("51ab43a7-25aa-4ff2-a052-418e5a46b774");
 //        closeBidModel.refresh();
+<<<<<<< HEAD
 //        CloseBidView closeBidView = new CloseBidView(closeBidModel);
 //
 //        closeBidModel.getCloseBidOffers().stream().forEach(m -> System.out.println(m));
@@ -119,6 +132,16 @@ public class Driver {
 //        MessagePair sampleMessagePair = messagePairs.get(0);
 //
         int selectedBid = 1;
+=======
+////        CloseBidView closeBidView = new CloseBidView(closeBidModel);
+////
+////        closeBidModel.getCloseBidOffers().stream().forEach(m -> System.out.println(m));
+////        closeBidModel.getCloseBidMessages().stream().forEach(m -> System.out.println(m));
+////        List<MessagePair> messagePairs= closeBidModel.getCloseBidMessages();
+////        MessagePair sampleMessagePair = messagePairs.get(0);
+////
+//        int selectedBid = 1;
+>>>>>>> f2fa36308cfd6cf3865fa0496ed43212906598b2
 //        CloseMessageView closeMessageView = new CloseMessageView(closeBidModel, selectedBid);
     }
 
@@ -130,13 +153,13 @@ public class Driver {
          */
 
         // TODO: For nick to run to see, this is to be displayed in OfferingView for the list of bids currently active
-        OfferingModel offeringModel = new OfferingModel("b1e0f080-0a8d-4ab0-9c8c-39a607cd5bc9");
-        offeringModel.refresh();
-//        OfferingView offeringView = new OfferingView(offeringModel);
-
-        System.out.println(">> ALL BIDS ON GOING ARE: ");
-        List<Bid> ongoing = offeringModel.getBidsOnGoing();
-        ongoing.stream().forEach(b -> System.out.println(b));
+//        OfferingModel offeringModel = new OfferingModel("b1e0f080-0a8d-4ab0-9c8c-39a607cd5bc9");
+//        offeringModel.refresh();
+////        OfferingView offeringView = new OfferingView(offeringModel);
+//
+//        System.out.println(">> ALL BIDS ON GOING ARE: ");
+//        List<Bid> ongoing = offeringModel.getBidsOnGoing();
+//        ongoing.stream().forEach(b -> System.out.println(b));
 
 //
 //        System.out.println((bid.getInitiator().getGivenName()));
@@ -153,7 +176,7 @@ public class Driver {
 ////            System.out.println(">> OPEN BIDS ON GOING ARE: ");
 ////            selected
 //        }
-        OpenOffersView openOffersView = new OpenOffersView(offeringModel, selectedBid);
+//        OpenOffersView openOffersView = new OpenOffersView(offeringModel, selectedBid);
 ////
 //        int selectedBid = 1; // first is close bid, tutor selects number 1
 //        Bid selected = ongoing.get(selectedBid-1);
