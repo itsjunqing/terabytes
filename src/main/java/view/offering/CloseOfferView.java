@@ -3,6 +3,7 @@ package view.offering;
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
+import model.offering.CloseOffersModel;
 import model.offering.OfferingModel;
 import observer.Observer;
 
@@ -23,15 +24,14 @@ public class CloseOfferView implements Observer {
 
     // maybe remove this
     private MessagePair messagePair;
-    private OfferingModel offeringModel;
+    private CloseOffersModel offeringModel;
     private int bidIndex;
 
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
 
-    public CloseOfferView(OfferingModel offeringModel, int bidIndex) {
+    public CloseOfferView(CloseOffersModel offeringModel) {
         this.offeringModel = offeringModel;
-        this.bidIndex = bidIndex;
         initView();
     }
 
@@ -54,7 +54,7 @@ public class CloseOfferView implements Observer {
 
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        this.messagePair= offeringModel.getCloseOffers(bidIndex-1);
+        this.messagePair= offeringModel.getMessagePair();
         updateView(messagePair);
         updateButtons();
     }

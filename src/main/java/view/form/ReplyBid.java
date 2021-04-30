@@ -45,8 +45,14 @@ public class ReplyBid {
         JFrame frame = new JFrame();
         this.frame = frame;
         frame.setContentPane(this.panel1);
+        setDetails();
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setSize(500, 400);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
 
-
+    public void setDetails() {
         for (int i = 1; i < 12; i++) {
             NumSessions.addItem(i);
         }

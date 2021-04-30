@@ -20,9 +20,7 @@ import java.util.Locale;
 @Getter
 public class OfferBid {
     private JPanel panel1;
-    private JComboBox Qualification;
-    private JComboBox Competency;
-    private JComboBox Subject;
+
     private JComboBox NumSessions;
     private JComboBox Day;
     private JComboBox Time;
@@ -48,12 +46,7 @@ public class OfferBid {
         JFrame frame = new JFrame();
         this.frame = frame;
         frame.setContentPane(this.panel1);
-        List<String> Qualifications = QualificationTitle.getNames();
-        for (String model : Qualifications) {
-            System.out.println(model);
-        }
-        List<String> SubjectList = Arrays.asList("Physics", "Chemistry", "Computer Science");
-        setDetails(Qualifications, SubjectList);
+        setDetails();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(500, 400);
         frame.setLocationRelativeTo(null);
@@ -61,19 +54,7 @@ public class OfferBid {
     }
 
     // initializing the comboboxes with the relevant values
-    private void setDetails(List<String> Qualifications, List<String> SubjectList) {
-        for (String item : Qualifications) {
-            Qualification.addItem(item);
-        }
-
-        for (int i = 1; i < 5; i++) {
-            Competency.addItem(i);
-        }
-
-        for (String item : SubjectList) {
-            Subject.addItem(item);
-        }
-
+    private void setDetails() {
         for (int i = 1; i < 12; i++) {
             NumSessions.addItem(i);
         }
@@ -89,7 +70,8 @@ public class OfferBid {
         for (int i = 8; i < 18; i++) {
             Time.addItem(i);
         }
-
+        freeLesson.addItem("Yes");
+        freeLesson.addItem("No");
     }
 
 
