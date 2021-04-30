@@ -15,6 +15,7 @@ public class CloseOffersController {
     public CloseOffersController(String userId, String bidId) {
         this.closeOffersModel = new CloseOffersModel(userId, bidId);
         this.closeOfferView = new CloseOfferView(closeOffersModel);
+        closeOffersModel.oSubject.attach(closeOfferView);
         listenViewActions();
     }
 
@@ -25,6 +26,8 @@ public class CloseOffersController {
 
     private void handleRefresh(ActionEvent e) {
         closeOffersModel.refresh();
+        closeOfferView.getRefreshButton().addActionListener(this::handleRefresh);
+        closeOfferView.getRespondMessageButton().addActionListener(this::handleRespondMessage);
     }
 
     private void handleRespondMessage(ActionEvent e) {

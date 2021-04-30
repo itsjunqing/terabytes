@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OSubject {
+    protected List<Observer> observers;
 
-    protected List<Observer> observers = new ArrayList<Observer>();
+    public OSubject(){
+        observers = new ArrayList<Observer>();
+    }
 
     public void attach(Observer o) {
         observers.add(o);
     }
 
     public void notifyObservers() {
-        observers.forEach(o -> o.update());
+        for (Observer o:observers) {
+            o.update();
+        }
     }
 }

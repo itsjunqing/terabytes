@@ -23,6 +23,7 @@ public class OpenBidController extends BiddingController {
     public OpenBidController(String userId, BidPreference bp) {
         this.openBidModel = new OpenBidModel(userId, bp);
         this.openBidView = new OpenBidView(openBidModel);
+        openBidModel.oSubject.attach(openBidView);
     }
 
     /**
@@ -43,6 +44,8 @@ public class OpenBidController extends BiddingController {
 
     private void handleRefresh(ActionEvent e) {
         openBidModel.refresh();
+        openBidView.getRefreshButton().addActionListener(this::handleRefresh);
+        openBidView.getSelectOfferButton().addActionListener(this::handleOfferSelection);
     }
 
     private void handleOfferSelection(ActionEvent e) {

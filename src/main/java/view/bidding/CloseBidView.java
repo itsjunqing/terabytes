@@ -61,6 +61,7 @@ public class CloseBidView implements Observer {
         int bidIndex = messageBidInfoList.size();
         updateView(messageBidInfoList, bid);
         updateButtons(bidIndex);
+        frame.pack();
     }
 
     private void updateView(List<MessageBidInfo> messageBidInfoList, Bid bid) {
@@ -197,6 +198,6 @@ public class CloseBidView implements Observer {
 
     @Override
     public void update() {
-
+        updateContent();
     }
 }

@@ -24,11 +24,9 @@ public class TutorView extends DashboardView {
     private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
-
         updateContracts();
         addButtons();
-
-        JFrame frame = new JFrame("Tutor Dashboard");
+        frame = new JFrame("Tutor Dashboard");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
@@ -36,6 +34,14 @@ public class TutorView extends DashboardView {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
+    public void updateContent(){
+        updateContracts();
+        addButtons();
+        frame.pack();
+
+    }
+
 
     public void updateContracts() {
         // if contractPanel already constructed, just remove the contents (only one item inside - mainList)
@@ -117,9 +123,12 @@ public class TutorView extends DashboardView {
 
     private void addButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BorderLayout());
-        mainPanel.add(buttonPanel);
+        if (buttonPanel != null) {
+            buttonPanel.removeAll();
+        } else {
+            buttonPanel = new JPanel();
+            buttonPanel.setLayout(new BorderLayout());
+            mainPanel.add(buttonPanel);}
 
         JPanel mainList = new JPanel(new GridBagLayout());
         JPanel panel = new JPanel();
@@ -149,6 +158,6 @@ public class TutorView extends DashboardView {
 
     @Override
     public void update() {
-
+        updateContent();
     }
 }

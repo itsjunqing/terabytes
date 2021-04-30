@@ -57,6 +57,7 @@ public class OpenOffersView implements Observer {
     }
 
     public void updateContent() {
+
         // getting the constants from the model
         List<BidInfo> otherBidInfo = openOffersModel.getOpenOffers();
         BidInfo myBidInfo = openOffersModel.getMyOffer();
@@ -65,6 +66,7 @@ public class OpenOffersView implements Observer {
         // making the frames 
         updateView(otherBidInfo, myBidInfo, bid);
         updateButtons();
+        frame.pack();
     }
 
     private void updateView(List<BidInfo> otherBidInfo, BidInfo myBidInfo, Bid bid) {
@@ -270,6 +272,6 @@ public class OpenOffersView implements Observer {
 
     @Override
     public void update() {
-
+        updateContent();
     }
 }

@@ -14,6 +14,7 @@ public class OfferingController {
     public OfferingController(String userId) {
         this.offeringModel = new OfferingModel(userId);
         this.offeringView = new OfferingView(offeringModel);
+        offeringModel.oSubject.attach(offeringView);
         listenViewActions();
     }
 
@@ -25,6 +26,8 @@ public class OfferingController {
     private void handleRefresh(ActionEvent e) {
         System.out.println("From OfferingController: Refresh Button is pressed");
         offeringModel.refresh();
+        offeringView.getRefreshButton().addActionListener(this::handleRefresh);
+        offeringView.getViewOffersButton().addActionListener(this::handleViewOffers);
     }
 
     private void handleViewOffers(ActionEvent e) {

@@ -4,6 +4,7 @@ import entity.BidInfo;
 import entity.BidPreference;
 import lombok.Getter;
 import lombok.Setter;
+import observer.OSubject;
 import stream.Bid;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class OpenBidModel extends BiddingModel {
         this.bidId = bidCreated.getId(); // set ID for future references
         this.userId = userId;
         this.openBidOffers = new ArrayList<>();
+        oSubject = new OSubject();
         refresh();
     }
 
@@ -45,7 +47,8 @@ public class OpenBidModel extends BiddingModel {
         Bid bid = getBidApi().getBid(getBidId());
         openBidOffers.clear();
         openBidOffers = bid.getAdditionalInfo().getBidOffers();
-//        notifyObservers();
+        oSubject.notifyObservers();
     }
+
 
 }

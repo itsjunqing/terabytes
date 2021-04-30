@@ -13,17 +13,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class DashboardModel extends OSubject {
+public class DashboardModel{
 
     private User user;
     private ContractApi contractApi;
     private BidApi bidApi;
     private List<Contract> contractsList;
+    public OSubject oSubject;
+
 
     public DashboardModel(User user) {
         this.user = user;
         this.contractApi = new ContractApi();
         this.bidApi = new BidApi();
+        oSubject = new OSubject();
         refresh(); // Note: MUST populate initial values otherwise view is not created
     }
 
@@ -32,7 +35,7 @@ public class DashboardModel extends OSubject {
                 .filter(c -> c.getFirstParty().getId().equals(user.getId())
                         || c.getSecondParty().getId().equals(user.getId()))
                 .collect(Collectors.toList());
-//        notifyObservers();
+        oSubject.notifyObservers();
     }
 
     public DashboardStatus getStatus() {

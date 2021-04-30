@@ -33,6 +33,7 @@ public class CloseBidController extends BiddingController {
     public CloseBidController(String userId) {
         this.closeBidModel = new CloseBidModel(userId);
         this.closeBidView = new CloseBidView(closeBidModel);
+        closeBidModel.oSubject.attach(closeBidView);
         listenViewActions();
     }
 
@@ -45,6 +46,9 @@ public class CloseBidController extends BiddingController {
 
     private void handleRefresh(ActionEvent e) {
         closeBidModel.refresh();
+        closeBidView.getRefreshButton().addActionListener(this::handleRefresh);
+        closeBidView.getViewMessageButton().addActionListener(this::handleViewMessage);
+        closeBidView.getSelectOfferButton().addActionListener(this::handleOfferSelection);
     }
 
     private void handleViewMessage(ActionEvent e) {

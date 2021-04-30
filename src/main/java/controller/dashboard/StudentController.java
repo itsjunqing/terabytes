@@ -24,6 +24,7 @@ public class StudentController extends DashboardController {
     public StudentController(User user) {
         super(user);
         this.dashboardView = new StudentView(dashboardModel);
+        dashboardModel.oSubject.attach(dashboardView);
         listenViewActions();
     }
 
@@ -36,6 +37,8 @@ public class StudentController extends DashboardController {
     private void handleRefresh(ActionEvent e) {
         System.out.println("From DashboardController: Refresh Button is pressed");
         dashboardModel.refresh();
+        dashboardView.getRefreshButton().addActionListener(this::handleRefresh);
+        dashboardView.getInitiateButton().addActionListener(this::handleInitiation);
     }
 
     private void handleInitiation(ActionEvent e) {

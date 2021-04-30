@@ -3,6 +3,7 @@ package view.bidding;
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
+import observer.Observer;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -16,7 +17,7 @@ import java.awt.*;
  * This might need to be updated to cater for the latest Bidding design
  */
 @Getter
-public class CloseMessageView {
+public class CloseMessageView implements Observer {
 
     private JPanel mainPanel;
     private JPanel openBidPanel;
@@ -54,6 +55,8 @@ public class CloseMessageView {
     private void updateContent() {
         updateView();
         updateButtons();
+        frame.pack();
+
     }
 
     private void updateView() {
@@ -160,6 +163,11 @@ public class CloseMessageView {
         contractTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
 
         return contractTable;
+    }
+
+    @Override
+    public void update() {
+        updateContent();
     }
 
     private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {

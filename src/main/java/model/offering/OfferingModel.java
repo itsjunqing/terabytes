@@ -13,18 +13,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class OfferingModel extends OSubject {
+public class OfferingModel {
 
     private String userId;
     private UserApi userApi;
     private BidApi bidApi;
     private List<Bid> bidsOnGoing;
+    public OSubject oSubject;
 
     public OfferingModel(String userId) {
         this.userId = userId;
         this.userApi = new UserApi();
         this.bidApi = new BidApi();
         this.bidsOnGoing = new ArrayList<>();
+        oSubject = new OSubject();
+
     }
 
     public void refresh() {
@@ -48,7 +51,7 @@ public class OfferingModel extends OSubject {
                 }
             }
         }
-//        notifyObservers();
+        oSubject.notifyObservers();
     }
 
 }

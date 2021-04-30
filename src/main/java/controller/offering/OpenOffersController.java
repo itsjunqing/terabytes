@@ -19,6 +19,7 @@ public class OpenOffersController {
     public OpenOffersController(String userId, String bidId) {
         this.openOffersModel = new OpenOffersModel(userId, bidId);
         this.openOffersView = new OpenOffersView(openOffersModel);
+        openOffersModel.oSubject.attach(openOffersView);
         listenViewActions();
     }
 
@@ -30,6 +31,9 @@ public class OpenOffersController {
 
     private void handleRefresh(ActionEvent e) {
         openOffersModel.refresh();
+        openOffersView.getRefreshButton().addActionListener(this::handleRefresh);
+        openOffersView.getRespondButton().addActionListener(this::handleRespond);
+        openOffersView.getBuyOutButton().addActionListener(this::handleBuyOut);
     }
 
     private void handleRespond(ActionEvent e) {

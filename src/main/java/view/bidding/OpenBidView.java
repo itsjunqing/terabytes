@@ -61,6 +61,7 @@ public class OpenBidView implements Observer {
         int bidIndex = bidInfoList.size();
         updateView(bidInfoList, bid);
         updateButtons(bidIndex);
+        frame.pack();
     }
 
     private void updateView(List<BidInfo> bidInfoList, Bid bid) {
@@ -195,6 +196,6 @@ public class OpenBidView implements Observer {
 
     @Override
     public void update() {
-
+        updateContent();
     }
 }

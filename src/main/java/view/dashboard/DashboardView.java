@@ -15,6 +15,9 @@ public abstract class DashboardView implements Observer {
     protected JButton refreshButton;
     protected JButton initiateButton;
     protected JLabel errorLabel;
+    protected JFrame frame;
+    JPanel buttonPanel;
+
 
     // Note: once buttons are created, when refresh is called, only contractPanel is updated, buttons are not destroyed
     // so the same buttons listened in the controller will continue to work

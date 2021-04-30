@@ -4,6 +4,7 @@ import api.BidApi;
 import api.UserApi;
 import entity.BidInfo;
 import lombok.Data;
+import observer.OSubject;
 import stream.Bid;
 import stream.BidAdditionalInfo;
 import stream.User;
@@ -20,7 +21,7 @@ public class OpenOffersModel {
     private UserApi userApi;
     private BidInfo myOffer;
     private List<BidInfo> openOffers;
-
+    public OSubject oSubject;
 
     public OpenOffersModel(String userId, String bidId) {
         this.userId = userId;
@@ -28,6 +29,7 @@ public class OpenOffersModel {
         this.bidApi = new BidApi();
         this.userApi = new UserApi();
         this.openOffers = new ArrayList<>();
+        oSubject = new OSubject();
         refresh();
     }
 
@@ -45,7 +47,7 @@ public class OpenOffersModel {
                 openOffers.add(myOffer);
             }
         }
-//        notifyObservers();
+        oSubject.notifyObservers();
     }
 
     public Bid getBid() {

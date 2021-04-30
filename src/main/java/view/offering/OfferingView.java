@@ -24,6 +24,7 @@ public class OfferingView implements Observer {
     private JComboBox bidSelection;
     private JButton refreshButton;
     private JButton viewOffersButton;
+    private JFrame frame;
 
     public OfferingView(OfferingModel offeringModel) {
         this.offeringModel = offeringModel;
@@ -34,10 +35,8 @@ public class OfferingView implements Observer {
     private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
-
+        frame = new JFrame("Tutor Offering View");
         updateContent();
-
-        JFrame frame = new JFrame("Tutor Offering View");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
@@ -56,6 +55,7 @@ public class OfferingView implements Observer {
         Collections.reverse(bidList);
         updateView(bidList);
         updateButtons(bidSize);
+        frame.pack();
     }
 
     private void updateButtons(int bidSize) {

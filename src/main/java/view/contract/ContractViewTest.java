@@ -2,7 +2,6 @@ package view.contract;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
-import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 import model.contract.ContractModel;
 import observer.Observer;
@@ -10,23 +9,23 @@ import stream.Contract;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.util.Locale;
 
 @Getter
-public class ContractView implements Observer {
+public class ContractViewTest {
     private JPanel panel1;
     private JButton confirmButton;
     private JButton cancelButton;
     private JScrollPane ScrollPane;
     private JFrame frame;
     private ContractModel contractModel;
-
-    public ContractView(ContractModel contractModel) {
+    private Contract contract;
+    public ContractViewTest(Contract contract) {
         this.contractModel = contractModel;
+        this.contract = contract;
+
         initDisplay();
     }
 
@@ -38,15 +37,15 @@ public class ContractView implements Observer {
         JFrame frame = new JFrame();
         this.frame = frame;
         frame.setContentPane(this.panel1);
-        setDetails();
+        setDetails(this.contract);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(500, 300);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
-    private void setDetails() {
-        JTable table1 = getTable(this.contractModel.getContract());
+    private void setDetails(Contract contract) {
+        JTable table1 = getTable(contract);
         this.ScrollPane.setViewportView(table1);
     }
 
@@ -133,9 +132,9 @@ public class ContractView implements Observer {
         return contractTable;
     }
 
-    @Override
-    public void update() {
-        setDetails();
+    public void update(Contract contract) {
+        setDetails(contract);
+
     }
 }
 

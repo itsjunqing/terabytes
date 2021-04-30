@@ -24,7 +24,7 @@ public class StudentView extends DashboardView {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
 
-        JFrame frame = new JFrame("Student Dashboard");
+        frame = new JFrame("Student Dashboard");
         updateContracts();
         addButtons();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,6 +34,12 @@ public class StudentView extends DashboardView {
         frame.setMinimumSize(new Dimension(830, 400));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public void updateContent(){
+        updateContracts();
+        addButtons();
+        frame.pack();
     }
 
     public void updateContracts() {
@@ -115,10 +121,13 @@ public class StudentView extends DashboardView {
     }
 
     private void addButtons() {
-        // constructs buttonPanel and add into the mainPanel of the view
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BorderLayout());
-        mainPanel.add(buttonPanel);
+        if (buttonPanel != null) {
+            buttonPanel.removeAll();
+        } else {
+            buttonPanel = new JPanel();
+            buttonPanel.setLayout(new BorderLayout());
+            mainPanel.add(buttonPanel);
+        }
 
         JPanel mainList = new JPanel(new GridBagLayout());
         JPanel panel = new JPanel();
@@ -155,6 +164,6 @@ public class StudentView extends DashboardView {
 
     @Override
     public void update() {
-
+        updateContent();
     }
 }

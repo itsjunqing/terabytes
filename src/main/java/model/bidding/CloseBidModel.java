@@ -8,6 +8,7 @@ import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import lombok.Setter;
+import observer.OSubject;
 import stream.Bid;
 import stream.Message;
 import stream.MessageAdditionalInfo;
@@ -63,6 +64,7 @@ public class CloseBidModel extends BiddingModel {
         this.closeBidOffers = new ArrayList<>();
         this.closeBidMessages = new ArrayList<>();
         this.messageApi = new MessageApi();
+        oSubject = new OSubject();
         refresh();
     }
 
@@ -77,6 +79,7 @@ public class CloseBidModel extends BiddingModel {
         this.closeBidOffers = new ArrayList<>();
         this.closeBidMessages = new ArrayList<>();
         this.messageApi = new MessageApi();
+        oSubject = new OSubject();
         refresh();
     }
 
@@ -130,8 +133,7 @@ public class CloseBidModel extends BiddingModel {
             closeBidOffers.add(tutorBidMessage);
 
         }
-//        notifyObservers();
-    }
+        oSubject.notifyObservers();    }
 
 
     private MessageBidInfo convertObject(Message message) {

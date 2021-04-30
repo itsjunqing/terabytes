@@ -5,6 +5,7 @@ import entity.BidInfo;
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Data;
+import observer.OSubject;
 import stream.Bid;
 import stream.Message;
 import stream.MessageAdditionalInfo;
@@ -16,12 +17,16 @@ public class CloseOffersModel {
     private String bidId;
     private BidApi bidApi;
     private MessagePair messagePair;
+    public OSubject oSubject;
+
 
     public CloseOffersModel(String userId, String bidId) {
         this.userId = userId;
         this.bidId = bidId;
     	this.bidApi = new BidApi();
-    	refresh();
+        oSubject = new OSubject();
+
+        refresh();
     }
 
     public void refresh() {
@@ -62,6 +67,7 @@ public class CloseOffersModel {
         }
 
         messagePair = new MessagePair(tutorMsgId, tutorBidMessage, studentMsgId, studentBidMessage);
+        oSubject.notifyObservers();
     }
 
     public void sendMessage(MessageBidInfo messageBidInfo) {
