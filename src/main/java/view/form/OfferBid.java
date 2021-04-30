@@ -27,17 +27,20 @@ public class OfferBid {
     private JComboBox Day;
     private JComboBox Time;
     private JComboBox Duration;
-    private JComboBox Rate;
     private JTextPane offerBidTextPane;
     private JButton offerBidButton;
-    private JFormattedTextField formattedTextField1;
-    private JComboBox comboBox1;
+    private JFormattedTextField Rate;
+    private JComboBox freeLesson;
 
     private JFrame frame;
 
     public OfferBid() {
         $$$setupUI$$$();
         initDisplay();
+    }
+
+    public void dispose() {
+        this.frame.dispose();
     }
 
 
@@ -120,6 +123,8 @@ public class OfferBid {
         Day = new JComboBox();
         panel4.add(Day, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         Duration = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        Duration.setModel(defaultComboBoxModel1);
         panel4.add(Duration, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setText("Number Of Sessions");
@@ -136,14 +141,15 @@ public class OfferBid {
         final JLabel label5 = new JLabel();
         label5.setText("Rate (per hour)");
         panel4.add(label5, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        panel4.add(formattedTextField1, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        Rate.setText("");
+        panel4.add(Rate, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         Time = new JComboBox();
         panel4.add(Time, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label6 = new JLabel();
         label6.setText("Free Lesson");
         panel4.add(label6, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        comboBox1 = new JComboBox();
-        panel4.add(comboBox1, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        freeLesson = new JComboBox();
+        panel4.add(freeLesson, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel5, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(24, 124), null, 0, false));
@@ -196,7 +202,37 @@ public class OfferBid {
         numberInput.setMaximum(Integer.MAX_VALUE);
         numberInput.setAllowsInvalid(false);
 
-        formattedTextField1 = new JFormattedTextField(numberInput);
+        Rate = new JFormattedTextField(numberInput);
     }
+
+    public int getNumSessions() throws NullPointerException {
+        return Integer.parseInt(NumSessions.getSelectedItem().toString());
+    }
+
+    public String getDay() throws NullPointerException {
+        return Day.getSelectedItem().toString();
+    }
+
+    public String getTime() throws NullPointerException {
+        return Time.getSelectedItem().toString();
+    }
+
+    public int getDuration() throws NullPointerException {
+        return Integer.parseInt(Duration.getSelectedItem().toString());
+    }
+
+    public int getRate() throws NullPointerException {
+        if (Rate.getText().isEmpty()) {
+            throw new NullPointerException();
+        }
+        return Integer.parseInt(Rate.getText());
+    }
+
+
+    public boolean getFreeLesson() throws NullPointerException {
+        return freeLesson.getSelectedItem().toString().equals("Yes");
+    }
+
+    ;
 }
 

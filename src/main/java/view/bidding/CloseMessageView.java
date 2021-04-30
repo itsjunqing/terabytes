@@ -129,7 +129,7 @@ public class CloseMessageView implements Observer {
 
     private JTable getStudentMessageTable(MessageBidInfo messageBidInfo) {
         String freeLesson = new String();
-        if (messageBidInfo.isFreeLesson() == true) {
+        if (messageBidInfo.isFreeLesson()) {
             freeLesson = "Yes";
         } else {
             freeLesson = "No";
@@ -155,7 +155,7 @@ public class CloseMessageView implements Observer {
 
     private JTable getTutorMessageTable(MessageBidInfo messageBidInfo) {
         String freeLesson = new String();
-        if (messageBidInfo.isFreeLesson() == true) {
+        if (messageBidInfo.isFreeLesson()) {
             freeLesson = "Yes";
         } else {
             freeLesson = "No";
