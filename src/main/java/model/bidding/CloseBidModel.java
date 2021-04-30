@@ -90,6 +90,7 @@ public class CloseBidModel extends BiddingModel {
         BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
 
         // Get the Messages where the initiator is a tutor
+        // TODO: does using receiverId.equals(userId) will work too?
         List<Message> tutorMessages = bid.getMessages().stream()
                 .filter(m -> !m.getPoster().getId().equals(userId))
                 .collect(Collectors.toList());
@@ -100,6 +101,7 @@ public class CloseBidModel extends BiddingModel {
             MessageBidInfo tutorBidMessage = convertObject(tutorMsg);
 
             // Student's Message (if a Message has been posted or null))
+            // Disclaimer: must use receiverId because student can send to many tutors
             String tutorId = tutorMsg.getPoster().getId();
             Message studentMsg = bid.getMessages().stream()
                                         .filter(m -> m.getAdditionalInfo().getReceiverId().equals(tutorId))
