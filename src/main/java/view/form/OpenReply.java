@@ -3,7 +3,6 @@ package view.form;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import entity.QualificationTitle;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -13,26 +12,24 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.text.NumberFormat;
 import java.time.DayOfWeek;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 
 @Getter
-public class ReplyBid {
-    private JPanel panel1;
-    private JComboBox NumSessions;
-    private JComboBox Day;
-    private JComboBox Time;
-    private JComboBox Duration;
-    private JTextPane replyBidTextPane;
-    private JButton sendReplyButton;
-    private JFormattedTextField rate;
-    private JTextArea replyMessage;
-    private JComboBox freeLesson;
+public class OpenReply {
+    private JPanel mainPanel;
+
+    private JComboBox numOfSessionBox;
+    private JComboBox dayBox;
+    private JComboBox timeBox;
+    private JComboBox durationBox;
+    private JTextPane offerBidTextPane;
+    private JButton offerBidButton;
+    private JFormattedTextField rateField;
+    private JComboBox freeLessonBox;
 
     private JFrame frame;
 
-    public ReplyBid() {
+    public OpenReply() {
         $$$setupUI$$$();
         initDisplay();
     }
@@ -41,10 +38,11 @@ public class ReplyBid {
         this.frame.dispose();
     }
 
+
     public void initDisplay() {
         JFrame frame = new JFrame();
         this.frame = frame;
-        frame.setContentPane(this.panel1);
+        frame.setContentPane(this.mainPanel);
         setDetails();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(500, 400);
@@ -52,26 +50,25 @@ public class ReplyBid {
         frame.setVisible(true);
     }
 
-    public void setDetails() {
+    // initializing the comboboxes with the relevant values
+    private void setDetails() {
         for (int i = 1; i < 12; i++) {
-            NumSessions.addItem(i);
+            numOfSessionBox.addItem(i);
         }
 
         for (DayOfWeek d : DayOfWeek.values()) {
-            Day.addItem(d);
+            dayBox.addItem(d);
         }
 
         for (int i = 1; i < 5; i++) {
-            Duration.addItem(i);
+            durationBox.addItem(i);
         }
 
         for (int i = 8; i < 18; i++) {
-            Time.addItem(i);
+            timeBox.addItem(i);
         }
-
-        freeLesson.addItem("Yes");
-        freeLesson.addItem("No");
-
+        freeLessonBox.addItem("Yes");
+        freeLessonBox.addItem("No");
     }
 
 
@@ -84,67 +81,62 @@ public class ReplyBid {
      */
     private void $$$setupUI$$$() {
         createUIComponents();
-        panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel1.add(panel2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        mainPanel.add(panel2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel3, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        replyBidTextPane = new JTextPane();
-        Font replyBidTextPaneFont = this.$$$getFont$$$("Arial", Font.BOLD, 24, replyBidTextPane.getFont());
-        if (replyBidTextPaneFont != null) replyBidTextPane.setFont(replyBidTextPaneFont);
-        replyBidTextPane.setText("Reply Bid");
-        panel3.add(replyBidTextPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        offerBidTextPane = new JTextPane();
+        Font offerBidTextPaneFont = this.$$$getFont$$$("Arial", Font.BOLD, 24, offerBidTextPane.getFont());
+        if (offerBidTextPaneFont != null) offerBidTextPane.setFont(offerBidTextPaneFont);
+        offerBidTextPane.setText("OpenReply");
+        panel3.add(offerBidTextPane, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         final JPanel panel4 = new JPanel();
-        panel4.setLayout(new GridLayoutManager(7, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel4.setLayout(new GridLayoutManager(6, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel4, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(24, 267), null, 0, false));
-        NumSessions = new JComboBox();
-        panel4.add(NumSessions, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        Day = new JComboBox();
-        panel4.add(Day, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        Duration = new JComboBox();
-        panel4.add(Duration, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        numOfSessionBox = new JComboBox();
+        panel4.add(numOfSessionBox, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        dayBox = new JComboBox();
+        panel4.add(dayBox, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        durationBox = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        durationBox.setModel(defaultComboBoxModel1);
+        panel4.add(durationBox, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setText("Number Of Sessions");
         panel4.add(label1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
-        label2.setText("Day");
+        label2.setText("dayBox");
         panel4.add(label2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
-        label3.setText("Time");
+        label3.setText("timeBox");
         panel4.add(label3, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
-        label4.setText("Duration (hours)");
+        label4.setText("durationBox (hours)");
         panel4.add(label4, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label5 = new JLabel();
-        label5.setText("Rate (per hour)");
+        label5.setText("rateField (per hour)");
         panel4.add(label5, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        rateField.setText("");
+        panel4.add(rateField, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        timeBox = new JComboBox();
+        panel4.add(timeBox, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label6 = new JLabel();
-        label6.setText("Note");
-        panel4.add(label6, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        rate.setText("");
-        panel4.add(rate, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        Time = new JComboBox();
-        panel4.add(Time, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        replyMessage = new JTextArea();
-        replyMessage.setLineWrap(true);
-        replyMessage.setText("");
-        panel4.add(replyMessage, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
-        final JLabel label7 = new JLabel();
-        label7.setText("Free Lesson?");
-        panel4.add(label7, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        freeLesson = new JComboBox();
-        panel4.add(freeLesson, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        label6.setText("Free Lesson");
+        panel4.add(label6, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        freeLessonBox = new JComboBox();
+        panel4.add(freeLessonBox, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new GridLayoutManager(1, 4, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel5, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(24, 124), null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel5.add(spacer1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        sendReplyButton = new JButton();
-        sendReplyButton.setText("Send Reply");
-        panel5.add(sendReplyButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        offerBidButton = new JButton();
+        offerBidButton.setText("OpenReply");
+        panel5.add(offerBidButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         panel5.add(spacer2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
@@ -177,7 +169,7 @@ public class ReplyBid {
      * @noinspection ALL
      */
     public JComponent $$$getRootComponent$$$() {
-        return panel1;
+        return mainPanel;
     }
 
     private void createUIComponents() {
@@ -188,45 +180,35 @@ public class ReplyBid {
         numberInput.setMinimum(0);
         numberInput.setMaximum(Integer.MAX_VALUE);
         numberInput.setAllowsInvalid(false);
-        rate = new JFormattedTextField(numberInput);
+
+        rateField = new JFormattedTextField(numberInput);
     }
 
-
-    public int getNumSessions() throws NullPointerException {
-        return Integer.parseInt(NumSessions.getSelectedItem().toString());
+    public int getNumOfSessionBox() throws NullPointerException {
+        return Integer.parseInt(numOfSessionBox.getSelectedItem().toString());
     }
 
-    public String getDay() throws NullPointerException {
-        return Day.getSelectedItem().toString();
+    public String getDayBox() throws NullPointerException {
+        return dayBox.getSelectedItem().toString();
     }
 
-    public String getTime() throws NullPointerException {
-        return Time.getSelectedItem().toString();
+    public String getTimeBox() throws NullPointerException {
+        return timeBox.getSelectedItem().toString();
     }
 
-    public int getDuration() throws NullPointerException {
-        return Integer.parseInt(Duration.getSelectedItem().toString());
+    public int getDurationBox() throws NullPointerException {
+        return Integer.parseInt(durationBox.getSelectedItem().toString());
     }
 
-    public int getRate() throws NullPointerException {
-        if (rate.getText().isEmpty()) {
+    public int getRateField() throws NullPointerException {
+        if (rateField.getText().isEmpty()) {
             throw new NullPointerException();
         }
-        return Integer.parseInt(rate.getText());
+        return Integer.parseInt(rateField.getText());
     }
 
-    public String getReplyMessage() throws NullPointerException {
-        return replyMessage.getText();
+    public boolean getFreeLessonBox() throws NullPointerException {
+        return freeLessonBox.getSelectedItem().toString().equals("Yes");
     }
-
-    ;
-
-    public boolean getFreeLesson() throws NullPointerException {
-        return freeLesson.getSelectedItem().toString().equals("Yes");
-    }
-
-    ;
-
-
 }
 

@@ -110,16 +110,6 @@ public class StudentController extends DashboardController {
 
             OpenBidController openBidController = new OpenBidController(dashboardModel.getUserId(), bp);
 
-            /*
-             * Old code, you may delete if you wish, keeping cause you might wanna see the old code
-             *
-                OpenBidModel openBidModel = new OpenBidModel();
-                openBidModel.refresh();
-                openBidModel.createBid(dashboardModel.getUserId(), bp);
-                OpenBidView openBidView = new OpenBidView(openBidModel);
-                BiddingController biddingController = new BiddingController(openBidModel, openBidView);
-            */
-
         } catch (NullPointerException exception) {
             // TODO: Add error message in UI on incomplete forms, similar to login
         }
@@ -133,16 +123,6 @@ public class StudentController extends DashboardController {
             form.dispose();
 
             CloseBidController closeBidController = new CloseBidController(dashboardModel.getUserId(), bp);
-
-            /*
-             * Old code, you may delete if you wish, keeping cause you might wanna see the old code
-             *
-                CloseBidModel closebidModel = new CloseBidModel();
-                closebidModel.refresh();
-                closebidModel.createBid(dashboardModel.getUserId(), bp);
-                CloseBidView closeBidView = new CloseBidView(closebidModel);
-                BiddingController biddingController = new BiddingController(closebidModel, closeBidView);
-            */
 
         } catch (NullPointerException exception) {
             // TODO: Add error message in UI on incomplete forms, similar to login

@@ -2,16 +2,11 @@ package model.offering;
 
 import api.BidApi;
 import api.UserApi;
-import entity.BidInfo;
 import entity.BidPreference;
-import entity.MessageBidInfo;
-import entity.MessagePair;
 import lombok.Getter;
 import lombok.Setter;
 import observer.OSubject;
 import stream.Bid;
-import stream.Message;
-import stream.MessageAdditionalInfo;
 import stream.User;
 
 import java.util.ArrayList;
@@ -26,13 +21,14 @@ public class OfferingModel extends OSubject {
     private List<Bid> bidsOnGoing;
 
     public OfferingModel(String userId) {
-        this.userId = userId; // only Tutor can initialize this, so User is a tutor
+        this.userId = userId;
         this.userApi = new UserApi();
         this.bidApi = new BidApi();
         this.bidsOnGoing = new ArrayList<>();
     }
 
     public void refresh() {
+        // TODO: Nick, pls verify the logic to see if there is any missing requirement
         bidsOnGoing.clear(); // for memory cleaning
         User currentUser = userApi.getUser(userId);
         List<Bid> bids = bidApi.getAllBids();
@@ -54,11 +50,5 @@ public class OfferingModel extends OSubject {
         }
 //        notifyObservers();
     }
-
-
-
-
-
-
 
 }

@@ -195,13 +195,13 @@ public class CloseBidModel extends BiddingModel {
 //        // Case 3a: construct pair with existing message, use studentMessage to construct
 //        MessageBidInfo studentBidMessage;
 //        if (studentMessage != null) {
-//            studentBidMessage = new MessageBidInfo(studentMessage.getPoster().getId(), spInfo.getDay(),
-//                    spInfo.getTime(), spInfo.getDuration(), spInfo.getRate(), spInfo.getNumberOfSessions(),
+//            studentBidMessage = new MessageBidInfo(studentMessage.getPoster().getId(), spInfo.getDayBox(),
+//                    spInfo.getTimeBox(), spInfo.getDurationBox(), spInfo.getRateField(), spInfo.getNumberOfSessions(),
 //                    studentMessage.getContent());
 //            // Case 3b: construct pair with no message, use bid preference to construct
 //        } else {
-//            studentBidMessage = new MessageBidInfo(spInfo.getInitiatorId(), spInfo.getDay(),
-//                    spInfo.getTime(), spInfo.getDuration(), spInfo.getRate(), spInfo.getNumberOfSessions(),
+//            studentBidMessage = new MessageBidInfo(spInfo.getInitiatorId(), spInfo.getDayBox(),
+//                    spInfo.getTimeBox(), spInfo.getDurationBox(), spInfo.getRateField(), spInfo.getNumberOfSessions(),
 //                    "");
 //        }
 //        closeBidMessages.add(new MessagePair(tutorBidMessage, studentBidMessage));

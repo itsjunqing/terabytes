@@ -58,11 +58,4 @@ public class Bid {
         this.dateClosedDown = dateClosedDown;
     }
 
-    // TODO: Inner class below to be modified
-    @Data
-    private class Extra {
-        private String info;
-        private String preference;
-        private String bidOffers;
-    }
 }

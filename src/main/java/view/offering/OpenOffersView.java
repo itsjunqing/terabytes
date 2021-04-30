@@ -2,8 +2,6 @@ package view.offering;
 
 import entity.BidInfo;
 import lombok.Getter;
-import model.offering.OfferingModel;
-import model.bidding.OpenBidModel;
 import model.offering.OpenOffersModel;
 import observer.Observer;
 import stream.Bid;
@@ -16,7 +14,6 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 public class OpenOffersView implements Observer {
@@ -26,13 +23,15 @@ public class OpenOffersView implements Observer {
     private JButton refreshButton;
     private JButton respondButton;
     private JButton buyOutButton;
-    private OpenOffersModel offeringModel;
+    private OpenOffersModel openOffersModel;
+
+    private JFrame frame;
 
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
 
     public OpenOffersView(OpenOffersModel offeringModel) {
-        this.offeringModel = offeringModel;
+        this.openOffersModel = offeringModel;
         initView();
     }
 
@@ -44,7 +43,7 @@ public class OpenOffersView implements Observer {
         updateContent();
 
         // Setting the frame
-        JFrame frame = new JFrame("All Open Offers for this Bid");
+        frame = new JFrame("All Open Offers for this Bid");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
@@ -53,11 +52,15 @@ public class OpenOffersView implements Observer {
         frame.setVisible(true);
     }
 
+    public void dispose() {
+        this.frame.dispose();
+    }
+
     public void updateContent() {
         // getting the constants from the model
-        List<BidInfo> otherBidInfo = offeringModel.getOtherOffers();
-        BidInfo myBidInfo = offeringModel.getMyOffer();
-        Bid bid = offeringModel.getBid();
+        List<BidInfo> otherBidInfo = openOffersModel.getOpenOffers();
+        BidInfo myBidInfo = openOffersModel.getMyOffer();
+        Bid bid = openOffersModel.getBid();
 
         // making the frames 
         updateView(otherBidInfo, myBidInfo, bid);
@@ -156,7 +159,7 @@ public class OpenOffersView implements Observer {
         }
 
         String[][] rec = {
-                {"Tutor Name:", this.offeringModel.getUserName(bidInfo.getInitiatorId())},
+                {"Tutor Name:", this.openOffersModel.getUserName(bidInfo.getInitiatorId())},
                 {"Subject:", bid.getSubject().getName()},
                 {"Number of Sessions:", Integer.toString(bidInfo.getNumberOfSessions())},
                 {"Day & Time:", bidInfo.getDay() + " " + bidInfo.getTime()},

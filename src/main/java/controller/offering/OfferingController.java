@@ -1,26 +1,15 @@
 package controller.offering;
 
-import entity.BidInfo;
-import entity.MessageBidInfo;
 import model.offering.OfferingModel;
 import stream.Bid;
-import view.form.OfferBid;
-import view.form.ReplyBid;
-import view.offering.CloseOfferView;
 import view.offering.OfferingView;
-import view.offering.OpenOffersView;
 
 import java.awt.event.ActionEvent;
-import java.util.List;
-//import view.offering.OfferingView;
 
 public class OfferingController {
 
     private OfferingModel offeringModel;
     private OfferingView offeringView;
-    private OpenOffersView openOffersView;
-    private CloseOfferView closeOfferView;
-    private String userId;
 
     public OfferingController(String userId) {
         this.offeringModel = new OfferingModel(userId);
@@ -43,18 +32,13 @@ public class OfferingController {
         int selection = offeringView.getBidNumber();
         Bid bid = offeringModel.getBidsOnGoing().get(selection-1);
         if (bid.getType().equals("Open")) {
-            OpenOffersController openOffersController = new OpenOffersController(bid.getId(), userId);
+            OpenOffersController openOffersController = new OpenOffersController(offeringModel.getUserId(), bid.getId());
         } else {
-           CloseOffersController closeOffersController = new CloseOffersController(bid.getId(), userId);
+           CloseOffersController closeOffersController = new CloseOffersController(offeringModel.getUserId(), bid.getId());
         }
-
     }
 
 
-
-    public void listenBuyOut() {
-
-    }
 
     public void listenToReply() {
         // create reply view -> extract info from view -> create BidMessageInfo -> post to Message API

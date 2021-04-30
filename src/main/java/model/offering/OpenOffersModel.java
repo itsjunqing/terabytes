@@ -5,63 +5,54 @@ import api.UserApi;
 import entity.BidInfo;
 import lombok.Data;
 import stream.Bid;
+import stream.BidAdditionalInfo;
 import stream.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class OpenOffersModel {
+
+    private String userId;
+    private String bidId;
     private BidApi bidApi;
     private UserApi userApi;
-    private List<BidInfo> openOffers;
-    private List<BidInfo> otherOffers;
-    private String bidId;
-    private String userId;
-    private Bid bid;
     private BidInfo myOffer;
+    private List<BidInfo> openOffers;
 
-    public OpenOffersModel(String bidId, String userId) {
+
+    public OpenOffersModel(String userId, String bidId) {
+        this.userId = userId;
         this.bidId = bidId;
         this.bidApi = new BidApi();
         this.userApi = new UserApi();
         this.openOffers = new ArrayList<>();
-        this.otherOffers = new ArrayList<>();
+        refresh();
     }
-
 
     public void refresh() {
-    this.openOffers.clear(); // for memory cleaning
-    this.otherOffers.clear();
-    this.bid = null;
-    this.myOffer = null;
+        openOffers.clear();
+        Bid bid = bidApi.getBid(bidId);
+        List<BidInfo> offers = bid.getAdditionalInfo().getBidOffers();
 
-
-    // Getting the correct bid based on id
-    List<Bid> bids = bidApi.getAllBids();
-    for (Bid b: bids) {
-    	if (b.getId().equals(this.getBidId())){
-    	    this.bid = b;
+        // openOffers includes all the BidInfo offers (by all tutors) except the current tutor
+        // myOffer is BidInfo offered by itself
+        for (BidInfo bidInfo: offers) {
+            if (bidInfo.getInitiatorId().equals(userId)) {
+                myOffer = bidInfo;
+            } else {
+                openOffers.add(myOffer);
+            }
         }
-    }
-    // Getting all offers
-    openOffers = bid.getAdditionalInfo().getBidOffers();
-
-    // Getting my offer
-    for (BidInfo bI: openOffers){
-        if (bI.getInitiatorId().equals(this.userId)){
-            this.myOffer = bI;
-        }
-    }
-
-    // Getting the list of other offers
-    this.otherOffers = this.openOffers.stream()
-            .filter(o -> !o.getInitiatorId().equals(this.userId))
-            .collect(Collectors.toList());
-    }
-
 //        notifyObservers();
+    }
+
+    public Bid getBid() {
+        return bidApi.getBid(bidId);
+    }
+
+
     public String getUserName(String Id){
         UserApi userApi = new UserApi();
         User user = userApi.getUser(Id);
@@ -71,12 +62,17 @@ public class OpenOffersModel {
     }
 
     public void sendOffer(BidInfo bidInfo) {
-//        Bid bidChosen = getOpenBids().get(bidIndex);
-//        BidAdditionalInfo bidAdditionalInfo = bidChosen.getAdditionalInfo();
-//        bidAdditionalInfo.getBidOffers().add(bidInfo); // add offer
-//
-//        // can only patch bid because api doesn't allow adding of information of the additionalInfo attribute
-//        bidApi.patchBid(bidChosen.getId(), new Bid(bidAdditionalInfo));
+        BidAdditionalInfo info = bidApi.getBid(bidId).getAdditionalInfo();
+        BidInfo currentBidInfo = info.getBidOffers().stream()
+                                    .filter(i -> i.getInitiatorId().equals(userId))
+                                    .findFirst()
+                                    .orElse(null);
+        // if the tutor has provided an offer before, remove the offer
+        if (currentBidInfo != null) {
+            info.getBidOffers().remove(currentBidInfo);
+        }
+        info.getBidOffers().add(bidInfo);
+        bidApi.patchBid(bidId, new Bid(info));
     }
 
 

@@ -4,7 +4,6 @@ import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import model.offering.CloseOffersModel;
-import model.offering.OfferingModel;
 import observer.Observer;
 
 import javax.swing.*;
@@ -16,22 +15,21 @@ import java.awt.*;
 
 @Getter
 public class CloseOfferView implements Observer {
+
+    private CloseOffersModel closeOffersModel;
     private JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
     private JButton refreshButton;
     private JButton respondMessageButton;
 
-    // maybe remove this
-    private MessagePair messagePair;
-    private CloseOffersModel offeringModel;
-    private int bidIndex;
+    private JFrame frame;
 
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
 
-    public CloseOfferView(CloseOffersModel offeringModel) {
-        this.offeringModel = offeringModel;
+    public CloseOfferView(CloseOffersModel closeOffersModel) {
+        this.closeOffersModel = closeOffersModel;
         initView();
     }
 
@@ -41,25 +39,28 @@ public class CloseOfferView implements Observer {
 
         updateContent();
 
-        JFrame frame = new JFrame("Close Message View");
+        frame = new JFrame("Close Message View");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(830, 400));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
 
-
+    public void dispose() {
+        this.frame.dispose();
     }
 
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        this.messagePair= offeringModel.getMessagePair();
-        updateView(messagePair);
+        updateView();
         updateButtons();
     }
 
-    private void updateView(MessagePair messagePair) {
+    private void updateView() {
+        MessagePair messagePair = closeOffersModel.getMessagePair();
+
         // to be used upon refresh to update both openBidPanel and buttonPanel
         if (openBidPanel != null) {
             openBidPanel.removeAll();

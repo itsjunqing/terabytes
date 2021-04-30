@@ -1,81 +1,105 @@
 package controller.offering;
 
 import entity.BidInfo;
+import entity.BidPreference;
 import model.offering.OpenOffersModel;
-import view.form.OfferBid;
+import stream.*;
+import view.form.OpenReply;
 import view.offering.OpenOffersView;
 
 import java.awt.event.ActionEvent;
+import java.util.Calendar;
+import java.util.Date;
 
 public class OpenOffersController {
 
     private OpenOffersModel openOffersModel;
     private OpenOffersView openOffersView;
-    private String bidId;
-    private String userId;
-    private OfferBid offerBid;
 
-    public OpenOffersController(String bidId, String userId) {
-        this.bidId = bidId;
-        this.userId = userId;
-       this.openOffersModel = new OpenOffersModel(bidId, userId);
-       this.openOffersModel.refresh();
-       this.openOffersView = new OpenOffersView(this.openOffersModel);
-       listenViewActions();
+    public OpenOffersController(String userId, String bidId) {
+        this.openOffersModel = new OpenOffersModel(userId, bidId);
+        this.openOffersView = new OpenOffersView(openOffersModel);
+        listenViewActions();
     }
 
     private void listenViewActions() {
         openOffersView.getRefreshButton().addActionListener(this::handleRefresh);
-        openOffersView.getRespondButton().addActionListener(this::handleOpenRespond);
+        openOffersView.getRespondButton().addActionListener(this::handleRespond);
         openOffersView.getBuyOutButton().addActionListener(this::handleBuyOut);
     }
 
-
-
     private void handleRefresh(ActionEvent e) {
+        openOffersModel.refresh();
     }
 
-    private void handleOpenRespond(ActionEvent e) {
-        offerBid = new OfferBid();
-        offerBid.getOfferBidButton().addActionListener(this::handleCreateBid);
+    private void handleRespond(ActionEvent e) {
+        OpenReply openReply = new OpenReply();
+        openReply.getOfferBidButton().addActionListener(e1 -> handleBidInfo(e1, openReply));
+    }
+
+    private void handleBidInfo(ActionEvent e, OpenReply openReplyForm) {
+        try {
+            BidInfo bidInfo = extractOpenReplyInfo(openReplyForm);
+            System.out.println("Extracted: " + bidInfo);
+
+            openReplyForm.dispose();
+
+            openOffersModel.sendOffer(bidInfo);
+
+        } catch (NullPointerException exception) {
+            // TODO : add error message for incomplete forms
+        }
     }
 
     private void handleBuyOut(ActionEvent e) {
-    }
-
-    private void handleCreateBid(ActionEvent e){
-        try {
-            BidInfo bidInfo = extractBidOfferInfo(offerBid);
-            System.out.println("Extracted: " + bidInfo);
-            initiateOpenOffer(bidInfo);
-            offerBid.dispose();
-        } catch (NullPointerException exception) {
-        }
-        // TODO : add error message for incomplete forms
-    }
-
-
-
-
-    public BidInfo extractBidOfferInfo(OfferBid offerBidForm) {
-        // offer button is selected -> create offer view -> extract info from view -> create BidInfo -> patch to Bid API
-        // close view after offer
-        int bidIndexOnDisplay = -1;
-        String tutorId = openOffersModel.getUserId();
-        String time = offerBidForm.getTime();
-        String day = offerBidForm.getDay();
-        int duration = offerBidForm.getDuration();
-        int rate = offerBidForm.getRate();
-        int numberOfSessions = offerBidForm.getNumSessions();
-        boolean freeLesson = offerBidForm.getFreeLesson();
-
-        BidInfo bidInfo = new BidInfo(tutorId, time, day, duration, rate, numberOfSessions, freeLesson);
-        return bidInfo;
-    }
-
-    public void initiateOpenOffer(BidInfo bidInfo){
+        // Get preferences -> Add BidInfo -> create contract -> sign -> dispose
+        // TODO: Nick need to add contract handling here for signing
+        BidPreference bp = openOffersModel.getBid().getAdditionalInfo().getBidPreference();
+        BidInfo bidInfo = bp.getPreferences();
+        bidInfo.setInitiatorId(openOffersModel.getUserId());
         openOffersModel.sendOffer(bidInfo);
-    };
+        createContract(openOffersModel.getBid(), bidInfo);
+        openOffersView.dispose();
+    }
 
+    private BidInfo extractOpenReplyInfo(OpenReply openReplyForm) throws NullPointerException {
+        String tutorId = openOffersModel.getUserId();
+        String time = openReplyForm.getTimeBox();
+        String day = openReplyForm.getDayBox();
+        int duration = openReplyForm.getDurationBox();
+        int rate = openReplyForm.getRateField();
+        int numberOfSessions = openReplyForm.getNumOfSessionBox();
+        boolean freeLesson = openReplyForm.getFreeLessonBox();
+        return new BidInfo(tutorId, time, day, duration, rate, numberOfSessions, freeLesson);
+    }
+
+    /**
+     * BOTTOM PART IS COPIED FROM BiddingController
+     * MAYBE CAN ABSTRACTED OUT
+     */
+    protected void createContract(Bid bid, BidInfo bidInfo) {
+        String studentId = bid.getInitiator().getId();
+        String tutorId = bidInfo.getInitiatorId();
+        String subjectId = bid.getSubject().getId();
+        Date dateCreated = new Date();
+
+        // take currentDate + number of sessions (weeks) to get expiry date
+        Calendar c = Calendar.getInstance();
+        c.setTime(dateCreated);
+        c.add(Calendar.WEEK_OF_YEAR, bidInfo.getNumberOfSessions());
+        Date expiryDate = c.getTime();
+
+        // calculate payment = rate per session * number of sessions
+        Payment payment = new Payment(bidInfo.getRate() * bidInfo.getNumberOfSessions());
+        Lesson lesson = new Lesson(bid.getSubject().getName(), bidInfo.getDay(), bidInfo.getTime(),
+                bidInfo.getDuration(), bidInfo.getNumberOfSessions(), bidInfo.isFreeLesson());
+        Contract contract = new Contract(studentId, tutorId, subjectId, dateCreated,
+                expiryDate, payment, lesson, new EmptyClass());
+        handleContract(contract);
+    }
+
+    private void handleContract(Contract contract) {
+        // TODO: handle Contract pushing + Contract MVC construction
+    }
 
 }

@@ -2,7 +2,7 @@ package controller.offering;
 
 import entity.MessageBidInfo;
 import model.offering.CloseOffersModel;
-import view.form.ReplyBid;
+import view.form.CloseReply;
 import view.offering.CloseOfferView;
 
 import java.awt.event.ActionEvent;
@@ -11,15 +11,11 @@ public class CloseOffersController {
 
     private CloseOffersModel closeOffersModel;
     private CloseOfferView closeOfferView;
-    private String bidId;
-    private String userId;
-    private ReplyBid replyBid;
 
-    public CloseOffersController(String bidId, String userId) {
-       this.closeOffersModel = new CloseOffersModel(bidId, userId);
-       closeOffersModel.refresh();
-       this.closeOfferView = new CloseOfferView(closeOffersModel);
-       listenViewActions();
+    public CloseOffersController(String userId, String bidId) {
+        this.closeOffersModel = new CloseOffersModel(userId, bidId);
+        this.closeOfferView = new CloseOfferView(closeOffersModel);
+        listenViewActions();
     }
 
     private void listenViewActions() {
@@ -28,44 +24,37 @@ public class CloseOffersController {
     }
 
     private void handleRefresh(ActionEvent e) {
-
+        closeOffersModel.refresh();
     }
 
     private void handleRespondMessage(ActionEvent e) {
-        replyBid = new ReplyBid();
-        replyBid.getSendReplyButton().addActionListener(this::handleBidForm);
+        CloseReply closeReply = new CloseReply();
+        closeReply.getSendReplyButton().addActionListener(e1 -> handleBidInfo(e1, closeReply));
     }
 
-
-    private void handleBidForm(ActionEvent e){
-        ReplyBid replyBidForm = new ReplyBid();
-        replyBidForm.getSendReplyButton().addActionListener(this::handleCreateMessage);
-    }
-
-    private void handleCreateMessage(ActionEvent e){
+    private void handleBidInfo(ActionEvent e, CloseReply closeReply) {
         try {
-            MessageBidInfo messageBidInfo = extractMessageInfo(replyBid);
+            MessageBidInfo messageBidInfo = extractCloseReplyInfo(closeReply);
             System.out.println("Extracted: " + messageBidInfo);
-            initiateCloseOffer(messageBidInfo);
-            replyBid.dispose();
+
+            closeReply.dispose();
+            closeOffersModel.sendMessage(messageBidInfo);
+
         } catch (NullPointerException exception) {
-            // TODO: Add error message in UI on incomplete forms, similar to login
+            // TODO : add error message for incomplete forms
         }
     }
 
-    public MessageBidInfo extractMessageInfo(ReplyBid replyBidForm) {
+    private MessageBidInfo extractCloseReplyInfo(CloseReply closeReplyForm) {
         String tutorId = closeOffersModel.getUserId();
-        String time = replyBidForm.getTime();
-        String day = replyBidForm.getDay();
-        int duration = replyBidForm.getDuration();
-        int rate = replyBidForm.getRate();
-        int numberOfSessions = replyBidForm.getNumSessions();
-        boolean freeLesson = replyBidForm.getFreeLesson();
-        String message = replyBidForm.getReplyMessage();
-
+        String time = closeReplyForm.getTime();
+        String day = closeReplyForm.getDayBox();
+        int duration = closeReplyForm.getDurationBox();
+        int rate = closeReplyForm.getRateField();
+        int numberOfSessions = closeReplyForm.getNumOfSessionBox();
+        boolean freeLesson = closeReplyForm.getFreeLessonBox();
+        String message = closeReplyForm.getMessageText();
         return new MessageBidInfo(tutorId, day, time, duration, rate, numberOfSessions, freeLesson, message);
     }
-    public void initiateCloseOffer(MessageBidInfo messageBidInfo){
-//        offeringModel.sendMessage(selectedBid, messageInfo);
-    };
+
 }
