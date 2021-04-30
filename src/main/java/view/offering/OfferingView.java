@@ -27,6 +27,7 @@ public class OfferingView implements Observer {
 
     public OfferingView(OfferingModel offeringModel) {
         this.offeringModel = offeringModel;
+        offeringModel.refresh();
         initView();
     }
 
@@ -49,6 +50,8 @@ public class OfferingView implements Observer {
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         List<Bid> bidList = offeringModel.getBidsOnGoing();
+        System.out.println(bidList.size());
+        System.out.println("hi");
         int bidSize = bidList.size();
         Collections.reverse(bidList);
         updateView(bidList);

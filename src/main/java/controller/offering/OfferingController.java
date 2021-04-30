@@ -43,110 +43,12 @@ public class OfferingController {
         int selection = offeringView.getBidNumber();
         Bid bid = offeringModel.getBidsOnGoing().get(selection-1);
         if (bid.getType().equals("Open")) {
-            OpenOffersController openOffersController = new OpenOffersController(bid.getId());
+            OpenOffersController openOffersController = new OpenOffersController(bid.getId(), userId);
         } else {
-
+           CloseOffersController closeOffersController = new CloseOffersController(bid.getId(), userId);
         }
 
     }
-
-
-    public void listenRefresh() {
-        offeringModel.refresh();
-    }
-
-    private void listenOfferingView(){
-        this.offeringView.getViewOffersButton().addActionListener(e -> {
-            int selectedBid = this.offeringView.getBidNumber();
-            List<Bid> ongoing = offeringModel.getBidsOnGoing();
-            Bid selected = ongoing.get(selectedBid-1);
-        if (selected.getType().equals("Open")) {
-            openOffersView= new OpenOffersView(offeringModel, selectedBid);
-            listenOpenOffers(selectedBid);
-        }else {
-            closeOfferView = new CloseOfferView(offeringModel, selectedBid);
-            listenCloseOffers(selectedBid);
-        }
-        });
-
-    }
-    private void listenOpenOffers(int selectedBid){
-
-        openOffersView.getRespondButton().addActionListener(e -> {
-            OfferBid offerBidForm = new OfferBid();
-            offerBidForm.getOfferBidButton().addActionListener(ef -> {
-                try {
-                    BidInfo bo = extractBidOfferInfo(offerBidForm);
-                    System.out.println("Extracted: " + bo);
-                    initiateOpenOffer(selectedBid, bo);
-                    offerBidForm.dispose();
-                } catch (NullPointerException exception) {
-                    // TODO: Add error message in UI on incomplete forms, similar to login
-                }
-            });});
-
-
-    };
-
-    private void listenCloseOffers(int selectedBid) {
-        closeOfferView.getRespondMessageButton().addActionListener(e -> {
-            ReplyBid replyBidForm = new ReplyBid();
-            replyBidForm.getSendReplyButton().addActionListener(ef -> {
-                try {
-                    MessageBidInfo bo = extractMessageInfo(replyBidForm);
-                    System.out.println("Extracted: " + bo);
-                    initiateCloseOffer(selectedBid, bo);
-                    replyBidForm.dispose();
-                } catch (NullPointerException exception) {
-                    // TODO: Add error message in UI on incomplete forms, similar to login
-                }
-            });
-            ;}
-        );
-    };
-
-    public BidInfo extractBidOfferInfo(OfferBid offerBidForm) {
-        // offer button is selected -> create offer view -> extract info from view -> create BidInfo -> patch to Bid API
-        // close view after offer
-        int bidIndexOnDisplay = -1;
-
-        String tutorId = offeringModel.getUserId();
-        String time = offerBidForm.getTime();
-        String day = offerBidForm.getDay();
-        int duration = offerBidForm.getDuration();
-        int rate = offerBidForm.getRate();
-        int numberOfSessions = offerBidForm.getNumSessions();
-        boolean freeLesson = offerBidForm.getFreeLesson();
-
-        BidInfo bidInfo = new BidInfo(tutorId, time, day, duration, rate, numberOfSessions, freeLesson);
-        return bidInfo;
-    }
-
-
-    public MessageBidInfo extractMessageInfo(ReplyBid replyBidForm) {
-
-        String tutorId = offeringModel.getUserId();
-        String time = replyBidForm.getTime();
-        String day = replyBidForm.getDay();
-        int duration = replyBidForm.getDuration();
-        int rate = replyBidForm.getRate();
-        int numberOfSessions = replyBidForm.getNumSessions();
-        boolean freeLesson = replyBidForm.getFreeLesson();
-        String message = replyBidForm.getReplyMessage();
-
-        MessageBidInfo messageBidInfo = new MessageBidInfo(tutorId, day, time, duration, rate, numberOfSessions, freeLesson, message);
-        return messageBidInfo;
-    }
-
-
-
-    public void initiateOpenOffer(int selectedBid, BidInfo bidInfo){
-        offeringModel.sendOffer(selectedBid, bidInfo);
-        };
-
-    public void initiateCloseOffer(int selectedBid, MessageBidInfo messageBidInfo){
-//        offeringModel.sendMessage(selectedBid, messageInfo);
-    };
 
 
 

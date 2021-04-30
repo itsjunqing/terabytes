@@ -4,6 +4,7 @@ import entity.BidInfo;
 import lombok.Getter;
 import model.offering.OfferingModel;
 import model.bidding.OpenBidModel;
+import model.offering.OpenOffersModel;
 import observer.Observer;
 import stream.Bid;
 
@@ -19,23 +20,19 @@ import java.util.stream.Collectors;
 
 @Getter
 public class OpenOffersView implements Observer {
-    private OpenBidModel openBidModel;
     private JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
     private JButton refreshButton;
     private JButton respondButton;
     private JButton buyOutButton;
-    private OfferingModel offeringModel;
-    private int selectedBid;
-    private BidInfo myBidInfo;
+    private OpenOffersModel offeringModel;
 
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
 
-    public OpenOffersView(OfferingModel offeringModel, int selectedBid) {
+    public OpenOffersView(OpenOffersModel offeringModel) {
         this.offeringModel = offeringModel;
-        this.selectedBid = selectedBid;
         initView();
     }
 
@@ -43,8 +40,10 @@ public class OpenOffersView implements Observer {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
 
+        // Updating the panels in the frame
         updateContent();
 
+        // Setting the frame
         JFrame frame = new JFrame("All Open Offers for this Bid");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
@@ -52,23 +51,15 @@ public class OpenOffersView implements Observer {
         frame.setMinimumSize(new Dimension(830, 400));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-
     }
 
     public void updateContent() {
-        // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        Bid bid = offeringModel.getBidsOnGoing().get(selectedBid-1);
-        List<BidInfo> bidInfoList = bid.getAdditionalInfo().getBidOffers();
-        for (int myIndex = 0; myIndex < bidInfoList.size(); myIndex ++){
-            if (bidInfoList.get(myIndex).getInitiatorId().equals(offeringModel.getUserId())){
-                myBidInfo = bidInfoList.get(myIndex);
-            }
-        }
-        List<BidInfo> otherBidInfo= bidInfoList.stream()
-                .filter(b -> !b.getInitiatorId().equals(offeringModel.getUserId()))
-                .collect(Collectors.toList());
+        // getting the constants from the model
+        List<BidInfo> otherBidInfo = offeringModel.getOtherOffers();
+        BidInfo myBidInfo = offeringModel.getMyOffer();
+        Bid bid = offeringModel.getBid();
 
+        // making the frames 
         updateView(otherBidInfo, myBidInfo, bid);
         updateButtons();
     }

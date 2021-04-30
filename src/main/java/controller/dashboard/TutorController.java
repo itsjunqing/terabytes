@@ -1,5 +1,6 @@
 package controller.dashboard;
 
+import controller.offering.OfferingController;
 import stream.User;
 import view.dashboard.TutorView;
 
@@ -31,6 +32,6 @@ public class TutorController extends DashboardController {
 
     private void handleInitiation(ActionEvent e) {
         System.out.println("From DashboardController: Initiation Button is pressed");
-//        OfferingController offeringController = new OfferingController(dashboardModel.getUserId());
+        OfferingController offeringController = new OfferingController(dashboardModel.getUserId());
     }
 }
