@@ -24,6 +24,8 @@ public class CloseBidView implements Observer {
     private JButton refreshButton;
     private JButton viewMessageButton;
     private JButton selectOfferButton;
+    private JFrame frame;
+
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
 
@@ -38,15 +40,17 @@ public class CloseBidView implements Observer {
 
         updateContent();
 
-        JFrame frame = new JFrame("Closed Offers");
+        frame = new JFrame("Closed Offers");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(830, 400));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
 
-
+    public void dispose() {
+        this.frame.dispose();
     }
 
     public void updateContent() {

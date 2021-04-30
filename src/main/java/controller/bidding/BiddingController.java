@@ -6,7 +6,10 @@ import stream.*;
 import java.util.Calendar;
 import java.util.Date;
 
-
+/**
+ * Remaining parts:
+ * - construction of ContractController, View, Model
+ */
 public abstract class BiddingController {
 
     /**

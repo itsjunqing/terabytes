@@ -1,6 +1,7 @@
 package model.bidding;
 
 
+import api.MessageApi;
 import entity.BidInfo;
 import entity.BidPreference;
 import entity.MessageBidInfo;
@@ -12,7 +13,9 @@ import stream.Message;
 import stream.MessageAdditionalInfo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 public class CloseBidModel extends BiddingModel {
@@ -46,6 +49,7 @@ public class CloseBidModel extends BiddingModel {
 
     private List<MessageBidInfo> closeBidOffers;
     private List<MessagePair> closeBidMessages;
+    private MessageApi messageApi;
 
     /**
      * Constructor to construct a new CloseBid
@@ -58,6 +62,7 @@ public class CloseBidModel extends BiddingModel {
         this.userId = userId;
         this.closeBidOffers = new ArrayList<>();
         this.closeBidMessages = new ArrayList<>();
+        this.messageApi = new MessageApi();
         refresh();
     }
 
@@ -71,6 +76,7 @@ public class CloseBidModel extends BiddingModel {
         this.userId = userId;
         this.closeBidOffers = new ArrayList<>();
         this.closeBidMessages = new ArrayList<>();
+        this.messageApi = new MessageApi();
         refresh();
     }
 
@@ -80,47 +86,52 @@ public class CloseBidModel extends BiddingModel {
         closeBidOffers.clear();
         closeBidMessages.clear();
 
-        Bid bid = getBidApi().getBid(getBidId());
-        List<Message> messages = bid.getMessages();
-        List<MessageBidInfo> messageBidInfos = new ArrayList<>();
+        Bid bid = bidApi.getBid(bidId);
+        BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
 
-        // get the Messages where the initiator (poster) is a tutor
-        for (Message m: messages) {
-            if (!m.getPoster().getId().equals(getUserId())) {
-                messageBidInfos.add(convertObject(m));
-            }
-        }
-        closeBidOffers.addAll(messageBidInfos);
+        // Get the Messages where the initiator is a tutor
+        List<Message> tutorMessages = bid.getMessages().stream()
+                .filter(m -> !m.getPoster().getId().equals(userId))
+                .collect(Collectors.toList());
 
-        // get the Messages where the initiator (poster) is me myself (a student)
-        BidPreference sp = bid.getAdditionalInfo().getBidPreference();
-        BidInfo spInfo = sp.getPreferences();
-        for (MessageBidInfo tutorBidMessage: messageBidInfos) {
-            String tutorId = tutorBidMessage.getInitiatorId();
-            Message studentMessage = null;
-            for (Message m: messages) {
-                // Filter out Message that sent to tutor (whose target is tutor)
-                if (m.getAdditionalInfo().getReceiverId().equals(tutorId)) {
-                    studentMessage = m;
-                    break;
-                }
-            }
-            // Case 3a: construct pair with existing message, use studentMessage to construct
+        for (Message tutorMsg: tutorMessages) {
+            // Tutor's MessageBidInfo
+            String tutorMsgId = tutorMsg.getId();
+            MessageBidInfo tutorBidMessage = convertObject(tutorMsg);
+
+            // Student's Message (if a Message has been posted or null))
+            String tutorId = tutorMsg.getPoster().getId();
+            Message studentMsg = bid.getMessages().stream()
+                                        .filter(m -> m.getAdditionalInfo().getReceiverId().equals(tutorId))
+                                        .findFirst()
+                                        .orElse(null);
+
+            // Convert Student's Message to MessageBidInfo
+            String studentMsgId = null;
             MessageBidInfo studentBidMessage;
-            if (studentMessage != null) {
-                studentBidMessage = new MessageBidInfo(studentMessage.getPoster().getId(), spInfo.getDay(),
-                        spInfo.getTime(), spInfo.getDuration(), spInfo.getRate(), spInfo.getNumberOfSessions(),
-                        studentMessage.getContent());
-            // Case 3b: construct pair with no message, use bid preference to construct
-            } else {
-                studentBidMessage = new MessageBidInfo(spInfo.getInitiatorId(), spInfo.getDay(),
-                        spInfo.getTime(), spInfo.getDuration(), spInfo.getRate(), spInfo.getNumberOfSessions(),
+            if (studentMsg == null) {
+                studentBidMessage = new MessageBidInfo(bidInfo.getInitiatorId(), bidInfo.getDay(),
+                        bidInfo.getTime(), bidInfo.getDuration(), bidInfo.getRate(), bidInfo.getNumberOfSessions(),
                         "");
+            } else {
+                studentMsgId = studentMsg.getId();
+                studentBidMessage = new MessageBidInfo(studentMsg.getPoster().getId(), bidInfo.getDay(),
+                        bidInfo.getTime(), bidInfo.getDuration(), bidInfo.getRate(), bidInfo.getNumberOfSessions(),
+                        studentMsg.getContent());
             }
-            closeBidMessages.add(new MessagePair(tutorBidMessage, studentBidMessage));
+
+            // tutorMsg exists -> store along with tutorMsgId
+            // studentMsg exist -> store along with updated studentMsgId
+            // studentMsg no exist -> store along with null
+            closeBidMessages.add(new MessagePair(tutorMsgId, tutorBidMessage, studentMsgId, studentBidMessage));
+
+            // update closedBidOffers to be displayed in CloseBidView
+            closeBidOffers.add(tutorBidMessage);
+
         }
 //        notifyObservers();
     }
+
 
     private MessageBidInfo convertObject(Message message) {
         String initiatorId = message.getPoster().getId();
@@ -129,6 +140,71 @@ public class CloseBidModel extends BiddingModel {
         return new MessageBidInfo(initiatorId, info.getDay(), info.getTime(), info.getDuration(), info.getRate(),
                 info.getNumberOfSessions(), info.getFreeLesson(), content);
     }
+
+    public void sendMessage(MessagePair messagePair, String stringMsg) {
+        // Construct Message to send to tutor (sender is the corresponding tutor of the MessagePair)
+        String tutorId = messagePair.getTutorMsg().getInitiatorId();
+        MessageAdditionalInfo info = new MessageAdditionalInfo(tutorId);
+
+        // Get the student's message id that exist (or null)
+        String studentMsgId = messagePair.getStudentMsgId();
+
+        // If Student has sent not sent a Message, construct a new Message
+        if (studentMsgId == null) {
+            Message message = new Message(bidId, userId, new Date(), stringMsg, info);
+            messageApi.addMessage(message);
+        // If Student has sent a Message before, edit the Message
+        } else {
+            Message message = new Message(stringMsg, info);
+            messageApi.patchMessage(studentMsgId, message);
+        }
+    }
+
+
+    /*
+    OLD CODE
+     */
+
+//    Bid bid = getBidApi().getBid(getBidId());
+//    List<Message> messages = bid.getMessages();
+//    List<MessageBidInfo> messageBidInfos = new ArrayList<>();
+//
+//    // get the Messages where the initiator (poster) is a tutor
+//        for (Message m: messages) {
+//        if (!m.getPoster().getId().equals(getUserId())) {
+//            messageBidInfos.add(convertObject(m));
+//        }
+//    }
+//        closeBidOffers.addAll(messageBidInfos);
+//
+//    // get the Messages where the initiator (poster) is me myself (a student)
+//    BidPreference sp = bid.getAdditionalInfo().getBidPreference();
+//    BidInfo spInfo = sp.getPreferences();
+//        for (MessageBidInfo tutorBidMessage: messageBidInfos) {
+//        String tutorId = tutorBidMessage.getInitiatorId();
+//        Message studentMessage = null;
+//        for (Message m: messages) {
+//            // Filter out Message that sent to tutor (whose target is tutor)
+//            if (m.getAdditionalInfo().getReceiverId().equals(tutorId)) {
+//                studentMessage = m;
+//                break;
+//            }
+//        }
+//        // Case 3a: construct pair with existing message, use studentMessage to construct
+//        MessageBidInfo studentBidMessage;
+//        if (studentMessage != null) {
+//            studentBidMessage = new MessageBidInfo(studentMessage.getPoster().getId(), spInfo.getDay(),
+//                    spInfo.getTime(), spInfo.getDuration(), spInfo.getRate(), spInfo.getNumberOfSessions(),
+//                    studentMessage.getContent());
+//            // Case 3b: construct pair with no message, use bid preference to construct
+//        } else {
+//            studentBidMessage = new MessageBidInfo(spInfo.getInitiatorId(), spInfo.getDay(),
+//                    spInfo.getTime(), spInfo.getDuration(), spInfo.getRate(), spInfo.getNumberOfSessions(),
+//                    "");
+//        }
+//        closeBidMessages.add(new MessagePair(tutorBidMessage, studentBidMessage));
+//    }
+//        notifyObservers();
 
 
 }

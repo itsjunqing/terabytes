@@ -61,14 +61,12 @@ public abstract class BiddingModel extends OSubject {
 
     public void markBidClose() {
         Bid bidDateClosed = new Bid(new Date());
-        bidApi.closeBid(String.valueOf(bidId), bidDateClosed);
+        bidApi.closeBid(bidId, bidDateClosed);
     }
 
     public Bid getBid() {
         return bidApi.getBid(bidId);
     }
-
-    public abstract void refresh();
 
     public String getUserName(String Id){
         UserApi userApi = new UserApi();
@@ -77,4 +75,6 @@ public abstract class BiddingModel extends OSubject {
         String familyName = user.getFamilyName();
         return givenName + " " + familyName;
     }
+
+    public abstract void refresh();
 }

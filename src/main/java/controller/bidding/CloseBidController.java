@@ -2,6 +2,7 @@ package controller.bidding;
 
 import entity.BidPreference;
 import entity.MessageBidInfo;
+import entity.MessagePair;
 import model.bidding.CloseBidModel;
 import stream.Bid;
 import view.bidding.CloseBidView;
@@ -10,11 +11,6 @@ import view.form.ReplyMessage;
 
 import java.awt.event.ActionEvent;
 
-/**
- * Remaining:
- * 1) Integration of View Message
- * 2) Integration of Contract formation
- */
 
 public class CloseBidController extends BiddingController {
 
@@ -39,7 +35,6 @@ public class CloseBidController extends BiddingController {
         this.closeBidView = new CloseBidView(closeBidModel);
     }
 
-
     @Override
     public void listenViewActions() {
         closeBidView.getRefreshButton().addActionListener(this::handleRefresh);
@@ -53,15 +48,20 @@ public class CloseBidController extends BiddingController {
 
     private void handleViewMessage(ActionEvent e) {
         int selection = closeBidView.getOfferSelection();
-        CloseMessageView closeMessageView = new CloseMessageView(closeBidModel, selection);
+        MessagePair messagePair = closeBidModel.getCloseBidMessages().get(selection-1);
 
-        // TODO: Handle refresh + message reply (push to API, maybe go through CloseBidModel)
-        closeMessageView.getRefreshButton().addActionListener(ef -> {
-            System.out.println("Refresh MessagePair");
-        });
-        closeMessageView.getRespondMessageButton().addActionListener(ef -> {
+        CloseMessageView closeMessageView = new CloseMessageView(messagePair);
+        closeMessageView.getRespondMessageButton().addActionListener(e1 -> {
             ReplyMessage replyMessage = new ReplyMessage();
-            System.out.println("Reply Message");
+
+            // When student has pressed "Reply":
+            // Send the Message --> Close ReplyMessage window --> Close CloseMessageView window
+            replyMessage.getReplyButton().addActionListener(e2 -> {
+                String studentMsg = replyMessage.getMessageText().getText();
+                closeBidModel.sendMessage(messagePair, studentMsg);
+                replyMessage.dispose();
+                closeMessageView.dispose();
+            });
         });
     }
 
@@ -70,8 +70,9 @@ public class CloseBidController extends BiddingController {
         Bid currentBid = closeBidModel.getBid();
         MessageBidInfo messageBidInfo = closeBidModel.getCloseBidOffers().get(selection-1);
         System.out.println("Contract " + selection);
-        // TODO: handle contract formation + mark bid as closed
-        createContract(currentBid, messageBidInfo);
+        closeBidModel.markBidClose(); // mark bid as close
+        createContract(currentBid, messageBidInfo); // create contract
+        closeBidView.dispose(); // remove view after select offer
     }
 
 
