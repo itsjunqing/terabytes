@@ -1,7 +1,7 @@
-package view;
+package view.offering;
 
 import lombok.Getter;
-import model.OfferingModel;
+import model.offering.OfferingModel;
 import observer.Observer;
 import stream.Bid;
 

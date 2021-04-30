@@ -1,12 +1,10 @@
 package controller;
 
-import model.DashboardModel;
+import controller.dashboard.StudentController;
+import controller.dashboard.TutorController;
 import model.LoginModel;
 import stream.User;
-import view.DashboardView;
 import view.LoginView;
-import view.StudentView;
-import view.TutorView;
 
 public class LoginController {
 
@@ -33,7 +31,11 @@ public class LoginController {
     }
 
     private void loginSuccess(User user) {
-        DashboardController dashboardController = new DashboardController(user);
+        if (user.getIsStudent()) {
+            new StudentController(user);
+        } else {
+            new TutorController(user);
+        }
         loginView.dispose(); // destroy login view
     }
 }

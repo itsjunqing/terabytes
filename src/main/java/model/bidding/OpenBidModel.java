@@ -1,14 +1,12 @@
-package model;
+package model.bidding;
 
 import entity.BidInfo;
 import entity.BidPreference;
 import lombok.Getter;
 import lombok.Setter;
 import stream.Bid;
-import stream.BidAdditionalInfo;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,30 +14,44 @@ import java.util.stream.Collectors;
 public class OpenBidModel extends BiddingModel {
 
     private List<BidInfo> openBidOffers;
-    private Bid bid;
 
-    @Override
-    public void createBid(String userId, BidPreference bp) {
-        BidAdditionalInfo bidAdditionalInfo = new BidAdditionalInfo(bp);
-        Date dateCreated = new Date();
-        String subjectId = getSubjectApi().getAllSubjects().stream()
-                .filter(s -> s.getName().equals(bp.getSubject()))
-                .findFirst()
-                .orElse(null) // null guarantee to not occur as view selected is from a list of available subjects
-                .getId();
-        Bid bid = new Bid("Open", userId, dateCreated, subjectId, bidAdditionalInfo);
-        Bid bidCreated = getBidApi().addBid(bid); // post BID
-        setBidId(bidCreated.getId()); // set ID for future references
+    /**
+     * Constructor to construct a new OpenBid
+     * @param userId
+     * @param bp
+     */
+    public OpenBidModel(String userId, BidPreference bp) {
+        Bid bidCreated = createBid(userId, bp, "Open");
+        this.bidId = bidCreated.getId(); // set ID for future references
+        this.userId = userId;
+        this.openBidOffers = new ArrayList<>();
+        refresh();
+    }
+
+    /**
+     * Constructor to construct existing OpenBid
+     * @param userId
+     */
+    public OpenBidModel(String userId) {
+        Bid existingBid = extractBid(userId, "Open");
+        this.bidId = existingBid.getId();
+        this.userId = userId;
         refresh();
     }
 
     @Override
     public void refresh() {
-        bid = getBidApi().getBid(getBidId());
+        Bid bid = getBidApi().getBid(getBidId());
+        openBidOffers.clear();
         openBidOffers = bid.getAdditionalInfo().getBidOffers();
-
 //        notifyObservers();
     }
+
+
+
+    /*
+    OLD STUFFS BELOW HERE
+     */
 
     @Override
     public void lookForBid(String userId) {

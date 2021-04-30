@@ -1,9 +1,8 @@
-package view;
+package view.bidding;
 
 import lombok.Getter;
 import entity.BidInfo;
-import model.BiddingModel;
-import model.OpenBidModel;
+import model.bidding.OpenBidModel;
 import observer.Observer;
 import stream.Bid;
 
@@ -12,7 +11,6 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

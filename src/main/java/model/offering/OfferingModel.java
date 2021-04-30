@@ -1,4 +1,4 @@
-package model;
+package model.offering;
 
 import api.BidApi;
 import api.UserApi;

@@ -1,13 +1,13 @@
-package controller;
+package controller.offering;
 
-import model.OfferingModel;
+import model.offering.OfferingModel;
 import stream.Bid;
-import view.CloseOfferView;
-import view.OfferingView;
-import view.OpenOffersView;
+import view.offering.CloseOfferView;
+import view.offering.OfferingView;
+import view.offering.OpenOffersView;
 
 import java.util.List;
-//import view.OfferingView;
+//import view.offering.OfferingView;
 
 public class OfferingController {
 

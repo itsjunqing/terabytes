@@ -1,10 +1,9 @@
-package view;
+package view.bidding;
 
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
-import model.CloseBidModel;
-import model.OfferingModel;
+import model.bidding.CloseBidModel;
 import observer.Observer;
 
 import javax.swing.*;
@@ -13,28 +12,32 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
-import java.util.Collections;
 import java.util.List;
 
+
+/**
+ * This might need to be updated to cater for the latest Bidding design
+ */
 @Getter
-public class CloseOfferView implements Observer {
+public class CloseMessageView implements Observer {
+    private CloseBidModel closeBidModel;
     private JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
     private JButton refreshButton;
     private JButton respondMessageButton;
+    private JButton selectBidButton;
+    private int bidIndex;
 
     // maybe remove this
     private MessagePair messagePair;
-    private OfferingModel offeringModel;
-    private int bidIndex;
 
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
 
-    public CloseOfferView(OfferingModel offeringModel, int bidIndex) {
-        this.offeringModel = offeringModel;
+    public CloseMessageView(CloseBidModel closeBidModel, int bidIndex) {
         this.bidIndex = bidIndex;
+        this.closeBidModel = closeBidModel;
         initView();
     }
 
@@ -44,7 +47,7 @@ public class CloseOfferView implements Observer {
 
         updateContent();
 
-        JFrame frame = new JFrame("Close Message View");
+        JFrame frame = new JFrame("Closed Messages");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
@@ -57,7 +60,8 @@ public class CloseOfferView implements Observer {
 
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        this.messagePair= offeringModel.getCloseOffers(bidIndex-1);
+        List<MessagePair> messagePairs= closeBidModel.getCloseBidMessages();
+        messagePair = messagePairs.get(bidIndex-1);
         updateView(messagePair);
         updateButtons();
     }
@@ -93,44 +97,28 @@ public class CloseOfferView implements Observer {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
 
-        if (messagePair.getTutorMsg() != null) {
-            // code to add message panel 2
-            JPanel panel1 = new JPanel();
-            JTable table2 = getTutorMessageTable(messagePair.getTutorMsg());
-            resizeColumnWidth(table2);
-            table2.setBounds(10, 10, 500, 100);
-            panel1.add(table2);
-            TitledBorder title2;
-            title2 = BorderFactory.createTitledBorder("Our Bid and Message");
-            panel1.setBorder(title2);
-            mainList.add(panel1, gbc1, 0);
-        }else {            // code to add message panel 2
-            JPanel panel1 = new JPanel();
-            String[][] noOffer = { {"No Offer", " Please Input Offer"}};
-            String[] col = {"", ""};
-            JTable noOfferTable = new JTable(noOffer, col);
+        // code to add message panel 2
+        JPanel panel1 = new JPanel();
+        JTable table2 = getTutorMessageTable(messagePair.getTutorMsg());
+        resizeColumnWidth(table2);
+        table2.setBounds(10, 10, 500, 100);
+        panel1.add(table2);
+        TitledBorder title2;
+        title2 = BorderFactory.createTitledBorder("Tutor Bid and Message");
+        panel1.setBorder(title2);
+        mainList.add(panel1, gbc1, 0);
 
-            noOfferTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
+        // code to add message panel 1
+        JPanel panel = new JPanel();
+        JTable table = getStudentMessageTable(messagePair.getStudentMsg());
+        resizeColumnWidth(table);
+        table.setBounds(10, 10, 500, 100);
+        panel.add(table);
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder("Initial Request and Message");
+        panel.setBorder(title);
+        mainList.add(panel, gbc1, 0);
 
-            resizeColumnWidth(noOfferTable);
-            noOfferTable.setBounds(10, 10, 500, 100);
-            panel1.add(noOfferTable);
-
-            TitledBorder title2;
-            title2 = BorderFactory.createTitledBorder("Our Bid and Message");
-            panel1.setBorder(title2);
-            mainList.add(panel1, gbc1, 0);
-        };
-            // code to add message panel 1
-            JPanel panel = new JPanel();
-            JTable table = getStudentMessageTable(messagePair.getStudentMsg());
-            resizeColumnWidth(table);
-            table.setBounds(10, 10, 500, 100);
-            panel.add(table);
-            TitledBorder title;
-            title = BorderFactory.createTitledBorder("Student Request and Message");
-            panel.setBorder(title);
-            mainList.add(panel, gbc1, 0);
 
 
 
@@ -140,8 +128,8 @@ public class CloseOfferView implements Observer {
     }
 
     private JTable getStudentMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson;
-        if (messageBidInfo.isFreeLesson()) {
+        String freeLesson = new String();
+        if (messageBidInfo.isFreeLesson() == true) {
             freeLesson = "Yes";
         } else {
             freeLesson = "No";
@@ -154,7 +142,7 @@ public class CloseOfferView implements Observer {
                 {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
                 {"Rate (per hour):", Integer.toString(messageBidInfo.getRate())},
                 {"Free Lesson?:", freeLesson},
-                {"Message to Tutor:", messageBidInfo.getContent() + "This subject is really hard, are you really smart enough to teach me"}
+                {"Message to Tutor:", messageBidInfo.getContent() }
 
         };
         String[] col = {"", ""};
@@ -166,8 +154,8 @@ public class CloseOfferView implements Observer {
     }
 
     private JTable getTutorMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson;
-        if (messageBidInfo.isFreeLesson()) {
+        String freeLesson = new String();
+        if (messageBidInfo.isFreeLesson() == true) {
             freeLesson = "Yes";
         } else {
             freeLesson = "No";
@@ -181,7 +169,7 @@ public class CloseOfferView implements Observer {
                 {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
                 {"Rate (per hour):", Integer.toString(messageBidInfo.getRate())},
                 {"Free Lesson?", freeLesson},
-                {"Message from tutor:", messageBidInfo.getContent() + "Yes, I am, I got the top in my class in MIT, followed by a fellowship in harvard and I also am a world champion in"}
+                {"Message from tutor:", messageBidInfo.getContent()}
 
         };
         String[] col = {"", ""};
@@ -260,6 +248,9 @@ public class CloseOfferView implements Observer {
 
         respondMessageButton = new JButton("Respond");
         panel.add(respondMessageButton, gbc2);
+
+        selectBidButton =new JButton("Select Bid");
+        panel.add(selectBidButton, gbc2);
 
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));

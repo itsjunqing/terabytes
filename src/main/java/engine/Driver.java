@@ -1,13 +1,18 @@
 package engine;
 
 import controller.LoginController;
-import model.CloseBidModel;
+import model.bidding.CloseBidModel;
 import model.LoginModel;
-import model.OfferingModel;
-import model.OpenBidModel;
+import model.offering.OfferingModel;
+import model.bidding.OpenBidModel;
 import view.*;
 import stream.Bid;
+import view.bidding.CloseMessageView;
+import view.bidding.OpenBidView;
 import view.form.BidInitiation;
+import view.offering.CloseOfferView;
+import view.offering.OfferingView;
+import view.offering.OpenOffersView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

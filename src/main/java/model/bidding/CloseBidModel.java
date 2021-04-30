@@ -1,4 +1,4 @@
-package model;
+package model.bidding;
 
 
 import entity.BidInfo;
@@ -8,11 +8,11 @@ import entity.MessagePair;
 import lombok.Getter;
 import lombok.Setter;
 import stream.Bid;
-import stream.BidAdditionalInfo;
 import stream.Message;
 import stream.MessageAdditionalInfo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter @Setter
@@ -46,30 +46,41 @@ public class CloseBidModel extends BiddingModel {
      */
 
     private List<MessageBidInfo> closeBidOffers;
-    private List<MessagePair> closeBidMessages; // map of tutor to student's message
+    private List<MessagePair> closeBidMessages;
 
-    public CloseBidModel() {
-        closeBidOffers = new ArrayList<>();
-        closeBidMessages = new ArrayList<>();
+    /**
+     * Constructor to construct a new CloseBid
+     * @param userId
+     * @param bp
+     */
+    public CloseBidModel(String userId, BidPreference bp) {
+        Bid bidCreated = createBid(userId, bp, "Close");
+        this.bidId = bidCreated.getId(); // set ID for future references
+        this.userId = userId;
+        this.closeBidOffers = new ArrayList<>();
+        this.closeBidMessages = new ArrayList<>();
+        refresh();
     }
 
-    @Override
-    public void createBid(String userId, BidPreference bp) {
-        BidAdditionalInfo bidAdditionalInfo = new BidAdditionalInfo(bp);
-        Date dateCreated = new Date();
-        String subjectId = getSubjectApi().getAllSubjects().stream()
-                .filter(s -> s.getName().equals(bp.getSubject()))
-                .findFirst()
-                .orElse(null) // null guarantee to not occur as view selected is from a list of available subjects
-                .getId();
-        Bid bid = new Bid("Close", userId, dateCreated, subjectId, bidAdditionalInfo);
-        Bid bidCreated = getBidApi().addBid(bid); // post BID
-        setBidId(bidCreated.getId()); // set ID for future references
-        setUserId(userId);
+    /**
+     * Constructor to construct existing OpenBid
+     * @param userId
+     */
+    public CloseBidModel(String userId) {
+        Bid existingBid = extractBid(userId, "Close");
+        this.bidId = existingBid.getId();
+        this.userId = userId;
+        this.closeBidOffers = new ArrayList<>();
+        this.closeBidMessages = new ArrayList<>();
+        refresh();
     }
+
 
     @Override
     public void refresh() {
+        closeBidOffers.clear();
+        closeBidMessages.clear();
+
         Bid bid = getBidApi().getBid(getBidId());
         List<Message> messages = bid.getMessages();
         List<MessageBidInfo> messageBidInfos = new ArrayList<>();
@@ -112,17 +123,6 @@ public class CloseBidModel extends BiddingModel {
 //        notifyObservers();
     }
 
-    @Override
-    public void lookForBid(String userId) {
-        this.setUserId(userId);
-        List<Bid> bidList = getBidApi().getAllBids().stream()
-                .filter(b -> b.getDateClosedDown() == null)
-                .filter(b -> b.getType().equalsIgnoreCase("Close"))
-                .filter(b -> b.getInitiator().getId().equals(getUserId()))
-                .collect(Collectors.toList());
-        this.setBidId(bidList.get(0).getId());
-    }
-
     private MessageBidInfo convertObject(Message message) {
         String initiatorId = message.getPoster().getId();
         String content = message.getContent();
@@ -133,6 +133,20 @@ public class CloseBidModel extends BiddingModel {
 
 
 
+    /*
+    OLD STUFFS BELOW HERE
+     */
+
+    @Override
+    public void lookForBid(String userId) {
+        this.setUserId(userId);
+        List<Bid> bidList = getBidApi().getAllBids().stream()
+                .filter(b -> b.getDateClosedDown() == null)
+                .filter(b -> b.getType().equalsIgnoreCase("Close"))
+                .filter(b -> b.getInitiator().getId().equals(getUserId()))
+                .collect(Collectors.toList());
+        this.setBidId(bidList.get(0).getId());
+    }
 
 
 }

@@ -1,9 +1,8 @@
-package view;
+package view.dashboard;
 
 import lombok.Getter;
-import model.DashboardModel;
+import model.dashboard.DashboardModel;
 import stream.Contract;
-import view.DashboardView;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;

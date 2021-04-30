@@ -1,11 +1,13 @@
-package controller;
+package controller.contract;
 
-import model.ContractModel;
+import model.contract.ContractModel;
 import stream.Contract;
+import view.contract.ContractFinalization;
 
 public class ContractController {
 
     private ContractModel contractModel;
+    private ContractFinalization contractFinalization;
 
     public ContractController(ContractModel contractModel) {
         this.contractModel = contractModel;

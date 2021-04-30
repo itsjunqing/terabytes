@@ -1,4 +1,4 @@
-package model;
+package model.contract;
 
 import api.ContractApi;
 import stream.Contract;

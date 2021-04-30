@@ -1,7 +1,7 @@
-package view;
+package view.dashboard;
 
 import lombok.Getter;
-import model.DashboardModel;
+import model.dashboard.DashboardModel;
 import observer.Observer;
 
 import javax.swing.*;

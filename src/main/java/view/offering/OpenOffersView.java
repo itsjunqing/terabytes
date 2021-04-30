@@ -1,9 +1,9 @@
-package view;
+package view.offering;
 
 import entity.BidInfo;
 import lombok.Getter;
-import model.OfferingModel;
-import model.OpenBidModel;
+import model.offering.OfferingModel;
+import model.bidding.OpenBidModel;
 import observer.Observer;
 import stream.Bid;
 
@@ -15,7 +15,6 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Getter

@@ -1,10 +1,9 @@
-package view;
+package view.dashboard;
 
 import lombok.Getter;
 import lombok.Setter;
-import model.DashboardModel;
+import model.dashboard.DashboardModel;
 import stream.Contract;
-import view.DashboardView;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -36,8 +35,6 @@ public class TutorView extends DashboardView {
         frame.setMinimumSize(new Dimension(830, 400));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-
     }
 
     public void updateContracts() {
