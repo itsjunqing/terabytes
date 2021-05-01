@@ -22,8 +22,9 @@ public class CloseOfferView implements Observer {
     private JPanel buttonPanel;
     private JButton refreshButton;
     private JButton respondMessageButton;
-
     private JFrame frame;
+    private JLabel errorLabel;
+
 
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
@@ -260,6 +261,13 @@ public class CloseOfferView implements Observer {
         respondMessageButton = new JButton("Respond");
         panel.add(respondMessageButton, gbc2);
 
+
+        errorLabel = new JLabel();
+        errorLabel.setForeground(new Color(-4521974));
+        errorLabel.setHorizontalAlignment(0);
+        errorLabel.setHorizontalTextPosition(0);
+        errorLabel.setText(closeOffersModel.getErrorText());
+        panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();

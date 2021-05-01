@@ -22,6 +22,8 @@ public class OpenOffersModel {
     private BidInfo myOffer;
     private List<BidInfo> openOffers;
     public OSubject oSubject;
+    protected String errorText;
+
 
     public OpenOffersModel(String userId, String bidId) {
         this.userId = userId;
@@ -29,6 +31,7 @@ public class OpenOffersModel {
         this.bidApi = new BidApi();
         this.userApi = new UserApi();
         this.openOffers = new ArrayList<>();
+        this.errorText = "";
         oSubject = new OSubject();
         refresh();
     }
@@ -76,7 +79,9 @@ public class OpenOffersModel {
         info.getBidOffers().add(bidInfo);
         bidApi.patchBid(bidId, new Bid(info));
     }
-
+    public void setErrorText(String errorText){
+        this.errorText = errorText;
+    }
 
 }
 

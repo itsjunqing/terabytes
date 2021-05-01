@@ -16,6 +16,7 @@ public class ReplyMessage {
     private JPanel mainPanel;
     private JTextArea messageText;
     private JButton replyButton;
+    private JLabel errorLabel;
     private JFrame frame;
 
     public ReplyMessage() {

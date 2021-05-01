@@ -31,11 +31,13 @@ public abstract class BiddingModel {
     protected SubjectApi subjectApi;
     protected String userId; // student's id
     protected String bidId; // Bid is not used because its content (offers / messages) are updated from time to time
+    protected String errorText;
     public OSubject oSubject;
 
     protected BiddingModel() {
         this.bidApi = new BidApi();
         this.subjectApi = new SubjectApi();
+        this.errorText = "";
         this.oSubject = new OSubject();
     }
 
@@ -75,6 +77,10 @@ public abstract class BiddingModel {
         String givenName = user.getGivenName();
         String familyName = user.getFamilyName();
         return givenName + " " + familyName;
+    }
+
+    public void setErrorText(String errorText){
+        this.errorText = errorText;
     }
 
     public abstract void refresh();

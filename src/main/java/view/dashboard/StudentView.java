@@ -148,8 +148,7 @@ public class StudentView extends DashboardView {
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText("");
-        errorLabel.setToolTipText("");
+        errorLabel.setText(dashboardModel.getErrorText());
         panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));

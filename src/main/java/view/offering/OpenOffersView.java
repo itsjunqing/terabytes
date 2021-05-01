@@ -24,7 +24,7 @@ public class OpenOffersView implements Observer {
     private JButton respondButton;
     private JButton buyOutButton;
     private OpenOffersModel openOffersModel;
-
+    private JLabel errorLabel;
     private JFrame frame;
 
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
@@ -259,6 +259,13 @@ public class OpenOffersView implements Observer {
         // add select offer button
         buyOutButton = new JButton("Buy Out");
         panel.add(buyOutButton, gbc2);
+
+        errorLabel = new JLabel();
+        errorLabel.setForeground(new Color(-4521974));
+        errorLabel.setHorizontalAlignment(0);
+        errorLabel.setHorizontalTextPosition(0);
+        errorLabel.setText(openOffersModel.getErrorText());
+        panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();

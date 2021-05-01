@@ -12,10 +12,13 @@ public class ContractModel {
     private ContractApi contractApi;
     private String contractId;
     private Contract contract;
+    protected String errorText;
+
 
     public ContractModel(Contract contract) {
         this.contractApi = new ContractApi();
         this.contract = contract;
+        this.errorText = "";
         createContract(contract);
 //        this.contractId = contract.getId();
     }
@@ -46,5 +49,9 @@ public class ContractModel {
     // use this to display in the ContractView
     public Contract getContract() {
         return contractApi.getContract(contractId);
+    }
+
+    public void setErrorText(String errorText){
+        this.errorText = errorText;
     }
 }

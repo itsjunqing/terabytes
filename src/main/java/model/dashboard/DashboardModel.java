@@ -19,6 +19,7 @@ public class DashboardModel{
     private ContractApi contractApi;
     private BidApi bidApi;
     private List<Contract> contractsList;
+    protected String errorText;
     public OSubject oSubject;
 
 
@@ -26,6 +27,7 @@ public class DashboardModel{
         this.user = user;
         this.contractApi = new ContractApi();
         this.bidApi = new BidApi();
+        this.errorText = "";
         oSubject = new OSubject();
         refresh(); // Note: MUST populate initial values otherwise view is not created
     }
@@ -56,5 +58,9 @@ public class DashboardModel{
 
     public String getUserId() {
         return user.getId();
+    }
+
+    public void setErrorText(String errorText){
+        this.errorText = errorText;
     }
 }

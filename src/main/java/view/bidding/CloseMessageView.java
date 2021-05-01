@@ -27,6 +27,7 @@ public class CloseMessageView implements Observer {
     private JButton selectBidButton; // TODO: remove this
     private MessagePair messagePair;
     private JFrame frame;
+    private JLabel errorLabel;
 
     public CloseMessageView(MessagePair messagePair) {
         this.messagePair = messagePair;
@@ -236,6 +237,12 @@ public class CloseMessageView implements Observer {
         selectBidButton =new JButton("Select Bid");
         panel.add(selectBidButton, gbc2);
 
+        errorLabel = new JLabel();
+        errorLabel.setForeground(new Color(-4521974));
+        errorLabel.setHorizontalAlignment(0);
+        errorLabel.setHorizontalTextPosition(0);
+        errorLabel.setText("");
+        panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();

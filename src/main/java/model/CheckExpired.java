@@ -33,7 +33,8 @@ public class CheckExpired {
     public boolean hasOffer(Bid bid) {
         return bid.getAdditionalInfo().getBidOffers().size() != 0;
     }
-    public void check(Bid bid){
+
+    public boolean checkIsExpired(Bid bid){
         // if not closed
         // TODO: change this
         if (bid.getDateClosedDown() != null) {
@@ -70,13 +71,19 @@ public class CheckExpired {
                         Contract contract = new Contract(studentId, tutorId, subjectId, dateCreated,
                                 expiryDate, payment, lesson, new EmptyClass());
                         contractApi.addContract(contract);
+                        return true;
                     }
                     // if no offer, close
                     else {
                         System.out.println("Bid has no offer");
                         bidApi.closeBid(bid.getId(), bid);
+                        return true;
+
                     }
                 }// if not expired pass
+                else{
+                    return false;
+                }
             }
             // if close
             else {
@@ -85,11 +92,16 @@ public class CheckExpired {
                 if (isExpired(bid)) {
                     System.out.println("Bid is expired");
                     bidApi.closeBid(bid.getId(), bid);
+                    return true;
                     // close bid
+                } else {
+                    return false;
+
                 }
                 // if not expired pass
             }
+        }else {
+            return false;
         }
     }
-
 }

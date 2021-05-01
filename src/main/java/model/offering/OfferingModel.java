@@ -20,12 +20,16 @@ public class OfferingModel {
     private BidApi bidApi;
     private List<Bid> bidsOnGoing;
     public OSubject oSubject;
+    protected String errorText;
+
 
     public OfferingModel(String userId) {
         this.userId = userId;
         this.userApi = new UserApi();
         this.bidApi = new BidApi();
         this.bidsOnGoing = new ArrayList<>();
+        this.errorText = "";
+
         oSubject = new OSubject();
 
     }
@@ -52,6 +56,9 @@ public class OfferingModel {
             }
         }
         oSubject.notifyObservers();
+    }
+    public void setErrorText(String errorText){
+        this.errorText = errorText;
     }
 
 }

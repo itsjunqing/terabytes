@@ -18,12 +18,15 @@ public class CloseOffersModel {
     private BidApi bidApi;
     private MessagePair messagePair;
     public OSubject oSubject;
+    protected String errorText;
+
 
 
     public CloseOffersModel(String userId, String bidId) {
         this.userId = userId;
         this.bidId = bidId;
     	this.bidApi = new BidApi();
+        this.errorText = "";
         oSubject = new OSubject();
 
         refresh();
@@ -99,6 +102,9 @@ public class CloseOffersModel {
 //        info.getBidOffers().add(bidInfo);
 //        bidApi.patchBid(bidId, new Bid(info));
 
+    }
+    public void setErrorText(String errorText){
+        this.errorText = errorText;
     }
 
 }
