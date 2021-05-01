@@ -33,33 +33,33 @@ public class Driver {
         LoginView loginView = new LoginView();
         LoginController loginController = new LoginController(loginModel, loginView);
 
-        ContractApi contractApi = new ContractApi();
-        List<Contract> contractList = contractApi.getAll();
-        Contract contract1 = contractList.get(0);
-        Contract contract2 = contractList.get(2);
-        Contract contract3 = contractList.get(3);
-        Contract contract4 = contractList.get(4);
-
-        ContractViewTest contractViewTest = new ContractViewTest(contract1);
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException interruptedException) {
-            interruptedException.printStackTrace();
-        }
-        contractViewTest.update(contract2);
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException interruptedException) {
-            interruptedException.printStackTrace();
-        }
-
-        contractViewTest.update(contract3);
-        try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException interruptedException) {
-            interruptedException.printStackTrace();
-        }
-        contractViewTest.update(contract4);
+//        ContractApi contractApi = new ContractApi();
+//        List<Contract> contractList = contractApi.getAll();
+//        Contract contract1 = contractList.get(0);
+//        Contract contract2 = contractList.get(2);
+//        Contract contract3 = contractList.get(3);
+//        Contract contract4 = contractList.get(4);
+//
+//        ContractViewTest contractViewTest = new ContractViewTest(contract1);
+//        try {
+//            TimeUnit.SECONDS.sleep(1);
+//        } catch (InterruptedException interruptedException) {
+//            interruptedException.printStackTrace();
+//        }
+//        contractViewTest.update(contract2);
+//        try {
+//            TimeUnit.SECONDS.sleep(1);
+//        } catch (InterruptedException interruptedException) {
+//            interruptedException.printStackTrace();
+//        }
+//
+//        contractViewTest.update(contract3);
+//        try {
+//            TimeUnit.SECONDS.sleep(1);
+//        } catch (InterruptedException interruptedException) {
+//            interruptedException.printStackTrace();
+//        }
+//        contractViewTest.update(contract4);
 
 
 
