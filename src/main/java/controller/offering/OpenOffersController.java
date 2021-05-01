@@ -43,8 +43,9 @@ public class OpenOffersController {
         try {
             BidInfo bidInfo = extractOpenReplyInfo(openReplyForm);
             System.out.println("Extracted: " + bidInfo);
-            openOffersModel.sendOffer(bidInfo);
+            openOffersModel.respond(bidInfo);
             openReplyForm.dispose();
+
         } catch (NullPointerException exception) {
             openReplyForm.getErrorLabel().setText("Form is incomplete!");
         }
@@ -52,10 +53,13 @@ public class OpenOffersController {
 
     private void handleBuyOut(ActionEvent e) {
         // Get preferences -> Add BidInfo -> create contract -> sign -> dispose
-        BidPreference bp = openOffersModel.getBid().getAdditionalInfo().getBidPreference();
-        BidInfo bidInfo = bp.getPreferences();
-        bidInfo.setInitiatorId(openOffersModel.getUserId());
-        openOffersModel.buyBid(bidInfo);
+        // TODO: Nick need to add contract handling here for signing
+//        BidPreference bp = openOffersModel.getBid().getAdditionalInfo().getBidPreference();
+//        BidInfo bidInfo = bp.getPreferences();
+//        bidInfo.setInitiatorId(openOffersModel.getUserId());
+//        openOffersModel.sendOffer(bidInfo);
+//        createContract(openOffersModel.getBid(), bidInfo);
+        openOffersModel.buyOut();
         openOffersView.dispose();
     }
 

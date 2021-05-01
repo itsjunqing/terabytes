@@ -40,7 +40,9 @@ public class CloseOffersController {
         try {
             MessageBidInfo messageBidInfo = extractCloseReplyInfo(closeReply);
             System.out.println("Extracted: " + messageBidInfo);
-            closeOffersModel.sendMessage(messageBidInfo);
+            closeReply.dispose();
+//            closeOffersModel.sendMessage(messageBidInfo);
+            closeOffersModel.respondMessage(messageBidInfo);
             closeReply.dispose();
         } catch (NullPointerException exception) {
             closeReply.getErrorLabel().setText("Incomplete form!");

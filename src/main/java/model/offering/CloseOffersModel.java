@@ -5,6 +5,7 @@ import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import model.BasicModel;
+import service.ApiService;
 import service.ExpiryService;
 import service.ApiService;
 import stream.Bid;
@@ -91,4 +92,14 @@ public class CloseOffersModel extends BasicModel {
         }
     }
 
+    public void respondMessage(MessageBidInfo messageBidInfo){
+
+        if (!expiryService.checkIsExpired(ApiService.bidApi.get(getBidId()))){
+            sendMessage(messageBidInfo);
+        }
+        else{
+            errorLabel = "Bid has Expired";
+            oSubject.notifyObservers();
+        }
+    }
 }

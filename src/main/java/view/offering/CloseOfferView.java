@@ -72,6 +72,9 @@ public class CloseOfferView implements Observer {
             openBidPanel.setLayout(new BorderLayout());
             mainPanel.add(openBidPanel);
         }
+        if (messagePair == null){
+            return;
+        }
 
 
         JPanel mainList = new JPanel(new GridBagLayout());
@@ -132,12 +135,6 @@ public class CloseOfferView implements Observer {
             title = BorderFactory.createTitledBorder("Student Request and Message");
             panel.setBorder(title);
             mainList.add(panel, gbc1, 0);
-
-
-
-
-
-
     }
 
     private JTable getStudentMessageTable(MessageBidInfo messageBidInfo) {
@@ -205,25 +202,6 @@ public class CloseOfferView implements Observer {
     }
 
 
-    // TODO: this is from https://stackoverflow.com/questions/17627431/auto-resizing-the-jtable-column-widths, rewrite
-    private void resizeColumnWidth(JTable table) {
-        TableColumnModel columnModel = table.getColumnModel();
-        for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 15; // Min width
-            for (int row = 0; row < table.getRowCount(); row++) {
-                TableCellRenderer renderer = table.getCellRenderer(row, column);
-                Component comp = table.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width +1 , width);
-            }
-            System.out.println(width);
-            if(width > 300)
-                width=300;
-            if(width < 200)
-                width=200;
-            columnModel.getColumn(column).setPreferredWidth(width);
-        }
-    }
-
     private void updateButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
@@ -246,12 +224,8 @@ public class CloseOfferView implements Observer {
         // add refresh button
         refreshButton = new JButton("Refresh");
         panel.add(refreshButton, gbc2);
-
-
         respondMessageButton = new JButton("Respond");
         panel.add(respondMessageButton, gbc2);
-
-
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
@@ -271,6 +245,25 @@ public class CloseOfferView implements Observer {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
+    }
+
+    // TODO: this is from https://stackoverflow.com/questions/17627431/auto-resizing-the-jtable-column-widths, rewrite
+    private void resizeColumnWidth(JTable table) {
+        TableColumnModel columnModel = table.getColumnModel();
+        for (int column = 0; column < table.getColumnCount(); column++) {
+            int width = 15; // Min width
+            for (int row = 0; row < table.getRowCount(); row++) {
+                TableCellRenderer renderer = table.getCellRenderer(row, column);
+                Component comp = table.prepareRenderer(renderer, row, column);
+                width = Math.max(comp.getPreferredSize().width +1 , width);
+            }
+            System.out.println(width);
+            if(width > 300)
+                width=300;
+            if(width < 200)
+                width=200;
+            columnModel.getColumn(column).setPreferredWidth(width);
+        }
     }
 
 }
