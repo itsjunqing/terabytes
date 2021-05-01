@@ -2,7 +2,6 @@ package model.bidding;
 
 import lombok.Getter;
 import model.BasicModel;
-import observer.Observer;
 import service.Service;
 import stream.Bid;
 import stream.User;
@@ -56,9 +55,4 @@ public abstract class BiddingModel extends BasicModel {
         return givenName + " " + familyName;
     }
 
-    public void attach(Observer o) {
-        oSubject.attach(o);
-    }
-
-    public abstract void refresh();
 }

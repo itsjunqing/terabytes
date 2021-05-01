@@ -4,7 +4,7 @@ import entity.BidInfo;
 import entity.BidPreference;
 import lombok.Getter;
 import lombok.Setter;
-import service.ObjectBuilder;
+import service.BuilderService;
 import service.ExpiryService;
 import service.Service;
 import stream.Bid;
@@ -24,8 +24,7 @@ public class OpenBidModel extends BiddingModel {
      * @param bp
      */
     public OpenBidModel(String userId, BidPreference bp) {
-        super();
-        Bid bidCreated = ObjectBuilder.buildBid(userId, bp, "Open");
+        Bid bidCreated = BuilderService.buildBid(userId, bp, "Open");
         initModel(userId, bidCreated);
     }
 
@@ -34,7 +33,6 @@ public class OpenBidModel extends BiddingModel {
      * @param userId
      */
     public OpenBidModel(String userId) {
-        super();
         Bid existingBid = extractBid(userId, "Open");
         initModel(userId, existingBid);
     }
@@ -56,7 +54,7 @@ public class OpenBidModel extends BiddingModel {
         // change to to usage of contract factory
         ExpiryService expiryService = new ExpiryService();
         if (!expiryService.checkIsExpired(currentBid)){
-            return ObjectBuilder.buildContract(currentBid, bidInfo);
+            return BuilderService.buildContract(currentBid, bidInfo);
         }
         else {
             errorLabel = "This Bid has expired, please close this window";

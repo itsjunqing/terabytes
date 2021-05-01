@@ -3,7 +3,6 @@ package model.offering;
 import entity.BidPreference;
 import lombok.Getter;
 import model.BasicModel;
-import observer.OSubject;
 import service.ExpiryService;
 import service.Service;
 import stream.Bid;

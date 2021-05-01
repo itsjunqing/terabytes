@@ -10,7 +10,7 @@ import java.util.Date;
 /**
  * A builder class that builds objects to be re-used
  */
-public class ObjectBuilder {
+public class BuilderService {
 
     public static Bid buildBid(String userId, BidPreference bp, String type) {
         BidAdditionalInfo bidAdditionalInfo = new BidAdditionalInfo(bp);
