@@ -30,7 +30,9 @@
                 </constraints>
                 <properties>
                   <foreground color="-4521974"/>
+                  <requestFocusEnabled value="false"/>
                   <text value=""/>
+                  <visible value="false"/>
                 </properties>
               </component>
               <hspacer id="758f3">
@@ -203,7 +205,9 @@
                 <preferred-size width="24" height="124"/>
               </grid>
             </constraints>
-            <properties/>
+            <properties>
+              <visible value="true"/>
+            </properties>
             <border type="none"/>
             <children>
               <component id="a6867" class="javax.swing.JButton" binding="openBidButton">

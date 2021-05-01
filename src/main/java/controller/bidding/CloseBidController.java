@@ -8,6 +8,7 @@ import view.bidding.CloseBidView;
 import view.bidding.CloseMessageView;
 import view.form.ReplyMessage;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 
@@ -23,10 +24,12 @@ public class CloseBidController extends BiddingController {
      * @param bp
      */
     public CloseBidController(String userId, BidPreference bp) {
-        this.closeBidModel = new CloseBidModel(userId, bp);
-        this.closeBidView = new CloseBidView(closeBidModel);
-        this.closeBidModel.attach(closeBidView);
-        listenViewActions();
+        SwingUtilities.invokeLater(() -> {
+            this.closeBidModel = new CloseBidModel(userId, bp);
+            this.closeBidView = new CloseBidView(closeBidModel);
+            this.closeBidModel.attach(closeBidView);
+            listenViewActions();
+        });
     }
 
     /**
@@ -51,9 +54,6 @@ public class CloseBidController extends BiddingController {
     private void handleRefresh(ActionEvent e) {
         System.out.println("From CloseBidController: Refresh is clicked");
         closeBidModel.refresh();
-        closeBidView.getRefreshButton().addActionListener(this::handleRefresh);
-        closeBidView.getViewMessageButton().addActionListener(this::handleViewMessage);
-        closeBidView.getSelectOfferButton().addActionListener(this::handleOfferSelection);
     }
 
     private void handleViewMessage(ActionEvent e) {

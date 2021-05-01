@@ -30,7 +30,9 @@
                 </constraints>
                 <properties>
                   <foreground color="-4521974"/>
+                  <requestFocusEnabled value="false"/>
                   <text value=""/>
+                  <visible value="false"/>
                 </properties>
               </component>
               <hspacer id="bfcb9">

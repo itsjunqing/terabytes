@@ -30,12 +30,13 @@ public class OpenOffersModel extends BasicModel {
         this.bidId = bidId;
         this.openOffers = new ArrayList<>();
         this.expired = false;
-        this.errorLabel = "";
+        this.errorText = "";
         refresh();
     }
 
     public void refresh() {
         openOffers.clear();
+        this.errorText = "";
         Bid bid = ApiService.bidApi.get(bidId);
         List<BidInfo> offers = bid.getAdditionalInfo().getBidOffers();
         System.out.println("From OpenOfferModel Refreshing..");
@@ -112,7 +113,7 @@ public class OpenOffersModel extends BasicModel {
             // mark bid as closed
             ApiService.bidApi.close(bidId, new Bid(new Date()));
         } else {
-            errorLabel = "Bid Has Expired";
+            errorText = "Bid Has Expired";
             oSubject.notifyObservers();
         }
     }

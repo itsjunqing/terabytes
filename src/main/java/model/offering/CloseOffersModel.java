@@ -7,7 +7,6 @@ import lombok.Getter;
 import model.BasicModel;
 import service.ApiService;
 import service.ExpiryService;
-import service.ApiService;
 import stream.Bid;
 import stream.Message;
 import stream.MessageAdditionalInfo;
@@ -29,6 +28,7 @@ public class CloseOffersModel extends BasicModel {
     }
 
     public void refresh() {
+        this.errorText = "";
         Bid bid = ApiService.bidApi.get(bidId);
         BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
         ExpiryService expiryService = new ExpiryService();
@@ -98,7 +98,7 @@ public class CloseOffersModel extends BasicModel {
             sendMessage(messageBidInfo);
         }
         else{
-            errorLabel = "Bid has Expired";
+            errorText = "Bid has Expired";
             oSubject.notifyObservers();
         }
     }

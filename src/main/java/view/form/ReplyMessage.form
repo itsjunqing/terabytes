@@ -76,6 +76,7 @@
             <properties>
               <foreground color="-4521974"/>
               <text value=""/>
+              <visible value="false"/>
             </properties>
           </component>
         </children>

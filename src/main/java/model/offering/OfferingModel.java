@@ -23,6 +23,7 @@ public class OfferingModel extends BasicModel {
     }
 
     public void refresh() {
+        this.errorText = "";
         bidsOnGoing.clear(); // for memory cleaning
         User currentUser = ApiService.userApi.get(userId);
         List<Bid> bids = ApiService.bidApi.getAll();

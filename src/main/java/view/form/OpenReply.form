@@ -33,6 +33,7 @@
                   <foreground color="-4521974"/>
                   <horizontalAlignment value="0"/>
                   <horizontalTextPosition value="0"/>
+                  <requestFocusEnabled value="false"/>
                   <text value=""/>
                 </properties>
               </component>

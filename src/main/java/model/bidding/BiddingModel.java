@@ -24,7 +24,6 @@ public abstract class BiddingModel extends BasicModel {
 
     protected String bidId;
     protected boolean expired;
-    protected String errorLabel;
 
     protected BiddingModel() {
         this.expired = false;

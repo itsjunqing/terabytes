@@ -3,6 +3,7 @@ package controller.dashboard;
 import controller.offering.OfferingController;
 import view.dashboard.TutorView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -14,9 +15,12 @@ public class TutorController extends DashboardController {
 
     public TutorController(String userId) {
         super(userId);
-        this.dashboardView = new TutorView(dashboardModel);
-        this.dashboardModel.attach(dashboardView);
-        listenViewActions();
+        SwingUtilities.invokeLater(() -> {
+
+            this.dashboardView = new TutorView(dashboardModel);
+            this.dashboardModel.attach(dashboardView);
+            listenViewActions();
+        });
     }
 
     @Override
@@ -28,8 +32,7 @@ public class TutorController extends DashboardController {
     private void handleRefresh(ActionEvent e) {
         System.out.println("From TutorController: Refresh Button is pressed");
         dashboardModel.refresh();
-        dashboardView.getRefreshButton().addActionListener(this::handleRefresh);
-        dashboardView.getInitiateButton().addActionListener(this::handleInitiation);
+
     }
 
     private void handleInitiation(ActionEvent e) {

@@ -7,6 +7,7 @@ import stream.Bid;
 import stream.Contract;
 import view.bidding.OpenBidView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 
@@ -21,10 +22,13 @@ public class OpenBidController extends BiddingController {
      * @param bp
      */
     public OpenBidController(String userId, BidPreference bp) {
-        this.openBidModel = new OpenBidModel(userId, bp);
-        this.openBidView = new OpenBidView(openBidModel);
-        this.openBidModel.attach(openBidView);
-        listenViewActions();
+        SwingUtilities.invokeLater(() -> {
+
+            this.openBidModel = new OpenBidModel(userId, bp);
+            this.openBidView = new OpenBidView(openBidModel);
+            this.openBidModel.attach(openBidView);
+            listenViewActions();
+        });
     }
 
     /**
@@ -47,8 +51,6 @@ public class OpenBidController extends BiddingController {
     private void handleRefresh(ActionEvent e) {
         System.out.println("From OpenBidController: Refresh is clicked");
         openBidModel.refresh();
-        openBidView.getRefreshButton().addActionListener(this::handleRefresh);
-        openBidView.getSelectOfferButton().addActionListener(this::handleOfferSelection);
     }
 
     private void handleOfferSelection(ActionEvent e) {

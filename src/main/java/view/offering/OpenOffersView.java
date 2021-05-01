@@ -49,7 +49,7 @@ public class OpenOffersView implements Observer {
         frame.pack();
         frame.setMinimumSize(new Dimension(860, 400));
         frame.setMaximumSize(new Dimension(1000, 1000));
-        frame.setPreferredSize(new Dimension(860, 800));
+        frame.setPreferredSize(new Dimension(860, 500));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -58,7 +58,7 @@ public class OpenOffersView implements Observer {
         this.frame.dispose();
     }
 
-    public void updateContent() {
+    private void updateContent() {
 
         // getting the constants from the model
         List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
@@ -69,6 +69,22 @@ public class OpenOffersView implements Observer {
         updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
+    }
+
+    private void refreshContent(){
+        // getting the constants from the model
+        List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
+        BidInfo myBidInfo = openOffersModel.getMyOffer();
+        Bid bid = openOffersModel.getBid();
+        // making the frames
+        updateView(otherBidInfo, myBidInfo, bid);
+        refreshButtons();
+        SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
+    }
+
+    private void refreshButtons(){
+        errorLabel.setText(openOffersModel.getErrorText());
     }
 
     private void updateView(List<BidInfo> otherBidInfo, BidInfo myBidInfo, Bid bid) {
@@ -111,7 +127,7 @@ public class OpenOffersView implements Observer {
             // Code to add open bid panel
             JPanel panel = new JPanel();
             JTable table = getOpenBidTable(b, bid);
-            resizeColumnWidth(table);
+            resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);
             panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
@@ -123,7 +139,7 @@ public class OpenOffersView implements Observer {
             // Code to add open bid panel
             JPanel myBidPanel = new JPanel();
             JTable myBidTable = getMyTable(myBidInfo, bid);
-            resizeColumnWidth(myBidTable);
+            resizeColumns(myBidTable);
             myBidPanel.setBounds(10, 10, 500, 100);
             myBidPanel.add(myBidTable);
             TitledBorder myOfferTitle;
@@ -137,7 +153,7 @@ public class OpenOffersView implements Observer {
             String[] col = {"", ""};
             JTable noOfferTable = new JTable(noOffer, col);
 
-            resizeColumnWidth(noOfferTable);
+            resizeColumns(noOfferTable);
             noOfferTable.setBounds(10, 10, 500, 100);
             myBidPanel.add(noOfferTable);
             TitledBorder myOfferTitle;
@@ -151,7 +167,7 @@ public class OpenOffersView implements Observer {
 
         JPanel requestPanel = new JPanel();
         JTable requestTable = getRequest(bid);
-        resizeColumnWidth(requestTable);
+        resizeColumns(requestTable);
         requestTable.setBounds(10, 10, 500, 100);
         requestPanel.add(requestTable);
         TitledBorder titledBorder;
@@ -220,22 +236,24 @@ public class OpenOffersView implements Observer {
         return contractTable;
     }
 
-    // TODO: this is from https://stackoverflow.com/questions/17627431/auto-resizing-the-jtable-column-widths, rewrite
-    private void resizeColumnWidth(JTable table) {
+    private void resizeColumns(JTable table) {
         TableColumnModel columnModel = table.getColumnModel();
-        for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 15; // Min width
-            for (int row = 0; row < table.getRowCount(); row++) {
-                TableCellRenderer renderer = table.getCellRenderer(row, column);
-                Component comp = table.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width +1 , width);
+        int colCount = table.getColumnCount();
+        int rowCount = table.getRowCount();
+        for (int c = 0; c < colCount; c++) {
+            int width = 20;
+            for (int r = 0; r < rowCount; r++) {
+                TableCellRenderer defaultRenderer = table.getCellRenderer(r, c);
+                int defaultSize = table.prepareRenderer(defaultRenderer, r, c).getPreferredSize().width + 1;
+                if (width < defaultSize){
+                    width = defaultSize;
+                }
             }
-//            System.out.println(width);
             if(width > 300)
                 width=300;
             if(width < 200)
                 width=200;
-            columnModel.getColumn(column).setPreferredWidth(width);
+            columnModel.getColumn(c).setPreferredWidth(width);
         }
     }
 
@@ -293,6 +311,6 @@ public class OpenOffersView implements Observer {
 
     @Override
     public void update() {
-        updateContent();
+        refreshContent();
     }
 }

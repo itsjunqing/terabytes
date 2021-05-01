@@ -24,6 +24,7 @@ public class CloseBidModel extends BiddingModel {
 
     private List<MessageBidInfo> closeBidOffers;
     private List<MessagePair> closeBidMessages;
+    private Bid bid;
 
     /**
      * Constructor to construct a new CloseBid
@@ -46,6 +47,7 @@ public class CloseBidModel extends BiddingModel {
     }
 
     private void initModel(String userId, Bid bid) {
+        this.bid = bid;
         this.bidId = bid.getId();
         this.userId = userId;
         this.closeBidOffers = new ArrayList<>();
@@ -55,11 +57,12 @@ public class CloseBidModel extends BiddingModel {
 
     @Override
     public void refresh() {
+        this.errorText = "";
         closeBidOffers.clear();
         closeBidMessages.clear();
-
-        Bid bid = ApiService.bidApi.get(bidId);
-
+        if (bid == null) {
+            bid = ApiService.bidApi.get(bidId);
+        }
         // check if the bid is expired, if the bid is expired, then remove the bid,
         // return an empty list, and update the error text
         if (!expiryService.checkIsExpired(bid)){
@@ -109,7 +112,7 @@ public class CloseBidModel extends BiddingModel {
         } else {
             closeBidOffers.clear();
             closeBidMessages.clear();
-            errorLabel = "This Bid has expired, please make a new one";
+            errorText = "This Bid has expired, please make a new one";
         }
         oSubject.notifyObservers();
     }
@@ -143,10 +146,13 @@ public class CloseBidModel extends BiddingModel {
     }
 
     public MessagePair viewMessage(int selection){
-        if (!expiryService.checkIsExpired(ApiService.bidApi.get(userId))){
+//        //        Bid currentBid = closeBidModel.getBid();
+////        MessageBidInfo messageBidInfo = closeBidModel.getCloseBidOffers().get(selection-1);
+//        System.out.println();
+        if (!expiryService.checkIsExpired(getBid())){
             return closeBidMessages.get(selection-1);
         } else{
-            errorLabel = "Bid had been closed down, please close the window";
+            errorText = "Bid had been closed down, please close the window";
             oSubject.notifyObservers();
             return null;
         }
@@ -161,7 +167,7 @@ public class CloseBidModel extends BiddingModel {
             return BuilderService.buildContract(currentBid, bidInfo);
         }
         else {
-            errorLabel = "This Bid has expired, please close this window";
+            errorText = "This Bid has expired, please close this window";
             oSubject.notifyObservers();
             return null;
         }

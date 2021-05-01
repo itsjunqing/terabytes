@@ -5,6 +5,7 @@ import model.offering.CloseOffersModel;
 import view.form.CloseReply;
 import view.offering.CloseOfferView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class CloseOffersController {
@@ -13,10 +14,13 @@ public class CloseOffersController {
     private CloseOfferView closeOfferView;
 
     public CloseOffersController(String userId, String bidId) {
-        this.closeOffersModel = new CloseOffersModel(userId, bidId);
-        this.closeOfferView = new CloseOfferView(closeOffersModel);
-        this.closeOffersModel.attach(closeOfferView);
-        listenViewActions();
+        SwingUtilities.invokeLater(() -> {
+
+            this.closeOffersModel = new CloseOffersModel(userId, bidId);
+            this.closeOfferView = new CloseOfferView(closeOffersModel);
+            this.closeOffersModel.attach(closeOfferView);
+            listenViewActions();
+        });
     }
 
     private void listenViewActions() {
@@ -27,8 +31,6 @@ public class CloseOffersController {
     private void handleRefresh(ActionEvent e) {
         // TODO: to be updated
         closeOffersModel.refresh();
-        closeOfferView.getRefreshButton().addActionListener(this::handleRefresh);
-        closeOfferView.getRespondMessageButton().addActionListener(this::handleRespondMessage);
     }
 
     private void handleRespondMessage(ActionEvent e) {

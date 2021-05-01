@@ -53,19 +53,20 @@ public class OpenBidModel extends BiddingModel {
         if (!expiryService.checkIsExpired(currentBid)){
             return BuilderService.buildContract(currentBid, bidInfo);
         }
-        errorLabel = "This Bid has expired, please close this window";
+        errorText = "This Bid has expired, please close this window";
         oSubject.notifyObservers();
         return null;
     }
 
     @Override
     public void refresh() {
+        this.errorText = "";
         Bid bid = ApiService.bidApi.get(getBidId());
         // If bid is expired, remove the bid
         if (!expiryService.checkIsExpired(bid)) {
             openBidOffers = new ArrayList<>(bid.getAdditionalInfo().getBidOffers()); // reference copy
         } else {
-            errorLabel = "This Bid has expired, please make a new one";
+            errorText = "This Bid has expired, please make a new one";
         }
         oSubject.notifyObservers();
     }

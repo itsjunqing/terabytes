@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public class DashboardModel extends BasicModel {
 
     private List<Contract> contractsList;
-    protected String errorText;
 
     public DashboardModel(String userId) {
         this.userId = userId;
@@ -25,12 +24,15 @@ public class DashboardModel extends BasicModel {
     }
 
     public void refresh() {
+        this.errorText = "";
         contractsList = ApiService.contractApi.getAll().stream()
                 .filter(c -> c.getFirstParty().getId().equals(userId)
                         || c.getSecondParty().getId().equals(userId))
                 .collect(Collectors.toList());
         oSubject.notifyObservers();
     }
+
+
 
     public DashboardStatus getStatus() {
         Bid currentBid = ApiService.userApi.get(userId).getInitiatedBids().stream()

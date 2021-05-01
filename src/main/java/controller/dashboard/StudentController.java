@@ -18,9 +18,12 @@ public class StudentController extends DashboardController {
     public StudentController(String userId) {
         super(userId);
         SwingUtilities.invokeLater(() -> {
-            dashboardView = new StudentView(dashboardModel);
-            dashboardModel.attach(dashboardView);
-            listenViewActions();
+            SwingUtilities.invokeLater(() -> {
+
+                dashboardView = new StudentView(dashboardModel);
+                dashboardModel.attach(dashboardView);
+                listenViewActions();
+            });
         }
         );
     }
@@ -35,8 +38,6 @@ public class StudentController extends DashboardController {
     private void handleRefresh(ActionEvent e) {
         System.out.println("From StudentController: Refresh Button is pressed");
         dashboardModel.refresh();
-        dashboardView.getRefreshButton().addActionListener(this::handleRefresh);
-        dashboardView.getInitiateButton().addActionListener(this::handleInitiation);
     }
 
     private void handleInitiation(ActionEvent e) {

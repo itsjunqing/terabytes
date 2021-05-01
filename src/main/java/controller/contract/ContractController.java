@@ -4,6 +4,7 @@ import model.contract.ContractModel;
 import stream.Contract;
 import view.contract.ContractView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class ContractController {
@@ -12,9 +13,12 @@ public class ContractController {
     private ContractView contractView; // replace this with ContractView
 
     public ContractController(Contract contract) {
-        this.contractModel = new ContractModel(contract);
-        this.contractView = new ContractView(contractModel);
-        listenViewActions();
+        SwingUtilities.invokeLater(() -> {
+
+            this.contractModel = new ContractModel(contract);
+            this.contractView = new ContractView(contractModel);
+            listenViewActions();
+        });
     }
 
     public void listenViewActions() {

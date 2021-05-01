@@ -39,14 +39,14 @@ public class CloseOfferView implements Observer {
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Close Message View");
 
-        updateContent();
-
+        updateView();
+        updateButtons();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(860, 400));
-        frame.setMaximumSize(new Dimension(1000, 1000));
-        frame.setPreferredSize(new Dimension(860, 800));
+        frame.setMaximumSize(new Dimension(860, 1000));
+        frame.setPreferredSize(new Dimension(860, 500));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -55,12 +55,15 @@ public class CloseOfferView implements Observer {
         this.frame.dispose();
     }
 
-    public void updateContent() {
-        // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
+    private void refreshContent(){
+        // refreshing jcombobox
         updateView();
-        updateButtons();
+        refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
+    }
+    private void refreshButtons(){
+        errorLabel.setText(closeOffersModel.getErrorText());
     }
 
     private void updateView() {
@@ -106,7 +109,7 @@ public class CloseOfferView implements Observer {
             // code to add message panel 2
             JPanel panel1 = new JPanel();
             JTable table2 = getTutorMessageTable(messagePair.getTutorMsg());
-            resizeColumnWidth(table2);
+            resizeColumns(table2);
             table2.setBounds(10, 10, 500, 100);
             panel1.add(table2);
             TitledBorder title2;
@@ -121,7 +124,7 @@ public class CloseOfferView implements Observer {
 
             noOfferTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
 
-            resizeColumnWidth(noOfferTable);
+            resizeColumns(noOfferTable);
             noOfferTable.setBounds(10, 10, 500, 100);
             panel1.add(noOfferTable);
 
@@ -133,7 +136,7 @@ public class CloseOfferView implements Observer {
             // code to add message panel 1
             JPanel panel = new JPanel();
             JTable table = getStudentMessageTable(messagePair.getStudentMsg());
-            resizeColumnWidth(table);
+            resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);
             TitledBorder title;
@@ -184,10 +187,7 @@ public class CloseOfferView implements Observer {
         return contractTable;
     }
 
-    @Override
-    public void update() {
 
-    }
 
 
     private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
@@ -252,23 +252,28 @@ public class CloseOfferView implements Observer {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    // TODO: this is from https://stackoverflow.com/questions/17627431/auto-resizing-the-jtable-column-widths, rewrite
-    private void resizeColumnWidth(JTable table) {
+    private void resizeColumns(JTable table) {
         TableColumnModel columnModel = table.getColumnModel();
-        for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 15; // Min width
-            for (int row = 0; row < table.getRowCount(); row++) {
-                TableCellRenderer renderer = table.getCellRenderer(row, column);
-                Component comp = table.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width +1 , width);
+        int colCount = table.getColumnCount();
+        int rowCount = table.getRowCount();
+        for (int c = 0; c < colCount; c++) {
+            int width = 20;
+            for (int r = 0; r < rowCount; r++) {
+                TableCellRenderer defaultRenderer = table.getCellRenderer(r, c);
+                int defaultSize = table.prepareRenderer(defaultRenderer, r, c).getPreferredSize().width + 1;
+                if (width < defaultSize){
+                    width = defaultSize;
+                }
             }
-            System.out.println(width);
             if(width > 300)
                 width=300;
             if(width < 200)
                 width=200;
-            columnModel.getColumn(column).setPreferredWidth(width);
+            columnModel.getColumn(c).setPreferredWidth(width);
         }
     }
-
+    @Override
+    public void update() {
+        refreshContent();
+    }
 }

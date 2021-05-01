@@ -45,8 +45,8 @@ public class OpenBidView implements Observer {
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(860, 400));
-        frame.setMaximumSize(new Dimension(1000, 1000));
-        frame.setPreferredSize(new Dimension(860, 800));
+        frame.setMaximumSize(new Dimension(860, 1000));
+        frame.setPreferredSize(new Dimension(860, 500));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -67,6 +67,30 @@ public class OpenBidView implements Observer {
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
     }
+
+    private void refreshContent(){
+        // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
+        Bid bid = openBidModel.getBid();
+        List<BidInfo> bidInfoList = new ArrayList<>(openBidModel.getOpenBidOffers());
+        Collections.reverse(bidInfoList);
+
+        int bidIndex = bidInfoList.size();
+        updateView(bidInfoList, bid);
+        refreshButtons(bidIndex);
+        SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
+    }
+
+    private void refreshButtons(int bidIndex){
+        // refreshing jcombobox
+        offerSelection.removeAllItems();
+        for (int i = 1; i < bidIndex + 1; i++) {
+            offerSelection.addItem(i);
+        }
+        // refreshing jlabel
+        errorLabel.setText(openBidModel.getErrorText());
+    }
+
 
     private void updateView(List<BidInfo> bidInfoList, Bid bid) {
         // to be used upon refresh to update both openBidPanel and buttonPanel
@@ -98,7 +122,7 @@ public class OpenBidView implements Observer {
             JPanel panel = new JPanel();
             JTable table = getOpenBidTable(b, bidIndex, bid);
             bidIndex -= 1;
-            resizeColumnWidth(table);
+            resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);
 
@@ -129,22 +153,24 @@ public class OpenBidView implements Observer {
         return new JTable(rec, col);
     }
 
-    // TODO: this is from https://stackoverflow.com/questions/17627431/auto-resizing-the-jtable-column-widths, rewrite
-    private void resizeColumnWidth(JTable table) {
+    private void resizeColumns(JTable table) {
         TableColumnModel columnModel = table.getColumnModel();
-        for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 15; // Min width
-            for (int row = 0; row < table.getRowCount(); row++) {
-                TableCellRenderer renderer = table.getCellRenderer(row, column);
-                Component comp = table.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width +1 , width);
+        int colCount = table.getColumnCount();
+        int rowCount = table.getRowCount();
+        for (int c = 0; c < colCount; c++) {
+            int width = 20;
+            for (int r = 0; r < rowCount; r++) {
+                TableCellRenderer defaultRenderer = table.getCellRenderer(r, c);
+                int defaultSize = table.prepareRenderer(defaultRenderer, r, c).getPreferredSize().width + 1;
+                if (width < defaultSize){
+                    width = defaultSize;
+                }
             }
-            System.out.println(width);
             if(width > 300)
                 width=300;
             if(width < 200)
                 width=200;
-            columnModel.getColumn(column).setPreferredWidth(width);
+            columnModel.getColumn(c).setPreferredWidth(width);
         }
     }
 
@@ -185,7 +211,7 @@ public class OpenBidView implements Observer {
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText(openBidModel.getErrorLabel());
+        errorLabel.setText(openBidModel.getErrorText());
         panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
@@ -203,6 +229,6 @@ public class OpenBidView implements Observer {
 
     @Override
     public void update() {
-        updateContent();
+        refreshContent();
     }
 }

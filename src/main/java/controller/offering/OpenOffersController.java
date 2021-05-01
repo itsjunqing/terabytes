@@ -6,6 +6,7 @@ import model.offering.OpenOffersModel;
 import view.form.OpenReply;
 import view.offering.OpenOffersView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 
 public class OpenOffersController {
@@ -14,10 +15,13 @@ public class OpenOffersController {
     private OpenOffersView openOffersView;
 
     public OpenOffersController(String userId, String bidId) {
-        this.openOffersModel = new OpenOffersModel(userId, bidId);
-        this.openOffersView = new OpenOffersView(openOffersModel);
-        this.openOffersModel.attach(openOffersView);
-        listenViewActions();
+        SwingUtilities.invokeLater(() -> {
+
+            this.openOffersModel = new OpenOffersModel(userId, bidId);
+            this.openOffersView = new OpenOffersView(openOffersModel);
+            this.openOffersModel.attach(openOffersView);
+            listenViewActions();
+        });
     }
 
     private void listenViewActions() {
@@ -29,9 +33,6 @@ public class OpenOffersController {
     private void handleRefresh(ActionEvent e) {
         // TODO: to be updated
         openOffersModel.refresh();
-        openOffersView.getRefreshButton().addActionListener(this::handleRefresh);
-        openOffersView.getRespondButton().addActionListener(this::handleRespond);
-        openOffersView.getBuyOutButton().addActionListener(this::handleBuyOut);
     }
 
     private void handleRespond(ActionEvent e) {

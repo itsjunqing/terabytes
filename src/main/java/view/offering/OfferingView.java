@@ -44,14 +44,14 @@ public class OfferingView implements Observer {
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(860, 400));
-        frame.setMaximumSize(new Dimension(1000, 1000));
-        frame.setPreferredSize(new Dimension(860, 800));
+        frame.setMaximumSize(new Dimension(860, 1000));
+        frame.setPreferredSize(new Dimension(860, 500));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
     }
 
-    public void updateContent() {
+    private void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         List<Bid> bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
         offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
@@ -68,6 +68,34 @@ public class OfferingView implements Observer {
         updateButtons(bidSize);
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
+    }
+
+    private void refreshContent() {
+        // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
+        List<Bid> bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
+        offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
+        System.out.println(bidList.size());
+        System.out.println("size, look at me \n \n ");
+        bidList.stream()
+                .forEach(c -> System.out.println(c.toString()));
+        System.out.println(bidList.size());
+        System.out.println("hi");
+        int bidSize = bidList.size();
+        Collections.reverse(bidList);
+        updateView(bidList);
+        refreshButtons(bidSize);
+        SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
+    }
+
+    private void refreshButtons(int bidSize){
+        // refreshing jcombobox
+        bidSelection.removeAllItems();
+        for (int i = 1; i < bidSize + 1; i++) {
+            bidSelection.addItem(i);
+        }
+        // refreshing jlabel
+        errorLabel.setText(offeringModel.getErrorText());
     }
 
     private void updateButtons(int bidSize) {
@@ -104,12 +132,12 @@ public class OfferingView implements Observer {
         panel.add(viewOffersButton, gbc2);
 
 
-//        errorLabel = new JLabel();
-//        errorLabel.setForeground(new Color(-4521974));
-//        errorLabel.setHorizontalAlignment(0);
-//        errorLabel.setHorizontalTextPosition(0);
-//        errorLabel.setText(offeringModel.getErrorText());
-//        panel.add(errorLabel);
+        errorLabel = new JLabel();
+        errorLabel.setForeground(new Color(-4521974));
+        errorLabel.setHorizontalAlignment(0);
+        errorLabel.setHorizontalTextPosition(0);
+        errorLabel.setText(offeringModel.getErrorText());
+        panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();
@@ -204,7 +232,7 @@ public class OfferingView implements Observer {
     }
 
     @Override
-    public void update() {updateContent();
+    public void update() {refreshContent();
 
     }
 }

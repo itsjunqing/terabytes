@@ -6,15 +6,19 @@ import model.LoginModel;
 import stream.User;
 import view.LoginView;
 
+import javax.swing.*;
+
 public class LoginController {
 
     private LoginModel loginModel;
     private LoginView loginView;
 
     public LoginController(LoginModel loginModel, LoginView loginView) {
-        this.loginModel = loginModel;
-        this.loginView = loginView;
-        listenLogin();
+        SwingUtilities.invokeLater(() -> {
+            this.loginModel = loginModel;
+            this.loginView = loginView;
+            listenLogin();
+        });
     }
 
     private void listenLogin() {

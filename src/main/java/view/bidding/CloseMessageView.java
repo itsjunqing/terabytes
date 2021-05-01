@@ -43,8 +43,8 @@ public class CloseMessageView implements Observer {
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(860, 400));
-        frame.setMaximumSize(new Dimension(1000, 1000));
-        frame.setPreferredSize(new Dimension(860, 800));
+        frame.setMaximumSize(new Dimension(860, 1000));
+        frame.setPreferredSize(new Dimension(860, 500));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -59,6 +59,16 @@ public class CloseMessageView implements Observer {
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
 
+    }
+
+    private void refreshContent(){
+        updateView();
+        SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
+    }
+
+    private void refreshButtons(){
+        ;
     }
 
     private void updateView() {
@@ -97,7 +107,7 @@ public class CloseMessageView implements Observer {
         // code to add message panel 2
         JPanel panel1 = new JPanel();
         JTable table2 = getTutorMessageTable(messagePair.getTutorMsg());
-        resizeColumnWidth(table2);
+        resizeColumns(table2);
         table2.setBounds(10, 10, 500, 100);
         panel1.add(table2);
         TitledBorder title2;
@@ -108,7 +118,7 @@ public class CloseMessageView implements Observer {
         // code to add message panel 1
         JPanel panel = new JPanel();
         JTable table = getStudentMessageTable(messagePair.getStudentMsg());
-        resizeColumnWidth(table);
+        resizeColumns(table);
         table.setBounds(10, 10, 500, 100);
         panel.add(table);
         TitledBorder title;
@@ -192,22 +202,24 @@ public class CloseMessageView implements Observer {
     }
 
 
-    // TODO: this is from https://stackoverflow.com/questions/17627431/auto-resizing-the-jtable-column-widths, rewrite
-    private void resizeColumnWidth(JTable table) {
+    private void resizeColumns(JTable table) {
         TableColumnModel columnModel = table.getColumnModel();
-        for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 15; // Min width
-            for (int row = 0; row < table.getRowCount(); row++) {
-                TableCellRenderer renderer = table.getCellRenderer(row, column);
-                Component comp = table.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width +1 , width);
+        int colCount = table.getColumnCount();
+        int rowCount = table.getRowCount();
+        for (int c = 0; c < colCount; c++) {
+            int width = 20;
+            for (int r = 0; r < rowCount; r++) {
+                TableCellRenderer defaultRenderer = table.getCellRenderer(r, c);
+                int defaultSize = table.prepareRenderer(defaultRenderer, r, c).getPreferredSize().width + 1;
+                if (width < defaultSize){
+                    width = defaultSize;
+                }
             }
-            System.out.println(width);
             if(width > 300)
                 width=300;
             if(width < 200)
                 width=200;
-            columnModel.getColumn(column).setPreferredWidth(width);
+            columnModel.getColumn(c).setPreferredWidth(width);
         }
     }
 
