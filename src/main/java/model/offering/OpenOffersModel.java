@@ -42,7 +42,7 @@ public class OpenOffersModel extends BasicModel {
                 if (bidInfo.getInitiatorId().equals(userId)) {
                     myOffer = bidInfo;
                 } else {
-                    openOffers.add(myOffer);
+                    openOffers.add(bidInfo);
                 }
             }
         }

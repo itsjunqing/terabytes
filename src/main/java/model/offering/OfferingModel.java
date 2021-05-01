@@ -3,6 +3,7 @@ package model.offering;
 import entity.BidPreference;
 import lombok.Getter;
 import model.BasicModel;
+import observer.OSubject;
 import service.ExpiryService;
 import service.Service;
 import stream.Bid;
@@ -45,6 +46,16 @@ public class OfferingModel extends BasicModel {
             }
         }
         oSubject.notifyObservers();
+    }
+
+    public Bid viewOffers(int selection){
+        Bid bid = bidsOnGoing.get(selection-1);
+        if (!expiryService.checkIsExpired(bid)){
+            return bid;
+        }
+        else {
+            return null;
+        }
     }
 
 }

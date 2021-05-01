@@ -221,7 +221,7 @@ public class OfferingView implements Observer {
     }
 
     @Override
-    public void update() {
+    public void update() {updateContent();
 
     }
 }

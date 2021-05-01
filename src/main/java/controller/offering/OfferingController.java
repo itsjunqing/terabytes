@@ -34,11 +34,21 @@ public class OfferingController {
     private void handleViewOffers(ActionEvent e) {
         System.out.println("From OfferingController: ViewOffers Button is pressed");
         int selection = offeringView.getBidNumber();
-        Bid bid = offeringModel.getBidsOnGoing().get(selection-1);
-        if (bid.getType().equals("Open")) {
-            new OpenOffersController(offeringModel.getUserId(), bid.getId());
-        } else {
-           new CloseOffersController(offeringModel.getUserId(), bid.getId());
+//        Bid bid = offeringModel.getBidsOnGoing().get(selection-1);
+        Bid bid = offeringModel.viewOffers(selection);
+        System.out.println(selection);
+        System.out.println(bid.toString());
+        System.out.println("this is some text \n\n\n lets make it count \n \n");
+
+        if (bid != null) {
+            if (bid.getType().equals("Open")) {
+                new OpenOffersController(offeringModel.getUserId(), bid.getId());
+            } else {
+                System.out.println("this is some text \n\n\n lets make it count");
+                new CloseOffersController(offeringModel.getUserId(), bid.getId());
+            }
+        } else{
+            ;
         }
     }
 
