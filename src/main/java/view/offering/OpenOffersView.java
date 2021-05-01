@@ -48,6 +48,7 @@ public class OpenOffersView implements Observer {
         frame.add(mainPanel);
         frame.pack();
         frame.setMinimumSize(new Dimension(830, 400));
+        frame.setMaximumSize(new Dimension(1000, 800));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }

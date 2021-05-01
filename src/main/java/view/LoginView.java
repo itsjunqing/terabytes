@@ -35,6 +35,8 @@ public class LoginView {
         frame.setContentPane(this.jPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 400);
+        frame.setMinimumSize(new Dimension(500, 400));
+        frame.setMaximumSize(new Dimension(500, 400));
         frame.setTitle("Tutor Matching Program");
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
