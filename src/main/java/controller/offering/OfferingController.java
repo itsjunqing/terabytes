@@ -34,9 +34,12 @@ public class OfferingController {
     private void handleViewOffers(ActionEvent e) {
         System.out.println("From OfferingController: ViewOffers Button is pressed");
         int selection = offeringView.getBidNumber();
-        Bid bid = offeringModel.getBidsOnGoing().get(selection-1);
+//        Bid bid = offeringModel.getBidsOnGoing().get(selection-1);
+        offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
+        Bid bid = offeringModel.viewOffers(selection);
         System.out.println(bid.toString());
-//        Bid bid = offeringModel.viewOffers(selection);
+        System.out.println(selection);
+        System.out.println("Hi");
 
 //        System.out.println(selection);
 //        System.out.println(bid.toString());
