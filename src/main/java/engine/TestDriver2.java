@@ -73,7 +73,7 @@
 ////        Date then = bid.getDateCreated();
 ////
 ////        Date now = new Date();
-////        long difference = now.getTime() - then.getTime();
+////        long difference = now.getTimeBox() - then.getTimeBox();
 ////        long minuteDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
 ////        long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
 ////        if (minuteDifference > 30){
@@ -127,7 +127,7 @@
 //    public static boolean isExpired(Bid bid){
 //        Date then = bid.getDateCreated();
 //        Date now = new Date();
-//        long difference = now.getTime() - then.getTime();
+//        long difference = now.getTimeBox() - then.getTimeBox();
 //        long minuteDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
 //        long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
 //        if (bid.getType().equals("Open") ) {
@@ -170,11 +170,11 @@
 //                        Calendar c = Calendar.getInstance();
 //                        c.setTime(dateCreated);
 //                        c.add(Calendar.WEEK_OF_YEAR, bidInfo.getNumberOfSessions());
-//                        Date expiryDate = c.getTime();
+//                        Date expiryDate = c.getTimeBox();
 //
 //                        // calculate payment = rate per session * number of sessions
 //                        Payment payment = new Payment(bidInfo.getRate() * bidInfo.getNumberOfSessions());
-//                        Lesson lesson = new Lesson(bid.getSubject().getName(), bidInfo.getDay(), bidInfo.getTime(),
+//                        Lesson lesson = new Lesson(bid.getSubject().getName(), bidInfo.getDay(), bidInfo.getTimeBox(),
 //                                bidInfo.getDuration(), bidInfo.getNumberOfSessions(), bidInfo.isFreeLesson());
 //                        Contract contract = new Contract(studentId, tutorId, subjectId, dateCreated,
 //                                expiryDate, payment, lesson, new EmptyClass());

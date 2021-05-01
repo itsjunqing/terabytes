@@ -141,21 +141,15 @@ public class CloseOfferView implements Observer {
     }
 
     private JTable getStudentMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson;
-        if (messageBidInfo.isFreeLesson()) {
-            freeLesson = "Yes";
-        } else {
-            freeLesson = "No";
-        }
-
+        String freeLesson = messageBidInfo.isFreeLesson()? "Yes" : "No";
         String[][] rec = {
                 {"Subject:", ""},
                 {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
                 {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
                 {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
-                {"Rate (per hour):", Integer.toString(messageBidInfo.getRate())},
+                {"Rate (per session):", Integer.toString(messageBidInfo.getRate())},
                 {"Free Lesson?:", freeLesson},
-                {"Message to Tutor:", messageBidInfo.getContent() + "This subject is really hard, are you really smart enough to teach me"}
+                {"Student's Message:", messageBidInfo.getContent() + "This subject is really hard, are you really smart enough to teach me"}
 
         };
         String[] col = {"", ""};
@@ -167,12 +161,7 @@ public class CloseOfferView implements Observer {
     }
 
     private JTable getTutorMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson;
-        if (messageBidInfo.isFreeLesson()) {
-            freeLesson = "Yes";
-        } else {
-            freeLesson = "No";
-        }
+        String freeLesson = messageBidInfo.isFreeLesson()? "Yes" : "No";
 
         String[][] rec = {
                 {"Tutor Name:", ""},
@@ -180,9 +169,9 @@ public class CloseOfferView implements Observer {
                 {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
                 {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
                 {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
-                {"Rate (per hour):", Integer.toString(messageBidInfo.getRate())},
+                {"Rate (per session):", Integer.toString(messageBidInfo.getRate())},
                 {"Free Lesson?", freeLesson},
-                {"Message from tutor:", messageBidInfo.getContent() + "Yes, I am, I got the top in my class in MIT, followed by a fellowship in harvard and I also am a world champion in"}
+                {"Tutor's Message:", messageBidInfo.getContent() + "Yes, I am, I got the top in my class in MIT, followed by a fellowship in harvard and I also am a world champion in"}
 
         };
         String[] col = {"", ""};

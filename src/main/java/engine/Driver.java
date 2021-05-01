@@ -1,20 +1,15 @@
 package engine;
 
-import Test.ContractViewTest;
 import api.BidApi;
 import api.ContractApi;
-import controller.LoginController;
 import entity.BidInfo;
-import model.LoginModel;
 import stream.*;
-import view.LoginView;
 import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -29,9 +24,9 @@ public class Driver {
 //        Collections.reverse(someInt);
 
          //Login model test
-        LoginModel loginModel = new LoginModel();
-        LoginView loginView = new LoginView();
-        LoginController loginController = new LoginController(loginModel, loginView);
+//        LoginModel loginModel = new LoginModel();
+//        LoginView loginView = new LoginView();
+//        LoginController loginController = new LoginController(loginModel, loginView);
 
 //        ContractApi contractApi = new ContractApi();
 //        List<Contract> contractList = contractApi.getAll();
@@ -72,7 +67,7 @@ public class Driver {
 //        Date then = bid.getDateCreated();
 //
 //        Date now = new Date();
-//        long difference = now.getTime() - then.getTime();
+//        long difference = now.getTimeBox() - then.getTimeBox();
 //        long minuteDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
 //        long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
 //        if (minuteDifference > 30){

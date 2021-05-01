@@ -21,6 +21,7 @@ public class OfferingController {
     private void listenViewActions() {
         offeringView.getRefreshButton().addActionListener(this::handleRefresh);
         offeringView.getViewOffersButton().addActionListener(this::handleViewOffers);
+        offeringView.getRefreshButton().addActionListener(this::handleRefresh);
     }
 
     private void handleRefresh(ActionEvent e) {

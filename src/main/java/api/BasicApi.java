@@ -92,11 +92,13 @@ public class BasicApi<T> {
             Response response = getRequest(endpoint);
             if (response.isSuccessful()) {
                 String json = response.body().string();
+                System.out.println("From BasicApi: Successfully GETALL for " + clazz.getName());
                 return Arrays.asList(gson.fromJson(json, clazz));
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
+        System.out.println("From BasicApi: Failed GETALL for " + clazz.getName());
         return null;
     }
 
@@ -106,13 +108,13 @@ public class BasicApi<T> {
             String json = response.body().string();
             System.out.println(json);
             if (response.isSuccessful()) {
-                System.out.println("From BasicApi: Successfully GET");
+                System.out.println("From BasicApi: Successfully GET for " + clazz.getName());
                 return gson.fromJson(json, clazz);
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
-        System.out.println("From BasicApi: Failed GET");
+        System.out.println("From BasicApi: Failed GET for " + clazz.getName());
         return null;
     }
 
@@ -165,7 +167,6 @@ public class BasicApi<T> {
             Response response = updateRequest(url, gson.toJson(object), ApiType.PATCH);
             System.out.println(response.body().string());
             if (response.isSuccessful()) {
-                System.out.println("SUCCESSFULLY PATCH");
                 System.out.println("From BasicApi: Successfully PATCH");
                 return true;
             }

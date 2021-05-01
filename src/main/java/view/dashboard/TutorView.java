@@ -89,17 +89,15 @@ public class TutorView extends DashboardView {
         String[][] rec = {
                 {"Contract Number", Integer.toString(contractNo)},
                 {"Contract End Date", contractObject.getExpiryDate().toString()},
-                {"Tutor Name", contractObject.getSecondParty().getGivenName() + " " + contractObject.getSecondParty().getFamilyName()},
+                {"Student Name", contractObject.getFirstParty().getGivenName() + " " + contractObject.getFirstParty().getFamilyName()},
                 {"Subject", contractObject.getSubject().getName()},
                 {"Number Of Sessions",  contractObject.getLessonInfo().getNumberOfSessions().toString()},
                 {"Day & Time", contractObject.getLessonInfo().getTime() + " " + contractObject.getLessonInfo().getDay()},
                 {"Duration", contractObject.getLessonInfo().getDuration().toString() + " hour(s)"},
-                {"Rate (per hour)", "$ " + Integer.toString( contractObject.getPaymentInfo().getTotalPrice()/contractObject.getLessonInfo().getNumberOfSessions())},
+                {"Rate (per session)", "$" + Integer.toString( contractObject.getPaymentInfo().getTotalPrice()/contractObject.getLessonInfo().getNumberOfSessions())},
         };
         String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-
-        return contractTable;
+        return new JTable(rec, col);
     }
 
     // TODO: this is from https://stackoverflow.com/questions/17627431/auto-resizing-the-jtable-column-widths, rewrite

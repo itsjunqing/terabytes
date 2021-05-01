@@ -50,7 +50,7 @@ public class CloseOffersController {
 
     private MessageBidInfo extractCloseReplyInfo(CloseReply closeReplyForm) {
         String tutorId = closeOffersModel.getUserId();
-        String time = closeReplyForm.getTime();
+        String time = closeReplyForm.getTimeBox();
         String day = closeReplyForm.getDayBox();
         int duration = closeReplyForm.getDurationBox();
         int rate = closeReplyForm.getRateField();

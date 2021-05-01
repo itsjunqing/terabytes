@@ -89,12 +89,12 @@ public class StudentView extends DashboardView {
         String[][] rec = {
                 {"Contract Number", Integer.toString(contractNo)},
                 {"Contract End Date", contractObject.getExpiryDate().toString()},
-                {"Tutor Name", contractObject.getSecondParty().getGivenName()},
+                {"Tutor Name", contractObject.getSecondParty().getGivenName() + " " + contractObject.getSecondParty().getFamilyName()},
                 {"Subject", contractObject.getSubject().getName()},
                 {"Number Of Sessions",  contractObject.getLessonInfo().getNumberOfSessions().toString()},
                 {"Day & Time", contractObject.getLessonInfo().getTime() + " " + contractObject.getLessonInfo().getDay()},
                 {"Duration", contractObject.getLessonInfo().getDuration().toString() + " hour(s)"},
-                {"Rate (per hour)", "$ " + Integer.toString( contractObject.getPaymentInfo().getTotalPrice()/contractObject.getLessonInfo().getNumberOfSessions())},
+                {"Rate (per session)", "$" + Integer.toString( contractObject.getPaymentInfo().getTotalPrice()/contractObject.getLessonInfo().getNumberOfSessions())},
         };
         String[] col = {"", ""};
         JTable contractTable = new JTable(rec, col);

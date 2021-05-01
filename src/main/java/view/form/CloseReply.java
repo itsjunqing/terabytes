@@ -6,20 +6,18 @@ import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import javax.swing.text.NumberFormatter;
-import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.text.NumberFormat;
-import java.time.DayOfWeek;
-import java.util.Locale;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 @Getter
 public class CloseReply {
     private JPanel mainPanel;
     private JComboBox numOfSessionBox;
     private JComboBox dayBox;
-    private JComboBox Time;
+    private JComboBox timeBox;
     private JComboBox durationBox;
     private JButton sendCloseReplyButton;
     private JFormattedTextField rateField;
@@ -51,25 +49,27 @@ public class CloseReply {
     }
 
     public void setDetails() {
-        for (int i = 1; i < 12; i++) {
-            numOfSessionBox.addItem(i);
-        }
+        IntStream.range(1, 6)
+                .forEach(v -> numOfSessionBox.addItem(v));
+        numOfSessionBox.setSelectedIndex(-1);
 
-        for (DayOfWeek d : DayOfWeek.values()) {
-            dayBox.addItem(d);
-        }
+        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
+        Arrays.stream(days)
+                .forEach(d -> dayBox.addItem(d));
+        dayBox.setSelectedIndex(-1);
 
-        for (int i = 1; i < 5; i++) {
-            durationBox.addItem(i);
-        }
+        IntStream.range(1, 6)
+                .forEach(v -> durationBox.addItem(v));
+        durationBox.setSelectedIndex(-1);
 
-        for (int i = 8; i < 18; i++) {
-            Time.addItem(i);
-        }
+        String[] time = {"8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM", "1:00PM", "2:00PM",
+                "3:00PM", "4:00PM", "5:00PM", "6:00PM", "7:00PM"};
+        Arrays.stream(time)
+                .forEach(t -> timeBox.addItem(t));
+        timeBox.setSelectedIndex(-1);
 
         freeLessonBox.addItem("Yes");
         freeLessonBox.addItem("No");
-
     }
 
 
@@ -119,7 +119,7 @@ public class CloseReply {
         label2.setText("Day");
         panel3.add(label2, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label3 = new JLabel();
-        label3.setText("Time");
+        label3.setText("timeBox");
         panel3.add(label3, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label4 = new JLabel();
         label4.setText("Duration (hours)");
@@ -132,8 +132,8 @@ public class CloseReply {
         panel3.add(label6, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         rateField.setText("");
         panel3.add(rateField, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        Time = new JComboBox();
-        panel3.add(Time, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        timeBox = new JComboBox();
+        panel3.add(timeBox, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         messageText = new JTextArea();
         messageText.setLineWrap(true);
         messageText.setText("");
@@ -175,10 +175,7 @@ public class CloseReply {
                 resultName = currentFont.getName();
             }
         }
-        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
-        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
-        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
-        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**
@@ -208,8 +205,8 @@ public class CloseReply {
         return dayBox.getSelectedItem().toString();
     }
 
-    public String getTime() throws NullPointerException {
-        return Time.getSelectedItem().toString();
+    public String getTimeBox() throws NullPointerException {
+        return timeBox.getSelectedItem().toString();
     }
 
     public int getDurationBox() throws NullPointerException {
