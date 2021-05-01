@@ -20,7 +20,6 @@ public class DashboardModel extends OSubject {
     private List<Contract> contractsList;
     protected String errorText;
 
-
     public DashboardModel(String userId) {
         this.userId = userId;
         this.apiService = new ApiService();
@@ -52,12 +51,16 @@ public class DashboardModel extends OSubject {
         if (currentBid != null) {
             ExpiryService expiryService = new ExpiryService();
             if (!expiryService.checkIsExpired(currentBid)) {
+                errorText = "You already have a bid in progress, displaying active bid";
+                notifyObservers();
                 return currentBid.getType().equalsIgnoreCase("Open")? DashboardStatus.OPEN: DashboardStatus.CLOSE;
             }
             else {
                 return DashboardStatus.PASS;
             }
         } else if (contractsList.size() == 5) {
+            errorText = "Error, you already have 5 Contracts";
+            notifyObservers();
             return DashboardStatus.MAX;
         }
         return DashboardStatus.PASS;
