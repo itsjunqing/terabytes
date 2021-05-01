@@ -10,6 +10,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -64,7 +65,8 @@ public class TutorView extends DashboardView {
         contractPanel.add(new JScrollPane(mainList));
 
         // get the list of contracts and update accordingly
-        List<Contract> contractList = getDashboardModel().getContractsList();
+
+        List<Contract> contractList = new ArrayList<>(getDashboardModel().getContractsList());
         Collections.reverse(contractList);
         int contractIndex = contractList.size();
         for (Contract c: contractList) {

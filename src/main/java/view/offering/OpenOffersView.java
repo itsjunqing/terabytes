@@ -12,6 +12,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class OpenOffersView implements Observer {
     public void updateContent() {
 
         // getting the constants from the model
-        List<BidInfo> otherBidInfo = openOffersModel.getOpenOffers();
+        List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
         BidInfo myBidInfo = openOffersModel.getMyOffer();
         Bid bid = openOffersModel.getBid();
         // making the frames 

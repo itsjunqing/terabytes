@@ -11,6 +11,7 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class CloseBidView implements Observer {
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         Bid bid = closeBidModel.getBid();
-        List<MessageBidInfo> messageBidInfoList = closeBidModel.getCloseBidOffers();
+        List<MessageBidInfo> messageBidInfoList = new ArrayList<>(closeBidModel.getCloseBidOffers());
         Collections.reverse(messageBidInfoList);
         int bidIndex = messageBidInfoList.size();
         updateView(messageBidInfoList, bid);
