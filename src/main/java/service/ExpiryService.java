@@ -34,7 +34,7 @@ public class ExpiryService {
                     if (hasOffer(bid)) {
                         System.out.println("Bid has offer");
                         // close the bid
-                        bidApi.closeBid(bid.getId(), bid);
+                        bidApi.close(bid.getId(), bid);
                         // get last bid
                         BidInfo bidInfo = bid.getAdditionalInfo().getBidOffers().get(bid.getAdditionalInfo().getBidOffers().size() - 1);
                         // create contract
@@ -55,14 +55,14 @@ public class ExpiryService {
                                 bidInfo.getDuration(), bidInfo.getNumberOfSessions(), bidInfo.isFreeLesson());
                         Contract contract = new Contract(studentId, tutorId, subjectId, dateCreated,
                                 expiryDate, payment, lesson, new EmptyClass());
-                        contractApi.addContract(contract);
+                        contractApi.add(contract);
                         return true;
                     }
                     // if no offer, close
                     else {
                         System.out.println("Bid has no offer");
                 // TODO: need to add new Bid(new Date()) to close the bid with a date, we'll change this when we're ready to run full-program
-                        bidApi.closeBid(bid.getId(), bid);
+                        bidApi.close(bid.getId(), bid);
                         return true;
 
                     }
@@ -78,7 +78,7 @@ public class ExpiryService {
                 if (isExpired(bid)) {
                     System.out.println("Bid is expired");
             // TODO: need to add new Bid(new Date()) to close the bid with a date, we'll change this when we're ready to run full-program
-                    bidApi.closeBid(bid.getId(), bid);
+                    bidApi.close(bid.getId(), bid);
                     return true;
                     // close bid
                 } else {

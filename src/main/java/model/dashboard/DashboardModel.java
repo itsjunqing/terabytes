@@ -1,35 +1,30 @@
 package model.dashboard;
 
-import api.BidApi;
-import api.ContractApi;
-import api.UserApi;
 import entity.DashboardStatus;
 import lombok.Getter;
-import service.ExpiryService;
 import observer.OSubject;
+import service.ApiService;
+import service.ExpiryService;
 import stream.Bid;
 import stream.Contract;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
 public class DashboardModel extends OSubject {
 
-//    private User user;
     private String userId;
-    private UserApi userApi;
-    private ContractApi contractApi;
-    private BidApi bidApi;
+    private ApiService apiService;
     private List<Contract> contractsList;
     protected String errorText;
 
 
     public DashboardModel(String userId) {
         this.userId = userId;
-        this.userApi = new UserApi();
-        this.contractApi = new ContractApi();
-        this.bidApi = new BidApi();
+        this.apiService = new ApiService();
+        this.contractsList = new ArrayList<>();
         this.errorText = "";
         refresh();
     }
@@ -41,7 +36,7 @@ public class DashboardModel extends OSubject {
 //        boolean expired = user.getInitiatedBids().stream()
 //                                .anyMatch(checkExpired::checkIsExpired);
         // Update contractList
-        contractsList = contractApi.getAllContracts().stream()
+        contractsList = apiService.getContractApi().getAll().stream()
                 .filter(c -> c.getFirstParty().getId().equals(userId)
                         || c.getSecondParty().getId().equals(userId))
                 .collect(Collectors.toList());
@@ -49,7 +44,7 @@ public class DashboardModel extends OSubject {
     }
 
     public DashboardStatus getStatus() {
-        Bid currentBid = userApi.getUser(userId).getInitiatedBids().stream()
+        Bid currentBid = apiService.getUserApi().get(userId).getInitiatedBids().stream()
                                 .filter(b -> b.getDateClosedDown() == null)
                                 .findFirst()
                                 .orElse(null);
@@ -68,7 +63,4 @@ public class DashboardModel extends OSubject {
         return DashboardStatus.PASS;
     }
 
-    public void setErrorText(String errorText){
-        this.errorText = errorText;
-    }
 }

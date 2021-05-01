@@ -1,7 +1,6 @@
 package model.bidding;
 
 
-import api.MessageApi;
 import entity.BidInfo;
 import entity.BidPreference;
 import entity.MessageBidInfo;
@@ -48,9 +47,8 @@ public class CloseBidModel extends BiddingModel {
     Eg: Student press "View Offer 1", then it gets the closeBidMessages.get(0).getTutorMsg
      */
 
-    private List<MessageBidInfo> closeBidOffers ;
+    private List<MessageBidInfo> closeBidOffers;
     private List<MessagePair> closeBidMessages;
-    private MessageApi messageApi;
 
     /**
      * Constructor to construct a new CloseBid
@@ -58,13 +56,12 @@ public class CloseBidModel extends BiddingModel {
      * @param bp
      */
     public CloseBidModel(String userId, BidPreference bp) {
+        super();
         Bid bidCreated = createBid(userId, bp, "Close");
         this.bidId = bidCreated.getId(); // set ID for future references
         this.userId = userId;
         this.closeBidOffers = new ArrayList<>();
         this.closeBidMessages = new ArrayList<>();
-        this.messageApi = new MessageApi();
-//        oSubject = new OSubject();
         refresh();
     }
 
@@ -73,13 +70,12 @@ public class CloseBidModel extends BiddingModel {
      * @param userId
      */
     public CloseBidModel(String userId) {
+        super();
         Bid existingBid = extractBid(userId, "Close");
         this.bidId = existingBid.getId();
         this.userId = userId;
         this.closeBidOffers = new ArrayList<>();
         this.closeBidMessages = new ArrayList<>();
-        this.messageApi = new MessageApi();
-//        oSubject = new OSubject();
         refresh();
     }
 
@@ -89,7 +85,7 @@ public class CloseBidModel extends BiddingModel {
         closeBidOffers.clear();
         closeBidMessages.clear();
 
-        Bid bid = bidApi.getBid(bidId);
+        Bid bid = apiService.getBidApi().get(bidId);
         ExpiryService expiryService = new ExpiryService();
         // check if the bid is expired, if the bid is expired, then remove the bid,
         // return an empty list, and update the error text
@@ -143,8 +139,7 @@ public class CloseBidModel extends BiddingModel {
 //            errorText = "This Bid has expired, please make a new one";
             expired = true;
         }
-//        oSubject.notifyObservers();
-        notifyObservers();
+        oSubject.notifyObservers();
 
     }
 
@@ -168,11 +163,11 @@ public class CloseBidModel extends BiddingModel {
         // If Student has sent not sent a Message, construct a new Message
         if (studentMsgId == null) {
             Message message = new Message(bidId, userId, new Date(), stringMsg, info);
-            messageApi.addMessage(message);
+            apiService.getMessageApi().add(message);
         // If Student has sent a Message before, edit the Message
         } else {
             Message message = new Message(stringMsg, info);
-            messageApi.patchMessage(studentMsgId, message);
+            apiService.getMessageApi().patch(studentMsgId, message);
         }
     }
 

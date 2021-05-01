@@ -1,11 +1,11 @@
 package stream;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.List;
 
-@Data
-public class User {
+@Getter
+public class User extends Stream {
     private String id;
     private String givenName;
     private String familyName;

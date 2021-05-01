@@ -4,29 +4,38 @@ import stream.Subject;
 
 import java.util.List;
 
-public class SubjectApi extends BasicApi<Subject> {
+public class SubjectApi extends BasicApi<Subject> implements ApiInterface<Subject> {
 
     private final String SUBJECT_ENDPOINT = "/subject";
 
-    public List<Subject> getAllSubjects() {
+    @Override
+    public List<Subject> getAll() {
         return getAllObjects(SUBJECT_ENDPOINT, Subject[].class);
     }
 
-    public Subject getSubject(String id) {
-        String endpoint = SUBJECT_ENDPOINT + "/" + id;
-        return getObject(endpoint, Subject.class);
+    @Override
+    public Subject get(String id) {
+        return getObject(SUBJECT_ENDPOINT + "/" + id, Subject.class);
     }
 
-    public Subject addSubject(Subject subject) {
-        return postObject(SUBJECT_ENDPOINT, subject, Subject.class);
+    @Override
+    public Subject add(Subject object) {
+        return postObject(SUBJECT_ENDPOINT, object, Subject.class);
     }
 
-    public boolean patchSubject(Subject subject) {
-        return patchObject(SUBJECT_ENDPOINT, subject);
+    @Override
+    public boolean patch(String id, Subject object) {
+        return patchObject(SUBJECT_ENDPOINT, object);
     }
 
-    public boolean removeSubject(String id) {
+    @Override
+    public boolean remove(String id) {
         return deleteObject(SUBJECT_ENDPOINT + "/" + id);
     }
 
+    /*
+    public List<Subject> getAllSubjects() {
+        return getAll();
+    }
+    */
 }

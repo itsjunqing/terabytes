@@ -1,12 +1,12 @@
 package stream;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
-public class Bid extends Basic {
+@Getter
+public class Bid extends Stream {
     private String id;
     private String type;
     private User initiator;

@@ -1,12 +1,10 @@
 package model.bidding;
 
-import api.BidApi;
-import api.SubjectApi;
-import api.UserApi;
 import entity.BidPreference;
 import lombok.Getter;
-import lombok.Setter;
 import observer.OSubject;
+import observer.Observer;
+import service.ApiService;
 import stream.Bid;
 import stream.BidAdditionalInfo;
 import stream.User;
@@ -14,8 +12,8 @@ import stream.User;
 import java.util.Date;
 
 
-@Getter @Setter
-public abstract class BiddingModel extends OSubject {
+@Getter
+public abstract class BiddingModel {
 
     /*
     bidOffers used in the following:
@@ -27,37 +25,32 @@ public abstract class BiddingModel extends OSubject {
     - Stores the messages by tutors, message initiated by students are filtered out
      */
 
-    protected BidApi bidApi;
-    protected SubjectApi subjectApi;
+    protected ApiService apiService;
+    protected OSubject oSubject;
     protected String userId; // student's id
     protected String bidId; // Bid is not used because its content (offers / messages) are updated from time to time
     protected boolean expired;
-//    protected String errorText;
-
-//    public OSubject oSubject;
 
     protected BiddingModel() {
-        this.bidApi = new BidApi();
-        this.subjectApi = new SubjectApi();
+        this.apiService = new ApiService();
+        this.oSubject = new OSubject();
         this.expired = false;
-//        this.errorText = "";
-//        this.oSubject = new OSubject();
     }
 
     protected Bid createBid(String userId, BidPreference bp, String type) {
         BidAdditionalInfo bidAdditionalInfo = new BidAdditionalInfo(bp);
         Date dateCreated = new Date();
-        String subjectId = getSubjectApi().getAllSubjects().stream()
+        String subjectId = apiService.getSubjectApi().getAll().stream()
                 .filter(s -> s.getName().equals(bp.getSubject()))
                 .findFirst()
                 .orElse(null) // null guarantee to not occur as view selected is from a list of available subjects
                 .getId();
         Bid bid = new Bid(type, userId, dateCreated, subjectId, bidAdditionalInfo);
-        return bidApi.addBid(bid); // post BID
+        return apiService.getBidApi().add(bid); // post BID
     }
 
     protected Bid extractBid(String userId, String type) {
-        return bidApi.getAllBids().stream()
+        return apiService.getBidApi().getAll().stream()
                 .filter(b -> b.getDateClosedDown() == null)
                 .filter(b -> b.getType().equalsIgnoreCase(type))
                 .filter(b -> b.getInitiator().getId().equals(userId))
@@ -67,19 +60,22 @@ public abstract class BiddingModel extends OSubject {
 
     public void markBidClose() {
         Bid bidDateClosed = new Bid(new Date());
-        bidApi.closeBid(bidId, bidDateClosed);
+        apiService.getBidApi().close(bidId, bidDateClosed);
     }
 
     public Bid getBid() {
-        return bidApi.getBid(bidId);
+        return apiService.getBidApi().get(bidId);
     }
 
     public String getUserName(String Id){
-        UserApi userApi = new UserApi();
-        User user = userApi.getUser(Id);
+        User user = apiService.getUserApi().get(Id);
         String givenName = user.getGivenName();
         String familyName = user.getFamilyName();
         return givenName + " " + familyName;
+    }
+
+    public void attach(Observer o) {
+        oSubject.attach(o);
     }
 
     public abstract void refresh();

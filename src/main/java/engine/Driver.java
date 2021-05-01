@@ -12,7 +12,6 @@ import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.OffsetDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -35,7 +34,7 @@ public class Driver {
         LoginController loginController = new LoginController(loginModel, loginView);
 
         ContractApi contractApi = new ContractApi();
-        List<Contract> contractList = contractApi.getAllContracts();
+        List<Contract> contractList = contractApi.getAll();
         Contract contract1 = contractList.get(0);
         Contract contract2 = contractList.get(2);
         Contract contract3 = contractList.get(3);
@@ -157,7 +156,7 @@ public class Driver {
                     if (hasOffer(bid)) {
                         System.out.println("Bid has offer");
                         // close the bid
-                        bidApi.closeBid(bid.getId(), bid);
+                        bidApi.close(bid.getId(), bid);
                         // get last bid
                         BidInfo bidInfo = bid.getAdditionalInfo().getBidOffers().get(bid.getAdditionalInfo().getBidOffers().size() - 1);
                         // create contract
@@ -178,12 +177,12 @@ public class Driver {
                                 bidInfo.getDuration(), bidInfo.getNumberOfSessions(), bidInfo.isFreeLesson());
                         Contract contract = new Contract(studentId, tutorId, subjectId, dateCreated,
                                 expiryDate, payment, lesson, new EmptyClass());
-                        contractApi.addContract(contract);
+                        contractApi.add(contract);
                     }
                     // if no offer, close
                     else {
                         System.out.println("Bid has no offer");
-                        bidApi.closeBid(bid.getId(), bid);
+                        bidApi.close(bid.getId(), bid);
                     }
                 }// if not expired pass
             }
@@ -193,7 +192,7 @@ public class Driver {
                 // if is expired, close bid
                 if (isExpired(bid)) {
                     System.out.println("Bid is expired");
-                    bidApi.closeBid(bid.getId(), bid);
+                    bidApi.close(bid.getId(), bid);
                     // close bid
                 }
                 // if not expired pass

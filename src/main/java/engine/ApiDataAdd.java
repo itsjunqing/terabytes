@@ -31,20 +31,20 @@ public class ApiDataAdd {
         BidPreference bp = new BidPreference(QualificationTitle.CERTIFICATE, 5, "Music", bidInfo);
         BidAdditionalInfo bi = new BidAdditionalInfo(bp);
         Bid bid = new Bid("Open", initiatorId, new Date(), "88f6ee80-4e7b-49b2-847b-23612d8a6f2f", bi);
-        Bid bidAdded = bidApi.addBid(bid); // POST TO API
+        Bid bidAdded = bidApi.add(bid); // POST TO API
         String bidId = bidAdded.getId();
 
         // 2 offers: offered by (1) jamesli42, (2) freddiem, choose (2) offer
         // first offer: by jamesli42
         BidInfo offer1 = new BidInfo("b1e0f080-0a8d-4ab0-9c8c-39a607cd5bc9", "Friday", "2:00PM", 2, 20, 10, false);
         bi.getBidOffers().add(offer1); // add into offer
-        bidApi.patchBid(bidId, new Bid(bi)); // PATCH TO API, UPDATE BID
+        bidApi.patch(bidId, new Bid(bi)); // PATCH TO API, UPDATE BID
 
         // second offer: by freddiem
         BidInfo offer2 = new BidInfo("9bf9d775-8c70-4b26-ad1c-4120c2abf446", "Saturday", "3:00PM", 2, 20, 10, true);
         bi.getBidOffers().add(offer2);
-        bidApi.patchBid(bidId, new Bid(bi)); // PATCH TO API, UPDATE BID
-        bidApi.closeBid(bidId, new Bid(new Date())); // MARK BID CLOSED
+        bidApi.patch(bidId, new Bid(bi)); // PATCH TO API, UPDATE BID
+        bidApi.close(bidId, new Bid(new Date())); // MARK BID CLOSED
 
         // second offer selected, post info to contract
         Payment payment = new Payment(10*20); // second offer: 10 weeks each $20
@@ -53,7 +53,7 @@ public class ApiDataAdd {
         c.add(Calendar.WEEK_OF_YEAR, 10); // 10 weeks
         Contract contract = new Contract(initiatorId, offer2.getInitiatorId(), "88f6ee80-4e7b-49b2-847b-23612d8a6f2f", new Date(),
                 c.getTime(), payment, lesson, new EmptyClass());
-        contractApi.patchContract("3130be93-7d06-428c-be74-293e9f3b36ce", contract); // PATCH TO EXISTING CONTRACT
+        contractApi.patch("3130be93-7d06-428c-be74-293e9f3b36ce", contract); // PATCH TO EXISTING CONTRACT
 
     }
 
@@ -76,7 +76,7 @@ public class ApiDataAdd {
         BidPreference bp = new BidPreference(QualificationTitle.BACHELOR, 5, "Information Technology", bidInfo);
         BidAdditionalInfo bi = new BidAdditionalInfo(bp);
         Bid bid = new Bid("Close", initiatorId, new Date(), "e90fd491-1c3b-41fc-84b7-e1f4ddbed7ba", bi);
-        Bid bidAdded = bidApi.addBid(bid); // POST TO API
+        Bid bidAdded = bidApi.add(bid); // POST TO API
         String bidId = bidAdded.getId();
         System.out.println(bidId);
 
@@ -84,27 +84,27 @@ public class ApiDataAdd {
         // first offer: by awesometutor
         MessageAdditionalInfo info = new MessageAdditionalInfo(initiatorId, "Tuesday", "5:00PM", 2, 20, 10, true); // send to initiator
         Message message = new Message(bidId, "9e3d2d23-61ee-460c-9b5d-d9882f0acb9e", new Date(), "I can offer IT to you", info);
-        messageApi.addMessage(message);
+        messageApi.add(message);
 
 
         // second offer: by danto87
         MessageAdditionalInfo info2 = new MessageAdditionalInfo(initiatorId, "Tuesday", "1:00PM", 2, 20, 10, true);
         Message message2 = new Message(bidId, "4ad8f1ed-4883-4c44-a9ab-a50bdee96ff9", new Date(), "I can offer same day, 2 hours before with free lesson", info2);
-        messageApi.addMessage(message2);
+        messageApi.add(message2);
 
 
         // reply from initiator to danto
         MessageAdditionalInfo replyInfo = new MessageAdditionalInfo("4ad8f1ed-4883-4c44-a9ab-a50bdee96ff9");
         Message replyMsg = new Message(bidId, initiatorId, new Date(), "I like that offer actually", replyInfo);
-        messageApi.addMessage(replyMsg);
+        messageApi.add(replyMsg);
 
 
         // third offer: by iamthewei
         MessageAdditionalInfo info3 = new MessageAdditionalInfo(initiatorId, "Wednesday", "8:00AM", 2, 15, 5, true);
         Message message3 = new Message(bidId, "984e7871-ed81-4f75-9524-3d1870788b1f", new Date(), "I can offer you on morning with free lesson", info3);
-        messageApi.addMessage(message3);
+        messageApi.add(message3);
 
-        bidApi.closeBid(bidId, new Bid(new Date())); // mark bid as closed
+        bidApi.close(bidId, new Bid(new Date())); // mark bid as closed
 
         // Selection of second offer, post info to contract
         Payment payment = new Payment(info2.getRate() * info2.getNumberOfSessions());
@@ -114,7 +114,7 @@ public class ApiDataAdd {
 
         Contract contract = new Contract(initiatorId, message2.getPosterId(), "e90fd491-1c3b-41fc-84b7-e1f4ddbed7ba", new Date(),
                 c.getTime(), payment, lesson, new EmptyClass());
-        contractApi.patchContract("d8890c50-6480-48db-8497-433b5ade22a2", contract); // PATCH TO EXISTING CONTRACT
+        contractApi.patch("d8890c50-6480-48db-8497-433b5ade22a2", contract); // PATCH TO EXISTING CONTRACT
 
 
     }
@@ -136,15 +136,15 @@ public class ApiDataAdd {
         BidPreference bp = new BidPreference(QualificationTitle.CERTIFICATE, 3, "History", bidInfo);
         BidAdditionalInfo bi = new BidAdditionalInfo(bp);
         Bid bid = new Bid("Open", initiatorId, new Date(), "841199ac-d73e-4726-888d-dfeb538f49e2", bi);
-        Bid bidAdded = bidApi.addBid(bid); // POST TO API
+        Bid bidAdded = bidApi.add(bid); // POST TO API
         String bidId = bidAdded.getId();
 
         // 1 offer only: by neilly (only person to have History), instant buy out by neilly, does not have free lesson by default (Buy out)
         BidInfo offer = new BidInfo("3e541287-2ea2-4dad-b729-761d8f36059f", day, time, duration, rate, sessions, false);
         bi.getBidOffers().add(offer);
-        bidApi.patchBid(bidId, new Bid(bi));
+        bidApi.patch(bidId, new Bid(bi));
 
-        bidApi.closeBid(bidId, new Bid(new Date())); // MARK BID CLOSED
+        bidApi.close(bidId, new Bid(new Date())); // MARK BID CLOSED
 
         Payment payment = new Payment(bidInfo.getRate() * bidInfo.getNumberOfSessions());
         Lesson lesson = new Lesson("History", day, time, duration, sessions, false);
@@ -152,7 +152,7 @@ public class ApiDataAdd {
         c.add(Calendar.WEEK_OF_YEAR, sessions);
         Contract contract = new Contract(initiatorId, "3e541287-2ea2-4dad-b729-761d8f36059f", bid.getSubjectId(), new Date(),
                 c.getTime(), payment, lesson, new EmptyClass());
-        contractApi.patchContract("cfcab584-6620-4d31-a709-8bfcc118b3f8", contract); // PATCH TO EXISTING CONTRACT
+        contractApi.patch("cfcab584-6620-4d31-a709-8bfcc118b3f8", contract); // PATCH TO EXISTING CONTRACT
 
 
     }
@@ -174,15 +174,15 @@ public class ApiDataAdd {
         BidPreference bp = new BidPreference(QualificationTitle.DIPLOMA, 2, "Painting", bidInfo);
         BidAdditionalInfo bi = new BidAdditionalInfo(bp);
         Bid bid = new Bid("Open", initiatorId, new Date(), "47ebe20c-a752-470c-aedd-73cfe52efa4f", bi);
-        Bid bidAdded = bidApi.addBid(bid); // POST TO API
+        Bid bidAdded = bidApi.add(bid); // POST TO API
         String bidId = bidAdded.getId();
 
         // 1 offer only: by neilly (only person to have Painting), instant buy out by neilly, does not have free lesson by default (Buy out)
         BidInfo offer = new BidInfo("3e541287-2ea2-4dad-b729-761d8f36059f", day, time, duration, rate, sessions, false);
         bi.getBidOffers().add(offer);
-        bidApi.patchBid(bidId, new Bid(bi));
+        bidApi.patch(bidId, new Bid(bi));
 
-        bidApi.closeBid(bidId, new Bid(new Date())); // MARK BID CLOSED
+        bidApi.close(bidId, new Bid(new Date())); // MARK BID CLOSED
 
         Payment payment = new Payment(bidInfo.getRate() * bidInfo.getNumberOfSessions());
         Lesson lesson = new Lesson("Painting", day, time, duration, sessions, false);
@@ -190,7 +190,7 @@ public class ApiDataAdd {
         c.add(Calendar.WEEK_OF_YEAR, sessions);
         Contract contract = new Contract(initiatorId, "3e541287-2ea2-4dad-b729-761d8f36059f", bid.getSubjectId(), new Date(),
                 c.getTime(), payment, lesson, new EmptyClass());
-        contractApi.patchContract("a5160905-c273-43f9-b83b-dd79e8d4f922", contract); // PATCH TO EXISTING CONTRACT
+        contractApi.patch("a5160905-c273-43f9-b83b-dd79e8d4f922", contract); // PATCH TO EXISTING CONTRACT
 
 
     }
@@ -211,7 +211,7 @@ public class ApiDataAdd {
         BidPreference bp = new BidPreference(QualificationTitle.CERTIFICATE, 2, "Music", bidInfo);
         BidAdditionalInfo bi = new BidAdditionalInfo(bp);
         Bid bid = new Bid("Open", initiatorId, new Date(), "88f6ee80-4e7b-49b2-847b-23612d8a6f2f", bi);
-        Bid bidAdded = bidApi.addBid(bid); // POST TO API
+        Bid bidAdded = bidApi.add(bid); // POST TO API
 
     }
 
@@ -231,7 +231,7 @@ public class ApiDataAdd {
         BidPreference bp = new BidPreference(QualificationTitle.CERTIFICATE, 1, "Accounting", bidInfo);
         BidAdditionalInfo bi = new BidAdditionalInfo(bp);
         Bid bid = new Bid("Close", initiatorId, new Date(), "d89f2232-6ae9-4d79-b018-a088ab55bddb", bi);
-        Bid bidAdded = bidApi.addBid(bid); // POST TO API
+        Bid bidAdded = bidApi.add(bid); // POST TO API
 
     }
 
@@ -240,21 +240,21 @@ public class ApiDataAdd {
         // bigben provides offer
         BidInfo bidInfo = new BidInfo("d90f9f94-7603-4231-805c-eb62158ad3c6", "Thursday", "2:00PM", 2, 14, 5, true);
         String bidId = "36778fc2-70b2-4b75-844d-3d07665583b4";
-        Bid bid = bidApi.getBid(bidId);
+        Bid bid = bidApi.get(bidId);
         BidAdditionalInfo bi = bid.getAdditionalInfo();
         bi.getBidOffers().add(bidInfo);
-        bidApi.patchBid(bidId, new Bid(bi));
+        bidApi.patch(bidId, new Bid(bi));
     }
 
     public static void modifyCloseBid() {
         BidApi bidApi = new BidApi();
         MessageApi messageApi = new MessageApi();
         String closeBidId = "a7e6d855-3226-409c-a4d9-ce8b743918d5";
-        Bid bid  = bidApi.getBid(closeBidId);
+        Bid bid  = bidApi.get(closeBidId);
         // offer by bigben
         MessageAdditionalInfo info = new MessageAdditionalInfo(bid.getInitiator().getId(), "Tuesday", "5:00PM", 2, 20, 14, false); // send to initiator
         Message message = new Message(closeBidId, "d90f9f94-7603-4231-805c-eb62158ad3c6", new Date(), "I am a pro in accounting, " +
                 "very experienced in industry, but no free lesson", info);
-        messageApi.addMessage(message);
+        messageApi.add(message);
     }
 }

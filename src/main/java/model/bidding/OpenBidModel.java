@@ -21,12 +21,11 @@ public class OpenBidModel extends BiddingModel {
      * @param bp
      */
     public OpenBidModel(String userId, BidPreference bp) {
-
+        super();
         Bid bidCreated = createBid(userId, bp, "Open");
         this.bidId = bidCreated.getId(); // set ID for future references
         this.userId = userId;
         this.openBidOffers = new ArrayList<>();
-//        oSubject = new OSubject();
         refresh();
     }
 
@@ -35,6 +34,7 @@ public class OpenBidModel extends BiddingModel {
      * @param userId
      */
     public OpenBidModel(String userId) {
+        super();
         Bid existingBid = extractBid(userId, "Open");
         this.bidId = existingBid.getId();
         this.userId = userId;
@@ -45,7 +45,7 @@ public class OpenBidModel extends BiddingModel {
     @Override
     public void refresh() {
         openBidOffers.clear();
-        Bid bid = getBidApi().getBid(getBidId());
+        Bid bid = apiService.getBidApi().get(getBidId());
         ExpiryService expiryService = new ExpiryService();
         // check if the bid is expired, if the bid is expired, then remove the bid,
         // return an empty list, and update the error text
@@ -55,8 +55,7 @@ public class OpenBidModel extends BiddingModel {
 //            errorText = "This Bid has expired, please make a new one";
             expired = true;
         }
-        notifyObservers();
+        oSubject.notifyObservers();
     }
-
 
 }

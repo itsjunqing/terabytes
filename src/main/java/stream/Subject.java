@@ -1,12 +1,13 @@
 package stream;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.List;
 
-@Data @AllArgsConstructor
-public class Subject {
+@Getter
+@AllArgsConstructor
+public class Subject extends Stream {
     private String id;
     private String name;
     private String description;

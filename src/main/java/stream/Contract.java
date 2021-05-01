@@ -1,11 +1,11 @@
 package stream;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.Date;
 
-@Data
-public class Contract {
+@Getter
+public class Contract extends Stream {
     private String id;
 
     private User firstParty;

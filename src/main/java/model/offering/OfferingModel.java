@@ -1,11 +1,10 @@
 package model.offering;
 
-import api.BidApi;
-import api.UserApi;
 import entity.BidPreference;
 import lombok.Getter;
-import service.ExpiryService;
 import observer.OSubject;
+import service.ApiService;
+import service.ExpiryService;
 import stream.Bid;
 import stream.User;
 
@@ -16,19 +15,19 @@ import java.util.List;
 public class OfferingModel extends OSubject {
 
     private String userId;
-    private UserApi userApi;
-    private BidApi bidApi;
+    private ApiService apiService;
     private List<Bid> bidsOnGoing;
+    public OSubject oSubject;
 //    private boolean expired;
-//    public OSubject oSubject;
+
 //    protected String errorText;
 
 
     public OfferingModel(String userId) {
         this.userId = userId;
-        this.userApi = new UserApi();
-        this.bidApi = new BidApi();
+        this.apiService = new ApiService();
         this.bidsOnGoing = new ArrayList<>();
+        this.oSubject = new OSubject();
 //        this.expired = false;
 
     }
@@ -37,8 +36,8 @@ public class OfferingModel extends OSubject {
         // TODO: Nick, pls verify the logic to see if there is any missing requirement
 
         bidsOnGoing.clear(); // for memory cleaning
-        User currentUser = userApi.getUser(userId);
-        List<Bid> bids = bidApi.getAllBids();
+        User currentUser = apiService.getUserApi().get(userId);
+        List<Bid> bids = apiService.getBidApi().getAll();
         ExpiryService expiryService = new ExpiryService();
         for (Bid b: bids) {
             boolean bidIsClosed = b.getDateClosedDown() != null;

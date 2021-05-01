@@ -1,13 +1,12 @@
 package model.offering;
 
-import api.BidApi;
-import api.MessageApi;
 import entity.BidInfo;
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
-import service.ExpiryService;
 import observer.OSubject;
+import service.ApiService;
+import service.ExpiryService;
 import stream.Bid;
 import stream.Message;
 import stream.MessageAdditionalInfo;
@@ -19,22 +18,20 @@ public class CloseOffersModel extends OSubject {
 
     private String userId;
     private String bidId;
-    private BidApi bidApi;
-    private MessageApi messageApi;
+    private ApiService apiService;
     private MessagePair messagePair;
     private boolean expired;
 
     public CloseOffersModel(String userId, String bidId) {
         this.userId = userId;
         this.bidId = bidId;
-    	this.bidApi = new BidApi();
-    	this.messageApi = new MessageApi();
-    	this.expired = true;
+        this.apiService = new ApiService();
+    	this.expired = false;
         refresh();
     }
 
     public void refresh() {
-        Bid bid = bidApi.getBid(bidId);
+        Bid bid = apiService.getBidApi().get(bidId);
         BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
         ExpiryService expiryService = new ExpiryService();
         if (!expiryService.checkIsExpired(bid)){
@@ -90,10 +87,10 @@ public class CloseOffersModel extends OSubject {
         String tutorMsgId = messagePair.getStudentMsgId();
         if (tutorMsgId == null) {
             Message message = new Message(bidId, userId, new Date(), messageBidInfo.getContent(), convertObject(messageBidInfo));
-            messageApi.addMessage(message);
+            apiService.getMessageApi().add(message);
         } else {
             Message message = new Message(messageBidInfo.getContent(), convertObject(messageBidInfo));
-            messageApi.patchMessage(tutorMsgId, message);
+            apiService.getMessageApi().patch(tutorMsgId, message);
         }
     }
 
