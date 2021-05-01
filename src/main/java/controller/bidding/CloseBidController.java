@@ -5,6 +5,7 @@ import entity.MessageBidInfo;
 import entity.MessagePair;
 import model.bidding.CloseBidModel;
 import stream.Bid;
+import stream.Message;
 import view.bidding.CloseBidView;
 import view.bidding.CloseMessageView;
 import view.form.ReplyMessage;
@@ -57,21 +58,26 @@ public class CloseBidController extends BiddingController {
     private void handleViewMessage(ActionEvent e) {
         System.out.println("From CloseBidController: View Message is clicked");
         int selection = closeBidView.getOfferSelection();
-        MessagePair messagePair = closeBidModel.getCloseBidMessages().get(selection-1);
+//        MessagePair messagePair = closeBidModel.getCloseBidMessages().get(selection-1);
+        MessagePair messagePair = closeBidModel.viewMessage(selection);
+        if (messagePair != null){
+            CloseMessageView closeMessageView = new CloseMessageView(messagePair);
+            closeMessageView.getRespondMessageButton().addActionListener(e1 -> {
+                ReplyMessage replyMessage = new ReplyMessage();
 
-        CloseMessageView closeMessageView = new CloseMessageView(messagePair);
-        closeMessageView.getRespondMessageButton().addActionListener(e1 -> {
-            ReplyMessage replyMessage = new ReplyMessage();
-
-            // When student has pressed "Reply":
-            // Send the Message --> Close ReplyMessage window --> Close CloseMessageView window
-            replyMessage.getReplyButton().addActionListener(e2 -> {
-                String studentMsg = replyMessage.getMessageText().getText();
-                closeBidModel.sendMessage(messagePair, studentMsg);
-                replyMessage.dispose();
-                closeMessageView.dispose();
+                // When student has pressed "Reply":
+                // Send the Message --> Close ReplyMessage window --> Close CloseMessageView window
+                replyMessage.getReplyButton().addActionListener(e2 -> {
+                    String studentMsg = replyMessage.getMessageText().getText();
+                    closeBidModel.sendMessage(messagePair, studentMsg);
+                    replyMessage.dispose();
+                    closeMessageView.dispose();
+                });
             });
-        });
+        }
+        else {
+            ;
+        }
     }
 
     private void handleOfferSelection(ActionEvent e) {

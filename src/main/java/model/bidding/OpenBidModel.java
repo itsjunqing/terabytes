@@ -51,7 +51,15 @@ public class OpenBidModel extends BiddingModel {
         System.out.println("From OpenBidController: Selected offer = " + bidInfo.toString());
         // change to to usage of contract factory
         ContractFactory contractFactory = new ContractFactory();
-        return contractFactory.createContract(currentBid, bidInfo);
+        ExpiryService expiryService = new ExpiryService();
+        if (!expiryService.checkIsExpired(currentBid)){
+            return contractFactory.createContract(currentBid, bidInfo);
+        }
+        else {
+            errorLabel = "This Bid has expired, please close this window";
+            oSubject.notifyObservers();
+            return null;
+        }
     }
 
     @Override

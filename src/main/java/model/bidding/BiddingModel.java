@@ -30,6 +30,7 @@ public abstract class BiddingModel {
     protected String userId; // student's id
     protected String bidId; // Bid is not used because its content (offers / messages) are updated from time to time
     protected boolean expired;
+    protected String errorLabel;
 
     protected BiddingModel() {
         this.apiService = new ApiService();

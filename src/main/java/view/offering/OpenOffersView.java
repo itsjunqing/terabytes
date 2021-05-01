@@ -61,7 +61,6 @@ public class OpenOffersView implements Observer {
         List<BidInfo> otherBidInfo = openOffersModel.getOpenOffers();
         BidInfo myBidInfo = openOffersModel.getMyOffer();
         Bid bid = openOffersModel.getBid();
-
         // making the frames 
         updateView(otherBidInfo, myBidInfo, bid);
         updateButtons();

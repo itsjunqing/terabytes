@@ -55,7 +55,11 @@ public class OpenBidController extends BiddingController {
         System.out.println("From OpenBidController: Offer is clicked");
         int selection = openBidView.getOfferSelection();
         Contract contract = openBidModel.offerSelection(selection);
-        handleContract(contract);
+        if (contract != null){
+            handleContract(contract);
+        }
+        else {;
+        }
 
 //        Bid currentBid = openBidModel.getBid();
 //        BidInfo bidInfo = openBidModel.getOpenBidOffers().get(selection-1);

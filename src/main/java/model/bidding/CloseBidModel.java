@@ -1,12 +1,14 @@
 package model.bidding;
 
 
+import api.BidApi;
 import entity.BidInfo;
 import entity.BidPreference;
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import lombok.Setter;
+import service.ApiService;
 import service.ExpiryService;
 import stream.Bid;
 import stream.Message;
@@ -78,7 +80,6 @@ public class CloseBidModel extends BiddingModel {
         this.closeBidMessages = new ArrayList<>();
         refresh();
     }
-
 
     @Override
     public void refresh() {
@@ -168,6 +169,18 @@ public class CloseBidModel extends BiddingModel {
         } else {
             Message message = new Message(stringMsg, info);
             apiService.getMessageApi().patch(studentMsgId, message);
+        }
+    }
+
+    public MessagePair viewMessage(int selection){
+        ExpiryService expiryService = new ExpiryService();
+        if (!expiryService.checkIsExpired(apiService.getBidApi().get(userId))){
+            return closeBidMessages.get(selection-1);
+        }
+        else{
+            errorLabel = "Bid had been closed down, please close the window";
+            oSubject.notifyObservers();
+            return null;
         }
     }
 
