@@ -1,11 +1,11 @@
 package stream;
 
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 
-@Getter
+@Data
 public class Bid {
     private String id;
     private String type;

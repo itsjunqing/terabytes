@@ -1,10 +1,10 @@
 package stream;
 
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.List;
 
-@Getter
+@Data
 public class User {
     private String id;
     private String givenName;

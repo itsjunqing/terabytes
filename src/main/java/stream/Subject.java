@@ -1,12 +1,11 @@
 package stream;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.List;
 
-@Getter
-@AllArgsConstructor
+@Data @AllArgsConstructor
 public class Subject {
     private String id;
     private String name;

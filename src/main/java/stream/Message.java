@@ -1,10 +1,10 @@
 package stream;
 
-import lombok.Getter;
+import lombok.Data;
 
 import java.util.Date;
 
-@Getter
+@Data
 public class Message {
     /*
     How this work:
