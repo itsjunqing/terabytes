@@ -38,10 +38,8 @@ public class OpenBidView implements Observer {
     private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
-
-        updateContent();
-
         frame = new JFrame("Open Offers");
+        updateContent();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
@@ -63,7 +61,8 @@ public class OpenBidView implements Observer {
         int bidIndex = bidInfoList.size();
         updateView(bidInfoList, bid);
         updateButtons(bidIndex);
-//        frame.pack(); // TODO: Nick, try running student account with this uncommented, some issue here
+        SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
     }
 
     private void updateView(List<BidInfo> bidInfoList, Bid bid) {

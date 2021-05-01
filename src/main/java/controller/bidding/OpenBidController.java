@@ -4,6 +4,7 @@ import entity.BidInfo;
 import entity.BidPreference;
 import model.bidding.OpenBidModel;
 import stream.Bid;
+import stream.Contract;
 import view.bidding.OpenBidView;
 
 import java.awt.event.ActionEvent;
@@ -53,10 +54,14 @@ public class OpenBidController extends BiddingController {
     private void handleOfferSelection(ActionEvent e) {
         System.out.println("From OpenBidController: Offer is clicked");
         int selection = openBidView.getOfferSelection();
-        Bid currentBid = openBidModel.getBid();
-        BidInfo bidInfo = openBidModel.getOpenBidOffers().get(selection-1);
-        openBidModel.markBidClose();
-        System.out.println("From OpenBidController: Selected offer = " + bidInfo.toString());
-        createContract(currentBid, bidInfo);
+        Contract contract = openBidModel.offerSelection(selection);
+        handleContract(contract);
+
+//        Bid currentBid = openBidModel.getBid();
+//        BidInfo bidInfo = openBidModel.getOpenBidOffers().get(selection-1);
+//        openBidModel.markBidClose();
+//        System.out.println("From OpenBidController: Selected offer = " + bidInfo.toString());
+//        // change to to usage of contract factory
+//        createContract(currentBid, bidInfo);
     }
 }

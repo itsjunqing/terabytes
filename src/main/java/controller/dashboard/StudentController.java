@@ -38,11 +38,9 @@ public class StudentController extends DashboardController {
         DashboardStatus status = dashboardModel.getStatus();
         switch (status) {
             case MAX:
-                dashboardView.getErrorLabel().setText("Error, you already have 5 Contracts!");
                 break;
 
             case OPEN:
-                dashboardView.getErrorLabel().setText("You already have a open bid in progress, displaying active bid");
                 try {
                     TimeUnit.SECONDS.sleep(2);
                 } catch (InterruptedException interruptedException) {
@@ -52,7 +50,6 @@ public class StudentController extends DashboardController {
                 break;
 
             case CLOSE:
-                dashboardView.getErrorLabel().setText("You already have a close bid in progress, displaying active bid");
                 try {
                     TimeUnit.SECONDS.sleep(2);
                 } catch (InterruptedException interruptedException) {

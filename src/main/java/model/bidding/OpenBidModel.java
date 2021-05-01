@@ -4,8 +4,10 @@ import entity.BidInfo;
 import entity.BidPreference;
 import lombok.Getter;
 import lombok.Setter;
+import model.factory.ContractFactory;
 import service.ExpiryService;
 import stream.Bid;
+import stream.Contract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,16 @@ public class OpenBidModel extends BiddingModel {
         this.userId = userId;
         this.openBidOffers = new ArrayList<>();
         refresh();
+    }
+
+    public Contract offerSelection(int selection){
+        Bid currentBid = getBid();
+        BidInfo bidInfo = getOpenBidOffers().get(selection-1);
+        markBidClose();
+        System.out.println("From OpenBidController: Selected offer = " + bidInfo.toString());
+        // change to to usage of contract factory
+        ContractFactory contractFactory = new ContractFactory();
+        return contractFactory.createContract(currentBid, bidInfo);
     }
 
     @Override

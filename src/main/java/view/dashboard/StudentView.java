@@ -39,6 +39,7 @@ public class StudentView extends DashboardView {
     public void updateContent(){
         updateContracts();
         addButtons();
+        SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
     }
 
@@ -97,7 +98,6 @@ public class StudentView extends DashboardView {
         };
         String[] col = {"", ""};
         JTable contractTable = new JTable(rec, col);
-
         return contractTable;
     }
 

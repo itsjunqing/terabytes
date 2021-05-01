@@ -37,10 +37,10 @@ public class CloseOfferView implements Observer {
     private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
+        frame = new JFrame("Close Message View");
 
         updateContent();
 
-        frame = new JFrame("Close Message View");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
@@ -57,6 +57,7 @@ public class CloseOfferView implements Observer {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         updateView();
         updateButtons();
+        SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
     }
 

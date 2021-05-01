@@ -57,6 +57,7 @@ public class OfferingView implements Observer {
         Collections.reverse(bidList);
         updateView(bidList);
         updateButtons(bidSize);
+        SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
     }
 

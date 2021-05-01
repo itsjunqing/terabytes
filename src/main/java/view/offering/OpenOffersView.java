@@ -38,12 +38,11 @@ public class OpenOffersView implements Observer {
     private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
-
+        frame = new JFrame("All Open Offers for this Bid");
         // Updating the panels in the frame
         updateContent();
 
         // Setting the frame
-        frame = new JFrame("All Open Offers for this Bid");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
@@ -66,7 +65,8 @@ public class OpenOffersView implements Observer {
         // making the frames 
         updateView(otherBidInfo, myBidInfo, bid);
         updateButtons();
-//        frame.pack();
+        SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
     }
 
     private void updateView(List<BidInfo> otherBidInfo, BidInfo myBidInfo, Bid bid) {

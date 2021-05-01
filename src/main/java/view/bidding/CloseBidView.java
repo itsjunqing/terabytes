@@ -38,10 +38,8 @@ public class CloseBidView implements Observer {
     private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
-
-        updateContent();
-
         frame = new JFrame("Closed Offers");
+        updateContent();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
@@ -62,6 +60,7 @@ public class CloseBidView implements Observer {
         int bidIndex = messageBidInfoList.size();
         updateView(messageBidInfoList, bid);
         updateButtons(bidIndex);
+        SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
     }
 
