@@ -93,7 +93,13 @@ public class CloseOffersModel extends BasicModel {
     }
 
     public void respondMessage(MessageBidInfo messageBidInfo){
-//        if expiryService.checkIsExpired(ApiService)
-    }
 
+        if (!expiryService.checkIsExpired(ApiService.bidApi.get(getBidId()))){
+            sendMessage(messageBidInfo);
+        }
+        else{
+            errorLabel = "Bid has Expired";
+            oSubject.notifyObservers();
+        }
+    }
 }
