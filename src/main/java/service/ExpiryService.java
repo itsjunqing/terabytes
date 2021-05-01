@@ -10,18 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 public class ExpiryService {
 
-    private ApiService apiService;
-
-    public ExpiryService(){
-        this.apiService = new ApiService();
-    }
-
-    /**
-     * Returns true if a Bid is expired or closed down
-     * @param bid
-     * @return
-     */
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean checkIsExpired(Bid bid){
         if (bid.getDateClosedDown() != null) {
             System.out.println("From ExpiryService: Bid is Closed Down");
@@ -39,17 +27,15 @@ public class ExpiryService {
                 System.out.println("From ExpiryService: Bid is a Has Offer + creating Contract..");
                 BidInfo lastBidInfo = offers.get(offers.size()-1);
                 Contract contract = BuilderService.buildContract(bid, lastBidInfo);
-                apiService.getContractApi().add(contract);
+                ApiService.contractApi.add(contract);
             } else {
                 System.out.println("From ExpiryService: Bid has No Offer + doing nothing..");
             }
         } else {
             System.out.println("From ExpiryService: Bid is a Close Bid + Expired + Closing it..");
         }
-        apiService.getBidApi().close(bid.getId(), new Bid(new Date()));
+        ApiService.bidApi.close(bid.getId(), new Bid(new Date()));
         return true;
-
-
     }
 
     private boolean bidIsExpired(Bid bid) {

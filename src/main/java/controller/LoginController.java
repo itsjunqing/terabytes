@@ -23,7 +23,7 @@ public class LoginController {
             String password = String.valueOf(loginView.getPasswordField().getPassword());
             if (loginModel.performLogin(username, password)) {
                 loginView.getErrorLabel().setText("Success! Launching Dashboard...");
-                loginSuccess(loginModel.getUser(username));
+                loginSuccess(loginModel.getUser());
             } else {
                 loginView.getErrorLabel().setText("Error: Wrong credentials!");
             }

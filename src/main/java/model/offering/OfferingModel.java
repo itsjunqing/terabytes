@@ -4,7 +4,7 @@ import entity.BidPreference;
 import lombok.Getter;
 import model.BasicModel;
 import service.ExpiryService;
-import service.Service;
+import service.ApiService;
 import stream.Bid;
 import stream.User;
 
@@ -15,19 +15,17 @@ import java.util.List;
 public class OfferingModel extends BasicModel {
 
     private List<Bid> bidsOnGoing;
-//    private boolean expired;
 //    protected String errorText;
 
     public OfferingModel(String userId) {
         this.userId = userId;
         this.bidsOnGoing = new ArrayList<>();
-//        this.expired = false;
     }
 
     public void refresh() {
         bidsOnGoing.clear(); // for memory cleaning
-        User currentUser = Service.userApi.get(userId);
-        List<Bid> bids = Service.bidApi.getAll();
+        User currentUser = ApiService.userApi.get(userId);
+        List<Bid> bids = ApiService.bidApi.getAll();
         ExpiryService expiryService = new ExpiryService();
         for (Bid b: bids) {
             if (!expiryService.checkIsExpired(b)) {
@@ -52,9 +50,7 @@ public class OfferingModel extends BasicModel {
         if (!expiryService.checkIsExpired(bid)){
             return bid;
         }
-        else {
-            return null;
-        }
+        return null;
     }
 
 }

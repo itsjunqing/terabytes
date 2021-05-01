@@ -15,7 +15,7 @@ public class BuilderService {
     public static Bid buildBid(String userId, BidPreference bp, String type) {
         BidAdditionalInfo bidAdditionalInfo = new BidAdditionalInfo(bp);
         Date dateCreated = new Date();
-        String subjectId = Service.subjectApi.getAll().stream()
+        String subjectId = ApiService.subjectApi.getAll().stream()
                 .filter(s -> s.getName().equals(bp.getSubject()))
                 .findFirst()
                 .orElse(null) // null guarantee to not occur as view selected is from a list of available subjects

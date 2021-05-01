@@ -8,8 +8,7 @@ import entity.MessagePair;
 import lombok.Getter;
 import lombok.Setter;
 import service.BuilderService;
-import service.ExpiryService;
-import service.Service;
+import service.ApiService;
 import stream.Bid;
 import stream.Contract;
 import stream.Message;
@@ -33,7 +32,7 @@ public class CloseBidModel extends BiddingModel {
      */
     public CloseBidModel(String userId, BidPreference bp) {
         Bid bidCreated = BuilderService.buildBid(userId, bp, "Close");
-        Service.bidApi.add(bidCreated);
+        ApiService.bidApi.add(bidCreated);
         initModel(userId, bidCreated);
     }
 
@@ -59,8 +58,8 @@ public class CloseBidModel extends BiddingModel {
         closeBidOffers.clear();
         closeBidMessages.clear();
 
-        Bid bid = Service.bidApi.get(bidId);
-        ExpiryService expiryService = new ExpiryService();
+        Bid bid = ApiService.bidApi.get(bidId);
+
         // check if the bid is expired, if the bid is expired, then remove the bid,
         // return an empty list, and update the error text
         if (!expiryService.checkIsExpired(bid)){
@@ -107,14 +106,12 @@ public class CloseBidModel extends BiddingModel {
                 closeBidOffers.add(tutorBidMessage);
 
             }
-        }else {
+        } else {
             closeBidOffers.clear();
             closeBidMessages.clear();
-//            errorText = "This Bid has expired, please make a new one";
-            expired = true;
+            errorLabel = "This Bid has expired, please make a new one";
         }
         oSubject.notifyObservers();
-
     }
 
 
@@ -137,20 +134,18 @@ public class CloseBidModel extends BiddingModel {
         // If Student has sent not sent a Message, construct a new Message
         if (studentMsgId == null) {
             Message message = new Message(bidId, userId, new Date(), stringMsg, info);
-            Service.messageApi.add(message);
+            ApiService.messageApi.add(message);
         // If Student has sent a Message before, edit the Message
         } else {
             Message message = new Message(stringMsg, info);
-            Service.messageApi.patch(studentMsgId, message);
+            ApiService.messageApi.patch(studentMsgId, message);
         }
     }
 
     public MessagePair viewMessage(int selection){
-        ExpiryService expiryService = new ExpiryService();
-        if (!expiryService.checkIsExpired(Service.bidApi.get(userId))){
+        if (!expiryService.checkIsExpired(ApiService.bidApi.get(userId))){
             return closeBidMessages.get(selection-1);
-        }
-        else{
+        } else{
             errorLabel = "Bid had been closed down, please close the window";
             oSubject.notifyObservers();
             return null;
@@ -162,8 +157,6 @@ public class CloseBidModel extends BiddingModel {
         BidInfo bidInfo = getCloseBidOffers().get(selection-1);
         markBidClose();
         System.out.println("From OpenBidController: Selected offer = " + bidInfo.toString());
-        // change to to usage of contract factory
-        ExpiryService expiryService = new ExpiryService();
         if (!expiryService.checkIsExpired(currentBid)){
             return BuilderService.buildContract(currentBid, bidInfo);
         }

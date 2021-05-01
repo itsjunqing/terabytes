@@ -3,8 +3,7 @@ package model.dashboard;
 import entity.DashboardStatus;
 import lombok.Getter;
 import model.BasicModel;
-import service.ExpiryService;
-import service.Service;
+import service.ApiService;
 import stream.Bid;
 import stream.Contract;
 
@@ -26,7 +25,7 @@ public class DashboardModel extends BasicModel {
     }
 
     public void refresh() {
-        contractsList = Service.contractApi.getAll().stream()
+        contractsList = ApiService.contractApi.getAll().stream()
                 .filter(c -> c.getFirstParty().getId().equals(userId)
                         || c.getSecondParty().getId().equals(userId))
                 .collect(Collectors.toList());
@@ -34,13 +33,12 @@ public class DashboardModel extends BasicModel {
     }
 
     public DashboardStatus getStatus() {
-        Bid currentBid = Service.userApi.get(userId).getInitiatedBids().stream()
+        Bid currentBid = ApiService.userApi.get(userId).getInitiatedBids().stream()
                                 .filter(b -> b.getDateClosedDown() == null)
                                 .findFirst()
                                 .orElse(null);
         System.out.println(currentBid);
         if (currentBid != null) {
-            ExpiryService expiryService = new ExpiryService();
             if (!expiryService.checkIsExpired(currentBid)) {
                 errorText = "You already have a bid in progress, displaying active bid";
                 oSubject.notifyObservers();

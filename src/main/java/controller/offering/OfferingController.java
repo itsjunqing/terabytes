@@ -34,7 +34,6 @@ public class OfferingController {
     private void handleViewOffers(ActionEvent e) {
         System.out.println("From OfferingController: ViewOffers Button is pressed");
         int selection = offeringView.getBidNumber();
-//        Bid bid = offeringModel.getBidsOnGoing().get(selection-1);
         offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
         Bid bid = offeringModel.viewOffers(selection);
         System.out.println(bid.toString());
@@ -52,8 +51,6 @@ public class OfferingController {
                 System.out.println("this is some text \n\n\n lets make it count");
                 new CloseOffersController(offeringModel.getUserId(), bid.getId());
             }
-        } else{
-            ;
         }
     }
 

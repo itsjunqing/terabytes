@@ -25,6 +25,7 @@ public class CloseOffersController {
     }
 
     private void handleRefresh(ActionEvent e) {
+        // TODO: to be updated
         closeOffersModel.refresh();
         closeOfferView.getRefreshButton().addActionListener(this::handleRefresh);
         closeOfferView.getRespondMessageButton().addActionListener(this::handleRespondMessage);
@@ -39,11 +40,9 @@ public class CloseOffersController {
         try {
             MessageBidInfo messageBidInfo = extractCloseReplyInfo(closeReply);
             System.out.println("Extracted: " + messageBidInfo);
-            closeReply.dispose();
             closeOffersModel.sendMessage(messageBidInfo);
-
+            closeReply.dispose();
         } catch (NullPointerException exception) {
-            // TODO : add error message for incomplete forms
             closeReply.getErrorLabel().setText("Incomplete form!");
         }
     }

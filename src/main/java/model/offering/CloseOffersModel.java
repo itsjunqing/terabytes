@@ -6,7 +6,7 @@ import entity.MessagePair;
 import lombok.Getter;
 import model.BasicModel;
 import service.ExpiryService;
-import service.Service;
+import service.ApiService;
 import stream.Bid;
 import stream.Message;
 import stream.MessageAdditionalInfo;
@@ -28,7 +28,7 @@ public class CloseOffersModel extends BasicModel {
     }
 
     public void refresh() {
-        Bid bid = Service.bidApi.get(bidId);
+        Bid bid = ApiService.bidApi.get(bidId);
         BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
         ExpiryService expiryService = new ExpiryService();
         if (!expiryService.checkIsExpired(bid)){
@@ -84,10 +84,10 @@ public class CloseOffersModel extends BasicModel {
         String tutorMsgId = messagePair.getStudentMsgId();
         if (tutorMsgId == null) {
             Message message = new Message(bidId, userId, new Date(), messageBidInfo.getContent(), convertObject(messageBidInfo));
-            Service.messageApi.add(message);
+            ApiService.messageApi.add(message);
         } else {
             Message message = new Message(messageBidInfo.getContent(), convertObject(messageBidInfo));
-            Service.messageApi.patch(tutorMsgId, message);
+            ApiService.messageApi.patch(tutorMsgId, message);
         }
     }
 

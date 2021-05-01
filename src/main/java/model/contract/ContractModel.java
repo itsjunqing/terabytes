@@ -1,7 +1,7 @@
 package model.contract;
 
 import lombok.Getter;
-import service.Service;
+import service.ApiService;
 import stream.Contract;
 
 import java.util.Date;
@@ -11,7 +11,7 @@ public class ContractModel {
     
     private String contractId;
     private Contract contract;
-    protected String errorText; // TODO: REMOVE THIS
+    protected String errorText;
 
     public ContractModel(Contract contract) {
         this.contract = contract;
@@ -20,22 +20,22 @@ public class ContractModel {
     }
 
     public void createContract(Contract contract) {
-        Contract contractCreated = Service.contractApi.add(contract);
+        Contract contractCreated = ApiService.contractApi.add(contract);
         contractId = contractCreated.getId(); // update contract id after creation
     }
 
     public void acceptContract() {
         // only student need to sign contract, tutor no need
-        Service.contractApi.sign(contractId, new Contract(new Date()));
+        ApiService.contractApi.sign(contractId, new Contract(new Date()));
     }
 
     public void declineContract() {
-        Service.contractApi.remove(contractId);
+        ApiService.contractApi.remove(contractId);
     }
 
     // use this to display in the ContractView
     public Contract getContract() {
-        return Service.contractApi.get(contractId);
+        return ApiService.contractApi.get(contractId);
     }
 
     public void setErrorText(String errorText){

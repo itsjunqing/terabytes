@@ -5,8 +5,7 @@ import entity.BidPreference;
 import lombok.Getter;
 import lombok.Setter;
 import service.BuilderService;
-import service.ExpiryService;
-import service.Service;
+import service.ApiService;
 import stream.Bid;
 import stream.Contract;
 
@@ -51,30 +50,22 @@ public class OpenBidModel extends BiddingModel {
         BidInfo bidInfo = getOpenBidOffers().get(selection-1);
         markBidClose();
         System.out.println("From OpenBidController: Selected offer = " + bidInfo.toString());
-        // change to to usage of contract factory
-        ExpiryService expiryService = new ExpiryService();
         if (!expiryService.checkIsExpired(currentBid)){
             return BuilderService.buildContract(currentBid, bidInfo);
         }
-        else {
-            errorLabel = "This Bid has expired, please close this window";
-            oSubject.notifyObservers();
-            return null;
-        }
+        errorLabel = "This Bid has expired, please close this window";
+        oSubject.notifyObservers();
+        return null;
     }
 
     @Override
     public void refresh() {
-        openBidOffers.clear();
-        Bid bid = Service.bidApi.get(getBidId());
-        ExpiryService expiryService = new ExpiryService();
-        // check if the bid is expired, if the bid is expired, then remove the bid,
-        // return an empty list, and update the error text
+        Bid bid = ApiService.bidApi.get(getBidId());
+        // If bid is expired, remove the bid
         if (!expiryService.checkIsExpired(bid)) {
-            openBidOffers = bid.getAdditionalInfo().getBidOffers();
-        } else{
-//            errorText = "This Bid has expired, please make a new one";
-            expired = true;
+            openBidOffers = new ArrayList<>(bid.getAdditionalInfo().getBidOffers()); // reference copy
+        } else {
+            errorLabel = "This Bid has expired, please make a new one";
         }
         oSubject.notifyObservers();
     }

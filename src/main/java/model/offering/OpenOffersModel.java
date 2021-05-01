@@ -3,13 +3,16 @@ package model.offering;
 import entity.BidInfo;
 import lombok.Getter;
 import model.BasicModel;
+import service.BuilderService;
 import service.ExpiryService;
-import service.Service;
+import service.ApiService;
 import stream.Bid;
 import stream.BidAdditionalInfo;
+import stream.Contract;
 import stream.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -30,7 +33,7 @@ public class OpenOffersModel extends BasicModel {
 
     public void refresh() {
         openOffers.clear();
-        Bid bid = Service.bidApi.get(bidId);
+        Bid bid = ApiService.bidApi.get(bidId);
         List<BidInfo> offers = bid.getAdditionalInfo().getBidOffers();
         System.out.println("From OpenOfferModel Refreshing..");
         ExpiryService expiryService = new ExpiryService();
@@ -45,8 +48,7 @@ public class OpenOffersModel extends BasicModel {
                     openOffers.add(bidInfo);
                 }
             }
-        }
-        else{
+        } else{
             myOffer = null;
             openOffers.clear();
             expired = true;
@@ -55,17 +57,18 @@ public class OpenOffersModel extends BasicModel {
     }
 
     public Bid getBid() {
-        return Service.bidApi.get(bidId);
+        return ApiService.bidApi.get(bidId);
     }
 
 
     public String getUserName(String Id){
-        User user = Service.userApi.get(Id);
+        User user = ApiService.userApi.get(Id);
         return user.getGivenName() + " " + user.getFamilyName();
     }
 
     public void sendOffer(BidInfo bidInfo) {
-        BidAdditionalInfo info = Service.bidApi.get(bidId).getAdditionalInfo();
+        // Update offer
+        BidAdditionalInfo info = ApiService.bidApi.get(bidId).getAdditionalInfo();
         BidInfo currentBidInfo = info.getBidOffers().stream()
                                     .filter(i -> i.getInitiatorId().equals(userId))
                                     .findFirst()
@@ -75,7 +78,15 @@ public class OpenOffersModel extends BasicModel {
             info.getBidOffers().remove(currentBidInfo);
         }
         info.getBidOffers().add(bidInfo);
-        Service.bidApi.patch(bidId, new Bid(info));
+        ApiService.bidApi.patch(bidId, new Bid(info));
+    }
+
+    public void buyBid(BidInfo bidInfo) {
+        // Update offer -> Create contract -> Sign contract
+        sendOffer(bidInfo);
+        Contract contract = BuilderService.buildContract(getBid(), bidInfo);
+        Contract contractCreated = ApiService.contractApi.add(contract);
+        ApiService.contractApi.sign(contractCreated.getId(), new Contract(new Date()));
     }
 
 }

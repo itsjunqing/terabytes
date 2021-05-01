@@ -2,7 +2,7 @@ package model.bidding;
 
 import lombok.Getter;
 import model.BasicModel;
-import service.Service;
+import service.ApiService;
 import stream.Bid;
 import stream.User;
 
@@ -31,7 +31,7 @@ public abstract class BiddingModel extends BasicModel {
     }
 
     protected Bid extractBid(String userId, String type) {
-        return Service.bidApi.getAll().stream()
+        return ApiService.bidApi.getAll().stream()
                 .filter(b -> b.getDateClosedDown() == null)
                 .filter(b -> b.getType().equalsIgnoreCase(type))
                 .filter(b -> b.getInitiator().getId().equals(userId))
@@ -41,15 +41,15 @@ public abstract class BiddingModel extends BasicModel {
 
     public void markBidClose() {
         Bid bidDateClosed = new Bid(new Date());
-        Service.bidApi.close(bidId, bidDateClosed);
+        ApiService.bidApi.close(bidId, bidDateClosed);
     }
 
     public Bid getBid() {
-        return Service.bidApi.get(bidId);
+        return ApiService.bidApi.get(bidId);
     }
 
     public String getUserName(String Id){
-        User user = Service.userApi.get(Id);
+        User user = ApiService.userApi.get(Id);
         String givenName = user.getGivenName();
         String familyName = user.getFamilyName();
         return givenName + " " + familyName;
