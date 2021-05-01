@@ -15,7 +15,7 @@ import java.util.Date;
 
 
 @Getter @Setter
-public abstract class BiddingModel {
+public abstract class BiddingModel extends OSubject {
 
     /*
     bidOffers used in the following:
@@ -32,13 +32,13 @@ public abstract class BiddingModel {
     protected String userId; // student's id
     protected String bidId; // Bid is not used because its content (offers / messages) are updated from time to time
     protected String errorText;
-    public OSubject oSubject;
+//    public OSubject oSubject;
 
     protected BiddingModel() {
         this.bidApi = new BidApi();
         this.subjectApi = new SubjectApi();
         this.errorText = "";
-        this.oSubject = new OSubject();
+//        this.oSubject = new OSubject();
     }
 
     protected Bid createBid(String userId, BidPreference bp, String type) {

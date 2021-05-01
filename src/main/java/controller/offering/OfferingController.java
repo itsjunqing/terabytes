@@ -14,7 +14,8 @@ public class OfferingController {
     public OfferingController(String userId) {
         this.offeringModel = new OfferingModel(userId);
         this.offeringView = new OfferingView(offeringModel);
-        offeringModel.oSubject.attach(offeringView);
+//        offeringModel.oSubject.attach(offeringView);
+        this.offeringModel.attach(offeringView);
         listenViewActions();
     }
 

@@ -33,7 +33,8 @@ public class CloseBidController extends BiddingController {
     public CloseBidController(String userId) {
         this.closeBidModel = new CloseBidModel(userId);
         this.closeBidView = new CloseBidView(closeBidModel);
-        closeBidModel.oSubject.attach(closeBidView);
+//        closeBidModel.oSubject.attach(closeBidView);
+        this.closeBidModel.attach(closeBidView);
         listenViewActions();
     }
 

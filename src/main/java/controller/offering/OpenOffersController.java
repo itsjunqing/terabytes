@@ -19,7 +19,8 @@ public class OpenOffersController {
     public OpenOffersController(String userId, String bidId) {
         this.openOffersModel = new OpenOffersModel(userId, bidId);
         this.openOffersView = new OpenOffersView(openOffersModel);
-        openOffersModel.oSubject.attach(openOffersView);
+//        openOffersModel.oSubject.attach(openOffersView);
+        this.openOffersModel.attach(openOffersView);
         listenViewActions();
     }
 

@@ -15,14 +15,14 @@ import stream.MessageAdditionalInfo;
 import java.util.Date;
 
 @Data
-public class CloseOffersModel {
+public class CloseOffersModel extends OSubject {
 
     private String userId;
     private String bidId;
     private BidApi bidApi;
     private MessageApi messageApi;
     private MessagePair messagePair;
-    public OSubject oSubject;
+//    public OSubject oSubject;
     protected String errorText;
 
 
@@ -33,7 +33,7 @@ public class CloseOffersModel {
     	this.bidApi = new BidApi();
     	this.messageApi = new MessageApi();
         this.errorText = "";
-        oSubject = new OSubject();
+//        oSubject = new OSubject();
 
         refresh();
     }
@@ -81,7 +81,9 @@ public class CloseOffersModel {
         else {
 
         }
-        oSubject.notifyObservers();
+//        oSubject.notifyObservers();
+        notifyObservers();
+
     }
 
     private MessageAdditionalInfo convertObject(MessageBidInfo messageBidInfo) {

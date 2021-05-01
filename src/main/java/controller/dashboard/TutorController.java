@@ -16,7 +16,8 @@ public class TutorController extends DashboardController {
     public TutorController(User user) {
         super(user);
         this.dashboardView = new TutorView(dashboardModel);
-        dashboardModel.oSubject.attach(dashboardView);
+//        dashboardModel.oSubject.attach(dashboardView);
+        this.dashboardModel.attach(dashboardView);
         listenViewActions();
     }
 

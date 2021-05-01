@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class OpenOffersModel {
+public class OpenOffersModel extends OSubject {
 
     private String userId;
     private String bidId;
@@ -22,7 +22,7 @@ public class OpenOffersModel {
     private UserApi userApi;
     private BidInfo myOffer;
     private List<BidInfo> openOffers;
-    public OSubject oSubject;
+//    public OSubject oSubject;
     protected String errorText;
 
     public OpenOffersModel(String userId, String bidId) {
@@ -32,7 +32,7 @@ public class OpenOffersModel {
         this.userApi = new UserApi();
         this.openOffers = new ArrayList<>();
         this.errorText = "";
-        oSubject = new OSubject();
+//        oSubject = new OSubject();
         refresh();
     }
 
@@ -58,7 +58,9 @@ public class OpenOffersModel {
             this.openOffers.clear();
             errorText = "Bid has expired, please pick another one";
         }
-        oSubject.notifyObservers();
+//        oSubject.notifyObservers();
+        notifyObservers();
+
     }
 
     public Bid getBid() {

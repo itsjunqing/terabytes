@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class OfferingModel {
+public class OfferingModel extends OSubject {
 
     private String userId;
     private UserApi userApi;
     private BidApi bidApi;
     private List<Bid> bidsOnGoing;
-    public OSubject oSubject;
+//    public OSubject oSubject;
     protected String errorText;
 
 
@@ -31,7 +31,7 @@ public class OfferingModel {
         this.bidsOnGoing = new ArrayList<>();
         this.errorText = "";
 
-        oSubject = new OSubject();
+//        oSubject = new OSubject();
 
     }
 
@@ -63,7 +63,9 @@ public class OfferingModel {
                 }
             }
         }
-        oSubject.notifyObservers();
+//        oSubject.notifyObservers();
+        notifyObservers();
+
     }
     public void setErrorText(String errorText){
         this.errorText = errorText;

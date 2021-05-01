@@ -15,7 +15,8 @@ public class CloseOffersController {
     public CloseOffersController(String userId, String bidId) {
         this.closeOffersModel = new CloseOffersModel(userId, bidId);
         this.closeOfferView = new CloseOfferView(closeOffersModel);
-        closeOffersModel.oSubject.attach(closeOfferView);
+//        closeOffersModel.oSubject.attach(closeOfferView)
+        this.closeOffersModel.attach(closeOfferView);
         listenViewActions();
     }
 

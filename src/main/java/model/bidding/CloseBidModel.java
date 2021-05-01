@@ -9,7 +9,6 @@ import entity.MessagePair;
 import lombok.Getter;
 import lombok.Setter;
 import model.CheckExpired;
-import observer.OSubject;
 import stream.Bid;
 import stream.Message;
 import stream.MessageAdditionalInfo;
@@ -65,7 +64,7 @@ public class CloseBidModel extends BiddingModel {
         this.closeBidOffers = new ArrayList<>();
         this.closeBidMessages = new ArrayList<>();
         this.messageApi = new MessageApi();
-        oSubject = new OSubject();
+//        oSubject = new OSubject();
         refresh();
     }
 
@@ -80,7 +79,7 @@ public class CloseBidModel extends BiddingModel {
         this.closeBidOffers = new ArrayList<>();
         this.closeBidMessages = new ArrayList<>();
         this.messageApi = new MessageApi();
-        oSubject = new OSubject();
+//        oSubject = new OSubject();
         refresh();
     }
 
@@ -144,7 +143,9 @@ public class CloseBidModel extends BiddingModel {
             closeBidMessages.clear();
             errorText = "This Bid has expired, please make a new one";
         }
-        oSubject.notifyObservers();
+//        oSubject.notifyObservers();
+        notifyObservers();
+
     }
 
 
