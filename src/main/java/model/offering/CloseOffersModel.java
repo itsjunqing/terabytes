@@ -5,6 +5,7 @@ import entity.BidInfo;
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Data;
+import model.CheckExpired;
 import observer.OSubject;
 import stream.Bid;
 import stream.Message;
@@ -35,41 +36,46 @@ public class CloseOffersModel {
     public void refresh() {
         Bid bid = bidApi.getBid(bidId);
         BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
+        CheckExpired checkExpired = new CheckExpired();
+        if (!checkExpired.checkIsExpired(bid)){
+            // Student's message sent to me
+            String studentMsgId = null;
+            Message studentMsg = bid.getMessages().stream()
+                                    .filter(m -> m.getAdditionalInfo().getReceiverId().equals(userId))
+                                    .findFirst()
+                                    .orElse(null);
+            MessageBidInfo studentBidMessage;
+            if (studentMsg == null) {
+                studentBidMessage = new MessageBidInfo(bidInfo.getInitiatorId(), bidInfo.getDay(),
+                        bidInfo.getTime(), bidInfo.getDuration(), bidInfo.getRate(), bidInfo.getNumberOfSessions(),
+                        "");
+            } else {
+                studentMsgId = studentMsg.getId();
+                studentBidMessage = new MessageBidInfo(studentMsg.getPoster().getId(), bidInfo.getDay(),
+                        bidInfo.getTime(), bidInfo.getDuration(), bidInfo.getRate(), bidInfo.getNumberOfSessions(),
+                        studentMsg.getContent());
+            }
 
-        // Student's message sent to me
-        String studentMsgId = null;
-        Message studentMsg = bid.getMessages().stream()
-                                .filter(m -> m.getAdditionalInfo().getReceiverId().equals(userId))
-                                .findFirst()
-                                .orElse(null);
-        MessageBidInfo studentBidMessage;
-        if (studentMsg == null) {
-            studentBidMessage = new MessageBidInfo(bidInfo.getInitiatorId(), bidInfo.getDay(),
-                    bidInfo.getTime(), bidInfo.getDuration(), bidInfo.getRate(), bidInfo.getNumberOfSessions(),
-                    "");
-        } else {
-            studentMsgId = studentMsg.getId();
-            studentBidMessage = new MessageBidInfo(studentMsg.getPoster().getId(), bidInfo.getDay(),
-                    bidInfo.getTime(), bidInfo.getDuration(), bidInfo.getRate(), bidInfo.getNumberOfSessions(),
-                    studentMsg.getContent());
+            // Tutor's message to student
+            String tutorMsgId = null;
+            Message tutorMsg = bid.getMessages().stream()
+                                    .filter(m -> m.getPoster().getId().equals(userId))
+                                    .findFirst()
+                                    .orElse(null);
+            MessageBidInfo tutorBidMessage = null;
+            if (tutorMsg != null) {
+                tutorMsgId = tutorMsg.getId();
+                MessageAdditionalInfo info = tutorMsg.getAdditionalInfo();
+                tutorBidMessage = new MessageBidInfo(tutorMsg.getPoster().getId(), info.getDay(), info.getTime(),
+                        info.getDuration(), info.getRate(), info.getNumberOfSessions(), info.getFreeLesson(),
+                        tutorMsg.getContent());
+            }
+
+            messagePair = new MessagePair(tutorMsgId, tutorBidMessage, studentMsgId, studentBidMessage);
         }
+        else {
 
-        // Tutor's message to student
-        String tutorMsgId = null;
-        Message tutorMsg = bid.getMessages().stream()
-                                .filter(m -> m.getPoster().getId().equals(userId))
-                                .findFirst()
-                                .orElse(null);
-        MessageBidInfo tutorBidMessage = null;
-        if (tutorMsg != null) {
-            tutorMsgId = tutorMsg.getId();
-            MessageAdditionalInfo info = tutorMsg.getAdditionalInfo();
-            tutorBidMessage = new MessageBidInfo(tutorMsg.getPoster().getId(), info.getDay(), info.getTime(),
-                    info.getDuration(), info.getRate(), info.getNumberOfSessions(), info.getFreeLesson(),
-                    tutorMsg.getContent());
         }
-
-        messagePair = new MessagePair(tutorMsgId, tutorBidMessage, studentMsgId, studentBidMessage);
         oSubject.notifyObservers();
     }
 

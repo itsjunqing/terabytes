@@ -4,6 +4,7 @@ import api.BidApi;
 import api.UserApi;
 import entity.BidInfo;
 import lombok.Data;
+import model.CheckExpired;
 import observer.OSubject;
 import stream.Bid;
 import stream.BidAdditionalInfo;
@@ -24,7 +25,6 @@ public class OpenOffersModel {
     public OSubject oSubject;
     protected String errorText;
 
-
     public OpenOffersModel(String userId, String bidId) {
         this.userId = userId;
         this.bidId = bidId;
@@ -41,14 +41,22 @@ public class OpenOffersModel {
         Bid bid = bidApi.getBid(bidId);
         List<BidInfo> offers = bid.getAdditionalInfo().getBidOffers();
 
-        // openOffers includes all the BidInfo offers (by all tutors) except the current tutor
-        // myOffer is BidInfo offered by itself
-        for (BidInfo bidInfo: offers) {
-            if (bidInfo.getInitiatorId().equals(userId)) {
-                myOffer = bidInfo;
-            } else {
-                openOffers.add(myOffer);
+        CheckExpired checkExpired = new CheckExpired();
+        // if bid has expired, close down the bid
+        if (!checkExpired.checkIsExpired(bid)){
+            // openOffers includes all the BidInfo offers (by all tutors) except the current tutor
+            // myOffer is BidInfo offered by itself
+            for (BidInfo bidInfo: offers) {
+                if (bidInfo.getInitiatorId().equals(userId)) {
+                    myOffer = bidInfo;
+                } else {
+                    openOffers.add(myOffer);
+                }
             }
+        }
+        else{
+            this.openOffers.clear();
+            errorText = "Bid has expired, please pick another one";
         }
         oSubject.notifyObservers();
     }

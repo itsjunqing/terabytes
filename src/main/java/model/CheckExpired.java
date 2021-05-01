@@ -17,27 +17,9 @@ public class CheckExpired {
         this.contractApi = new ContractApi();
     }
 
-    public boolean isExpired(Bid bid){
-        Date then = bid.getDateCreated();
-        Date now = new Date();
-        long difference = now.getTime() - then.getTime();
-        long minuteDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
-        long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
-        if (bid.getType().equals("Open") ) {
-            return minuteDifference > 30;
-        } else {
-            return dayDifference > 7;
-        }
-    }
-    // true if has offer, false otherwise
-    public boolean hasOffer(Bid bid) {
-        return bid.getAdditionalInfo().getBidOffers().size() != 0;
-    }
-
     public boolean checkIsExpired(Bid bid){
         // if not closed
-        // TODO: change this
-        if (bid.getDateClosedDown() != null) {
+        if (bid.getDateClosedDown() == null) {
             System.out.println("Bid is not closed down");
             // if open
             if (bid.getType().equals("Open")) {
@@ -96,7 +78,6 @@ public class CheckExpired {
                     // close bid
                 } else {
                     return false;
-
                 }
                 // if not expired pass
             }
@@ -104,4 +85,23 @@ public class CheckExpired {
             return false;
         }
     }
+
+    public boolean isExpired(Bid bid){
+        Date then = bid.getDateCreated();
+        Date now = new Date();
+        long difference = now.getTime() - then.getTime();
+        long minuteDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
+        long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
+        if (bid.getType().equals("Open") ) {
+            return minuteDifference > 30;
+        } else {
+            return dayDifference > 7;
+        }
+    }
+    // true if has offer, false otherwise
+    public boolean hasOffer(Bid bid) {
+        return bid.getAdditionalInfo().getBidOffers().size() != 0;
+    }
+
+
 }

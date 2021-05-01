@@ -78,6 +78,10 @@ public class OpenOffersView implements Observer {
             openBidPanel.setLayout(new BorderLayout());
             mainPanel.add(openBidPanel);
         }
+        // if bid has expired, return empty panel
+        if (bid.getDateClosedDown() != null){
+            return;
+        }
 
         JPanel mainList = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -138,7 +142,8 @@ public class OpenOffersView implements Observer {
         }
 
 
-            // display request first
+        // display request first
+
         JPanel requestPanel = new JPanel();
         JTable requestTable = getRequest(bid);
         resizeColumnWidth(requestTable);

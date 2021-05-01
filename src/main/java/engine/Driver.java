@@ -1,5 +1,6 @@
 package engine;
 
+import Test.ContractViewTest;
 import api.BidApi;
 import api.ContractApi;
 import controller.LoginController;
@@ -7,8 +8,6 @@ import entity.BidInfo;
 import model.LoginModel;
 import stream.*;
 import view.LoginView;
-import view.contract.ContractView;
-import view.contract.ContractViewTest;
 import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;

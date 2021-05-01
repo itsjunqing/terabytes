@@ -5,6 +5,7 @@ import api.UserApi;
 import entity.BidPreference;
 import lombok.Getter;
 import lombok.Setter;
+import model.CheckExpired;
 import observer.OSubject;
 import stream.Bid;
 import stream.User;
@@ -36,22 +37,29 @@ public class OfferingModel {
 
     public void refresh() {
         // TODO: Nick, pls verify the logic to see if there is any missing requirement
+
         bidsOnGoing.clear(); // for memory cleaning
         User currentUser = userApi.getUser(userId);
         List<Bid> bids = bidApi.getAllBids();
+        CheckExpired checkExpired = new CheckExpired();
         for (Bid b: bids) {
             boolean bidIsClosed = b.getDateClosedDown() != null;
             if (!bidIsClosed) {
-                BidPreference bp = b.getAdditionalInfo().getBidPreference();
-                boolean hasQualification = currentUser.getQualifications().stream()
-                        .anyMatch(q -> q.getTitle().equals(bp.getQualification().toString()));
+                //   will check if bid is expired  either remove them
+                //   (or create a contract if its a open bid and is expired)
+                //   returns false if bid is not expired
+                if (!checkExpired.checkIsExpired(b)){
+                    BidPreference bp = b.getAdditionalInfo().getBidPreference();
+                    boolean hasQualification = currentUser.getQualifications().stream()
+                            .anyMatch(q -> q.getTitle().equals(bp.getQualification().toString()));
 
-                // Bonus mark on checking 2 levels higher for competency requirement
-                boolean hasCompetency = currentUser.getCompetencies().stream()
-                        .anyMatch(c -> c.getLevel() - 2 >= bp.getCompetency()
-                                && c.getSubject().getName().equals(bp.getSubject()));
-                if (hasQualification && hasCompetency) {
-                    bidsOnGoing.add(b);
+                    // Bonus mark on checking 2 levels higher for competency requirement
+                    boolean hasCompetency = currentUser.getCompetencies().stream()
+                            .anyMatch(c -> c.getLevel() - 2 >= bp.getCompetency()
+                                    && c.getSubject().getName().equals(bp.getSubject()));
+                    if (hasQualification && hasCompetency) {
+                        bidsOnGoing.add(b);
+                    }
                 }
             }
         }

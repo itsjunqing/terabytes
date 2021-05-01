@@ -8,6 +8,7 @@ import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import lombok.Setter;
+import model.CheckExpired;
 import observer.OSubject;
 import stream.Bid;
 import stream.Message;
@@ -88,52 +89,63 @@ public class CloseBidModel extends BiddingModel {
     public void refresh() {
         closeBidOffers.clear();
         closeBidMessages.clear();
+
         Bid bid = bidApi.getBid(bidId);
-        BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
+        CheckExpired checkExpired = new CheckExpired();
+        // check if the bid is expired, if the bid is expired, then remove the bid,
+        // return an empty list, and update the error text
+        if (!checkExpired.checkIsExpired(bid)){
+            BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
 
-        // Get the Messages where the initiator is a tutor
-        // TODO: does using receiverId.equals(userId) will work too?
-        List<Message> tutorMessages = bid.getMessages().stream()
-                .filter(m -> !m.getPoster().getId().equals(userId))
-                .collect(Collectors.toList());
+            // Get the Messages where the initiator is a tutor
+            // TODO: does using receiverId.equals(userId) will work too?
+            List<Message> tutorMessages = bid.getMessages().stream()
+                    .filter(m -> !m.getPoster().getId().equals(userId))
+                    .collect(Collectors.toList());
 
-        for (Message tutorMsg: tutorMessages) {
-            // Tutor's MessageBidInfo
-            String tutorMsgId = tutorMsg.getId();
-            MessageBidInfo tutorBidMessage = convertObject(tutorMsg);
+            for (Message tutorMsg: tutorMessages) {
+                // Tutor's MessageBidInfo
+                String tutorMsgId = tutorMsg.getId();
+                MessageBidInfo tutorBidMessage = convertObject(tutorMsg);
 
-            // Student's Message (if a Message has been posted or null))
-            // Disclaimer: must use receiverId because student can send to many tutors
-            String tutorId = tutorMsg.getPoster().getId();
-            Message studentMsg = bid.getMessages().stream()
-                                        .filter(m -> m.getAdditionalInfo().getReceiverId().equals(tutorId))
-                                        .findFirst()
-                                        .orElse(null);
+                // Student's Message (if a Message has been posted or null))
+                // Disclaimer: must use receiverId because student can send to many tutors
+                String tutorId = tutorMsg.getPoster().getId();
+                Message studentMsg = bid.getMessages().stream()
+                        .filter(m -> m.getAdditionalInfo().getReceiverId().equals(tutorId))
+                        .findFirst()
+                        .orElse(null);
 
-            // Convert Student's Message to MessageBidInfo
-            String studentMsgId = null;
-            MessageBidInfo studentBidMessage;
-            if (studentMsg == null) {
-                studentBidMessage = new MessageBidInfo(bidInfo.getInitiatorId(), bidInfo.getDay(),
-                        bidInfo.getTime(), bidInfo.getDuration(), bidInfo.getRate(), bidInfo.getNumberOfSessions(),
-                        "");
-            } else {
-                studentMsgId = studentMsg.getId();
-                studentBidMessage = new MessageBidInfo(studentMsg.getPoster().getId(), bidInfo.getDay(),
-                        bidInfo.getTime(), bidInfo.getDuration(), bidInfo.getRate(), bidInfo.getNumberOfSessions(),
-                        studentMsg.getContent());
+                // Convert Student's Message to MessageBidInfo
+                String studentMsgId = null;
+                MessageBidInfo studentBidMessage;
+                if (studentMsg == null) {
+                    studentBidMessage = new MessageBidInfo(bidInfo.getInitiatorId(), bidInfo.getDay(),
+                            bidInfo.getTime(), bidInfo.getDuration(), bidInfo.getRate(), bidInfo.getNumberOfSessions(),
+                            "");
+                } else {
+                    studentMsgId = studentMsg.getId();
+                    studentBidMessage = new MessageBidInfo(studentMsg.getPoster().getId(), bidInfo.getDay(),
+                            bidInfo.getTime(), bidInfo.getDuration(), bidInfo.getRate(), bidInfo.getNumberOfSessions(),
+                            studentMsg.getContent());
+                }
+
+                // tutorMsg exists -> store along with tutorMsgId
+                // studentMsg exist -> store along with updated studentMsgId
+                // studentMsg no exist -> store along with null
+                closeBidMessages.add(new MessagePair(tutorMsgId, tutorBidMessage, studentMsgId, studentBidMessage));
+
+                // update closedBidOffers to be displayed in CloseBidView
+                closeBidOffers.add(tutorBidMessage);
+
             }
-
-            // tutorMsg exists -> store along with tutorMsgId
-            // studentMsg exist -> store along with updated studentMsgId
-            // studentMsg no exist -> store along with null
-            closeBidMessages.add(new MessagePair(tutorMsgId, tutorBidMessage, studentMsgId, studentBidMessage));
-
-            // update closedBidOffers to be displayed in CloseBidView
-            closeBidOffers.add(tutorBidMessage);
-
+        }else {
+            closeBidOffers.clear();
+            closeBidMessages.clear();
+            errorText = "This Bid has expired, please make a new one";
         }
-        oSubject.notifyObservers();    }
+        oSubject.notifyObservers();
+    }
 
 
     private MessageBidInfo convertObject(Message message) {

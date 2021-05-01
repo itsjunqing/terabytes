@@ -4,6 +4,7 @@ import api.BidApi;
 import api.ContractApi;
 import entity.DashboardStatus;
 import lombok.Getter;
+import model.CheckExpired;
 import observer.OSubject;
 import stream.Bid;
 import stream.Contract;
@@ -33,6 +34,12 @@ public class DashboardModel{
     }
 
     public void refresh() {
+        // do checks for all bids to see if any of them are expired
+        CheckExpired checkExpired = new CheckExpired();
+        for (Bid b : bidApi.getAllBids()) {
+            boolean bool = checkExpired.checkIsExpired(b);
+        }
+
         contractsList = contractApi.getAllContracts().stream()
                 .filter(c -> c.getFirstParty().getId().equals(user.getId())
                         || c.getSecondParty().getId().equals(user.getId()))
@@ -49,7 +56,13 @@ public class DashboardModel{
         refresh();
         System.out.println(currentBid);
         if (currentBid != null) {
-            return currentBid.getType().equalsIgnoreCase("Open")? DashboardStatus.OPEN: DashboardStatus.CLOSE;
+            CheckExpired checkExpired = new CheckExpired();
+            if (!checkExpired.checkIsExpired(currentBid)) {
+                return currentBid.getType().equalsIgnoreCase("Open")? DashboardStatus.OPEN: DashboardStatus.CLOSE;
+            }
+            else {
+                return DashboardStatus.PASS;
+            }
         } else if (contractsList.size() == 5) {
             return DashboardStatus.MAX;
         }
