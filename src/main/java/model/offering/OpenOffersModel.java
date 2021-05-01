@@ -51,8 +51,6 @@ public class OpenOffersModel extends BasicModel {
             openOffers.clear();
             expired = true;
         }
-        System.out.println("From OpenOfferModel (Refresh): myOffer = " + myOffer.toString());
-        System.out.println("From OpenOfferModel (Refresh): openOffers = " + openOffers.toString());
         oSubject.notifyObservers();
     }
 

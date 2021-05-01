@@ -52,7 +52,7 @@ public class OfferingView implements Observer {
     public void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         List<Bid> bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
-
+        offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
         System.out.println(bidList.size());
         System.out.println("size, look at me \n \n ");
         bidList.stream()
@@ -139,9 +139,8 @@ public class OfferingView implements Observer {
         int bidSize = bidList.size();
         for (Bid b: bidList) {
             // Code to generate an open contract panel
-            if (b.getType().equals("Open")) {
                 JPanel panel = new JPanel();
-                JTable table = getCloseTable(b, bidSize);
+                JTable table = getTable(b, bidSize);
                 bidSize -= 1;
                 resizeColumnWidth(table);
                 table.setBounds(10, 10, 500, 100);
@@ -154,44 +153,15 @@ public class OfferingView implements Observer {
                 gbc1.weightx = 1;
                 gbc1.fill = GridBagConstraints.HORIZONTAL;
                 mainList.add(panel, gbc1, 0);
-
-            } else {
-                JPanel panel = new JPanel();
-                JTable table = getOpenTable(b, bidSize);
-                bidSize -= 1;
-                resizeColumnWidth(table);
-                table.setBounds(10, 10, 500, 100);
-                panel.add(table);
-
-                panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
-                GridBagConstraints gbc1 = new GridBagConstraints();
-                gbc1.gridwidth = GridBagConstraints.REMAINDER;
-                gbc1.gridheight = 2;
-                gbc1.weightx = 1;
-                gbc1.fill = GridBagConstraints.HORIZONTAL;
-                mainList.add(panel, gbc1, 0);
-            }
         }
     }
 
-    private JTable getOpenTable(Bid bidObject, int bidNo) {
-        String[][] rec = {
-                {"Bid Type", "Open"},
-                {"Student Name:", bidObject.getInitiator().getGivenName() + " " + bidObject.getInitiator().getFamilyName()},
-                {"Subject:", bidObject.getSubject().getName()},
-                {"Number of Sessions:", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getNumberOfSessions())},
-                {"Day & Time:", bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDay() + " " + bidObject.getAdditionalInfo().getBidPreference().getPreferences().getTime()},
-                {"Duration (hours):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDuration())},
-                {"Rate (per hour):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getRate())},
-        };
-        String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-        return contractTable;
-    }
 
-    private JTable getCloseTable(Bid bidObject, int bidNo) {
+    private JTable getTable(Bid bidObject, int index) {
         String[][] rec = {
-                {"Bid Type", "Close"},
+                {"Bid Id", bidObject.getId()},
+                {"Bid Index", Integer.toString(index)},
+                {"Bid Type", bidObject.getType()},
                 {"Student Name:", bidObject.getInitiator().getGivenName() + " " + bidObject.getInitiator().getFamilyName()},
                 {"Subject:", bidObject.getSubject().getName()},
                 {"Number of Sessions:", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getNumberOfSessions())},
