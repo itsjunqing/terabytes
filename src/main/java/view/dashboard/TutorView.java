@@ -38,6 +38,7 @@ public class TutorView extends DashboardView {
     public void updateContent(){
         updateContracts();
         addButtons();
+        SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
 
     }

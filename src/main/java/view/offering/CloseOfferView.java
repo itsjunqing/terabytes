@@ -57,6 +57,7 @@ public class CloseOfferView implements Observer {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         updateView();
         updateButtons();
+        SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
     }
 

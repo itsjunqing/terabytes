@@ -63,7 +63,8 @@ public class OpenBidView implements Observer {
         int bidIndex = bidInfoList.size();
         updateView(bidInfoList, bid);
         updateButtons(bidIndex);
-//        frame.pack(); // TODO: Nick, try running student account with this uncommented, some issue here
+        SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
     }
 
     private void updateView(List<BidInfo> bidInfoList, Bid bid) {

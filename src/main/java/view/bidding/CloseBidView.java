@@ -62,6 +62,7 @@ public class CloseBidView implements Observer {
         int bidIndex = messageBidInfoList.size();
         updateView(messageBidInfoList, bid);
         updateButtons(bidIndex);
+        SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
     }
 

@@ -66,7 +66,8 @@ public class OpenOffersView implements Observer {
         // making the frames 
         updateView(otherBidInfo, myBidInfo, bid);
         updateButtons();
-//        frame.pack();
+        SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
     }
 
     private void updateView(List<BidInfo> otherBidInfo, BidInfo myBidInfo, Bid bid) {

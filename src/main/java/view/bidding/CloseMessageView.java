@@ -56,6 +56,7 @@ public class CloseMessageView implements Observer {
     private void updateContent() {
         updateView();
         updateButtons();
+        SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
 
     }
