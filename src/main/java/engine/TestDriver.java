@@ -1,5 +1,8 @@
 package engine;
 
+import controller.LoginController;
+import model.LoginModel;
+import view.LoginView;
 import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;
@@ -14,10 +17,10 @@ public class TestDriver {
         }
 
 
-        //Login model test
-//        LoginModel loginModel = new LoginModel();
-//        LoginView loginView = new LoginView();
-//        LoginController loginController = new LoginController(loginModel, loginView);
+//        Login model test
+        LoginModel loginModel = new LoginModel();
+        LoginView loginView = new LoginView();
+        LoginController loginController = new LoginController(loginModel, loginView);
     }
 
 
