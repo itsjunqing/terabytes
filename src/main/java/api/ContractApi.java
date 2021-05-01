@@ -4,7 +4,7 @@ import stream.Contract;
 
 import java.util.List;
 
-public class ContractApi extends BasicApi<Contract> implements ApiInterface<Contract> {
+public class ContractApi extends BasicApi<Contract> {
 
     private final String CONTRACT_ENDPOINT = "/contract";
     private final String SIGN_ENDPOINT = "/sign";

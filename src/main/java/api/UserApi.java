@@ -4,7 +4,7 @@ import stream.User;
 
 import java.util.List;
 
-public class UserApi extends BasicApi<User> implements ApiInterface<User> {
+public class UserApi extends BasicApi<User> {
 
     private final String USER_ENDPOINT = "/user";
     private final String USER_PARAMETERS = "?fields=competencies" +

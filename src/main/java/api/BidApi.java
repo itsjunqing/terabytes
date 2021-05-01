@@ -4,7 +4,7 @@ import stream.Bid;
 
 import java.util.List;
 
-public class BidApi extends BasicApi<Bid> implements ApiInterface<Bid> {
+public class BidApi extends BasicApi<Bid> {
 
     private final String BID_ENDPOINT = "/bid";
     private final String BID_PARAMETERS = "?fields=messages";

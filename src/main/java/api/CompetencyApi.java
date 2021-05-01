@@ -4,7 +4,7 @@ import stream.Competency;
 
 import java.util.List;
 
-public class CompetencyApi extends BasicApi<Competency> implements ApiInterface<Competency> {
+public class CompetencyApi extends BasicApi<Competency> {
 
     private final String COMPETENCY_ENDPOINT = "/competency";
 
@@ -32,4 +32,5 @@ public class CompetencyApi extends BasicApi<Competency> implements ApiInterface<
     public boolean remove(String id) {
         return deleteObject(COMPETENCY_ENDPOINT + "/" + id);
     }
+
 }

@@ -4,7 +4,7 @@ import stream.Subject;
 
 import java.util.List;
 
-public class SubjectApi extends BasicApi<Subject> implements ApiInterface<Subject> {
+public class SubjectApi extends BasicApi<Subject> {
 
     private final String SUBJECT_ENDPOINT = "/subject";
 

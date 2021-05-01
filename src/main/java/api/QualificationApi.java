@@ -4,7 +4,7 @@ import stream.Qualification;
 
 import java.util.List;
 
-public class QualificationApi extends BasicApi<Qualification> implements ApiInterface<Qualification> {
+public class QualificationApi extends BasicApi<Qualification> {
 
     private final String QUALIFICATION_ENDPOINT = "/qualification";
 

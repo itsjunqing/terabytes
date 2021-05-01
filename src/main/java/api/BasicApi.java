@@ -13,7 +13,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class BasicApi<T> {
+public abstract class BasicApi<T> implements ApiInterface<T> {
+
     private final String ROOT_URL = "https://fit3077.com/api/v1";
     private OkHttpClient httpClient;
     private Gson gson;

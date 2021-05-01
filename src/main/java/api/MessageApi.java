@@ -4,7 +4,7 @@ import stream.Message;
 
 import java.util.List;
 
-public class MessageApi extends BasicApi<Message> implements ApiInterface<Message> {
+public class MessageApi extends BasicApi<Message> {
 
     private final String MESSAGE_ENDPOINT = "/message";
 
