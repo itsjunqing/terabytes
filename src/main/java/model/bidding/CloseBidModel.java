@@ -1,16 +1,15 @@
 package model.bidding;
 
 
-import api.BidApi;
 import entity.BidInfo;
 import entity.BidPreference;
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import lombok.Setter;
-import model.factory.ContractFactory;
-import service.ApiService;
+import service.ObjectBuilder;
 import service.ExpiryService;
+import service.Service;
 import stream.Bid;
 import stream.Contract;
 import stream.Message;
@@ -24,33 +23,6 @@ import java.util.stream.Collectors;
 @Getter @Setter
 public class CloseBidModel extends BiddingModel {
 
-    /*
-    How this works:
-    1. Filter out to get the list of offers for close bid, provided by tutors
-    2. Take count = number of close bid offers
-    3. Based on this count, we try to map each close bid message (by tutor) to a message (by student)
-       Case 3a: If there is a message by student, then construct the pair:
-        - with the student's message
-        - with tutor's message
-
-        Case 3b: If there is no message by student, then construct the pair:
-        - without the student's message
-        - with tutor's message
-
-       Note: all messages will be patched rather than add into the list, ensuring no duplication of messages
-
-    What is inside:
-    closeBidOffers: contains the bidInfos (of Message) to be displayed in CloseBidView
-    closeBidMessages: contains the bidInfo (of Message) to be displayed in ViewOffer (for both student and tutor)
-
-    Note that, size(closeBidOffers) = size(closeBidMessages)
-    - closeBidOffers.get(0) = closeBidMessages.get(0).getTutorMsg
-    - closeBidOffers.get(1) = closeBidMessages.get(1).getTutorMsg
-    - ..
-    This allows us to map which view offer is selected in the view, to obtain the corresponding message pair
-    Eg: Student press "View Offer 1", then it gets the closeBidMessages.get(0).getTutorMsg
-     */
-
     private List<MessageBidInfo> closeBidOffers;
     private List<MessagePair> closeBidMessages;
 
@@ -60,13 +32,9 @@ public class CloseBidModel extends BiddingModel {
      * @param bp
      */
     public CloseBidModel(String userId, BidPreference bp) {
-        super();
-        Bid bidCreated = createBid(userId, bp, "Close");
-        this.bidId = bidCreated.getId(); // set ID for future references
-        this.userId = userId;
-        this.closeBidOffers = new ArrayList<>();
-        this.closeBidMessages = new ArrayList<>();
-        refresh();
+        Bid bidCreated = ObjectBuilder.buildBid(userId, bp, "Close");
+        Service.bidApi.add(bidCreated);
+        initModel(userId, bidCreated);
     }
 
     /**
@@ -74,9 +42,12 @@ public class CloseBidModel extends BiddingModel {
      * @param userId
      */
     public CloseBidModel(String userId) {
-        super();
         Bid existingBid = extractBid(userId, "Close");
-        this.bidId = existingBid.getId();
+        initModel(userId, existingBid);
+    }
+
+    private void initModel(String userId, Bid bid) {
+        this.bidId = bid.getId();
         this.userId = userId;
         this.closeBidOffers = new ArrayList<>();
         this.closeBidMessages = new ArrayList<>();
@@ -88,7 +59,7 @@ public class CloseBidModel extends BiddingModel {
         closeBidOffers.clear();
         closeBidMessages.clear();
 
-        Bid bid = apiService.getBidApi().get(bidId);
+        Bid bid = Service.bidApi.get(bidId);
         ExpiryService expiryService = new ExpiryService();
         // check if the bid is expired, if the bid is expired, then remove the bid,
         // return an empty list, and update the error text
@@ -166,17 +137,17 @@ public class CloseBidModel extends BiddingModel {
         // If Student has sent not sent a Message, construct a new Message
         if (studentMsgId == null) {
             Message message = new Message(bidId, userId, new Date(), stringMsg, info);
-            apiService.getMessageApi().add(message);
+            Service.messageApi.add(message);
         // If Student has sent a Message before, edit the Message
         } else {
             Message message = new Message(stringMsg, info);
-            apiService.getMessageApi().patch(studentMsgId, message);
+            Service.messageApi.patch(studentMsgId, message);
         }
     }
 
     public MessagePair viewMessage(int selection){
         ExpiryService expiryService = new ExpiryService();
-        if (!expiryService.checkIsExpired(apiService.getBidApi().get(userId))){
+        if (!expiryService.checkIsExpired(Service.bidApi.get(userId))){
             return closeBidMessages.get(selection-1);
         }
         else{
@@ -192,10 +163,9 @@ public class CloseBidModel extends BiddingModel {
         markBidClose();
         System.out.println("From OpenBidController: Selected offer = " + bidInfo.toString());
         // change to to usage of contract factory
-        ContractFactory contractFactory = new ContractFactory();
         ExpiryService expiryService = new ExpiryService();
         if (!expiryService.checkIsExpired(currentBid)){
-            return contractFactory.createContract(currentBid, bidInfo);
+            return ObjectBuilder.buildContract(currentBid, bidInfo);
         }
         else {
             errorLabel = "This Bid has expired, please close this window";
@@ -204,6 +174,32 @@ public class CloseBidModel extends BiddingModel {
         }
     }
 
+        /*
+    How this works:
+    1. Filter out to get the list of offers for close bid, provided by tutors
+    2. Take count = number of close bid offers
+    3. Based on this count, we try to map each close bid message (by tutor) to a message (by student)
+       Case 3a: If there is a message by student, then construct the pair:
+        - with the student's message
+        - with tutor's message
+
+        Case 3b: If there is no message by student, then construct the pair:
+        - without the student's message
+        - with tutor's message
+
+       Note: all messages will be patched rather than add into the list, ensuring no duplication of messages
+
+    What is inside:
+    closeBidOffers: contains the bidInfos (of Message) to be displayed in CloseBidView
+    closeBidMessages: contains the bidInfo (of Message) to be displayed in ViewOffer (for both student and tutor)
+
+    Note that, size(closeBidOffers) = size(closeBidMessages)
+    - closeBidOffers.get(0) = closeBidMessages.get(0).getTutorMsg
+    - closeBidOffers.get(1) = closeBidMessages.get(1).getTutorMsg
+    - ..
+    This allows us to map which view offer is selected in the view, to obtain the corresponding message pair
+    Eg: Student press "View Offer 1", then it gets the closeBidMessages.get(0).getTutorMsg
+     */
 
     /*
     OLD CODE

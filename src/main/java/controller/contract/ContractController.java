@@ -10,11 +10,8 @@ public class ContractController {
 
     private ContractModel contractModel;
     private ContractView contractView; // replace this with ContractView
-    private String contractId;
-
 
     public ContractController(Contract contract) {
-        this.contractId = contractId;
         this.contractModel = new ContractModel(contract);
         this.contractView = new ContractView(contractModel);
         listenViewActions();

@@ -2,9 +2,9 @@ package model.offering;
 
 import entity.BidPreference;
 import lombok.Getter;
-import observer.OSubject;
-import service.ApiService;
+import model.BasicModel;
 import service.ExpiryService;
+import service.Service;
 import stream.Bid;
 import stream.User;
 
@@ -12,55 +12,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class OfferingModel extends OSubject {
+public class OfferingModel extends BasicModel {
 
-    private String userId;
-    private ApiService apiService;
     private List<Bid> bidsOnGoing;
-    public OSubject oSubject;
 //    private boolean expired;
-
 //    protected String errorText;
-
 
     public OfferingModel(String userId) {
         this.userId = userId;
-        this.apiService = new ApiService();
         this.bidsOnGoing = new ArrayList<>();
-        this.oSubject = new OSubject();
 //        this.expired = false;
-
     }
 
     public void refresh() {
-        // TODO: Nick, pls verify the logic to see if there is any missing requirement
-
         bidsOnGoing.clear(); // for memory cleaning
-        User currentUser = apiService.getUserApi().get(userId);
-        List<Bid> bids = apiService.getBidApi().getAll();
+        User currentUser = Service.userApi.get(userId);
+        List<Bid> bids = Service.bidApi.getAll();
         ExpiryService expiryService = new ExpiryService();
         for (Bid b: bids) {
-            boolean bidIsClosed = b.getDateClosedDown() != null;
-            if (!bidIsClosed) {
-                //   will check if bid is expired  either remove them
-                //   (or create a contract if its a open bid and is expired)
-                //   returns false if bid is not expired
-                if (!expiryService.checkIsExpired(b)){
-                    BidPreference bp = b.getAdditionalInfo().getBidPreference();
-                    boolean hasQualification = currentUser.getQualifications().stream()
-                            .anyMatch(q -> q.getTitle().equals(bp.getQualification().toString()));
+            if (!expiryService.checkIsExpired(b)) {
+                BidPreference bp = b.getAdditionalInfo().getBidPreference();
+                boolean hasQualification = currentUser.getQualifications().stream()
+                        .anyMatch(q -> q.getTitle().equals(bp.getQualification().toString()));
 
-                    // Bonus mark on checking 2 levels higher for competency requirement
-                    boolean hasCompetency = currentUser.getCompetencies().stream()
-                            .anyMatch(c -> c.getLevel() - 2 >= bp.getCompetency()
-                                    && c.getSubject().getName().equals(bp.getSubject()));
-                    if (hasQualification && hasCompetency) {
-                        bidsOnGoing.add(b);
-                    }
+                // Bonus mark on checking 2 levels higher for competency requirement
+                boolean hasCompetency = currentUser.getCompetencies().stream()
+                        .anyMatch(c -> c.getLevel() - 2 >= bp.getCompetency()
+                                && c.getSubject().getName().equals(bp.getSubject()));
+                if (hasQualification && hasCompetency) {
+                    bidsOnGoing.add(b);
                 }
             }
         }
-        notifyObservers();
+        oSubject.notifyObservers();
     }
 
 }

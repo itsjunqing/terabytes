@@ -4,9 +4,9 @@ import entity.BidInfo;
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
-import observer.OSubject;
-import service.ApiService;
+import model.BasicModel;
 import service.ExpiryService;
+import service.Service;
 import stream.Bid;
 import stream.Message;
 import stream.MessageAdditionalInfo;
@@ -14,24 +14,21 @@ import stream.MessageAdditionalInfo;
 import java.util.Date;
 
 @Getter
-public class CloseOffersModel extends OSubject {
+public class CloseOffersModel extends BasicModel {
 
-    private String userId;
     private String bidId;
-    private ApiService apiService;
     private MessagePair messagePair;
     private boolean expired;
 
     public CloseOffersModel(String userId, String bidId) {
         this.userId = userId;
         this.bidId = bidId;
-        this.apiService = new ApiService();
     	this.expired = false;
         refresh();
     }
 
     public void refresh() {
-        Bid bid = apiService.getBidApi().get(bidId);
+        Bid bid = Service.bidApi.get(bidId);
         BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
         ExpiryService expiryService = new ExpiryService();
         if (!expiryService.checkIsExpired(bid)){
@@ -73,7 +70,7 @@ public class CloseOffersModel extends OSubject {
         else {
             expired = true;
         }
-        notifyObservers();
+        oSubject.notifyObservers();
 
     }
 
@@ -87,10 +84,10 @@ public class CloseOffersModel extends OSubject {
         String tutorMsgId = messagePair.getStudentMsgId();
         if (tutorMsgId == null) {
             Message message = new Message(bidId, userId, new Date(), messageBidInfo.getContent(), convertObject(messageBidInfo));
-            apiService.getMessageApi().add(message);
+            Service.messageApi.add(message);
         } else {
             Message message = new Message(messageBidInfo.getContent(), convertObject(messageBidInfo));
-            apiService.getMessageApi().patch(tutorMsgId, message);
+            Service.messageApi.patch(tutorMsgId, message);
         }
     }
 

@@ -2,9 +2,9 @@ package model.offering;
 
 import entity.BidInfo;
 import lombok.Getter;
-import observer.OSubject;
-import service.ApiService;
+import model.BasicModel;
 import service.ExpiryService;
+import service.Service;
 import stream.Bid;
 import stream.BidAdditionalInfo;
 import stream.User;
@@ -13,11 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class OpenOffersModel extends OSubject {
+public class OpenOffersModel extends BasicModel {
 
-    private String userId;
     private String bidId;
-    private ApiService apiService;
     private BidInfo myOffer;
     private List<BidInfo> openOffers;
     private boolean expired;
@@ -25,7 +23,6 @@ public class OpenOffersModel extends OSubject {
     public OpenOffersModel(String userId, String bidId) {
         this.userId = userId;
         this.bidId = bidId;
-        this.apiService = new ApiService();
         this.openOffers = new ArrayList<>();
         this.expired = false;
         refresh();
@@ -33,7 +30,7 @@ public class OpenOffersModel extends OSubject {
 
     public void refresh() {
         openOffers.clear();
-        Bid bid = apiService.getBidApi().get(bidId);
+        Bid bid = Service.bidApi.get(bidId);
         List<BidInfo> offers = bid.getAdditionalInfo().getBidOffers();
         System.out.println("From OpenOfferModel Refreshing..");
         ExpiryService expiryService = new ExpiryService();
@@ -56,21 +53,21 @@ public class OpenOffersModel extends OSubject {
         }
         System.out.println("From OpenOfferModel (Refresh): myOffer = " + myOffer.toString());
         System.out.println("From OpenOfferModel (Refresh): openOffers = " + openOffers.toString());
-        notifyObservers();
+        oSubject.notifyObservers();
     }
 
     public Bid getBid() {
-        return apiService.getBidApi().get(bidId);
+        return Service.bidApi.get(bidId);
     }
 
 
     public String getUserName(String Id){
-        User user = apiService.getUserApi().get(Id);
+        User user = Service.userApi.get(Id);
         return user.getGivenName() + " " + user.getFamilyName();
     }
 
     public void sendOffer(BidInfo bidInfo) {
-        BidAdditionalInfo info = apiService.getBidApi().get(bidId).getAdditionalInfo();
+        BidAdditionalInfo info = Service.bidApi.get(bidId).getAdditionalInfo();
         BidInfo currentBidInfo = info.getBidOffers().stream()
                                     .filter(i -> i.getInitiatorId().equals(userId))
                                     .findFirst()
@@ -80,7 +77,7 @@ public class OpenOffersModel extends OSubject {
             info.getBidOffers().remove(currentBidInfo);
         }
         info.getBidOffers().add(bidInfo);
-        apiService.getBidApi().patch(bidId, new Bid(info));
+        Service.bidApi.patch(bidId, new Bid(info));
     }
 
 }

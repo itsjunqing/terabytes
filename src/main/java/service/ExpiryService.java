@@ -1,26 +1,80 @@
 package service;
 
-import api.BidApi;
-import api.ContractApi;
 import entity.BidInfo;
-import stream.*;
+import stream.Bid;
+import stream.Contract;
 
-import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class ExpiryService {
 
-    private BidApi bidApi;
-    private ContractApi contractApi;
+    private ApiService apiService;
 
     public ExpiryService(){
-        this.bidApi = new BidApi();
-        this.contractApi = new ContractApi();
+        this.apiService = new ApiService();
     }
 
+    /**
+     * Returns true if a Bid is expired or closed down
+     * @param bid
+     * @return
+     */
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean checkIsExpired(Bid bid){
+        if (bid.getDateClosedDown() != null) {
+            System.out.println("From ExpiryService: Bid is Closed Down");
+            return true;
+        }
+        if (!bidIsExpired(bid)) {
+            System.out.println("From ExpiryService: Bid is Not Expired, to be displayed on View..");
+            return false;
+        }
+        if (bid.getType().equals("Open")) {
+            System.out.println("From ExpiryService: Bid is a Open Bid + Expired + Closing it..");
+            List<BidInfo> offers = bid.getAdditionalInfo().getBidOffers();
+
+            if (offers.size() > 0) {
+                System.out.println("From ExpiryService: Bid is a Has Offer + creating Contract..");
+                BidInfo lastBidInfo = offers.get(offers.size()-1);
+                Contract contract = ObjectBuilder.buildContract(bid, lastBidInfo);
+                apiService.getContractApi().add(contract);
+            } else {
+                System.out.println("From ExpiryService: Bid has No Offer + doing nothing..");
+            }
+        } else {
+            System.out.println("From ExpiryService: Bid is a Close Bid + Expired + Closing it..");
+        }
+        apiService.getBidApi().close(bid.getId(), new Bid(new Date()));
+        return true;
+
+
+    }
+
+    private boolean bidIsExpired(Bid bid) {
+        Date then = bid.getDateCreated();
+        Date now = new Date();
+        long difference = now.getTime() - then.getTime();
+        long minuteDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
+        long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
+        if (bid.getType().equals("Open") ) {
+            return minuteDifference > 30;
+        } else {
+            return dayDifference > 7;
+        }
+    }
+
+
+
+
+
+    /*
+
+
+    OLD CODE
+
+
         // if not closed
         if (bid.getDateClosedDown() == null) {
             System.out.println("Bid is not closed down");
@@ -28,7 +82,7 @@ public class ExpiryService {
             if (bid.getType().equals("Open")) {
                 System.out.println("Bid is Open bid");
                 // if is expired
-                if (isExpired(bid)) {
+                if (bidIsExpired(bid)) {
                     System.out.println("Bid expired");
                     // if has offer, get latest offer
                     if (hasOffer(bid)) {
@@ -61,7 +115,6 @@ public class ExpiryService {
                     // if no offer, close
                     else {
                         System.out.println("Bid has no offer");
-                // TODO: need to add new Bid(new Date()) to close the bid with a date, we'll change this when we're ready to run full-program
                         bidApi.close(bid.getId(), bid);
                         return true;
 
@@ -75,9 +128,8 @@ public class ExpiryService {
             else {
                 System.out.println("Bid is a closed bid");
                 // if is expired, close bid
-                if (isExpired(bid)) {
+                if (bidIsExpired(bid)) {
                     System.out.println("Bid is expired");
-            // TODO: need to add new Bid(new Date()) to close the bid with a date, we'll change this when we're ready to run full-program
                     bidApi.close(bid.getId(), bid);
                     return true;
                     // close bid
@@ -88,24 +140,5 @@ public class ExpiryService {
             }
         }
         return false;
-    }
-
-    private boolean isExpired(Bid bid){
-        Date then = bid.getDateCreated();
-        Date now = new Date();
-        long difference = now.getTime() - then.getTime();
-        long minuteDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
-        long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
-        if (bid.getType().equals("Open") ) {
-            return minuteDifference > 30;
-        } else {
-            return dayDifference > 7;
-        }
-    }
-    // true if has offer, false otherwise
-    private boolean hasOffer(Bid bid) {
-        return bid.getAdditionalInfo().getBidOffers().size() != 0;
-    }
-
-
+     */
 }

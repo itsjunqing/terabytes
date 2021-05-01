@@ -1,7 +1,6 @@
 package entity;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor
