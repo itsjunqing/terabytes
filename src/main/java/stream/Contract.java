@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Date;
 
 @Getter
-public class Contract extends Stream {
+public class Contract {
     private String id;
 
     private User firstParty;

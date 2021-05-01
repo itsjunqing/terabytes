@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Getter
-public class Bid extends Stream {
+public class Bid {
     private String id;
     private String type;
     private User initiator;

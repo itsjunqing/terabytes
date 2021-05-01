@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Date;
 
 @Getter
-public class Message extends Stream {
+public class Message {
     /*
     How this work:
     1) Student send Message to tutor, can only send a String message, so:

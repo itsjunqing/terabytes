@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class Subject extends Stream {
+public class Subject {
     private String id;
     private String name;
     private String description;

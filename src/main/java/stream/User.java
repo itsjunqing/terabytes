@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class User extends Stream {
+public class User {
     private String id;
     private String givenName;
     private String familyName;
