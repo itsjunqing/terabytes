@@ -29,7 +29,6 @@ public class ContractModel {
                 this.contract = c;
             }
         };
-
     }
 
     public void createContract(Contract contract) {

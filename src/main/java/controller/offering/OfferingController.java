@@ -41,30 +41,4 @@ public class OfferingController {
         }
     }
 
-
-
-    public void listenToReply() {
-        // create reply view -> extract info from view -> create BidMessageInfo -> post to Message API
-        // view must provide info on which bid did tutor selected
-        // close reply view after this function ends
-
-        int bidIndexOnDisplay = -1;
-
-        String tutorId = "-1";
-        String time = "-1";
-        String day = "Saturday";
-        int duration = 1;
-        int rate = 10;
-        int numberOfSessions = 2;
-        boolean freeLesson = true;
-        int contractDuration = 4;
-        String parsedMessage = "I am a pro tutor";
-//        BidInfo bidInfo = new BidInfo(tutorId, time, day, duration, rate, numberOfSessions, contractDuration,
-//                parsedMessage, freeLesson);
-//
-//        offeringModel.sendMessage(bidIndexOnDisplay, bidInfo);
-    }
-
-
-
 }

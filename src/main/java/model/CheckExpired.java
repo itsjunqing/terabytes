@@ -10,8 +10,8 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class CheckExpired {
-    BidApi bidApi;
-    ContractApi contractApi;
+    private BidApi bidApi;
+    private ContractApi contractApi;
     public CheckExpired(){
         this.bidApi = new BidApi();
         this.contractApi = new ContractApi();

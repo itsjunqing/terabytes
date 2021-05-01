@@ -1,6 +1,7 @@
 package model.offering;
 
 import api.BidApi;
+import api.MessageApi;
 import entity.BidInfo;
 import entity.MessageBidInfo;
 import entity.MessagePair;
@@ -11,12 +12,15 @@ import stream.Bid;
 import stream.Message;
 import stream.MessageAdditionalInfo;
 
+import java.util.Date;
+
 @Data
 public class CloseOffersModel {
 
     private String userId;
     private String bidId;
     private BidApi bidApi;
+    private MessageApi messageApi;
     private MessagePair messagePair;
     public OSubject oSubject;
     protected String errorText;
@@ -27,6 +31,7 @@ public class CloseOffersModel {
         this.userId = userId;
         this.bidId = bidId;
     	this.bidApi = new BidApi();
+    	this.messageApi = new MessageApi();
         this.errorText = "";
         oSubject = new OSubject();
 
@@ -79,36 +84,23 @@ public class CloseOffersModel {
         oSubject.notifyObservers();
     }
 
+    private MessageAdditionalInfo convertObject(MessageBidInfo messageBidInfo) {
+        return new MessageAdditionalInfo(messageBidInfo.getInitiatorId(), messageBidInfo.getDay(), messageBidInfo.getTime(),
+                messageBidInfo.getDuration(), messageBidInfo.getRate(), messageBidInfo.getNumberOfSessions(),
+                messageBidInfo.isFreeLesson());
+    }
+
     public void sendMessage(MessageBidInfo messageBidInfo) {
-        // TODO: similar to bottom
         String tutorMsgId = messagePair.getStudentMsgId();
         if (tutorMsgId == null) {
-//            Message message = new Message(messageBidInfo.getContent(), )
-            // convert messageBidInfo to MessageAdditionalInfo
-            // create Message object
-            // add message to api
+            Message message = new Message(bidId, userId, new Date(), messageBidInfo.getContent(), convertObject(messageBidInfo));
+            messageApi.addMessage(message);
         } else {
-            // convert messageBidInfo to MessageAdditionalInfo
-            // create Message object
-            // patch message to api
+            Message message = new Message(messageBidInfo.getContent(), convertObject(messageBidInfo));
+            messageApi.patchMessage(tutorMsgId, message);
         }
-
-
-//
-//
-//        BidAdditionalInfo info = bidApi.getBid(bidId).getAdditionalInfo();
-//        BidInfo currentBidInfo = info.getBidOffers().stream()
-//                .filter(i -> i.getInitiatorId().equals(userId))
-//                .findFirst()
-//                .orElse(null);
-//        // if the tutor has provided an offer before, remove the offer
-//        if (currentBidInfo != null) {
-//            info.getBidOffers().remove(currentBidInfo);
-//        }
-//        info.getBidOffers().add(bidInfo);
-//        bidApi.patchBid(bidId, new Bid(info));
-
     }
+
     public void setErrorText(String errorText){
         this.errorText = errorText;
     }

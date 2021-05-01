@@ -39,7 +39,6 @@ public class CloseOffersController {
         try {
             MessageBidInfo messageBidInfo = extractCloseReplyInfo(closeReply);
             System.out.println("Extracted: " + messageBidInfo);
-
             closeReply.dispose();
             closeOffersModel.sendMessage(messageBidInfo);
 

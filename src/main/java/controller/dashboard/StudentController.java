@@ -55,20 +55,7 @@ public class StudentController extends DashboardController {
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }
-
                 OpenBidController openBidController = new OpenBidController(dashboardModel.getUserId());
-
-                /*
-                 * Old code, you may delete if you wish, keeping cause you might wanna see the old code
-                 *
-                    OpenBidController openBidController = new OpenBidController();
-                    OpenBidModel openBidModel = new OpenBidModel();
-                    openBidModel.lookForBid(dashboardModel.getUserId());
-                    openBidModel.refresh();
-                    OpenBidView openBidView = new OpenBidView(openBidModel);
-                    BiddingController biddingController = new BiddingController(openBidModel, openBidView);
-                */
-
                 break;
 
             case CLOSE:
@@ -78,18 +65,7 @@ public class StudentController extends DashboardController {
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }
-
                 CloseBidController closeBidController = new CloseBidController(dashboardModel.getUserId());
-
-                /*
-                 * Old code, you may delete if you wish, keeping cause you might wanna see the old code
-                 *
-                    CloseBidModel closebidModel = new CloseBidModel();
-                    closebidModel.lookForBid(dashboardModel.getUserId());
-                    closebidModel.refresh();
-                    CloseBidView closeBidView = new CloseBidView(closebidModel);
-                    BiddingController biddingController = new BiddingController(closebidModel, closeBidView);
-                */
                 break;
 
             case PASS:
@@ -108,9 +84,7 @@ public class StudentController extends DashboardController {
         try {
             BidPreference bp = extractFormInfo(form);
             System.out.println("Extracted: " + bp);
-
             form.dispose();
-
             OpenBidController openBidController = new OpenBidController(dashboardModel.getUserId(), bp);
 
         } catch (NullPointerException exception) {
@@ -122,9 +96,7 @@ public class StudentController extends DashboardController {
         try {
             BidPreference bp = extractFormInfo(form);
             System.out.println("Extracted: " + bp);
-
             form.dispose();
-
             CloseBidController closeBidController = new CloseBidController(dashboardModel.getUserId(), bp);
 
         } catch (NullPointerException exception) {
