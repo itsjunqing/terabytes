@@ -5,6 +5,7 @@ import entity.MessageBidInfo;
 import entity.MessagePair;
 import model.bidding.CloseBidModel;
 import stream.Bid;
+import stream.Contract;
 import stream.Message;
 import view.bidding.CloseBidView;
 import view.bidding.CloseMessageView;
@@ -83,12 +84,23 @@ public class CloseBidController extends BiddingController {
     private void handleOfferSelection(ActionEvent e) {
         System.out.println("From CloseBidController: Offer selection is clicked");
         int selection = closeBidView.getOfferSelection();
-        Bid currentBid = closeBidModel.getBid();
-        MessageBidInfo messageBidInfo = closeBidModel.getCloseBidOffers().get(selection-1);
-        System.out.println("From CloseBidController: Selected offer = " + messageBidInfo.toString());
-        closeBidModel.markBidClose(); // mark bid as close
-        createContract(currentBid, messageBidInfo); // create contract
-        closeBidView.dispose(); // remove view after select offer
+        Contract contract = closeBidModel.offerSelection(selection);
+        if (contract != null){
+            handleContract(contract);
+            closeBidView.dispose();
+        }
+        else {;
+        }
+
+
+//        System.out.println("From CloseBidController: Offer selection is clicked");
+//        int selection = closeBidView.getOfferSelection();
+//        Bid currentBid = closeBidModel.getBid();
+//        MessageBidInfo messageBidInfo = closeBidModel.getCloseBidOffers().get(selection-1);
+//        System.out.println("From CloseBidController: Selected offer = " + messageBidInfo.toString());
+//        closeBidModel.markBidClose(); // mark bid as close
+//        createContract(currentBid, messageBidInfo); // create contract
+//        closeBidView.dispose(); // remove view after select offer
     }
 
 
