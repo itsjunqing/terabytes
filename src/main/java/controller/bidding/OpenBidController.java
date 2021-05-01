@@ -57,6 +57,7 @@ public class OpenBidController extends BiddingController {
         Contract contract = openBidModel.offerSelection(selection);
         if (contract != null){
             handleContract(contract);
+            openBidView.dispose();
         }
         else {;
         }

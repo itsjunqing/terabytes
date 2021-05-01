@@ -8,9 +8,11 @@ import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import lombok.Setter;
+import model.factory.ContractFactory;
 import service.ApiService;
 import service.ExpiryService;
 import stream.Bid;
+import stream.Contract;
 import stream.Message;
 import stream.MessageAdditionalInfo;
 
@@ -179,6 +181,24 @@ public class CloseBidModel extends BiddingModel {
         }
         else{
             errorLabel = "Bid had been closed down, please close the window";
+            oSubject.notifyObservers();
+            return null;
+        }
+    }
+
+    public Contract offerSelection(int selection){
+        Bid currentBid = getBid();
+        BidInfo bidInfo = getCloseBidOffers().get(selection-1);
+        markBidClose();
+        System.out.println("From OpenBidController: Selected offer = " + bidInfo.toString());
+        // change to to usage of contract factory
+        ContractFactory contractFactory = new ContractFactory();
+        ExpiryService expiryService = new ExpiryService();
+        if (!expiryService.checkIsExpired(currentBid)){
+            return contractFactory.createContract(currentBid, bidInfo);
+        }
+        else {
+            errorLabel = "This Bid has expired, please close this window";
             oSubject.notifyObservers();
             return null;
         }
