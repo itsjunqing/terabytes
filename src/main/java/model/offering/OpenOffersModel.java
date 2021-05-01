@@ -3,7 +3,7 @@ package model.offering;
 import api.BidApi;
 import api.UserApi;
 import entity.BidInfo;
-import lombok.Data;
+import lombok.Getter;
 import model.CheckExpired;
 import observer.OSubject;
 import stream.Bid;
@@ -13,7 +13,7 @@ import stream.User;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
 public class OpenOffersModel extends OSubject {
 
     private String userId;
@@ -22,8 +22,7 @@ public class OpenOffersModel extends OSubject {
     private UserApi userApi;
     private BidInfo myOffer;
     private List<BidInfo> openOffers;
-//    public OSubject oSubject;
-    protected String errorText;
+    private boolean expired;
 
     public OpenOffersModel(String userId, String bidId) {
         this.userId = userId;
@@ -31,8 +30,7 @@ public class OpenOffersModel extends OSubject {
         this.bidApi = new BidApi();
         this.userApi = new UserApi();
         this.openOffers = new ArrayList<>();
-        this.errorText = "";
-//        oSubject = new OSubject();
+        this.expired = false;
         refresh();
     }
 
@@ -40,7 +38,7 @@ public class OpenOffersModel extends OSubject {
         openOffers.clear();
         Bid bid = bidApi.getBid(bidId);
         List<BidInfo> offers = bid.getAdditionalInfo().getBidOffers();
-
+        System.out.println("From OpenOfferModel Refreshing..");
         CheckExpired checkExpired = new CheckExpired();
         // if bid has expired, close down the bid
         if (!checkExpired.checkIsExpired(bid)){
@@ -55,12 +53,13 @@ public class OpenOffersModel extends OSubject {
             }
         }
         else{
-            this.openOffers.clear();
-            errorText = "Bid has expired, please pick another one";
+            myOffer = null;
+            openOffers.clear();
+            expired = true;
         }
-//        oSubject.notifyObservers();
+        System.out.println("From OpenOfferModel (Refresh): myOffer = " + myOffer.toString());
+        System.out.println("From OpenOfferModel (Refresh): openOffers = " + openOffers.toString());
         notifyObservers();
-
     }
 
     public Bid getBid() {
@@ -88,9 +87,6 @@ public class OpenOffersModel extends OSubject {
         }
         info.getBidOffers().add(bidInfo);
         bidApi.patchBid(bidId, new Bid(info));
-    }
-    public void setErrorText(String errorText){
-        this.errorText = errorText;
     }
 
 }

@@ -106,13 +106,13 @@ public class BasicApi<T> {
             String json = response.body().string();
             System.out.println(json);
             if (response.isSuccessful()) {
-                System.out.println("SUCCESSFULLY GET");
+                System.out.println("From BasicApi: Successfully GET");
                 return gson.fromJson(json, clazz);
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
-        System.out.println("FAILED GET");
+        System.out.println("From BasicApi: Failed GET");
         return null;
     }
 
@@ -122,13 +122,13 @@ public class BasicApi<T> {
             String json = response.body().string();
             System.out.println(json);
             if (response.isSuccessful()) {
-                System.out.println("SUCCESSFULLY POST");
+                System.out.println("From BasicApi: Successfully POST");
                 return gson.fromJson(json, clazz);
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
-        System.out.println("FAILED POST");
+        System.out.println("From BasicApi: Failed POST");
         return null;
     }
 
@@ -138,13 +138,13 @@ public class BasicApi<T> {
             System.out.println(gson.toJson(object));
             System.out.println(response.body().string());
             if (response.isSuccessful()) {
-                System.out.println("SUCCESSFULLY POST");
+                System.out.println("From BasicApi: Successfully POST");
                 return true;
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
-        System.out.println("FAILED POST");
+        System.out.println("From BasicApi: Failed POST");
         return false;
     }
 
@@ -166,12 +166,13 @@ public class BasicApi<T> {
             System.out.println(response.body().string());
             if (response.isSuccessful()) {
                 System.out.println("SUCCESSFULLY PATCH");
+                System.out.println("From BasicApi: Successfully PATCH");
                 return true;
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
-        System.out.println("FAILED PATCH");
+        System.out.println("From BasicApi: Failed PATCH");
         return false;
     }
 }

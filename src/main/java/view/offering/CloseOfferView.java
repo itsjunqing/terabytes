@@ -266,7 +266,11 @@ public class CloseOfferView implements Observer {
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText(closeOffersModel.getErrorText());
+        if (closeOffersModel.isExpired()) {
+            errorLabel.setText("Bid has expired, please pick another one");
+        } else {
+            errorLabel.setText(""); // TODO: do we need this? or can remove it?
+        }
         panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));

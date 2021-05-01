@@ -187,7 +187,11 @@ public class CloseBidView implements Observer {
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText(closeBidModel.getErrorText());
+        if (closeBidModel.isExpired()) {
+            errorLabel.setText("This Bid has expired, please make a new one");
+        } else {
+            errorLabel.setText("");
+        }
         panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));

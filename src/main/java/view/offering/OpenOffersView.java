@@ -66,7 +66,7 @@ public class OpenOffersView implements Observer {
         // making the frames 
         updateView(otherBidInfo, myBidInfo, bid);
         updateButtons();
-        frame.pack();
+//        frame.pack();
     }
 
     private void updateView(List<BidInfo> otherBidInfo, BidInfo myBidInfo, Bid bid) {
@@ -101,7 +101,6 @@ public class OpenOffersView implements Observer {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
         Collections.reverse(otherBidInfo);
-        int bidIndex = otherBidInfo.size();
         for (BidInfo b : otherBidInfo) {
             // Code to add open bid panel
             JPanel panel = new JPanel();
@@ -225,7 +224,7 @@ public class OpenOffersView implements Observer {
                 Component comp = table.prepareRenderer(renderer, row, column);
                 width = Math.max(comp.getPreferredSize().width +1 , width);
             }
-            System.out.println(width);
+//            System.out.println(width);
             if(width > 300)
                 width=300;
             if(width < 200)
@@ -269,7 +268,11 @@ public class OpenOffersView implements Observer {
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText(openOffersModel.getErrorText());
+        if (openOffersModel.isExpired()) {
+            errorLabel.setText("Bid has expired, please pick another one");
+        } else {
+            errorLabel.setText(""); // TODO: do we need this? or can remove it?
+        }
         panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));

@@ -4,7 +4,6 @@ import api.BidApi;
 import api.UserApi;
 import entity.BidPreference;
 import lombok.Getter;
-import lombok.Setter;
 import model.CheckExpired;
 import observer.OSubject;
 import stream.Bid;
@@ -13,15 +12,16 @@ import stream.User;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
+@Getter
 public class OfferingModel extends OSubject {
 
     private String userId;
     private UserApi userApi;
     private BidApi bidApi;
     private List<Bid> bidsOnGoing;
+//    private boolean expired;
 //    public OSubject oSubject;
-    protected String errorText;
+//    protected String errorText;
 
 
     public OfferingModel(String userId) {
@@ -29,9 +29,7 @@ public class OfferingModel extends OSubject {
         this.userApi = new UserApi();
         this.bidApi = new BidApi();
         this.bidsOnGoing = new ArrayList<>();
-        this.errorText = "";
-
-//        oSubject = new OSubject();
+//        this.expired = false;
 
     }
 
@@ -63,12 +61,7 @@ public class OfferingModel extends OSubject {
                 }
             }
         }
-//        oSubject.notifyObservers();
         notifyObservers();
-
-    }
-    public void setErrorText(String errorText){
-        this.errorText = errorText;
     }
 
 }

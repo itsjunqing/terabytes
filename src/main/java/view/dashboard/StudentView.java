@@ -111,7 +111,7 @@ public class StudentView extends DashboardView {
                 Component comp = table.prepareRenderer(renderer, row, column);
                 width = Math.max(comp.getPreferredSize().width +1 , width);
             }
-            System.out.println(width);
+            System.out.println(width); // TODO: remark
             if(width > 300)
                 width=300;
             if(width < 200)

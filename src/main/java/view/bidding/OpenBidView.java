@@ -31,6 +31,7 @@ public class OpenBidView implements Observer {
 
     public OpenBidView(OpenBidModel openBidModel) {
         this.openBidModel = openBidModel;
+        System.out.println(this.getClass().getName() + " is initiating");
         initView();
     }
 
@@ -62,7 +63,7 @@ public class OpenBidView implements Observer {
         int bidIndex = bidInfoList.size();
         updateView(bidInfoList, bid);
         updateButtons(bidIndex);
-        frame.pack();
+//        frame.pack(); // TODO: Nick, try running student account with this uncommented, some issue here
     }
 
     private void updateView(List<BidInfo> bidInfoList, Bid bid) {
@@ -106,13 +107,7 @@ public class OpenBidView implements Observer {
     }
 
     private JTable getOpenBidTable(BidInfo bidInfo, int bidNo, Bid bid) {
-        String freeLesson = new String();
-        if (bidInfo.isFreeLesson() == true) {
-            freeLesson = "Yes";
-        } else {
-            freeLesson = "No";
-        }
-
+        String freeLesson = bidInfo.isFreeLesson()? "Yes": "No";
         String[][] rec = {
                 {"Offer Number: ", Integer.toString(bidNo)},
                 {"Tutor Name:", this.openBidModel.getUserName(bidInfo.getInitiatorId())},
@@ -125,8 +120,7 @@ public class OpenBidView implements Observer {
 
         };
         String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-        return contractTable;
+        return new JTable(rec, col);
     }
 
     // TODO: this is from https://stackoverflow.com/questions/17627431/auto-resizing-the-jtable-column-widths, rewrite
@@ -185,7 +179,12 @@ public class OpenBidView implements Observer {
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText(openBidModel.getErrorText());
+
+        if (openBidModel.isExpired()) {
+            errorLabel.setText("This Bid has expired, please make a new one");
+        } else {
+            errorLabel.setText("");
+        }
         panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));

@@ -97,7 +97,6 @@ public class CloseBidModel extends BiddingModel {
             BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
 
             // Get the Messages where the initiator is a tutor
-            // TODO: does using receiverId.equals(userId) will work too?
             List<Message> tutorMessages = bid.getMessages().stream()
                     .filter(m -> !m.getPoster().getId().equals(userId))
                     .collect(Collectors.toList());
@@ -141,7 +140,8 @@ public class CloseBidModel extends BiddingModel {
         }else {
             closeBidOffers.clear();
             closeBidMessages.clear();
-            errorText = "This Bid has expired, please make a new one";
+//            errorText = "This Bid has expired, please make a new one";
+            expired = true;
         }
 //        oSubject.notifyObservers();
         notifyObservers();

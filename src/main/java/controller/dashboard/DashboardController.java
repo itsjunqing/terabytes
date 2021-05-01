@@ -1,18 +1,15 @@
 package controller.dashboard;
 
 import model.dashboard.DashboardModel;
-import stream.User;
 import view.dashboard.DashboardView;
 
-import java.util.Observable;
-
-public abstract class DashboardController extends Observable {
+public abstract class DashboardController {
 
     protected DashboardModel dashboardModel;
     protected DashboardView dashboardView;
 
-    public DashboardController(User user) {
-        this.dashboardModel = new DashboardModel(user);
+    public DashboardController(String userId) {
+        this.dashboardModel = new DashboardModel(userId);
     }
 
     public abstract void listenViewActions();

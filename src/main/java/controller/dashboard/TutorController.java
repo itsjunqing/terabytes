@@ -1,7 +1,6 @@
 package controller.dashboard;
 
 import controller.offering.OfferingController;
-import stream.User;
 import view.dashboard.TutorView;
 
 import java.awt.event.ActionEvent;
@@ -13,10 +12,9 @@ import java.awt.event.ActionEvent;
 
 public class TutorController extends DashboardController {
 
-    public TutorController(User user) {
-        super(user);
+    public TutorController(String userId) {
+        super(userId);
         this.dashboardView = new TutorView(dashboardModel);
-//        dashboardModel.oSubject.attach(dashboardView);
         this.dashboardModel.attach(dashboardView);
         listenViewActions();
     }
@@ -28,14 +26,14 @@ public class TutorController extends DashboardController {
     }
 
     private void handleRefresh(ActionEvent e) {
-        System.out.println("From DashboardController: Refresh Button is pressed");
+        System.out.println("From TutorController: Refresh Button is pressed");
         dashboardModel.refresh();
         dashboardView.getRefreshButton().addActionListener(this::handleRefresh);
         dashboardView.getInitiateButton().addActionListener(this::handleInitiation);
     }
 
     private void handleInitiation(ActionEvent e) {
-        System.out.println("From DashboardController: Initiation Button is pressed");
-        OfferingController offeringController = new OfferingController(dashboardModel.getUserId());
+        System.out.println("From TutorController: Initiation Button is pressed");
+        new OfferingController(dashboardModel.getUserId());
     }
 }

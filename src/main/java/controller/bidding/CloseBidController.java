@@ -24,6 +24,8 @@ public class CloseBidController extends BiddingController {
     public CloseBidController(String userId, BidPreference bp) {
         this.closeBidModel = new CloseBidModel(userId, bp);
         this.closeBidView= new CloseBidView(closeBidModel);
+        this.closeBidModel.attach(closeBidView);
+        listenViewActions();
     }
 
     /**
@@ -33,7 +35,6 @@ public class CloseBidController extends BiddingController {
     public CloseBidController(String userId) {
         this.closeBidModel = new CloseBidModel(userId);
         this.closeBidView = new CloseBidView(closeBidModel);
-//        closeBidModel.oSubject.attach(closeBidView);
         this.closeBidModel.attach(closeBidView);
         listenViewActions();
     }
@@ -46,6 +47,7 @@ public class CloseBidController extends BiddingController {
     }
 
     private void handleRefresh(ActionEvent e) {
+        System.out.println("From CloseBidController: Refresh is clicked");
         closeBidModel.refresh();
         closeBidView.getRefreshButton().addActionListener(this::handleRefresh);
         closeBidView.getViewMessageButton().addActionListener(this::handleViewMessage);
@@ -53,6 +55,7 @@ public class CloseBidController extends BiddingController {
     }
 
     private void handleViewMessage(ActionEvent e) {
+        System.out.println("From CloseBidController: View Message is clicked");
         int selection = closeBidView.getOfferSelection();
         MessagePair messagePair = closeBidModel.getCloseBidMessages().get(selection-1);
 
@@ -72,11 +75,11 @@ public class CloseBidController extends BiddingController {
     }
 
     private void handleOfferSelection(ActionEvent e) {
-        System.out.println("offer selection");
+        System.out.println("From CloseBidController: Offer selection is clicked");
         int selection = closeBidView.getOfferSelection();
         Bid currentBid = closeBidModel.getBid();
         MessageBidInfo messageBidInfo = closeBidModel.getCloseBidOffers().get(selection-1);
-        System.out.println("Contract " + selection);
+        System.out.println("From CloseBidController: Selected offer = " + messageBidInfo.toString());
         closeBidModel.markBidClose(); // mark bid as close
         createContract(currentBid, messageBidInfo); // create contract
         closeBidView.dispose(); // remove view after select offer

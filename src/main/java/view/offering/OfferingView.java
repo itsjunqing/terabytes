@@ -94,12 +94,12 @@ public class OfferingView implements Observer {
         panel.add(viewOffersButton, gbc2);
 
 
-        errorLabel = new JLabel();
-        errorLabel.setForeground(new Color(-4521974));
-        errorLabel.setHorizontalAlignment(0);
-        errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText(offeringModel.getErrorText());
-        panel.add(errorLabel);
+//        errorLabel = new JLabel();
+//        errorLabel.setForeground(new Color(-4521974));
+//        errorLabel.setHorizontalAlignment(0);
+//        errorLabel.setHorizontalTextPosition(0);
+//        errorLabel.setText(offeringModel.getErrorText());
+//        panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();

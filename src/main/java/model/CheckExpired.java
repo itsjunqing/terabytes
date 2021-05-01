@@ -58,6 +58,7 @@ public class CheckExpired {
                     // if no offer, close
                     else {
                         System.out.println("Bid has no offer");
+                // TODO: need to add new Bid(new Date()) to close the bid with a date, we'll change this when we're ready to run full-program
                         bidApi.closeBid(bid.getId(), bid);
                         return true;
 
@@ -73,6 +74,7 @@ public class CheckExpired {
                 // if is expired, close bid
                 if (isExpired(bid)) {
                     System.out.println("Bid is expired");
+            // TODO: need to add new Bid(new Date()) to close the bid with a date, we'll change this when we're ready to run full-program
                     bidApi.closeBid(bid.getId(), bid);
                     return true;
                     // close bid

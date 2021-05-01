@@ -32,9 +32,9 @@ public class LoginController {
 
     private void loginSuccess(User user) {
         if (user.getIsStudent()) {
-            new StudentController(user);
+            new StudentController(user.getId());
         } else {
-            new TutorController(user);
+            new TutorController(user.getId());
         }
         loginView.dispose(); // destroy login view
     }

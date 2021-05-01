@@ -15,7 +15,6 @@ public class CloseOffersController {
     public CloseOffersController(String userId, String bidId) {
         this.closeOffersModel = new CloseOffersModel(userId, bidId);
         this.closeOfferView = new CloseOfferView(closeOffersModel);
-//        closeOffersModel.oSubject.attach(closeOfferView)
         this.closeOffersModel.attach(closeOfferView);
         listenViewActions();
     }
@@ -33,7 +32,7 @@ public class CloseOffersController {
 
     private void handleRespondMessage(ActionEvent e) {
         CloseReply closeReply = new CloseReply();
-        closeReply.getSendReplyButton().addActionListener(e1 -> handleBidInfo(e1, closeReply));
+        closeReply.getSendCloseReplyButton().addActionListener(e1 -> handleBidInfo(e1, closeReply));
     }
 
     private void handleBidInfo(ActionEvent e, CloseReply closeReply) {
@@ -45,6 +44,7 @@ public class CloseOffersController {
 
         } catch (NullPointerException exception) {
             // TODO : add error message for incomplete forms
+            closeReply.getErrorLabel().setText("Incomplete form!");
         }
     }
 

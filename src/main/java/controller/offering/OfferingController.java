@@ -14,7 +14,6 @@ public class OfferingController {
     public OfferingController(String userId) {
         this.offeringModel = new OfferingModel(userId);
         this.offeringView = new OfferingView(offeringModel);
-//        offeringModel.oSubject.attach(offeringView);
         this.offeringModel.attach(offeringView);
         listenViewActions();
     }
@@ -36,9 +35,9 @@ public class OfferingController {
         int selection = offeringView.getBidNumber();
         Bid bid = offeringModel.getBidsOnGoing().get(selection-1);
         if (bid.getType().equals("Open")) {
-            OpenOffersController openOffersController = new OpenOffersController(offeringModel.getUserId(), bid.getId());
+            new OpenOffersController(offeringModel.getUserId(), bid.getId());
         } else {
-           CloseOffersController closeOffersController = new CloseOffersController(offeringModel.getUserId(), bid.getId());
+           new CloseOffersController(offeringModel.getUserId(), bid.getId());
         }
     }
 

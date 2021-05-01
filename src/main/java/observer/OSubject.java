@@ -17,6 +17,7 @@ public class OSubject {
     public void notifyObservers() {
         for (Observer o:observers) {
             o.update();
+            System.out.println("From " + this.getClass().getName() + ": updating " + o.getClass().getName());
         }
     }
 }

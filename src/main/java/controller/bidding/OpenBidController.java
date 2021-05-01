@@ -1,6 +1,5 @@
 package controller.bidding;
 
-import controller.contract.ContractController;
 import entity.BidInfo;
 import entity.BidPreference;
 import model.bidding.OpenBidModel;
@@ -23,7 +22,8 @@ public class OpenBidController extends BiddingController {
     public OpenBidController(String userId, BidPreference bp) {
         this.openBidModel = new OpenBidModel(userId, bp);
         this.openBidView = new OpenBidView(openBidModel);
-        openBidModel.oSubject.attach(openBidView);
+        this.openBidModel.attach(openBidView);
+        listenViewActions();
     }
 
     /**
@@ -33,6 +33,7 @@ public class OpenBidController extends BiddingController {
     public OpenBidController(String userId) {
         this.openBidModel = new OpenBidModel(userId);
         this.openBidView = new OpenBidView(openBidModel);
+        this.openBidModel.attach(openBidView);
         listenViewActions();
     }
 
@@ -43,17 +44,19 @@ public class OpenBidController extends BiddingController {
     }
 
     private void handleRefresh(ActionEvent e) {
+        System.out.println("From OpenBidController: Refresh is clicked");
         openBidModel.refresh();
         openBidView.getRefreshButton().addActionListener(this::handleRefresh);
         openBidView.getSelectOfferButton().addActionListener(this::handleOfferSelection);
     }
 
     private void handleOfferSelection(ActionEvent e) {
+        System.out.println("From OpenBidController: Offer is clicked");
         int selection = openBidView.getOfferSelection();
         Bid currentBid = openBidModel.getBid();
         BidInfo bidInfo = openBidModel.getOpenBidOffers().get(selection-1);
-        System.out.println("Contract " + selection);
         openBidModel.markBidClose();
+        System.out.println("From OpenBidController: Selected offer = " + bidInfo.toString());
         createContract(currentBid, bidInfo);
     }
 }

@@ -2,13 +2,13 @@ package model.dashboard;
 
 import api.BidApi;
 import api.ContractApi;
+import api.UserApi;
 import entity.DashboardStatus;
 import lombok.Getter;
 import model.CheckExpired;
 import observer.OSubject;
 import stream.Bid;
 import stream.Contract;
-import stream.User;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,46 +16,43 @@ import java.util.stream.Collectors;
 @Getter
 public class DashboardModel extends OSubject {
 
-    private User user;
+//    private User user;
+    private String userId;
+    private UserApi userApi;
     private ContractApi contractApi;
     private BidApi bidApi;
     private List<Contract> contractsList;
     protected String errorText;
-//    public OSubject oSubject;
 
 
-    public DashboardModel(User user) {
-        this.user = user;
+    public DashboardModel(String userId) {
+        this.userId = userId;
+        this.userApi = new UserApi();
         this.contractApi = new ContractApi();
         this.bidApi = new BidApi();
         this.errorText = "";
-//        oSubject = new OSubject();
-        refresh(); // Note: MUST populate initial values otherwise view is not created
+        refresh();
     }
 
     public void refresh() {
         // do checks for all bids to see if any of them are expired
-        CheckExpired checkExpired = new CheckExpired();
-        for (Bid b : bidApi.getAllBids()) {
-            boolean bool = checkExpired.checkIsExpired(b);
-        }
-
+//        CheckExpired checkExpired = new CheckExpired();
+//        User user = userApi.getUser(userId);
+//        boolean expired = user.getInitiatedBids().stream()
+//                                .anyMatch(checkExpired::checkIsExpired);
+        // Update contractList
         contractsList = contractApi.getAllContracts().stream()
-                .filter(c -> c.getFirstParty().getId().equals(user.getId())
-                        || c.getSecondParty().getId().equals(user.getId()))
+                .filter(c -> c.getFirstParty().getId().equals(userId)
+                        || c.getSecondParty().getId().equals(userId))
                 .collect(Collectors.toList());
-//        oSubject.notifyObservers();
         notifyObservers();
-
     }
 
     public DashboardStatus getStatus() {
-        Bid currentBid = bidApi.getAllBids().stream()
-                .filter(b -> b.getDateClosedDown() == null)
-                .filter(b -> b.getInitiator().getId().equals(user.getId()))
-                .findFirst()
-                .orElse(null);
-        refresh();
+        Bid currentBid = userApi.getUser(userId).getInitiatedBids().stream()
+                                .filter(b -> b.getDateClosedDown() == null)
+                                .findFirst()
+                                .orElse(null);
         System.out.println(currentBid);
         if (currentBid != null) {
             CheckExpired checkExpired = new CheckExpired();
@@ -69,10 +66,6 @@ public class DashboardModel extends OSubject {
             return DashboardStatus.MAX;
         }
         return DashboardStatus.PASS;
-    }
-
-    public String getUserId() {
-        return user.getId();
     }
 
     public void setErrorText(String errorText){

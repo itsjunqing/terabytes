@@ -31,13 +31,16 @@ public abstract class BiddingModel extends OSubject {
     protected SubjectApi subjectApi;
     protected String userId; // student's id
     protected String bidId; // Bid is not used because its content (offers / messages) are updated from time to time
-    protected String errorText;
+    protected boolean expired;
+//    protected String errorText;
+
 //    public OSubject oSubject;
 
     protected BiddingModel() {
         this.bidApi = new BidApi();
         this.subjectApi = new SubjectApi();
-        this.errorText = "";
+        this.expired = false;
+//        this.errorText = "";
 //        this.oSubject = new OSubject();
     }
 
@@ -77,10 +80,6 @@ public abstract class BiddingModel extends OSubject {
         String givenName = user.getGivenName();
         String familyName = user.getFamilyName();
         return givenName + " " + familyName;
-    }
-
-    public void setErrorText(String errorText){
-        this.errorText = errorText;
     }
 
     public abstract void refresh();

@@ -6,25 +6,17 @@ import entity.BidInfo;
 import entity.BidPreference;
 import entity.DashboardStatus;
 import entity.QualificationTitle;
-import stream.User;
 import view.dashboard.StudentView;
 import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Remaining parts:
- * 1) Integration of OpenBid
- * 2) Integration of CloseBid
- */
-
 public class StudentController extends DashboardController {
 
-    public StudentController(User user) {
-        super(user);
+    public StudentController(String userId) {
+        super(userId);
         this.dashboardView = new StudentView(dashboardModel);
-//        dashboardModel.oSubject.attach(dashboardView);
         this.dashboardModel.attach(dashboardView);
         listenViewActions();
     }
@@ -36,7 +28,7 @@ public class StudentController extends DashboardController {
     }
 
     private void handleRefresh(ActionEvent e) {
-        System.out.println("From DashboardController: Refresh Button is pressed");
+        System.out.println("From StudentController: Refresh Button is pressed");
         dashboardModel.refresh();
         dashboardView.getRefreshButton().addActionListener(this::handleRefresh);
         dashboardView.getInitiateButton().addActionListener(this::handleInitiation);
@@ -56,7 +48,7 @@ public class StudentController extends DashboardController {
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }
-                OpenBidController openBidController = new OpenBidController(dashboardModel.getUserId());
+                new OpenBidController(dashboardModel.getUserId());
                 break;
 
             case CLOSE:
@@ -66,7 +58,7 @@ public class StudentController extends DashboardController {
                 } catch (InterruptedException interruptedException) {
                     interruptedException.printStackTrace();
                 }
-                CloseBidController closeBidController = new CloseBidController(dashboardModel.getUserId());
+                new CloseBidController(dashboardModel.getUserId());
                 break;
 
             case PASS:
@@ -76,6 +68,7 @@ public class StudentController extends DashboardController {
     }
 
     private void listenBidInitiationForm() {
+        System.out.println("From StudentController: Initiation Button is pressed");
         BidInitiation form = new BidInitiation();
         form.getOpenBidButton().addActionListener(ef -> initiateOpenBid(ef, form));
         form.getCloseBidButton().addActionListener(ef -> initiateCloseBid(ef, form));
@@ -84,24 +77,22 @@ public class StudentController extends DashboardController {
     private void initiateOpenBid(ActionEvent e, BidInitiation form) {
         try {
             BidPreference bp = extractFormInfo(form);
-            System.out.println("Extracted: " + bp);
+            System.out.println("From StudentController: Extracted: " + bp);
             form.dispose();
-            OpenBidController openBidController = new OpenBidController(dashboardModel.getUserId(), bp);
-
+            new OpenBidController(dashboardModel.getUserId(), bp);
         } catch (NullPointerException exception) {
-            // TODO: Add error message in UI on incomplete forms, similar to login
+            form.getErrorLabel().setText("Incomplete form!");
         }
     }
 
     private void initiateCloseBid(ActionEvent e, BidInitiation form) {
         try {
             BidPreference bp = extractFormInfo(form);
-            System.out.println("Extracted: " + bp);
+            System.out.println("From StudentController: Extracted: " + bp);
             form.dispose();
-            CloseBidController closeBidController = new CloseBidController(dashboardModel.getUserId(), bp);
-
+            new CloseBidController(dashboardModel.getUserId(), bp);
         } catch (NullPointerException exception) {
-            // TODO: Add error message in UI on incomplete forms, similar to login
+            form.getErrorLabel().setText("Incomplete form!");
         }
     }
 

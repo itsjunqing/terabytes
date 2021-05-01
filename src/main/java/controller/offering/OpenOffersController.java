@@ -39,7 +39,7 @@ public class OpenOffersController {
 
     private void handleRespond(ActionEvent e) {
         OpenReply openReply = new OpenReply();
-        openReply.getOfferBidButton().addActionListener(e1 -> handleBidInfo(e1, openReply));
+        openReply.getSendOpenReplyButton().addActionListener(e1 -> handleBidInfo(e1, openReply));
     }
 
     private void handleBidInfo(ActionEvent e, OpenReply openReplyForm) {
@@ -52,7 +52,7 @@ public class OpenOffersController {
             openOffersModel.sendOffer(bidInfo);
 
         } catch (NullPointerException exception) {
-            // TODO : add error message for incomplete forms
+            openReplyForm.getErrorLabel().setText("Form is incomplete!");
         }
     }
 

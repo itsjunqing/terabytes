@@ -6,13 +6,10 @@ import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import javax.swing.text.NumberFormatter;
-import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.text.NumberFormat;
 import java.time.DayOfWeek;
-import java.util.Locale;
 
 @Getter
 public class CloseReply {
@@ -21,11 +18,12 @@ public class CloseReply {
     private JComboBox dayBox;
     private JComboBox Time;
     private JComboBox durationBox;
-    private JTextPane replyBidTextPane;
-    private JButton sendReplyButton;
+    private JButton sendCloseReplyButton;
     private JFormattedTextField rateField;
     private JTextArea messageText;
     private JComboBox freeLessonBox;
+    private JLabel errorLabel;
+    private JLabel closeReplyLabel;
 
     private JFrame frame;
 
@@ -143,9 +141,9 @@ public class CloseReply {
         panel1.add(panel4, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(24, 124), null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel4.add(spacer1, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        sendReplyButton = new JButton();
-        sendReplyButton.setText("Send Reply");
-        panel4.add(sendReplyButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        sendCloseReplyButton = new JButton();
+        sendCloseReplyButton.setText("Send Reply");
+        panel4.add(sendCloseReplyButton, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         panel4.add(spacer2, new GridConstraints(0, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
@@ -168,10 +166,7 @@ public class CloseReply {
                 resultName = currentFont.getName();
             }
         }
-        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
-        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
-        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
-        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**

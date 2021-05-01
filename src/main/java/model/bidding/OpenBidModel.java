@@ -51,11 +51,11 @@ public class OpenBidModel extends BiddingModel {
         // return an empty list, and update the error text
         if (!checkExpired.checkIsExpired(bid)) {
             openBidOffers = bid.getAdditionalInfo().getBidOffers();
-//            oSubject.notifyObservers();
-            notifyObservers();
         } else{
-            errorText = "This Bid has expired, please make a new one";
+//            errorText = "This Bid has expired, please make a new one";
+            expired = true;
         }
+        notifyObservers();
     }
 
 

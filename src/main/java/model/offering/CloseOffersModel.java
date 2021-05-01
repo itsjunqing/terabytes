@@ -5,7 +5,7 @@ import api.MessageApi;
 import entity.BidInfo;
 import entity.MessageBidInfo;
 import entity.MessagePair;
-import lombok.Data;
+import lombok.Getter;
 import model.CheckExpired;
 import observer.OSubject;
 import stream.Bid;
@@ -14,7 +14,7 @@ import stream.MessageAdditionalInfo;
 
 import java.util.Date;
 
-@Data
+@Getter
 public class CloseOffersModel extends OSubject {
 
     private String userId;
@@ -22,19 +22,14 @@ public class CloseOffersModel extends OSubject {
     private BidApi bidApi;
     private MessageApi messageApi;
     private MessagePair messagePair;
-//    public OSubject oSubject;
-    protected String errorText;
-
-
+    private boolean expired;
 
     public CloseOffersModel(String userId, String bidId) {
         this.userId = userId;
         this.bidId = bidId;
     	this.bidApi = new BidApi();
     	this.messageApi = new MessageApi();
-        this.errorText = "";
-//        oSubject = new OSubject();
-
+    	this.expired = true;
         refresh();
     }
 
@@ -79,9 +74,8 @@ public class CloseOffersModel extends OSubject {
             messagePair = new MessagePair(tutorMsgId, tutorBidMessage, studentMsgId, studentBidMessage);
         }
         else {
-
+            expired = true;
         }
-//        oSubject.notifyObservers();
         notifyObservers();
 
     }
@@ -101,10 +95,6 @@ public class CloseOffersModel extends OSubject {
             Message message = new Message(messageBidInfo.getContent(), convertObject(messageBidInfo));
             messageApi.patchMessage(tutorMsgId, message);
         }
-    }
-
-    public void setErrorText(String errorText){
-        this.errorText = errorText;
     }
 
 }
