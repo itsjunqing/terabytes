@@ -45,7 +45,7 @@ public class OpenOffersModel extends OSubject {
                 if (bidInfo.getInitiatorId().equals(userId)) {
                     myOffer = bidInfo;
                 } else {
-                    openOffers.add(myOffer);
+                    openOffers.add(bidInfo);
                 }
             }
         }

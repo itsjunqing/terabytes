@@ -2,8 +2,11 @@ package engine;
 
 import api.BidApi;
 import api.ContractApi;
+import controller.LoginController;
 import entity.BidInfo;
+import model.LoginModel;
 import stream.*;
+import view.LoginView;
 import view.form.BidInitiation;
 
 import java.awt.event.ActionEvent;
@@ -23,10 +26,10 @@ public class Driver {
 //        List<String> someInt = new ArrayList<String>();
 //        Collections.reverse(someInt);
 
-         //Login model test
-//        LoginModel loginModel = new LoginModel();
-//        LoginView loginView = new LoginView();
-//        LoginController loginController = new LoginController(loginModel, loginView);
+         //Login model  test
+        LoginModel loginModel = new LoginModel();
+        LoginView loginView = new LoginView();
+        LoginController loginController = new LoginController(loginModel, loginView);
 
 //        ContractApi contractApi = new ContractApi();
 //        List<Contract> contractList = contractApi.getAll();

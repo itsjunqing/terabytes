@@ -97,9 +97,11 @@ public class ExpiryService {
         long minuteDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
         long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
         if (bid.getType().equals("Open") ) {
-            return minuteDifference > 30;
+//            return minuteDifference > 30;
+            return minuteDifference > 30000000;
         } else {
-            return dayDifference > 7;
+//            return dayDifference > 7;
+            return dayDifference > 70000;
         }
     }
     // true if has offer, false otherwise

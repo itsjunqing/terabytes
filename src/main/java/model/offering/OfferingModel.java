@@ -18,6 +18,8 @@ public class OfferingModel extends OSubject {
     private ApiService apiService;
     private List<Bid> bidsOnGoing;
     public OSubject oSubject;
+
+    private ExpiryService expiryService;
 //    private boolean expired;
 
 //    protected String errorText;
@@ -26,6 +28,7 @@ public class OfferingModel extends OSubject {
     public OfferingModel(String userId) {
         this.userId = userId;
         this.apiService = new ApiService();
+        this.expiryService = new ExpiryService();
         this.bidsOnGoing = new ArrayList<>();
         this.oSubject = new OSubject();
 //        this.expired = false;
@@ -61,6 +64,16 @@ public class OfferingModel extends OSubject {
             }
         }
         notifyObservers();
+    }
+
+    public Bid viewOffers(int selection){
+        Bid bid = bidsOnGoing.get(selection-1);
+        if (!expiryService.checkIsExpired(bid)){
+            return bid;
+        }
+        else {
+            return null;
+        }
     }
 
 }
