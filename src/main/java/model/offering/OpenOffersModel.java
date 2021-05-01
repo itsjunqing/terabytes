@@ -4,15 +4,16 @@ import entity.BidInfo;
 import entity.BidPreference;
 import lombok.Getter;
 import model.BasicModel;
+import service.ApiService;
 import service.BuilderService;
 import service.ExpiryService;
-import service.ApiService;
 import stream.Bid;
 import stream.BidAdditionalInfo;
 import stream.Contract;
 import stream.User;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -99,8 +100,17 @@ public class OpenOffersModel extends BasicModel {
             sendOffer(bidInfo);
             Contract contract = BuilderService.buildContract(getBid(), bidInfo);
             // logic to post contract
-            Contract contractCreated = Service.contractApi.add(contract);
-            Service.contractApi.sign(contractCreated.getId(), new Contract(new Date()));
+            Contract contractCreated = ApiService.contractApi.add(contract);
+
+            // add 10 seconds to contract signing as signDate > creationDate
+            // TODO: we can do timeunit.delay?
+            Calendar c = Calendar.getInstance();
+            c.setTime(new Date());
+            c.add(Calendar.SECOND, 10);
+            ApiService.contractApi.sign(contractCreated.getId(), new Contract(c.getTime()));
+
+            // mark bid as closed
+            ApiService.bidApi.close(bidId, new Bid(new Date()));
         } else {
             errorLabel = "Bid Has Expired";
             oSubject.notifyObservers();
