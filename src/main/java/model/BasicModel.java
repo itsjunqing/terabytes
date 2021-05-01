@@ -11,6 +11,7 @@ public abstract class BasicModel {
     protected String userId;
     protected OSubject oSubject;
     protected ExpiryService expiryService;
+    protected String errorLabel;
 
     protected BasicModel() {
         this.oSubject = new OSubject();

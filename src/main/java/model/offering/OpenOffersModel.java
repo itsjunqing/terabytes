@@ -1,6 +1,7 @@
 package model.offering;
 
 import entity.BidInfo;
+import entity.BidPreference;
 import lombok.Getter;
 import model.BasicModel;
 import service.BuilderService;
@@ -28,6 +29,7 @@ public class OpenOffersModel extends BasicModel {
         this.bidId = bidId;
         this.openOffers = new ArrayList<>();
         this.expired = false;
+        this.errorLabel = "";
         refresh();
     }
 
@@ -87,6 +89,29 @@ public class OpenOffersModel extends BasicModel {
         Contract contract = BuilderService.buildContract(getBid(), bidInfo);
         Contract contractCreated = ApiService.contractApi.add(contract);
         ApiService.contractApi.sign(contractCreated.getId(), new Contract(new Date()));
+    }
+
+    public void buyOut(){
+        if (!expiryService.checkIsExpired(getBid())){
+            BidPreference bp = getBid().getAdditionalInfo().getBidPreference();
+            BidInfo bidInfo = bp.getPreferences();
+            bidInfo.setInitiatorId(getUserId());
+            sendOffer(bidInfo);
+            Contract contract = BuilderService.buildContract(getBid(), bidInfo);
+            // logic to post contract
+            Contract contractCreated = Service.contractApi.add(contract);
+            Service.contractApi.sign(contractCreated.getId(), new Contract(new Date()));
+        } else {
+            errorLabel = "Bid Has Expired";
+            oSubject.notifyObservers();
+        }
+    }
+
+    public void respond(BidInfo bidInfo) {
+        if (!expiryService.checkIsExpired(getBid())) {
+            sendOffer(bidInfo);
+        } else {
+        }
     }
 
 }

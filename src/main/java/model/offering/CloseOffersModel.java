@@ -5,6 +5,7 @@ import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import model.BasicModel;
+import service.ApiService;
 import service.ExpiryService;
 import service.ApiService;
 import stream.Bid;
@@ -89,6 +90,10 @@ public class CloseOffersModel extends BasicModel {
             Message message = new Message(messageBidInfo.getContent(), convertObject(messageBidInfo));
             ApiService.messageApi.patch(tutorMsgId, message);
         }
+    }
+
+    public void respondMessage(MessageBidInfo messageBidInfo){
+//        if expiryService.checkIsExpired(ApiService)
     }
 
 }
