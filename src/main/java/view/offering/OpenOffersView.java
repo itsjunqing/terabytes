@@ -100,6 +100,7 @@ public class OpenOffersView implements Observer {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
         Collections.reverse(otherBidInfo);
+
         for (BidInfo b : otherBidInfo) {
             // Code to add open bid panel
             JPanel panel = new JPanel();
