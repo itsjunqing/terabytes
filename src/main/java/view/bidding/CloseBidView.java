@@ -44,8 +44,9 @@ public class CloseBidView implements Observer {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
-        frame.setMinimumSize(new Dimension(830, 400));
-        frame.setMaximumSize(new Dimension(1000, 800));
+        frame.setMinimumSize(new Dimension(860, 400));
+        frame.setMaximumSize(new Dimension(1000, 1000));
+        frame.setPreferredSize(new Dimension(860, 800));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -84,7 +85,10 @@ public class CloseBidView implements Observer {
         mainList.add(new JPanel(), gbc);
 
         // add into openBidPanel
-        openBidPanel.add(new JScrollPane(mainList));
+        JScrollPane jScrollPane = new JScrollPane(mainList);
+        jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
+        jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+        openBidPanel.add(jScrollPane);
 
         int bidIndex = messageBidInfoList.size();
         for (MessageBidInfo b : messageBidInfoList) {

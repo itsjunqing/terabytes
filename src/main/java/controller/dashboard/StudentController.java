@@ -9,6 +9,7 @@ import entity.QualificationTitle;
 import view.dashboard.StudentView;
 import view.form.BidInitiation;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.concurrent.TimeUnit;
 
@@ -16,10 +17,14 @@ public class StudentController extends DashboardController {
 
     public StudentController(String userId) {
         super(userId);
-        this.dashboardView = new StudentView(dashboardModel);
-        this.dashboardModel.attach(dashboardView);
-        listenViewActions();
+        SwingUtilities.invokeLater(() -> {
+            dashboardView = new StudentView(dashboardModel);
+            dashboardModel.attach(dashboardView);
+            listenViewActions();
+        }
+        );
     }
+
 
     @Override
     public void listenViewActions() {

@@ -30,9 +30,10 @@ public class TutorView extends DashboardView {
         addButtons();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
-        frame.pack();
-        frame.setMinimumSize(new Dimension(830, 400));
-        frame.setMaximumSize(new Dimension(1000, 800));
+//        frame.pack();
+        frame.setMinimumSize(new Dimension(860, 400));
+        frame.setMaximumSize(new Dimension(1000, 1000));
+        frame.setPreferredSize(new Dimension(860, 800));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
@@ -63,7 +64,10 @@ public class TutorView extends DashboardView {
         mainList.add(new JPanel(), gbc);
 
         // add component into contractPanel. Note that contractPanel by default is in mainPanel, so just modify contractPanel will do
-        contractPanel.add(new JScrollPane(mainList));
+        JScrollPane jScrollPane = new JScrollPane(mainList);
+        jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
+        jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+        contractPanel.add(jScrollPane);
 
         // get the list of contracts and update accordingly
 
