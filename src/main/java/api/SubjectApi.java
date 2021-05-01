@@ -33,9 +33,4 @@ public class SubjectApi extends BasicApi<Subject> implements ApiInterface<Subjec
         return deleteObject(SUBJECT_ENDPOINT + "/" + id);
     }
 
-    /*
-    public List<Subject> getAllSubjects() {
-        return getAll();
-    }
-    */
 }

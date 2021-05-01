@@ -4,6 +4,7 @@ import api.*;
 import lombok.Getter;
 
 @Getter
+@Deprecated
 public class TrashService {
 
     private UserApi userApi;

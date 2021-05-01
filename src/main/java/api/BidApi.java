@@ -41,34 +41,4 @@ public class BidApi extends BasicApi<Bid> implements ApiInterface<Bid> {
         return postObject(endpoint, object);
     }
 
-
-    /*
-    public List<Bid> getAllBids() {
-        return getAllObjects(BID_ENDPOINT + "?fields=messages", Bid[].class);
-    }
-
-    public Bid getBid(String id) {
-        String endpoint = BID_ENDPOINT + "/" + id + "?fields=messages";
-        return getObject(endpoint, Bid.class);
-    }
-
-    public Bid addBid(Bid bid) {
-        return postObject(BID_ENDPOINT, bid, Bid.class);
-    }
-
-    public boolean patchBid(String id, Bid bid) {
-        String endpoint = BID_ENDPOINT + "/" + id;
-        return patchObject(endpoint, bid);
-    }
-
-    public boolean removeBid(String id) {
-        return deleteObject(BID_ENDPOINT + "/" + id);
-    }
-
-    public boolean closeBid(String id, Bid bid) {
-        String endpoint = BID_ENDPOINT + "/" + id + "/close-down";
-        return postObject(endpoint, bid);
-    }
-    */
-
 }

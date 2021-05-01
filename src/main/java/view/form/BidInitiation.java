@@ -1,18 +1,15 @@
 package view.form;
 
-import api.SubjectApi;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import entity.QualificationTitle;
 import lombok.Getter;
+import service.ApiService;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.stream.IntStream;
 
 @Getter
@@ -60,8 +57,7 @@ public class BidInitiation {
                 .forEach(v -> competencyBox.addItem(v));
         competencyBox.setSelectedIndex(-1);
 
-        SubjectApi subjectApi = new SubjectApi();
-        subjectApi.getAll()
+        ApiService.subjectApi.getAll()
                 .stream()
                 .forEach(s -> subjectBox.addItem(s.getName()));
         subjectBox.setSelectedIndex(-1);

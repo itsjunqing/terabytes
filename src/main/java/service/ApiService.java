@@ -9,6 +9,7 @@ public class ApiService {
     public static ContractApi contractApi = new ContractApi();
     public static BidApi bidApi = new BidApi();
     public static MessageApi messageApi = new MessageApi();
-
+    public static CompetencyApi competencyApi = new CompetencyApi();
+    public static QualificationApi qualificationApi = new QualificationApi();
 
 }

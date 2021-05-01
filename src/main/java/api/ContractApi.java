@@ -38,33 +38,5 @@ public class ContractApi extends BasicApi<Contract> implements ApiInterface<Cont
         return postObject(CONTRACT_ENDPOINT + "/" + id + SIGN_ENDPOINT, object);
     }
 
-    /*
-    public boolean signContract(String id, Contract object) {
-        return postObject(CONTRACT_ENDPOINT + "/" + id + SIGN_ENDPOINT, object);
-    }
-
-
-    public List<Contract> getAllContracts() {
-        return getAllObjects(CONTRACT_ENDPOINT, Contract[].class);
-    }
-
-    public Contract getContract(String id) {
-        String endpoint = CONTRACT_ENDPOINT + "/" + id;
-        return getObject(endpoint, Contract.class);
-    }
-
-    public Contract addContract(Contract contract) {
-        return postObject(CONTRACT_ENDPOINT, contract, Contract.class);
-    }
-
-    public boolean patchContract(String id, Contract contract) {
-        String endpoint = CONTRACT_ENDPOINT + "/" + id;
-        return patchObject(endpoint, contract);
-    }
-
-    public boolean removeContract(String id) {
-        return deleteObject(CONTRACT_ENDPOINT + "/" + id);
-    }
-    */
 
 }
