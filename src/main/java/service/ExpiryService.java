@@ -1,4 +1,4 @@
-package model;
+package service;
 
 import api.BidApi;
 import api.ContractApi;
@@ -9,14 +9,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class CheckExpired {
+public class ExpiryService {
+
     private BidApi bidApi;
     private ContractApi contractApi;
-    public CheckExpired(){
+
+    public ExpiryService(){
         this.bidApi = new BidApi();
         this.contractApi = new ContractApi();
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public boolean checkIsExpired(Bid bid){
         // if not closed
         if (bid.getDateClosedDown() == null) {
@@ -83,12 +86,11 @@ public class CheckExpired {
                 }
                 // if not expired pass
             }
-        }else {
-            return false;
         }
+        return false;
     }
 
-    public boolean isExpired(Bid bid){
+    private boolean isExpired(Bid bid){
         Date then = bid.getDateCreated();
         Date now = new Date();
         long difference = now.getTime() - then.getTime();
@@ -101,7 +103,7 @@ public class CheckExpired {
         }
     }
     // true if has offer, false otherwise
-    public boolean hasOffer(Bid bid) {
+    private boolean hasOffer(Bid bid) {
         return bid.getAdditionalInfo().getBidOffers().size() != 0;
     }
 

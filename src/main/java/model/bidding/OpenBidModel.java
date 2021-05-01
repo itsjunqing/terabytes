@@ -4,7 +4,7 @@ import entity.BidInfo;
 import entity.BidPreference;
 import lombok.Getter;
 import lombok.Setter;
-import model.CheckExpired;
+import service.ExpiryService;
 import stream.Bid;
 
 import java.util.ArrayList;
@@ -46,10 +46,10 @@ public class OpenBidModel extends BiddingModel {
     public void refresh() {
         openBidOffers.clear();
         Bid bid = getBidApi().getBid(getBidId());
-        CheckExpired checkExpired = new CheckExpired();
+        ExpiryService expiryService = new ExpiryService();
         // check if the bid is expired, if the bid is expired, then remove the bid,
         // return an empty list, and update the error text
-        if (!checkExpired.checkIsExpired(bid)) {
+        if (!expiryService.checkIsExpired(bid)) {
             openBidOffers = bid.getAdditionalInfo().getBidOffers();
         } else{
 //            errorText = "This Bid has expired, please make a new one";

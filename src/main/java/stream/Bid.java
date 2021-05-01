@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class Bid {
+public class Bid extends Basic {
     private String id;
     private String type;
     private User initiator;

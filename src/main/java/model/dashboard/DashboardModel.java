@@ -5,7 +5,7 @@ import api.ContractApi;
 import api.UserApi;
 import entity.DashboardStatus;
 import lombok.Getter;
-import model.CheckExpired;
+import service.ExpiryService;
 import observer.OSubject;
 import stream.Bid;
 import stream.Contract;
@@ -36,7 +36,7 @@ public class DashboardModel extends OSubject {
 
     public void refresh() {
         // do checks for all bids to see if any of them are expired
-//        CheckExpired checkExpired = new CheckExpired();
+//        ExpiryService checkExpired = new ExpiryService();
 //        User user = userApi.getUser(userId);
 //        boolean expired = user.getInitiatedBids().stream()
 //                                .anyMatch(checkExpired::checkIsExpired);
@@ -55,8 +55,8 @@ public class DashboardModel extends OSubject {
                                 .orElse(null);
         System.out.println(currentBid);
         if (currentBid != null) {
-            CheckExpired checkExpired = new CheckExpired();
-            if (!checkExpired.checkIsExpired(currentBid)) {
+            ExpiryService expiryService = new ExpiryService();
+            if (!expiryService.checkIsExpired(currentBid)) {
                 return currentBid.getType().equalsIgnoreCase("Open")? DashboardStatus.OPEN: DashboardStatus.CLOSE;
             }
             else {

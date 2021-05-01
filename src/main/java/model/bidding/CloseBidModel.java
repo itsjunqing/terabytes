@@ -8,7 +8,7 @@ import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import lombok.Setter;
-import model.CheckExpired;
+import service.ExpiryService;
 import stream.Bid;
 import stream.Message;
 import stream.MessageAdditionalInfo;
@@ -90,10 +90,10 @@ public class CloseBidModel extends BiddingModel {
         closeBidMessages.clear();
 
         Bid bid = bidApi.getBid(bidId);
-        CheckExpired checkExpired = new CheckExpired();
+        ExpiryService expiryService = new ExpiryService();
         // check if the bid is expired, if the bid is expired, then remove the bid,
         // return an empty list, and update the error text
-        if (!checkExpired.checkIsExpired(bid)){
+        if (!expiryService.checkIsExpired(bid)){
             BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
 
             // Get the Messages where the initiator is a tutor

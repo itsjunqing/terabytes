@@ -4,7 +4,7 @@ import api.BidApi;
 import api.UserApi;
 import entity.BidInfo;
 import lombok.Getter;
-import model.CheckExpired;
+import service.ExpiryService;
 import observer.OSubject;
 import stream.Bid;
 import stream.BidAdditionalInfo;
@@ -39,9 +39,9 @@ public class OpenOffersModel extends OSubject {
         Bid bid = bidApi.getBid(bidId);
         List<BidInfo> offers = bid.getAdditionalInfo().getBidOffers();
         System.out.println("From OpenOfferModel Refreshing..");
-        CheckExpired checkExpired = new CheckExpired();
+        ExpiryService expiryService = new ExpiryService();
         // if bid has expired, close down the bid
-        if (!checkExpired.checkIsExpired(bid)){
+        if (!expiryService.checkIsExpired(bid)){
             // openOffers includes all the BidInfo offers (by all tutors) except the current tutor
             // myOffer is BidInfo offered by itself
             for (BidInfo bidInfo: offers) {

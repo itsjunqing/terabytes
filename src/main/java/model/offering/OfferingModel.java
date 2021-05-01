@@ -4,7 +4,7 @@ import api.BidApi;
 import api.UserApi;
 import entity.BidPreference;
 import lombok.Getter;
-import model.CheckExpired;
+import service.ExpiryService;
 import observer.OSubject;
 import stream.Bid;
 import stream.User;
@@ -39,14 +39,14 @@ public class OfferingModel extends OSubject {
         bidsOnGoing.clear(); // for memory cleaning
         User currentUser = userApi.getUser(userId);
         List<Bid> bids = bidApi.getAllBids();
-        CheckExpired checkExpired = new CheckExpired();
+        ExpiryService expiryService = new ExpiryService();
         for (Bid b: bids) {
             boolean bidIsClosed = b.getDateClosedDown() != null;
             if (!bidIsClosed) {
                 //   will check if bid is expired  either remove them
                 //   (or create a contract if its a open bid and is expired)
                 //   returns false if bid is not expired
-                if (!checkExpired.checkIsExpired(b)){
+                if (!expiryService.checkIsExpired(b)){
                     BidPreference bp = b.getAdditionalInfo().getBidPreference();
                     boolean hasQualification = currentUser.getQualifications().stream()
                             .anyMatch(q -> q.getTitle().equals(bp.getQualification().toString()));

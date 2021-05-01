@@ -6,7 +6,7 @@ import entity.BidInfo;
 import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
-import model.CheckExpired;
+import service.ExpiryService;
 import observer.OSubject;
 import stream.Bid;
 import stream.Message;
@@ -36,8 +36,8 @@ public class CloseOffersModel extends OSubject {
     public void refresh() {
         Bid bid = bidApi.getBid(bidId);
         BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
-        CheckExpired checkExpired = new CheckExpired();
-        if (!checkExpired.checkIsExpired(bid)){
+        ExpiryService expiryService = new ExpiryService();
+        if (!expiryService.checkIsExpired(bid)){
             // Student's message sent to me
             String studentMsgId = null;
             Message studentMsg = bid.getMessages().stream()
