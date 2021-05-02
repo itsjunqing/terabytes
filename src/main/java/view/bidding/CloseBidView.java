@@ -85,8 +85,8 @@ public class CloseBidView implements Observer {
         errorLabel.setText(closeBidModel.getErrorText());
 
         String time = ViewUtility.getCloseBidTimeLeft(closeBidModel.getBidDate());
-
-        timeLeft = new JLabel();
+        System.out.println("Close bid time left");
+        System.out.println(time);
         timeLeft.setHorizontalAlignment(0);
         timeLeft.setHorizontalTextPosition(0);
         timeLeft.setText(time);
