@@ -10,7 +10,7 @@ public class Utility {
     }
 
     public static String getFullName(String userId) {
-        User user = ApiService.userApi.get(userId);
+        User user = ApiService.userApi().get(userId);
         return getFullName(user);
     }
 }

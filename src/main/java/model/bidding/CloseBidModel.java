@@ -32,7 +32,7 @@ public class CloseBidModel extends BiddingModel {
      */
     public CloseBidModel(String userId, BidPreference bp) {
         Bid bid = BuilderService.buildBid(userId, bp, "Close");
-        Bid bidCreated = ApiService.bidApi.add(bid);
+        Bid bidCreated = ApiService.bidApi().add(bid);
         initModel(userId, bidCreated);
     }
 
@@ -59,7 +59,7 @@ public class CloseBidModel extends BiddingModel {
         closeBidOffers.clear();
         closeBidMessages.clear();
 
-        Bid bid = ApiService.bidApi.get(bidId);
+        Bid bid = ApiService.bidApi().get(bidId);
 
         // check if the bid is expired, if the bid is expired, then remove the bid,
         // return an empty list, and update the error text
@@ -134,11 +134,11 @@ public class CloseBidModel extends BiddingModel {
         // If Student has sent not sent a Message, construct a new Message
         if (studentMsgId == null) {
             Message message = new Message(bidId, userId, new Date(), stringMsg, info);
-            ApiService.messageApi.add(message);
+            ApiService.messageApi().add(message);
         // If Student has sent a Message before, edit the Message
         } else {
             Message message = new Message(stringMsg, info);
-            ApiService.messageApi.patch(studentMsgId, message);
+            ApiService.messageApi().patch(studentMsgId, message);
         }
     }
 

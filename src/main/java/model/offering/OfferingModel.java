@@ -27,8 +27,8 @@ public class OfferingModel extends BasicModel {
     public void refresh() {
         this.errorText = "";
         bidsOnGoing.clear(); // for memory cleaning
-        User currentUser = ApiService.userApi.get(userId);
-        List<Bid> bids = ApiService.bidApi.getAll();
+        User currentUser = ApiService.userApi().get(userId);
+        List<Bid> bids = ApiService.bidApi().getAll();
         ExpiryService expiryService = new ExpiryService();
         for (Bid b: bids) {
             if (!expiryService.checkIsExpired(b)) {

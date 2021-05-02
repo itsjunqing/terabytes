@@ -26,7 +26,7 @@ public class DashboardModel extends BasicModel {
     @Override
     public void refresh() {
         this.errorText = "";
-        contractsList = ApiService.contractApi.getAll().stream()
+        contractsList = ApiService.contractApi().getAll().stream()
                 .filter(c -> c.getFirstParty().getId().equals(userId)
                         || c.getSecondParty().getId().equals(userId))
                 .collect(Collectors.toList());
@@ -34,7 +34,7 @@ public class DashboardModel extends BasicModel {
     }
 
     public DashboardStatus getStatus() {
-        Bid currentBid = ApiService.userApi.get(userId).getInitiatedBids().stream()
+        Bid currentBid = ApiService.userApi().get(userId).getInitiatedBids().stream()
                                 .filter(b -> b.getDateClosedDown() == null)
                                 .findFirst()
                                 .orElse(null);

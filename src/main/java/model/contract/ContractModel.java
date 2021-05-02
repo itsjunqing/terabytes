@@ -20,22 +20,22 @@ public class ContractModel {
     }
 
     public void createContract(Contract contract) {
-        Contract contractCreated = ApiService.contractApi.add(contract);
+        Contract contractCreated = ApiService.contractApi().add(contract);
         contractId = contractCreated.getId(); // update contract id after creation
     }
 
     public void acceptContract() {
         // only student need to sign contract, tutor no need
-        ApiService.contractApi.sign(contractId, new Contract(new Date()));
+        ApiService.contractApi().sign(contractId, new Contract(new Date()));
     }
 
     public void declineContract() {
-        ApiService.contractApi.remove(contractId);
+        ApiService.contractApi().remove(contractId);
     }
 
     // use this to display in the ContractView
     public Contract getContract() {
-        return ApiService.contractApi.get(contractId);
+        return ApiService.contractApi().get(contractId);
     }
 
     public void setErrorText(String errorText){

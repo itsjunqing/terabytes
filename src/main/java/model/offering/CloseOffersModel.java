@@ -28,7 +28,7 @@ public class CloseOffersModel extends BasicModel {
     @Override
     public void refresh() {
         errorText = "";
-        Bid bid = ApiService.bidApi.get(bidId);
+        Bid bid = ApiService.bidApi().get(bidId);
         BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
         ExpiryService expiryService = new ExpiryService();
         if (!expiryService.checkIsExpired(bid)){
@@ -81,14 +81,14 @@ public class CloseOffersModel extends BasicModel {
     }
 
     public void sendMessage(MessageBidInfo messageBidInfo){
-        if (!expiryService.checkIsExpired(ApiService.bidApi.get(getBidId()))){
+        if (!expiryService.checkIsExpired(ApiService.bidApi().get(getBidId()))){
             String tutorMsgId = messagePair.getTutorMsgId();
             if (tutorMsgId == null) {
                 Message message = new Message(bidId, userId, new Date(), messageBidInfo.getContent(), convertObject(messageBidInfo));
-                ApiService.messageApi.add(message);
+                ApiService.messageApi().add(message);
             } else {
                 Message message = new Message(messageBidInfo.getContent(), convertObject(messageBidInfo));
-                ApiService.messageApi.patch(tutorMsgId, message);
+                ApiService.messageApi().patch(tutorMsgId, message);
             }
         } else{
             errorText = "Bid has Expired";
@@ -97,6 +97,6 @@ public class CloseOffersModel extends BasicModel {
     }
 
     public Bid getBid() {
-        return ApiService.bidApi.get(bidId);
+        return ApiService.bidApi().get(bidId);
     }
 }

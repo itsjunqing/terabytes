@@ -28,14 +28,14 @@ public class ExpiryService {
                 System.out.println("From ExpiryService: Bid is a Has Offer + creating Contract..");
                 BidInfo lastBidInfo = offers.get(offers.size()-1);
                 Contract contract = BuilderService.buildContract(bid, lastBidInfo);
-                ApiService.contractApi.add(contract);
+                ApiService.contractApi().add(contract);
             } else {
                 System.out.println("From ExpiryService: Bid has No Offer + doing nothing..");
             }
         } else {
             System.out.println("From ExpiryService: Bid is a Close Bid + Expired + Closing it..");
         }
-        ApiService.bidApi.close(bid.getId(), new Bid(new Date()));
+        ApiService.bidApi().close(bid.getId(), new Bid(new Date()));
         return true;
     }
 

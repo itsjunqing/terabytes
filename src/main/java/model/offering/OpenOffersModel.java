@@ -35,7 +35,7 @@ public class OpenOffersModel extends BasicModel {
     public void refresh() {
         openOffers.clear();
         errorText = "";
-        Bid bid = ApiService.bidApi.get(bidId);
+        Bid bid = ApiService.bidApi().get(bidId);
         List<BidInfo> offers = new ArrayList<>(bid.getAdditionalInfo().getBidOffers());
         System.out.println("From OpenOfferModel Refreshing..");
         ExpiryService expiryService = new ExpiryService();
@@ -60,12 +60,12 @@ public class OpenOffersModel extends BasicModel {
     }
 
     public Bid getBid() {
-        return ApiService.bidApi.get(bidId);
+        return ApiService.bidApi().get(bidId);
     }
 
     public void sendOffer(BidInfo bidInfo) {
         // Update offer
-        BidAdditionalInfo info = ApiService.bidApi.get(bidId).getAdditionalInfo();
+        BidAdditionalInfo info = ApiService.bidApi().get(bidId).getAdditionalInfo();
         BidInfo currentBidInfo = info.getBidOffers().stream()
                                     .filter(i -> i.getInitiatorId().equals(userId))
                                     .findFirst()
@@ -75,7 +75,7 @@ public class OpenOffersModel extends BasicModel {
             info.getBidOffers().remove(currentBidInfo);
         }
         info.getBidOffers().add(bidInfo);
-        ApiService.bidApi.patch(bidId, new Bid(info));
+        ApiService.bidApi().patch(bidId, new Bid(info));
     }
 
     public void buyOut(){
@@ -86,17 +86,17 @@ public class OpenOffersModel extends BasicModel {
             sendOffer(bidInfo);
             Contract contract = BuilderService.buildContract(getBid(), bidInfo);
             // logic to post contract
-            Contract contractCreated = ApiService.contractApi.add(contract);
+            Contract contractCreated = ApiService.contractApi().add(contract);
 
             // add 10 seconds to contract signing as signDate > creationDate
             // TODO: we can do timeunit.delay?
             Calendar c = Calendar.getInstance();
             c.setTime(new Date());
             c.add(Calendar.SECOND, 10);
-            ApiService.contractApi.sign(contractCreated.getId(), new Contract(c.getTime()));
+            ApiService.contractApi().sign(contractCreated.getId(), new Contract(c.getTime()));
 
             // mark bid as closed
-            ApiService.bidApi.close(bidId, new Bid(new Date()));
+            ApiService.bidApi().close(bidId, new Bid(new Date()));
         } else {
             errorText = "Bid Has Expired";
             oSubject.notifyObservers();

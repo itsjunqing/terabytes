@@ -53,7 +53,7 @@ public class BidInitiation {
                 .forEach(v -> competencyBox.addItem(v));
         competencyBox.setSelectedIndex(-1);
 
-        ApiService.subjectApi.getAll()
+        ApiService.subjectApi().getAll()
                 .stream()
                 .forEach(s -> subjectBox.addItem(s.getName()));
         subjectBox.setSelectedIndex(-1);

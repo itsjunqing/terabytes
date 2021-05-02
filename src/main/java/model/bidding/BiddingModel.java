@@ -24,7 +24,7 @@ public abstract class BiddingModel extends BasicModel {
     protected String bidId;
 
     protected Bid extractBid(String userId, String type) {
-        return ApiService.bidApi.getAll().stream()
+        return ApiService.bidApi().getAll().stream()
                 .filter(b -> b.getDateClosedDown() == null)
                 .filter(b -> b.getType().equalsIgnoreCase(type))
                 .filter(b -> b.getInitiator().getId().equals(userId))
@@ -34,15 +34,15 @@ public abstract class BiddingModel extends BasicModel {
 
     public void markBidClose() {
         Bid bidDateClosed = new Bid(new Date());
-        ApiService.bidApi.close(bidId, bidDateClosed);
+        ApiService.bidApi().close(bidId, bidDateClosed);
     }
 
     public Bid getBid() {
-        return ApiService.bidApi.get(bidId);
+        return ApiService.bidApi().get(bidId);
     }
 
     public Date getBidDate(){
-        return ApiService.bidApi.get(bidId).getDateCreated();
+        return ApiService.bidApi().get(bidId).getDateCreated();
     }
 
 

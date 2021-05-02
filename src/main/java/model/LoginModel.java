@@ -10,7 +10,7 @@ public class LoginModel {
     // Performs a User login verification
     public boolean performLogin(String username, String password) {
         User loginUser = new User(username, password);
-        if (ApiService.userApi.verify(loginUser)) {
+        if (ApiService.userApi().verify(loginUser)) {
             this.user = getUser(username);
             return true;
         }
@@ -19,7 +19,7 @@ public class LoginModel {
 
     // Return a User object
     private User getUser(String username) {
-        return ApiService.userApi.getAll().stream()
+        return ApiService.userApi().getAll().stream()
                 .filter(u -> u.getUserName().equals(username))
                 .findFirst()
                 .orElse(null);
