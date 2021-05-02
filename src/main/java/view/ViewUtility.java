@@ -155,7 +155,6 @@ public class ViewUtility {
                     {"Duration (hours):", Integer.toString(bidInfo.getDuration())},
                     {"Rate (per session):", Integer.toString(bidInfo.getRate())},
                     {"Free Lesson?", freeLesson},
-
             };
             String[] col = {"", ""};
             return new JTable(rec, col);
@@ -184,6 +183,17 @@ public class ViewUtility {
         long minLeft = seconds / 60;
         long secLeft = seconds % 60;
         return minLeft + " minutes, " +  secLeft +  " seconds left till expiry";
+    }
+
+    public static String getCloseBidTimeLeft(Date then) {
+        Date now = new Date();
+        long difference = now.getTime() - then.getTime();
+        long minutes = (Constants.CLOSE_BID_DAYS * 24 * 60) - TimeUnit.MILLISECONDS.toMinutes(difference);
+        // Ref: https://stackoverflow.com/questions/2751073/how-to-convert-minutes-to-days-hours-minutes
+        long dayLeft = minutes / (24 * 60);
+        long hoursLeft = (minutes % (24 * 60)) / 60;
+        long minsLeft = (minutes % (24 * 60)) % 60;
+        return dayLeft + " days, " +  hoursLeft + " hours, " + minsLeft + " mins left till expiry";
     }
 
     // TODO : got from stack overflow and not sure how to rewrite

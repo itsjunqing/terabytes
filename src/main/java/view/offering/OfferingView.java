@@ -125,7 +125,6 @@ public class OfferingView implements Observer {
         viewOffersButton = new JButton("View Offers");
         panel.add(viewOffersButton, gbc2);
 
-
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);

@@ -1,6 +1,5 @@
 package view.bidding;
 
-import entity.Constants;
 import entity.MessageBidInfo;
 import lombok.Getter;
 import model.bidding.CloseBidModel;
@@ -13,9 +12,7 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Getter
 public class CloseBidView implements Observer {
@@ -87,14 +84,12 @@ public class CloseBidView implements Observer {
         // refreshing jlabel
         errorLabel.setText(closeBidModel.getErrorText());
 
-        Date then = closeBidModel.getBidDate();
-        Date now = new Date();
-        long difference = now.getTime() - then.getTime();
-        long dayDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
+        String time = ViewUtility.getCloseBidTimeLeft(closeBidModel.getBidDate());
+
         timeLeft = new JLabel();
         timeLeft.setHorizontalAlignment(0);
         timeLeft.setHorizontalTextPosition(0);
-        timeLeft.setText(dayDifference + " days left till expiry");
+        timeLeft.setText(time);
     }
 
     private void updateView(List<MessageBidInfo> messageBidInfoList, Bid bid) {
@@ -159,20 +154,12 @@ public class CloseBidView implements Observer {
         gbc2.gridheight = 4;
         gbc2.weightx = 1;
 
-        Date then = closeBidModel.getBidDate();
-        Date now = new Date();
-        long difference = now.getTime() - then.getTime();
-        long minutes = (Constants.CLOSE_BID_DAYS * 24 * 60) - TimeUnit.MILLISECONDS.toMinutes(difference);
-
-        // Ref: https://stackoverflow.com/questions/2751073/how-to-convert-minutes-to-days-hours-minutes
-        long dayLeft = minutes / (24 * 60);
-        long hoursLeft = (minutes % (24 * 60)) / 60;
-        long minsLeft = (minutes % (24 * 60)) % 60;
+        String time = ViewUtility.getCloseBidTimeLeft(closeBidModel.getBidDate());
 
         timeLeft = new JLabel();
         timeLeft.setHorizontalAlignment(0);
         timeLeft.setHorizontalTextPosition(0);
-        timeLeft.setText(dayLeft + " days, " +  hoursLeft + " hours, " + minsLeft + " mins left till expiry");
+        timeLeft.setText(time);
         panel.add(timeLeft, gbc2);
 
         // add refresh button
