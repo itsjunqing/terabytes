@@ -6,10 +6,13 @@ import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.text.NumberFormatter;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.text.NumberFormat;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.stream.IntStream;
 
 @Getter
@@ -131,7 +134,6 @@ public class CloseReply {
         panel3.add(rateField, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         timeBox = new JComboBox();
         panel3.add(timeBox, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        messageText = new JTextArea();
         messageText.setLineWrap(true);
         messageText.setText("");
         panel3.add(messageText, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
@@ -172,7 +174,10 @@ public class CloseReply {
                 resultName = currentFont.getName();
             }
         }
-        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
     /**
@@ -191,6 +196,8 @@ public class CloseReply {
         numberInput.setMaximum(Integer.MAX_VALUE);
         numberInput.setAllowsInvalid(false);
         rateField = new JFormattedTextField(numberInput);
+        messageText = new JTextArea();
+        messageText.setWrapStyleWord(true);
     }
 
 

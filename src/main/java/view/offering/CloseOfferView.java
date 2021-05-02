@@ -125,6 +125,8 @@ public class CloseOfferView implements Observer {
         }
             // code to add message panel 1
             JPanel panel = new JPanel();
+            System.out.println("this is the student message:");
+            System.out.println(messagePair.getStudentMsg().toString());
             JTable table = ViewUtility.MessageTable.buildStudentTable(messagePair.getStudentMsg(), closeOffersModel.getBid());
             ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);

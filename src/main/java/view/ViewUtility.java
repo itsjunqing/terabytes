@@ -93,7 +93,7 @@ public class ViewUtility {
             String freeLesson = messageBidInfo.isFreeLesson()? "Yes": "No";
 
             String[][] rec = {
-                    {"Tutor Name:", Utility.getFullName(messageBidInfo.getInitiatorId())},
+                    {"Student Name:", Utility.getFullName(messageBidInfo.getInitiatorId())},
                     {"Subject:", bid.getSubject().getName()},
                     {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
                     {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
