@@ -75,13 +75,13 @@ public class ViewUtility {
     public static class MessageTable {
         public static JTable buildTutorTable(MessageBidInfo messageBidInfo, Bid bid) {
             String[][] rec = {
-                    {"Student Name:", Utility.getFullName(messageBidInfo.getInitiatorId())},
+                    {"Tutor Name:", Utility.getFullName(messageBidInfo.getInitiatorId())},
                     {"Subject:", bid.getSubject().getName()},
                     {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
                     {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
                     {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
                     {"Rate (per session):", Integer.toString(messageBidInfo.getRate())},
-                    {"Student's Message:", messageBidInfo.getContent()}
+                    {"Tutor's Message:", messageBidInfo.getContent()}
             };
             String[] col = {"", ""};
             JTable contractTable = new JTable(rec, col);
@@ -100,7 +100,7 @@ public class ViewUtility {
                     {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
                     {"Rate (per session):", Integer.toString(messageBidInfo.getRate())},
                     {"Free Lesson?", freeLesson},
-                    {"Tutor's Message:", messageBidInfo.getContent()}
+                    {"Student's Message:", messageBidInfo.getContent()}
 
             };
             String[] col = {"", ""};
