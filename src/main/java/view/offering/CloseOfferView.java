@@ -1,16 +1,14 @@
 package view.offering;
 
-import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import model.offering.CloseOffersModel;
 import observer.Observer;
+import view.ViewUtility;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 
 @Getter
@@ -25,16 +23,8 @@ public class CloseOfferView implements Observer {
     private JFrame frame;
     private JLabel errorLabel;
 
-
-    // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
-    // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
-
     public CloseOfferView(CloseOffersModel closeOffersModel) {
         this.closeOffersModel = closeOffersModel;
-        initView();
-    }
-
-    private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Close Message View");
@@ -62,6 +52,7 @@ public class CloseOfferView implements Observer {
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
     }
+
     private void refreshButtons(){
         errorLabel.setText(closeOffersModel.getErrorText());
     }
@@ -80,7 +71,6 @@ public class CloseOfferView implements Observer {
         if (messagePair == null){
             return;
         }
-
 
         JPanel mainList = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -108,8 +98,8 @@ public class CloseOfferView implements Observer {
         if (messagePair.getTutorMsg() != null) {
             // code to add message panel 2
             JPanel panel1 = new JPanel();
-            JTable table2 = getTutorMessageTable(messagePair.getTutorMsg());
-            resizeColumns(table2);
+            JTable table2 = ViewUtility.buildTutorMessageTable(messagePair.getTutorMsg(), closeOffersModel.getBid());
+            ViewUtility.resizeColumns(table2);
             table2.setBounds(10, 10, 500, 100);
             panel1.add(table2);
             TitledBorder title2;
@@ -122,9 +112,9 @@ public class CloseOfferView implements Observer {
             String[] col = {"", ""};
             JTable noOfferTable = new JTable(noOffer, col);
 
-            noOfferTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
+            noOfferTable.getColumnModel().getColumn(1).setCellRenderer(new ViewUtility.WordWrapCellRenderer());
 
-            resizeColumns(noOfferTable);
+            ViewUtility.resizeColumns(noOfferTable);
             noOfferTable.setBounds(10, 10, 500, 100);
             panel1.add(noOfferTable);
 
@@ -132,11 +122,11 @@ public class CloseOfferView implements Observer {
             title2 = BorderFactory.createTitledBorder("Our Bid and Message");
             panel1.setBorder(title2);
             mainList.add(panel1, gbc1, 0);
-        };
+        }
             // code to add message panel 1
             JPanel panel = new JPanel();
-            JTable table = getStudentMessageTable(messagePair.getStudentMsg());
-            resizeColumns(table);
+            JTable table = ViewUtility.buildStudentMessageTable(messagePair.getStudentMsg(), closeOffersModel.getBid());
+            ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);
             TitledBorder title;
@@ -144,68 +134,6 @@ public class CloseOfferView implements Observer {
             panel.setBorder(title);
             mainList.add(panel, gbc1, 0);
     }
-
-    private JTable getStudentMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson = messageBidInfo.isFreeLesson()? "Yes" : "No";
-        String[][] rec = {
-                {"Subject:", ""},
-                {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
-                {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
-                {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
-                {"Rate (per session):", Integer.toString(messageBidInfo.getRate())},
-                {"Free Lesson?:", freeLesson},
-                {"Student's Message:", messageBidInfo.getContent() + "This subject is really hard, are you really smart enough to teach me"}
-
-        };
-        String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-
-        contractTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
-
-        return contractTable;
-    }
-
-    private JTable getTutorMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson = messageBidInfo.isFreeLesson()? "Yes" : "No";
-
-        String[][] rec = {
-                {"Tutor Name:", ""},
-                {"Subject:", ""},
-                {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
-                {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
-                {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
-                {"Rate (per session):", Integer.toString(messageBidInfo.getRate())},
-                {"Free Lesson?", freeLesson},
-                {"Tutor's Message:", messageBidInfo.getContent() + "Yes, I am, I got the top in my class in MIT, followed by a fellowship in harvard and I also am a world champion in"}
-
-        };
-        String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-
-        contractTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
-
-        return contractTable;
-    }
-
-
-
-    // TODO : got from stack overflow and not sure how to rewrite
-    private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
-        WordWrapCellRenderer() {
-            setLineWrap(true);
-            setWrapStyleWord(true);
-        }
-
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            setText(value.toString());
-            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
-            if (table.getRowHeight(row) != getPreferredSize().height) {
-                table.setRowHeight(row, getPreferredSize().height);
-            }
-            return this;
-        }
-    }
-
 
     private void updateButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
@@ -235,11 +163,7 @@ public class CloseOfferView implements Observer {
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        if (closeOffersModel.isExpired()) {
-            errorLabel.setText("Bid has expired, please pick another one");
-        } else {
-            errorLabel.setText(""); // TODO: do we need this? or can remove it?
-        }
+        errorLabel.setText(closeOffersModel.getErrorText());
         panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
@@ -252,26 +176,6 @@ public class CloseOfferView implements Observer {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    private void resizeColumns(JTable table) {
-        TableColumnModel columnModel = table.getColumnModel();
-        int colCount = table.getColumnCount();
-        int rowCount = table.getRowCount();
-        for (int c = 0; c < colCount; c++) {
-            int width = 20;
-            for (int r = 0; r < rowCount; r++) {
-                TableCellRenderer defaultRenderer = table.getCellRenderer(r, c);
-                int defaultSize = table.prepareRenderer(defaultRenderer, r, c).getPreferredSize().width + 1;
-                if (width < defaultSize){
-                    width = defaultSize;
-                }
-            }
-            if(width > 300)
-                width=300;
-            if(width < 200)
-                width=200;
-            columnModel.getColumn(c).setPreferredWidth(width);
-        }
-    }
     @Override
     public void update() {
         refreshContent();

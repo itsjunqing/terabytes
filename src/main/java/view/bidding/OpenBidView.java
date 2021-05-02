@@ -1,21 +1,17 @@
 package view.bidding;
 
-import lombok.Getter;
 import entity.BidInfo;
+import lombok.Getter;
 import model.bidding.OpenBidModel;
 import observer.Observer;
 import stream.Bid;
+import view.ViewUtility;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Getter
 public class OpenBidView implements Observer {
@@ -30,20 +26,16 @@ public class OpenBidView implements Observer {
     private JLabel errorLabel;
     private JLabel timeLeft;
 
-    // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
-    // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
-
     public OpenBidView(OpenBidModel openBidModel) {
         this.openBidModel = openBidModel;
         System.out.println(this.getClass().getName() + " is initiating");
-        initView();
-    }
 
-    private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Open Offers");
+
         updateContent();
+
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         frame.pack();
@@ -58,11 +50,11 @@ public class OpenBidView implements Observer {
         this.frame.dispose();
     }
 
-    public void updateContent() {
+    private void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         Bid bid = openBidModel.getBid();
         List<BidInfo> bidInfoList = new ArrayList<>(openBidModel.getOpenBidOffers());
-        Collections.reverse(bidInfoList);
+//        Collections.reverse(bidInfoList);
 
         int bidIndex = bidInfoList.size();
         updateView(bidInfoList, bid);
@@ -75,7 +67,9 @@ public class OpenBidView implements Observer {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         Bid bid = openBidModel.getBid();
         List<BidInfo> bidInfoList = new ArrayList<>(openBidModel.getOpenBidOffers());
-        Collections.reverse(bidInfoList);
+        System.out.println("From OpenBidView refreshContent function: ");
+        bidInfoList.stream().forEach(b -> System.out.println(b.toString()));
+//        Collections.reverse(bidInfoList);
 
         int bidIndex = bidInfoList.size();
         updateView(bidInfoList, bid);
@@ -89,26 +83,19 @@ public class OpenBidView implements Observer {
         offerSelection.removeAllItems();
         for (int i = 1; i < bidIndex + 1; i++) {
             offerSelection.addItem(i);
-            Date then = openBidModel.getBid().getDateCreated();
-            Date now = new Date();
-            long difference = now.getTime() - then.getTime();
-            long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
-            timeLeft.setText(dayDifference + " days left till expiry");
         }
         // refreshing jlabel
         errorLabel.setText(openBidModel.getErrorText());
 
-        Date then = openBidModel.getBidDate();
-        Date now = new Date();
-        long difference = now.getTime() - then.getTime();
-        long dayDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
+        String time = ViewUtility.getOpenBidTimeLeft(openBidModel.getBidDate());
+
+        System.out.println(time);
+
         timeLeft = new JLabel();
         timeLeft.setHorizontalAlignment(0);
         timeLeft.setHorizontalTextPosition(0);
-        timeLeft.setText(dayDifference + " days left till expiry");
-
+        timeLeft.setText(time); // TODO: not working
     }
-
 
     private void updateView(List<BidInfo> bidInfoList, Bid bid) {
         // to be used upon refresh to update both openBidPanel and buttonPanel
@@ -138,9 +125,9 @@ public class OpenBidView implements Observer {
         for (BidInfo b : bidInfoList) {
             // Code to add open bid panel
             JPanel panel = new JPanel();
-            JTable table = getOpenBidTable(b, bidIndex, bid);
+            JTable table = ViewUtility.buildStudentBidTable(b, bidIndex, bid);
             bidIndex -= 1;
-            resizeColumns(table);
+            ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);
 
@@ -151,44 +138,6 @@ public class OpenBidView implements Observer {
             gbc1.weightx = 1;
             gbc1.fill = GridBagConstraints.HORIZONTAL;
             mainList.add(panel, gbc1, 0);
-        }
-    }
-
-    private JTable getOpenBidTable(BidInfo bidInfo, int bidNo, Bid bid) {
-        String freeLesson = bidInfo.isFreeLesson()? "Yes": "No";
-        String[][] rec = {
-                {"Offer Number: ", Integer.toString(bidNo)},
-                {"Tutor Name:", this.openBidModel.getUserName(bidInfo.getInitiatorId())},
-                {"Subject:", bid.getSubject().getName()},
-                {"Number of Sessions:", Integer.toString(bidInfo.getNumberOfSessions())},
-                {"Day & Time:", bidInfo.getDay() + " " + bidInfo.getTime()},
-                {"Duration (hours):", Integer.toString(bidInfo.getDuration())},
-                {"Rate (per hour):", Integer.toString(bidInfo.getRate())},
-                {"Free Lesson?", freeLesson},
-
-        };
-        String[] col = {"", ""};
-        return new JTable(rec, col);
-    }
-
-    private void resizeColumns(JTable table) {
-        TableColumnModel columnModel = table.getColumnModel();
-        int colCount = table.getColumnCount();
-        int rowCount = table.getRowCount();
-        for (int c = 0; c < colCount; c++) {
-            int width = 20;
-            for (int r = 0; r < rowCount; r++) {
-                TableCellRenderer defaultRenderer = table.getCellRenderer(r, c);
-                int defaultSize = table.prepareRenderer(defaultRenderer, r, c).getPreferredSize().width + 1;
-                if (width < defaultSize){
-                    width = defaultSize;
-                }
-            }
-            if(width > 300)
-                width=300;
-            if(width < 200)
-                width=200;
-            columnModel.getColumn(c).setPreferredWidth(width);
         }
     }
 
@@ -211,15 +160,14 @@ public class OpenBidView implements Observer {
         gbc2.gridheight = 4;
         gbc2.weightx = 1;
 
-        Date then = openBidModel.getBidDate();
-        Date now = new Date();
-        long difference = now.getTime() - then.getTime();
-        long dayDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
+        String time = ViewUtility.getOpenBidTimeLeft(openBidModel.getBidDate());
+
+        System.out.println(time);
 
         timeLeft = new JLabel();
         timeLeft.setHorizontalAlignment(0);
         timeLeft.setHorizontalTextPosition(0);
-        timeLeft.setText(dayDifference + " days left till expiry");
+        timeLeft.setText(time);
         panel.add(timeLeft, gbc2);
 
         // add refresh button
@@ -252,6 +200,7 @@ public class OpenBidView implements Observer {
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
+
     public int getOfferSelection() throws NullPointerException {
         return Integer.parseInt(offerSelection.getSelectedItem().toString());
     }
@@ -261,3 +210,26 @@ public class OpenBidView implements Observer {
         refreshContent();
     }
 }
+
+
+
+
+/*
+
+    private JTable getOpenBidTable(BidInfo bidInfo, int bidNo, Bid bid) {
+        String freeLesson = bidInfo.isFreeLesson()? "Yes": "No";
+        String[][] rec = {
+                {"Offer Number: ", Integer.toString(bidNo)},
+                {"Tutor Name:", this.openBidModel.getUserName(bidInfo.getInitiatorId())},
+                {"Subject:", bid.getSubject().getName()},
+                {"Number of Sessions:", Integer.toString(bidInfo.getNumberOfSessions())},
+                {"Day & Time:", bidInfo.getDay() + " " + bidInfo.getTime()},
+                {"Duration (hours):", Integer.toString(bidInfo.getDuration())},
+                {"Rate (per hour):", Integer.toString(bidInfo.getRate())},
+                {"Free Lesson?", freeLesson},
+
+        };
+        String[] col = {"", ""};
+        return new JTable(rec, col);
+    }
+ */

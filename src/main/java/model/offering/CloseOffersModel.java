@@ -18,12 +18,10 @@ public class CloseOffersModel extends BasicModel {
 
     private String bidId;
     private MessagePair messagePair;
-    private boolean expired;
 
     public CloseOffersModel(String userId, String bidId) {
         this.userId = userId;
         this.bidId = bidId;
-    	this.expired = false;
         refresh();
     }
 
@@ -69,14 +67,14 @@ public class CloseOffersModel extends BasicModel {
             messagePair = new MessagePair(tutorMsgId, tutorBidMessage, studentMsgId, studentBidMessage);
         }
         else {
-            expired = true;
+            errorText = "Bid has expired, please pick another one";
         }
         oSubject.notifyObservers();
 
     }
 
     private MessageAdditionalInfo convertObject(MessageBidInfo messageBidInfo) {
-        return new MessageAdditionalInfo(messageBidInfo.getInitiatorId(), messageBidInfo.getDay(), messageBidInfo.getTime(),
+        return new MessageAdditionalInfo(getBid().getInitiator().getId(), messageBidInfo.getDay(), messageBidInfo.getTime(),
                 messageBidInfo.getDuration(), messageBidInfo.getRate(), messageBidInfo.getNumberOfSessions(),
                 messageBidInfo.isFreeLesson());
     }
@@ -101,5 +99,9 @@ public class CloseOffersModel extends BasicModel {
             errorText = "Bid has Expired";
             oSubject.notifyObservers();
         }
+    }
+
+    public Bid getBid() {
+        return ApiService.bidApi.get(bidId);
     }
 }

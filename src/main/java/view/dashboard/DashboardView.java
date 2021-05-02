@@ -16,14 +16,17 @@ public abstract class DashboardView implements Observer {
     protected JButton initiateButton;
     protected JLabel errorLabel;
     protected JFrame frame;
-    JPanel buttonPanel;
-
-
-    // Note: once buttons are created, when refresh is called, only contractPanel is updated, buttons are not destroyed
-    // so the same buttons listened in the controller will continue to work
+    protected JPanel buttonPanel;
 
     public DashboardView(DashboardModel dashboardModel) {
         this.dashboardModel = dashboardModel;
+    }
+
+    protected void refreshContent(){
+        updateContracts();
+        errorLabel.setText(dashboardModel.getErrorText());
+        SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
     }
 
     public abstract void updateContracts();

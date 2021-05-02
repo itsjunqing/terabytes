@@ -5,12 +5,11 @@ import lombok.Getter;
 import model.offering.OpenOffersModel;
 import observer.Observer;
 import stream.Bid;
+import view.ViewUtility;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,15 +27,9 @@ public class OpenOffersView implements Observer {
     private JLabel errorLabel;
     private JFrame frame;
 
-    // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
-    // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
-
     public OpenOffersView(OpenOffersModel offeringModel) {
         this.openOffersModel = offeringModel;
-        initView();
-    }
 
-    private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("All Open Offers for this Bid");
@@ -74,6 +67,10 @@ public class OpenOffersView implements Observer {
     private void refreshContent(){
         // getting the constants from the model
         List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
+
+        System.out.println("From OpenOffersView refreshContent function");
+        otherBidInfo.stream().forEach(e -> System.out.println(e.toString()));
+
         BidInfo myBidInfo = openOffersModel.getMyOffer();
         Bid bid = openOffersModel.getBid();
         // making the frames
@@ -127,7 +124,7 @@ public class OpenOffersView implements Observer {
             // Code to add open bid panel
             JPanel panel = new JPanel();
             JTable table = getOpenBidTable(b, bid);
-            resizeColumns(table);
+            ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);
             panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
@@ -139,7 +136,7 @@ public class OpenOffersView implements Observer {
             // Code to add open bid panel
             JPanel myBidPanel = new JPanel();
             JTable myBidTable = getMyTable(myBidInfo, bid);
-            resizeColumns(myBidTable);
+            ViewUtility.resizeColumns(myBidTable);
             myBidPanel.setBounds(10, 10, 500, 100);
             myBidPanel.add(myBidTable);
             TitledBorder myOfferTitle;
@@ -153,7 +150,7 @@ public class OpenOffersView implements Observer {
             String[] col = {"", ""};
             JTable noOfferTable = new JTable(noOffer, col);
 
-            resizeColumns(noOfferTable);
+            ViewUtility.resizeColumns(noOfferTable);
             noOfferTable.setBounds(10, 10, 500, 100);
             myBidPanel.add(noOfferTable);
             TitledBorder myOfferTitle;
@@ -167,7 +164,7 @@ public class OpenOffersView implements Observer {
 
         JPanel requestPanel = new JPanel();
         JTable requestTable = getRequest(bid);
-        resizeColumns(requestTable);
+        ViewUtility.resizeColumns(requestTable);
         requestTable.setBounds(10, 10, 500, 100);
         requestPanel.add(requestTable);
         TitledBorder titledBorder;
@@ -176,15 +173,56 @@ public class OpenOffersView implements Observer {
         mainList.add(requestPanel, gbc1, 0);
     }
 
+    private void updateButtons() {
+        // constructs buttonPanel and add into the mainPanel of the view
+        if (buttonPanel != null) {
+            buttonPanel.removeAll();
+        } else {
+            buttonPanel = new JPanel();
+            buttonPanel.setLayout(new BorderLayout());
+            mainPanel.add(buttonPanel);
+        }
 
+        JPanel mainList = new JPanel(new GridBagLayout());
+        JPanel panel = new JPanel();
+        GridBagLayout layout = new GridBagLayout();
+        panel.setLayout(layout);
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.gridwidth = GridBagConstraints.REMAINDER;
+        gbc2.gridheight = 3;
+        gbc2.weightx = 1;
+
+        // add refresh button
+        refreshButton = new JButton("Refresh");
+        panel.add(refreshButton, gbc2);
+
+        // add Provide Offer button
+        respondButton = new JButton("Provide Offer");
+        panel.add(respondButton, gbc2);
+
+        // add select offer button
+        buyOutButton = new JButton("Buy Out");
+        panel.add(buyOutButton, gbc2);
+
+        errorLabel = new JLabel();
+        errorLabel.setForeground(new Color(-4521974));
+        errorLabel.setHorizontalAlignment(0);
+        errorLabel.setHorizontalTextPosition(0);
+        errorLabel.setText(openOffersModel.getErrorText());
+        panel.add(errorLabel);
+
+        panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
+        GridBagConstraints gbc1 = new GridBagConstraints();
+        gbc1.gridwidth = GridBagConstraints.REMAINDER;
+        gbc1.gridheight = 100;
+        gbc1.weightx = 100;
+        gbc1.fill = GridBagConstraints.HORIZONTAL;
+        mainList.add(panel, gbc1, 0);
+        buttonPanel.add(mainList, BorderLayout.CENTER);
+    }
 
     private JTable getOpenBidTable(BidInfo bidInfo, Bid bid) {
-        String freeLesson;
-        if (bidInfo.isFreeLesson()) {
-            freeLesson = "Yes";
-        } else {
-            freeLesson = "No";
-        }
+        String freeLesson = bidInfo.isFreeLesson()? "Yes": "No";
 
         String[][] rec = {
                 {"Tutor Name:", this.openOffersModel.getUserName(bidInfo.getInitiatorId())},
@@ -236,78 +274,7 @@ public class OpenOffersView implements Observer {
         return contractTable;
     }
 
-    private void resizeColumns(JTable table) {
-        TableColumnModel columnModel = table.getColumnModel();
-        int colCount = table.getColumnCount();
-        int rowCount = table.getRowCount();
-        for (int c = 0; c < colCount; c++) {
-            int width = 20;
-            for (int r = 0; r < rowCount; r++) {
-                TableCellRenderer defaultRenderer = table.getCellRenderer(r, c);
-                int defaultSize = table.prepareRenderer(defaultRenderer, r, c).getPreferredSize().width + 1;
-                if (width < defaultSize){
-                    width = defaultSize;
-                }
-            }
-            if(width > 300)
-                width=300;
-            if(width < 200)
-                width=200;
-            columnModel.getColumn(c).setPreferredWidth(width);
-        }
-    }
 
-    private void updateButtons() {
-        // constructs buttonPanel and add into the mainPanel of the view
-        if (buttonPanel != null) {
-            buttonPanel.removeAll();
-        } else {
-            buttonPanel = new JPanel();
-            buttonPanel.setLayout(new BorderLayout());
-            mainPanel.add(buttonPanel);
-        }
-
-        JPanel mainList = new JPanel(new GridBagLayout());
-        JPanel panel = new JPanel();
-        GridBagLayout layout = new GridBagLayout();
-        panel.setLayout(layout);
-        GridBagConstraints gbc2 = new GridBagConstraints();
-        gbc2.gridwidth = GridBagConstraints.REMAINDER;
-        gbc2.gridheight = 3;
-        gbc2.weightx = 1;
-
-        // add refresh button
-        refreshButton = new JButton("Refresh");
-        panel.add(refreshButton, gbc2);
-
-        // add Provide Offer button
-        respondButton = new JButton("Provide Offer");
-        panel.add(respondButton, gbc2);
-
-        // add select offer button
-        buyOutButton = new JButton("Buy Out");
-        panel.add(buyOutButton, gbc2);
-
-        errorLabel = new JLabel();
-        errorLabel.setForeground(new Color(-4521974));
-        errorLabel.setHorizontalAlignment(0);
-        errorLabel.setHorizontalTextPosition(0);
-        if (openOffersModel.isExpired()) {
-            errorLabel.setText("Bid has expired, please pick another one");
-        } else {
-            errorLabel.setText(""); // TODO: do we need this? or can remove it?
-        }
-        panel.add(errorLabel);
-
-        panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
-        GridBagConstraints gbc1 = new GridBagConstraints();
-        gbc1.gridwidth = GridBagConstraints.REMAINDER;
-        gbc1.gridheight = 100;
-        gbc1.weightx = 100;
-        gbc1.fill = GridBagConstraints.HORIZONTAL;
-        mainList.add(panel, gbc1, 0);
-        buttonPanel.add(mainList, BorderLayout.CENTER);
-    }
 
     @Override
     public void update() {

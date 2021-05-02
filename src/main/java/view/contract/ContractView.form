@@ -67,7 +67,7 @@
         </constraints>
         <properties>
           <foreground color="-4521974"/>
-          <text value="Label"/>
+          <text value=""/>
         </properties>
       </component>
     </children>

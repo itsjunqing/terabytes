@@ -1,15 +1,14 @@
 package view.bidding;
 
-import entity.MessageBidInfo;
 import entity.MessagePair;
 import lombok.Getter;
 import observer.Observer;
+import stream.Bid;
+import view.ViewUtility;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 
 
@@ -26,15 +25,14 @@ public class CloseMessageView implements Observer {
     private JButton respondMessageButton; // only keep a respond button
     private JButton selectBidButton; // TODO: remove this
     private MessagePair messagePair;
+    private Bid bid;
     private JFrame frame;
     private JLabel errorLabel;
 
-    public CloseMessageView(MessagePair messagePair) {
+    public CloseMessageView(MessagePair messagePair, Bid bid) {
         this.messagePair = messagePair;
-        initView();
-    }
+        this.bid = bid;
 
-    private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Closed Messages");
@@ -106,8 +104,8 @@ public class CloseMessageView implements Observer {
 
         // code to add message panel 2
         JPanel panel1 = new JPanel();
-        JTable table2 = getTutorMessageTable(messagePair.getTutorMsg());
-        resizeColumns(table2);
+        JTable table2 = ViewUtility.buildTutorMessageTable(messagePair.getTutorMsg(), bid);
+        ViewUtility.resizeColumns(table2);
         table2.setBounds(10, 10, 500, 100);
         panel1.add(table2);
         TitledBorder title2;
@@ -117,110 +115,14 @@ public class CloseMessageView implements Observer {
 
         // code to add message panel 1
         JPanel panel = new JPanel();
-        JTable table = getStudentMessageTable(messagePair.getStudentMsg());
-        resizeColumns(table);
+        JTable table = ViewUtility.buildStudentMessageTable(messagePair.getStudentMsg(), bid);
+        ViewUtility.resizeColumns(table);
         table.setBounds(10, 10, 500, 100);
         panel.add(table);
         TitledBorder title;
         title = BorderFactory.createTitledBorder("Initial Request and Message");
         panel.setBorder(title);
         mainList.add(panel, gbc1, 0);
-    }
-
-    private JTable getStudentMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson;
-        if (messageBidInfo.isFreeLesson()) {
-            freeLesson = "Yes";
-        } else {
-            freeLesson = "No";
-        }
-
-        String[][] rec = {
-                {"Subject:", ""},
-                {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
-                {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
-                {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
-                {"Rate (per hour):", Integer.toString(messageBidInfo.getRate())},
-                {"Free Lesson?:", freeLesson},
-                {"Message to Tutor:", messageBidInfo.getContent() }
-
-        };
-        String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-
-        contractTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
-
-        return contractTable;
-    }
-
-    private JTable getTutorMessageTable(MessageBidInfo messageBidInfo) {
-        String freeLesson;
-        if (messageBidInfo.isFreeLesson()) {
-            freeLesson = "Yes";
-        } else {
-            freeLesson = "No";
-        }
-
-        String[][] rec = {
-                {"Tutor Name:", ""},
-                {"Subject:", ""},
-                {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
-                {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
-                {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
-                {"Rate (per hour):", Integer.toString(messageBidInfo.getRate())},
-                {"Free Lesson?", freeLesson},
-                {"Message from tutor:", messageBidInfo.getContent()}
-
-        };
-        String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-
-        contractTable.getColumnModel().getColumn(1).setCellRenderer(new WordWrapCellRenderer());
-
-        return contractTable;
-    }
-
-    @Override
-    public void update() {
-        updateContent();
-    }
-
-    private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
-        WordWrapCellRenderer() {
-            setLineWrap(true);
-            setWrapStyleWord(true);
-        }
-
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            setText(value.toString());
-            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
-            if (table.getRowHeight(row) != getPreferredSize().height) {
-                table.setRowHeight(row, getPreferredSize().height);
-            }
-            return this;
-        }
-    }
-
-
-    private void resizeColumns(JTable table) {
-        TableColumnModel columnModel = table.getColumnModel();
-        int colCount = table.getColumnCount();
-        int rowCount = table.getRowCount();
-        for (int c = 0; c < colCount; c++) {
-            int width = 20;
-            for (int r = 0; r < rowCount; r++) {
-                TableCellRenderer defaultRenderer = table.getCellRenderer(r, c);
-                int defaultSize = table.prepareRenderer(defaultRenderer, r, c).getPreferredSize().width + 1;
-                if (width < defaultSize){
-                    width = defaultSize;
-                }
-            }
-            if(width > 300)
-                width=300;
-            if(width < 200)
-                width=200;
-            columnModel.getColumn(c).setPreferredWidth(width);
-        }
     }
 
     private void updateButtons() {
@@ -269,5 +171,12 @@ public class CloseMessageView implements Observer {
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
+
+    @Override
+    public void update() {
+        updateContent();
+    }
+
+
 
 }

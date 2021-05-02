@@ -1,6 +1,7 @@
 package service;
 
 import entity.BidInfo;
+import entity.Constants;
 import stream.Bid;
 import stream.Contract;
 
@@ -45,11 +46,9 @@ public class ExpiryService {
         long minuteDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
         long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
         if (bid.getType().equals("Open") ) {
-//            return minuteDifference > 30;
-            return minuteDifference > 30000000;
+            return minuteDifference >= Constants.OPEN_BID_MINS;
         } else {
-//            return dayDifference > 7;
-            return dayDifference > 70000;
+            return dayDifference >= Constants.CLOSE_BID_DAYS;
         }
     }
 

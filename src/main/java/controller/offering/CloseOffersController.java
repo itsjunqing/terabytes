@@ -29,7 +29,6 @@ public class CloseOffersController {
     }
 
     private void handleRefresh(ActionEvent e) {
-        // TODO: to be updated
         closeOffersModel.refresh();
     }
 
@@ -42,8 +41,6 @@ public class CloseOffersController {
         try {
             MessageBidInfo messageBidInfo = extractCloseReplyInfo(closeReply);
             System.out.println("Extracted: " + messageBidInfo);
-            closeReply.dispose();
-//            closeOffersModel.sendMessage(messageBidInfo);
             closeOffersModel.respondMessage(messageBidInfo);
             closeReply.dispose();
         } catch (NullPointerException exception) {

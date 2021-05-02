@@ -23,13 +23,6 @@ public abstract class BiddingModel extends BasicModel {
      */
 
     protected String bidId;
-    protected boolean expired;
-    protected Bid bid;
-
-
-    protected BiddingModel() {
-        this.expired = false;
-    }
 
     protected Bid extractBid(String userId, String type) {
         return ApiService.bidApi.getAll().stream()
@@ -57,12 +50,7 @@ public abstract class BiddingModel extends BasicModel {
     }
 
     public Date getBidDate(){
-        if (bid == null){
-            return ApiService.bidApi.get(bidId).getDateCreated();
-        }
-        else {
-            return bid.getDateCreated();
-        }
+        return ApiService.bidApi.get(bidId).getDateCreated();
     }
 
 

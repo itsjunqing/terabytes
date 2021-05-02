@@ -4,11 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import model.dashboard.DashboardModel;
 import stream.Contract;
+import view.ViewUtility;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,12 +18,10 @@ public class TutorView extends DashboardView {
 
     public TutorView(DashboardModel dashboardModel) {
         super(dashboardModel);
-        initView();
-    }
 
-    private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
+
         frame = new JFrame("Tutor Dashboard");
         updateContracts();
         addButtons();
@@ -37,18 +34,6 @@ public class TutorView extends DashboardView {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
-
-
-    private void refreshContent(){
-        updateContracts();
-        // refreshing jlabel
-        errorLabel.setText(dashboardModel.getErrorText());
-        SwingUtilities.updateComponentTreeUI(frame);
-        frame.pack();
-    }
-
-
 
     public void updateContracts() {
         // if contractPanel already constructed, just remove the contents (only one item inside - mainList)
@@ -80,9 +65,9 @@ public class TutorView extends DashboardView {
         int contractIndex = contractList.size();
         for (Contract c: contractList) {
             JPanel panel = new JPanel();
-            JTable table = getTable(c, contractIndex);
+            JTable table = ViewUtility.buildTutorContractTable(c, contractIndex);
             contractIndex -= 1;
-            resizeColumns(table);
+            ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);
 
@@ -95,22 +80,6 @@ public class TutorView extends DashboardView {
             mainList.add(panel, gbc1, 0);
         }
     }
-
-    private JTable getTable(Contract contractObject, int contractNo) {
-        String[][] rec = {
-                {"Contract Number", Integer.toString(contractNo)},
-                {"Contract End Date", contractObject.getExpiryDate().toString()},
-                {"Student Name", contractObject.getFirstParty().getGivenName() + " " + contractObject.getFirstParty().getFamilyName()},
-                {"Subject", contractObject.getSubject().getName()},
-                {"Number Of Sessions",  contractObject.getLessonInfo().getNumberOfSessions().toString()},
-                {"Day & Time", contractObject.getLessonInfo().getTime() + " " + contractObject.getLessonInfo().getDay()},
-                {"Duration", contractObject.getLessonInfo().getDuration().toString() + " hour(s)"},
-                {"Rate (per session)", "$" + Integer.toString( contractObject.getPaymentInfo().getTotalPrice()/contractObject.getLessonInfo().getNumberOfSessions())},
-        };
-        String[] col = {"", ""};
-        return new JTable(rec, col);
-    }
-
 
     private void addButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
@@ -143,29 +112,14 @@ public class TutorView extends DashboardView {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
-    }
-    private void resizeColumns(JTable table) {
-        TableColumnModel columnModel = table.getColumnModel();
-        int colCount = table.getColumnCount();
-        int rowCount = table.getRowCount();
-        for (int c = 0; c < colCount; c++) {
-            int width = 20;
-            for (int r = 0; r < rowCount; r++) {
-                TableCellRenderer defaultRenderer = table.getCellRenderer(r, c);
-                int defaultSize = table.prepareRenderer(defaultRenderer, r, c).getPreferredSize().width + 1;
-                if (width < defaultSize){
-                    width = defaultSize;
-                }
-            }
-            if(width > 300)
-                width=300;
-            if(width < 200)
-                width=200;
-            columnModel.getColumn(c).setPreferredWidth(width);
-        }
-    }
 
-
+        errorLabel = new JLabel();
+        errorLabel.setForeground(new Color(-4521974));
+        errorLabel.setHorizontalAlignment(0);
+        errorLabel.setHorizontalTextPosition(0);
+        errorLabel.setText(dashboardModel.getErrorText());
+        panel.add(errorLabel);
+    }
 
     @Override
     public void update() {

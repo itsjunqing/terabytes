@@ -15,11 +15,12 @@ import java.util.List;
 public class OfferingModel extends BasicModel {
 
     private List<Bid> bidsOnGoing;
-//    protected String errorText;
+    protected String errorText; // TODO: are we using this?
 
     public OfferingModel(String userId) {
         this.userId = userId;
         this.bidsOnGoing = new ArrayList<>();
+        refresh();
     }
 
     public void refresh() {

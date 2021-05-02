@@ -4,11 +4,10 @@ import lombok.Getter;
 import model.offering.OfferingModel;
 import observer.Observer;
 import stream.Bid;
+import view.ViewUtility;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,11 +30,7 @@ public class OfferingView implements Observer {
 
     public OfferingView(OfferingModel offeringModel) {
         this.offeringModel = offeringModel;
-        offeringModel.refresh();
-        initView();
-    }
 
-    private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Tutor Offering View");
@@ -48,7 +43,6 @@ public class OfferingView implements Observer {
         frame.setPreferredSize(new Dimension(860, 500));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
     }
 
     private void updateContent() {
@@ -169,14 +163,13 @@ public class OfferingView implements Observer {
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         offeringPanel.add(jScrollPane);
 
-
         int bidSize = bidList.size();
         for (Bid b: bidList) {
             // Code to generate an open contract panel
                 JPanel panel = new JPanel();
                 JTable table = getTable(b, bidSize);
                 bidSize -= 1;
-                resizeColumnWidth(table);
+                ViewUtility.resizeColumns(table);
                 table.setBounds(10, 10, 500, 100);
                 panel.add(table);
 
@@ -189,7 +182,6 @@ public class OfferingView implements Observer {
                 mainList.add(panel, gbc1, 0);
         }
     }
-
 
     private JTable getTable(Bid bidObject, int index) {
         String[][] rec = {
@@ -206,25 +198,6 @@ public class OfferingView implements Observer {
         String[] col = {"", ""};
         JTable contractTable = new JTable(rec, col);
         return contractTable;
-    }
-
-    // TODO: this is from https://stackoverflow.com/questions/17627431/auto-resizing-the-jtable-column-widths, rewrite
-    public void resizeColumnWidth(JTable table) {
-        TableColumnModel columnModel = table.getColumnModel();
-        for (int column = 0; column < table.getColumnCount(); column++) {
-            int width = 15; // Min width
-            for (int row = 0; row < table.getRowCount(); row++) {
-                TableCellRenderer renderer = table.getCellRenderer(row, column);
-                Component comp = table.prepareRenderer(renderer, row, column);
-                width = Math.max(comp.getPreferredSize().width +1 , width);
-            }
-            System.out.println(width);
-            if(width > 300)
-                width=300;
-            if(width < 200)
-                width=200;
-            columnModel.getColumn(column).setPreferredWidth(width);
-        }
     }
 
     public int getBidNumber() throws NullPointerException {

@@ -1,7 +1,6 @@
 package controller.offering;
 
 import entity.BidInfo;
-import entity.BidPreference;
 import model.offering.OpenOffersModel;
 import view.form.OpenReply;
 import view.offering.OpenOffersView;
@@ -54,12 +53,6 @@ public class OpenOffersController {
 
     private void handleBuyOut(ActionEvent e) {
         // Get preferences -> Add BidInfo -> create contract -> sign -> dispose
-        // TODO: Nick need to add contract handling here for signing
-//        BidPreference bp = openOffersModel.getBid().getAdditionalInfo().getBidPreference();
-//        BidInfo bidInfo = bp.getPreferences();
-//        bidInfo.setInitiatorId(openOffersModel.getUserId());
-//        openOffersModel.sendOffer(bidInfo);
-//        createContract(openOffersModel.getBid(), bidInfo);
         openOffersModel.buyOut();
         openOffersView.dispose();
     }

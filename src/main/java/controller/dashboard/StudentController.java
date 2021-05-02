@@ -84,6 +84,7 @@ public class StudentController extends DashboardController {
             form.dispose();
             new OpenBidController(dashboardModel.getUserId(), bp);
         } catch (NullPointerException exception) {
+            System.out.println("Incomplete form found");
             form.getErrorLabel().setText("Incomplete form!");
         }
     }
@@ -95,11 +96,13 @@ public class StudentController extends DashboardController {
             form.dispose();
             new CloseBidController(dashboardModel.getUserId(), bp);
         } catch (NullPointerException exception) {
+            System.out.println("Incomplete form found");
             form.getErrorLabel().setText("Incomplete form!");
         }
     }
 
     private BidPreference extractFormInfo(BidInitiation form) throws NullPointerException {
+        System.out.println("From StudentController: Extracting bid information..");
         QualificationTitle q = form.getQualification();
         int c = form.getCompetency();
         String s = form.getSubject();

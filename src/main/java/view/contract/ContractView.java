@@ -2,16 +2,14 @@ package view.contract;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
+import entity.Utility;
 import lombok.Getter;
 import model.contract.ContractModel;
 import observer.Observer;
 import stream.Contract;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.util.Locale;
 
 @Getter
 public class ContractView implements Observer {
@@ -85,7 +83,7 @@ public class ContractView implements Observer {
         panel3.add(cancelButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label2 = new JLabel();
         label2.setForeground(new Color(-4521974));
-        label2.setText("Label");
+        label2.setText("");
         panel1.add(label2, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
@@ -105,10 +103,7 @@ public class ContractView implements Observer {
                 resultName = currentFont.getName();
             }
         }
-        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
-        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
-        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
-        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
+        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
     }
 
     /**
@@ -121,12 +116,12 @@ public class ContractView implements Observer {
     private JTable getTable(Contract contractObject) {
         String[][] rec = {
                 {"Contract End Date", contractObject.getExpiryDate().toString()},
-                {"Tutor Name", contractObject.getSecondParty().getGivenName()},
+                {"Tutor Name", Utility.getFullName(contractObject.getSecondParty())},
                 {"Subject", contractObject.getSubject().getName()},
                 {"Number Of Sessions", contractObject.getLessonInfo().getNumberOfSessions().toString()},
                 {"Day & Time", contractObject.getLessonInfo().getTime() + " " + contractObject.getLessonInfo().getDay()},
                 {"Duration", contractObject.getLessonInfo().getDuration().toString() + " hour(s)"},
-                {"Rate (per session)", "$ " + Integer.toString(contractObject.getPaymentInfo().getTotalPrice() / contractObject.getLessonInfo().getNumberOfSessions())},
+                {"Total Price", "$" + contractObject.getPaymentInfo().getTotalPrice()},
         };
         String[] col = {"", ""};
         JTable contractTable = new JTable(rec, col);

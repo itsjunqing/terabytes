@@ -3,11 +3,10 @@ package view.dashboard;
 import lombok.Getter;
 import model.dashboard.DashboardModel;
 import stream.Contract;
+import view.ViewUtility;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,10 +17,7 @@ public class StudentView extends DashboardView {
 
     public StudentView(DashboardModel dashboardModel) {
         super(dashboardModel);
-        initView();
-    }
 
-    private void initView() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
 
@@ -37,18 +33,6 @@ public class StudentView extends DashboardView {
         frame.setPreferredSize(new Dimension(860, 500));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-    }
-
-
-    private void refreshContent(){
-        updateContracts();
-        refreshButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-        frame.pack();
-    }
-
-    private void refreshButtons(){
-        errorLabel.setText(dashboardModel.getErrorText());
     }
 
     public void updateContracts() {
@@ -80,9 +64,9 @@ public class StudentView extends DashboardView {
         int contractIndex = contractList.size();
         for (Contract c: contractList) {
             JPanel panel = new JPanel();
-            JTable table = getTable(c, contractIndex);
+            JTable table = ViewUtility.buildStudentContractTable(c, contractIndex);
             contractIndex -= 1;
-            resizeColumns(table);
+            ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);
 
@@ -93,43 +77,6 @@ public class StudentView extends DashboardView {
             gbc1.weightx = 1;
             gbc1.fill = GridBagConstraints.HORIZONTAL;
             mainList.add(panel, gbc1, 0);
-        }
-    }
-
-    private JTable getTable(Contract contractObject, int contractNo) {
-        String[][] rec = {
-                {"Contract Number", Integer.toString(contractNo)},
-                {"Contract End Date", contractObject.getExpiryDate().toString()},
-                {"Tutor Name", contractObject.getSecondParty().getGivenName() + " " + contractObject.getSecondParty().getFamilyName()},
-                {"Subject", contractObject.getSubject().getName()},
-                {"Number Of Sessions",  contractObject.getLessonInfo().getNumberOfSessions().toString()},
-                {"Day & Time", contractObject.getLessonInfo().getTime() + " " + contractObject.getLessonInfo().getDay()},
-                {"Duration", contractObject.getLessonInfo().getDuration().toString() + " hour(s)"},
-                {"Rate (per session)", "$" + Integer.toString( contractObject.getPaymentInfo().getTotalPrice()/contractObject.getLessonInfo().getNumberOfSessions())},
-        };
-        String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-        return contractTable;
-    }
-
-    private void resizeColumns(JTable table) {
-        TableColumnModel columnModel = table.getColumnModel();
-        int colCount = table.getColumnCount();
-        int rowCount = table.getRowCount();
-        for (int c = 0; c < colCount; c++) {
-            int width = 20;
-            for (int r = 0; r < rowCount; r++) {
-                TableCellRenderer defaultRenderer = table.getCellRenderer(r, c);
-                int defaultSize = table.prepareRenderer(defaultRenderer, r, c).getPreferredSize().width + 1;
-                if (width < defaultSize){
-                    width = defaultSize;
-                }
-            }
-            if(width > 300)
-                width=300;
-            if(width < 200)
-                width=200;
-            columnModel.getColumn(c).setPreferredWidth(width);
         }
     }
 

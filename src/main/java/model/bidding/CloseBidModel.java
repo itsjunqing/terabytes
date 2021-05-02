@@ -31,8 +31,8 @@ public class CloseBidModel extends BiddingModel {
      * @param bp
      */
     public CloseBidModel(String userId, BidPreference bp) {
-        Bid bidCreated = BuilderService.buildBid(userId, bp, "Close");
-        ApiService.bidApi.add(bidCreated);
+        Bid bid = BuilderService.buildBid(userId, bp, "Close");
+        Bid bidCreated = ApiService.bidApi.add(bid);
         initModel(userId, bidCreated);
     }
 
@@ -46,7 +46,6 @@ public class CloseBidModel extends BiddingModel {
     }
 
     private void initModel(String userId, Bid bid) {
-        this.bid = bid;
         this.bidId = bid.getId();
         this.userId = userId;
         this.closeBidOffers = new ArrayList<>();
@@ -59,9 +58,9 @@ public class CloseBidModel extends BiddingModel {
         this.errorText = "";
         closeBidOffers.clear();
         closeBidMessages.clear();
-        if (bid == null) {
-            bid = ApiService.bidApi.get(bidId);
-        }
+
+        Bid bid = ApiService.bidApi.get(bidId);
+
         // check if the bid is expired, if the bid is expired, then remove the bid,
         // return an empty list, and update the error text
         if (!expiryService.checkIsExpired(bid)){

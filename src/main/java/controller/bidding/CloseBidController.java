@@ -39,11 +39,10 @@ public class CloseBidController extends BiddingController {
      */
     public CloseBidController(String userId) {
         SwingUtilities.invokeLater(() -> {
-
             this.closeBidModel = new CloseBidModel(userId);
-        this.closeBidView = new CloseBidView(closeBidModel);
-        this.closeBidModel.attach(closeBidView);
-        listenViewActions();
+            this.closeBidView = new CloseBidView(closeBidModel);
+            this.closeBidModel.attach(closeBidView);
+            listenViewActions();
         });
 
     }
@@ -62,33 +61,43 @@ public class CloseBidController extends BiddingController {
 
     private void handleViewMessage(ActionEvent e) {
         System.out.println("From CloseBidController: View Message is clicked");
-        int selection = closeBidView.getOfferSelection();
-        MessagePair messagePair = closeBidModel.viewMessage(selection);
-        if (messagePair != null) {
-            CloseMessageView closeMessageView = new CloseMessageView(messagePair);
-            closeMessageView.getRespondMessageButton().addActionListener(e1 -> {
-                ReplyMessage replyMessage = new ReplyMessage();
+        try {
+            int selection = closeBidView.getOfferSelection();
+            MessagePair messagePair = closeBidModel.viewMessage(selection);
+            if (messagePair != null) {
+                CloseMessageView closeMessageView = new CloseMessageView(messagePair, closeBidModel.getBid());
+                closeMessageView.getRespondMessageButton().addActionListener(e1 -> {
+                    ReplyMessage replyMessage = new ReplyMessage();
 
-                // When student has pressed "Reply":
-                // Send the Message --> Close ReplyMessage window --> Close CloseMessageView window
-                replyMessage.getReplyButton().addActionListener(e2 -> {
-                    String studentMsg = replyMessage.getMessageText().getText();
-                    closeBidModel.sendMessage(messagePair, studentMsg);
-                    replyMessage.dispose();
-                    closeMessageView.dispose();
+                    // When student has pressed "Reply":
+                    // Send the Message --> Close ReplyMessage window --> Close CloseMessageView window
+                    replyMessage.getReplyButton().addActionListener(e2 -> {
+                        String studentMsg = replyMessage.getMessageText().getText();
+                        closeBidModel.sendMessage(messagePair, studentMsg);
+                        replyMessage.dispose();
+                        closeMessageView.dispose();
+                    });
                 });
-            });
+            }
+
+        } catch (NullPointerException ef) {
+            closeBidView.getErrorLabel().setText("No offers selected!");
         }
     }
 
     private void handleOfferSelection(ActionEvent e) {
         System.out.println("From CloseBidController: Offer selection is clicked");
-        int selection = closeBidView.getOfferSelection();
-        Contract contract = closeBidModel.offerSelection(selection);
-        if (contract != null) {
-            handleContract(contract);
-            closeBidView.dispose();
+        try {
+            int selection = closeBidView.getOfferSelection();
+            Contract contract = closeBidModel.offerSelection(selection);
+            if (contract != null) {
+                handleContract(contract);
+                closeBidView.dispose();
+            }
+        } catch (NullPointerException ef) {
+            closeBidView.getErrorLabel().setText("No offers selected!");
         }
+
     }
 }
 

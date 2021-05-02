@@ -1,9 +1,7 @@
 package controller.bidding;
 
-import entity.BidInfo;
 import entity.BidPreference;
 import model.bidding.OpenBidModel;
-import stream.Bid;
 import stream.Contract;
 import view.bidding.OpenBidView;
 
@@ -23,7 +21,6 @@ public class OpenBidController extends BiddingController {
      */
     public OpenBidController(String userId, BidPreference bp) {
         SwingUtilities.invokeLater(() -> {
-
             this.openBidModel = new OpenBidModel(userId, bp);
             this.openBidView = new OpenBidView(openBidModel);
             this.openBidModel.attach(openBidView);
@@ -37,11 +34,10 @@ public class OpenBidController extends BiddingController {
      */
     public OpenBidController(String userId) {
         SwingUtilities.invokeLater(() -> {
-
             this.openBidModel = new OpenBidModel(userId);
-        this.openBidView = new OpenBidView(openBidModel);
-        this.openBidModel.attach(openBidView);
-        listenViewActions();
+            this.openBidView = new OpenBidView(openBidModel);
+            this.openBidModel.attach(openBidView);
+            listenViewActions();
         });
     }
 

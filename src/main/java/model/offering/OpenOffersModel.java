@@ -23,31 +23,30 @@ public class OpenOffersModel extends BasicModel {
     private String bidId;
     private BidInfo myOffer;
     private List<BidInfo> openOffers;
-    private boolean expired;
 
     public OpenOffersModel(String userId, String bidId) {
         this.userId = userId;
         this.bidId = bidId;
         this.openOffers = new ArrayList<>();
-        this.expired = false;
         this.errorText = "";
         refresh();
     }
 
     public void refresh() {
         openOffers.clear();
-        this.errorText = "";
+        errorText = "";
         Bid bid = ApiService.bidApi.get(bidId);
-        List<BidInfo> offers = bid.getAdditionalInfo().getBidOffers();
+        List<BidInfo> offers = new ArrayList<>(bid.getAdditionalInfo().getBidOffers());
         System.out.println("From OpenOfferModel Refreshing..");
         ExpiryService expiryService = new ExpiryService();
         // if bid has expired, close down the bid
         if (!expiryService.checkIsExpired(bid)){
-            // openOffers includes all the BidInfo offers (by all tutors) except the current tutor
-            // myOffer is BidInfo offered by itself
             for (BidInfo bidInfo: offers) {
+                // myOffer is BidInfo offered by itself
                 if (bidInfo.getInitiatorId().equals(userId)) {
                     myOffer = bidInfo;
+
+                    // openOffers includes all the BidInfo offers (by all tutors) except the current tutor
                 } else {
                     openOffers.add(bidInfo);
                 }
@@ -55,7 +54,7 @@ public class OpenOffersModel extends BasicModel {
         } else{
             myOffer = null;
             openOffers.clear();
-            expired = true;
+            errorText = "Bid has expired, please pick another one";
         }
         oSubject.notifyObservers();
     }
@@ -63,7 +62,6 @@ public class OpenOffersModel extends BasicModel {
     public Bid getBid() {
         return ApiService.bidApi.get(bidId);
     }
-
 
     public String getUserName(String Id){
         User user = ApiService.userApi.get(Id);
@@ -122,6 +120,7 @@ public class OpenOffersModel extends BasicModel {
         if (!expiryService.checkIsExpired(getBid())) {
             sendOffer(bidInfo);
         } else {
+            errorText = "Bid Has Expired";
         }
     }
 

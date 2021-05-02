@@ -33,7 +33,6 @@ public class DashboardModel extends BasicModel {
     }
 
 
-
     public DashboardStatus getStatus() {
         Bid currentBid = ApiService.userApi.get(userId).getInitiatedBids().stream()
                                 .filter(b -> b.getDateClosedDown() == null)
