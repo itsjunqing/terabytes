@@ -140,6 +140,7 @@ public class CloseBidModel extends BiddingModel {
             Message message = new Message(stringMsg, info);
             ApiService.messageApi().patch(studentMsgId, message);
         }
+        refresh();
     }
 
     public MessagePair viewMessage(int selection){

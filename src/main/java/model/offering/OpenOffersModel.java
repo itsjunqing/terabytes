@@ -109,6 +109,7 @@ public class OpenOffersModel extends BasicModel {
         } else {
             errorText = "Bid Has Expired";
         }
+        refresh();
     }
 
 }

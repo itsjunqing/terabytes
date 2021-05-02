@@ -94,6 +94,7 @@ public class CloseOffersModel extends BasicModel {
             errorText = "Bid has Expired";
             oSubject.notifyObservers();
         }
+        refresh();
     }
 
     public Bid getBid() {
