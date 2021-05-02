@@ -19,11 +19,18 @@ public class ContractModel {
         createContract(contract);
     }
 
+    /**
+     *
+     * @param contract
+     */
     public void createContract(Contract contract) {
         Contract contractCreated = ApiService.contractApi().add(contract);
         contractId = contractCreated.getId(); // update contract id after creation
     }
 
+    /**
+     *
+     */
     public void acceptContract() {
         // only student need to sign contract, tutor no need
         ApiService.contractApi().sign(contractId, new Contract(new Date()));

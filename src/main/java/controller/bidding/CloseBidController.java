@@ -62,7 +62,7 @@ public class CloseBidController extends BiddingController {
         System.out.println("From CloseBidController: View Message is clicked");
         try {
             int selection = closeBidView.getOfferSelection();
-        System.out.println("PLEASE PLEASE WORK");
+            System.out.println("PLEASE PLEASE WORK");
             System.out.printf(Integer.toString(selection));
             MessagePair messagePair = closeBidModel.viewMessage(selection);
             if (messagePair != null) {
@@ -84,6 +84,7 @@ public class CloseBidController extends BiddingController {
         } catch (NullPointerException ef) {
             closeBidView.getErrorLabel().setText("No offers selected!");
         }
+        closeBidModel.refresh();
     }
 
     private void handleOfferSelection(ActionEvent e) {
