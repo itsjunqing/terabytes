@@ -1,5 +1,6 @@
 package controller.offering;
 
+import controller.EventListener;
 import entity.BidInfo;
 import model.offering.OpenOffersModel;
 import view.form.OpenReply;
@@ -8,7 +9,7 @@ import view.offering.OpenOffersView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class OpenOffersController {
+public class OpenOffersController implements EventListener {
 
     private OpenOffersModel openOffersModel;
     private OpenOffersView openOffersView;
@@ -23,7 +24,7 @@ public class OpenOffersController {
 
     }
 
-    private void listenViewActions() {
+    public void listenViewActions() {
         openOffersView.getRefreshButton().addActionListener(this::handleRefresh);
         openOffersView.getRespondButton().addActionListener(this::handleRespond);
         openOffersView.getBuyOutButton().addActionListener(this::handleBuyOut);

@@ -1,5 +1,6 @@
 package controller.offering;
 
+import controller.EventListener;
 import entity.MessageBidInfo;
 import model.offering.CloseOffersModel;
 import view.form.CloseReply;
@@ -8,7 +9,7 @@ import view.offering.CloseOfferView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class CloseOffersController {
+public class CloseOffersController implements EventListener {
 
     private CloseOffersModel closeOffersModel;
     private CloseOfferView closeOfferView;
@@ -23,7 +24,7 @@ public class CloseOffersController {
 
     }
 
-    private void listenViewActions() {
+    public void listenViewActions() {
         closeOfferView.getRefreshButton().addActionListener(this::handleRefresh);
         closeOfferView.getRespondMessageButton().addActionListener(this::handleRespondMessage);
     }

@@ -1,5 +1,6 @@
 package controller.contract;
 
+import controller.EventListener;
 import model.contract.ContractModel;
 import stream.Contract;
 import view.contract.ContractView;
@@ -7,7 +8,7 @@ import view.contract.ContractView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class ContractController {
+public class ContractController implements EventListener {
 
     private ContractModel contractModel;
     private ContractView contractView; // replace this with ContractView

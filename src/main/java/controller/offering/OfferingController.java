@@ -1,5 +1,6 @@
 package controller.offering;
 
+import controller.EventListener;
 import model.offering.OfferingModel;
 import stream.Bid;
 import view.offering.OfferingView;
@@ -7,7 +8,7 @@ import view.offering.OfferingView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class OfferingController {
+public class OfferingController implements EventListener {
 
     private OfferingModel offeringModel;
     private OfferingView offeringView;
@@ -22,7 +23,7 @@ public class OfferingController {
 
     }
 
-    private void listenViewActions() {
+    public void listenViewActions() {
         offeringView.getRefreshButton().addActionListener(this::handleRefresh);
         offeringView.getViewOffersButton().addActionListener(this::handleViewOffers);
     }
