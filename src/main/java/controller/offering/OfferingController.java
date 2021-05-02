@@ -14,7 +14,6 @@ public class OfferingController {
 
     public OfferingController(String userId) {
         SwingUtilities.invokeLater(() -> {
-
             this.offeringModel = new OfferingModel(userId);
             this.offeringView = new OfferingView(offeringModel);
             this.offeringModel.attach(offeringView);
