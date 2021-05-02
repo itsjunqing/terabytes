@@ -1,4 +1,4 @@
-package view.bidding;
+package Test;
 
 import entity.MessageBidInfo;
 import lombok.Getter;
@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class CloseBidView implements Observer {
+public class CloseBidViewTest implements Observer {
     private CloseBidModel closeBidModel;
     private JPanel mainPanel;
     private JPanel openBidPanel;
@@ -28,7 +28,7 @@ public class CloseBidView implements Observer {
     private JLabel errorLabel;
     private JLabel timeLeft;
 
-    public CloseBidView(CloseBidModel closeBidModel) {
+    public CloseBidViewTest(CloseBidModel closeBidModel) {
         this.closeBidModel = closeBidModel;
 
         mainPanel = new JPanel();
@@ -167,10 +167,15 @@ public class CloseBidView implements Observer {
         panel.add(refreshButton, gbc2);
 
         // add offer selection menu
+//        offerSelection = new JComboBox<>();
+//        for (int i = 1; i < count + 1; i++) {
+//            offerSelection.addItem(i);
+//        }
         offerSelection = new JComboBox<>();
-        for (int i = 1; i < count + 1; i++) {
+        for (int i = 1; i < 5 + 1; i++) {
             offerSelection.addItem(i);
         }
+
         panel.add(offerSelection, gbc2);
         viewMessageButton = new JButton("Respond");
         panel.add(viewMessageButton, gbc2);

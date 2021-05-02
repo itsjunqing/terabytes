@@ -20,6 +20,7 @@ public class TutorController extends DashboardController {
             this.dashboardModel.attach(dashboardView);
             listenViewActions();
         });
+
     }
 
     @Override

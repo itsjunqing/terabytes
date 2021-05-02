@@ -20,12 +20,12 @@ public class OpenBidController extends BiddingController {
      * @param bp
      */
     public OpenBidController(String userId, BidPreference bp) {
-        SwingUtilities.invokeLater(() -> {
-            this.openBidModel = new OpenBidModel(userId, bp);
+        this.openBidModel = new OpenBidModel(userId, bp);
+//        SwingUtilities.invokeLater(() -> {
             this.openBidView = new OpenBidView(openBidModel);
             this.openBidModel.attach(openBidView);
             listenViewActions();
-        });
+//        });
     }
 
     /**
@@ -33,12 +33,12 @@ public class OpenBidController extends BiddingController {
      * @param userId
      */
     public OpenBidController(String userId) {
-        SwingUtilities.invokeLater(() -> {
-            this.openBidModel = new OpenBidModel(userId);
+        this.openBidModel = new OpenBidModel(userId);
+//        SwingUtilities.invokeLater(() -> {
             this.openBidView = new OpenBidView(openBidModel);
             this.openBidModel.attach(openBidView);
             listenViewActions();
-        });
+//        });
     }
 
     @Override
@@ -55,6 +55,7 @@ public class OpenBidController extends BiddingController {
     private void handleOfferSelection(ActionEvent e) {
         System.out.println("From OpenBidController: Offer is clicked");
         int selection = openBidView.getOfferSelection();
+        System.out.println("selection");
         Contract contract = openBidModel.offerSelection(selection);
         if (contract != null){
             handleContract(contract);

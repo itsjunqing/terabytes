@@ -13,12 +13,11 @@ public class ContractController {
     private ContractView contractView; // replace this with ContractView
 
     public ContractController(Contract contract) {
-        SwingUtilities.invokeLater(() -> {
-
-            this.contractModel = new ContractModel(contract);
+        this.contractModel = new ContractModel(contract);
+//        SwingUtilities.invokeLater(() -> {
             this.contractView = new ContractView(contractModel);
             listenViewActions();
-        });
+//        });
     }
 
     public void listenViewActions() {

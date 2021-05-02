@@ -1,8 +1,13 @@
 package engine;
 
+import Test.CloseBidViewTest;
 import api.BidApi;
 import api.ContractApi;
 import entity.BidInfo;
+import entity.BidPreference;
+import model.bidding.CloseBidModel;
+import okhttp3.internal.ws.RealWebSocket;
+import service.ApiService;
 import stream.*;
 import view.form.BidInitiation;
 
@@ -19,6 +24,17 @@ public class Driver {
             Logger.getLogger(Driver.class.getName()).info("Please set API_KEY as environment variable");
             return;
         }
+
+        User user = ApiService.userApi().get("e3505cd9-5630-4128-bd0e-cce5515288b4");
+        Bid bid = user.getInitiatedBids().stream().filter(b -> b.getId().equals("ba2c5c62-f5a7-4833-9105-85e538354acf"))
+                .findFirst().orElse(null);
+        BidPreference bp = bid.getAdditionalInfo().getBidPreference();
+        System.out.println(bp.toString());
+        CloseBidModel closeBidModel = new CloseBidModel(user.getId(), bp);
+        CloseBidViewTest closeBidViewTest = new CloseBidViewTest(closeBidModel);
+        closeBidViewTest.getRefreshButton().addActionListener(e -> {
+            System.out.println(closeBidViewTest.getOfferSelection());
+        });
 
 //        List<String> someInt = new ArrayList<String>();
 //        Collections.reverse(someInt);

@@ -13,18 +13,18 @@ public class OfferingController {
     private OfferingView offeringView;
 
     public OfferingController(String userId) {
+        this.offeringModel = new OfferingModel(userId);
         SwingUtilities.invokeLater(() -> {
-            this.offeringModel = new OfferingModel(userId);
             this.offeringView = new OfferingView(offeringModel);
             this.offeringModel.attach(offeringView);
             listenViewActions();
         });
+
     }
 
     private void listenViewActions() {
         offeringView.getRefreshButton().addActionListener(this::handleRefresh);
         offeringView.getViewOffersButton().addActionListener(this::handleViewOffers);
-        offeringView.getRefreshButton().addActionListener(this::handleRefresh);
     }
 
     private void handleRefresh(ActionEvent e) {

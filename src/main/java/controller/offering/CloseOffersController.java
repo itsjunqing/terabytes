@@ -14,12 +14,13 @@ public class CloseOffersController {
     private CloseOfferView closeOfferView;
 
     public CloseOffersController(String userId, String bidId) {
+        this.closeOffersModel = new CloseOffersModel(userId, bidId);
         SwingUtilities.invokeLater(() -> {
-            this.closeOffersModel = new CloseOffersModel(userId, bidId);
             this.closeOfferView = new CloseOfferView(closeOffersModel);
             this.closeOffersModel.attach(closeOfferView);
             listenViewActions();
         });
+
     }
 
     private void listenViewActions() {

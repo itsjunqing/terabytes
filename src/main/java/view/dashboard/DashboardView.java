@@ -26,7 +26,7 @@ public abstract class DashboardView implements Observer {
         updateContracts();
         errorLabel.setText(dashboardModel.getErrorText());
         SwingUtilities.updateComponentTreeUI(frame);
-        frame.pack();
+//        frame.pack();
     }
 
     public abstract void updateContracts();

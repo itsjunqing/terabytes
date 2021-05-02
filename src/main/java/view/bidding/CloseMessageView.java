@@ -37,7 +37,7 @@ public class CloseMessageView implements Observer {
         updateContent();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
-        frame.pack();
+//        frame.pack();
         frame.setMinimumSize(new Dimension(860, 400));
         frame.setMaximumSize(new Dimension(860, 1000));
         frame.setPreferredSize(new Dimension(860, 500));
@@ -53,14 +53,14 @@ public class CloseMessageView implements Observer {
         updateView();
         updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-        frame.pack();
+//        frame.pack();
 
     }
 
     private void refreshContent(){
         updateView();
         SwingUtilities.updateComponentTreeUI(frame);
-        frame.pack();
+//        frame.pack();
     }
 
     private void refreshButtons(){

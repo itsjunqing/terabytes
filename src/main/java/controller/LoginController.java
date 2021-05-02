@@ -14,11 +14,11 @@ public class LoginController {
     private LoginView loginView;
 
     public LoginController(LoginModel loginModel, LoginView loginView) {
-        SwingUtilities.invokeLater(() -> {
-            this.loginModel = loginModel;
+        this.loginModel = loginModel;
+//        SwingUtilities.invokeLater(() -> {
             this.loginView = loginView;
             listenLogin();
-        });
+//        });
     }
 
     private void listenLogin() {

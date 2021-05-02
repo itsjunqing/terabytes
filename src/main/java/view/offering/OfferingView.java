@@ -37,7 +37,7 @@ public class OfferingView implements Observer {
         updateContent();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
-        frame.pack();
+//        frame.pack();
         frame.setMinimumSize(new Dimension(860, 400));
         frame.setMaximumSize(new Dimension(860, 1000));
         frame.setPreferredSize(new Dimension(860, 500));
@@ -61,7 +61,7 @@ public class OfferingView implements Observer {
         updateView(bidList);
         updateButtons(bidSize);
         SwingUtilities.updateComponentTreeUI(frame);
-        frame.pack();
+//        frame.pack();
     }
 
     private void refreshContent() {
@@ -79,7 +79,7 @@ public class OfferingView implements Observer {
         updateView(bidList);
         refreshButtons(bidSize);
         SwingUtilities.updateComponentTreeUI(frame);
-        frame.pack();
+//        frame.pack();
     }
 
     private void refreshButtons(int bidSize){

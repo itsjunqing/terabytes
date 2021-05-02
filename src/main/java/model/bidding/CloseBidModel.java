@@ -145,7 +145,17 @@ public class CloseBidModel extends BiddingModel {
 
     public MessagePair viewMessage(int selection){
         if (!expiryService.checkIsExpired(getBid())){
+            System.out.println("this is the size of the message list");
+            System.out.println(closeBidMessages.size());
+            System.out.printf("this is the selection number" + Integer.toString(selection -1));
+            System.out.println("this is the selected message");
+            System.out.println(closeBidMessages.get(selection-1).getTutorMsg().getContent());
+            System.out.println("this are all messages");
+            for (MessagePair m : closeBidMessages){
+                System.out.println(m.getTutorMsg().getContent());
+            }
             return closeBidMessages.get(selection-1);
+
         } else{
             errorText = "Bid had been closed down, please close the window";
             oSubject.notifyObservers();

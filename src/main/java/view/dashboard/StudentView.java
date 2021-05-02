@@ -26,7 +26,6 @@ public class StudentView extends DashboardView {
         addButtons();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
-        frame.pack();
         // resizing if its smaller than the default size
         frame.setMinimumSize(new Dimension(860, 400));
         frame.setMaximumSize(new Dimension(860, 1000));

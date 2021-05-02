@@ -38,7 +38,7 @@ public class OpenBidView implements Observer {
 
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
-        frame.pack();
+//        frame.pack();
         frame.setMinimumSize(new Dimension(860, 400));
         frame.setMaximumSize(new Dimension(860, 1000));
         frame.setPreferredSize(new Dimension(860, 500));
@@ -60,7 +60,7 @@ public class OpenBidView implements Observer {
         updateView(bidInfoList, bid);
         updateButtons(bidIndex);
         SwingUtilities.updateComponentTreeUI(frame);
-        frame.pack();
+//        frame.pack();
     }
 
     private void refreshContent(){
@@ -75,7 +75,7 @@ public class OpenBidView implements Observer {
         updateView(bidInfoList, bid);
         refreshButtons(bidIndex);
         SwingUtilities.updateComponentTreeUI(frame);
-        frame.pack();
+//        frame.pack();
     }
 
     private void refreshButtons(int bidIndex){

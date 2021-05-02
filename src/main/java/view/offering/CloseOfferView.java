@@ -33,7 +33,7 @@ public class CloseOfferView implements Observer {
         updateButtons();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
-        frame.pack();
+//        frame.pack();
         frame.setMinimumSize(new Dimension(860, 400));
         frame.setMaximumSize(new Dimension(860, 1000));
         frame.setPreferredSize(new Dimension(860, 500));
@@ -50,7 +50,7 @@ public class CloseOfferView implements Observer {
         updateView();
         refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-        frame.pack();
+//        frame.pack();
     }
 
     private void refreshButtons(){

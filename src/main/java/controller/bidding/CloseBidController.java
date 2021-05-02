@@ -24,12 +24,12 @@ public class CloseBidController extends BiddingController {
      * @param bp
      */
     public CloseBidController(String userId, BidPreference bp) {
-        SwingUtilities.invokeLater(() -> {
-            this.closeBidModel = new CloseBidModel(userId, bp);
+        this.closeBidModel = new CloseBidModel(userId, bp);
+//        SwingUtilities.invokeLater(() -> {
             this.closeBidView = new CloseBidView(closeBidModel);
             this.closeBidModel.attach(closeBidView);
-            listenViewActions();
-        });
+//        });
+        listenViewActions();
     }
 
     /**
@@ -38,12 +38,12 @@ public class CloseBidController extends BiddingController {
      * @param userId
      */
     public CloseBidController(String userId) {
-        SwingUtilities.invokeLater(() -> {
-            this.closeBidModel = new CloseBidModel(userId);
+        this.closeBidModel = new CloseBidModel(userId);
+//        SwingUtilities.invokeLater(() -> {
             this.closeBidView = new CloseBidView(closeBidModel);
             this.closeBidModel.attach(closeBidView);
             listenViewActions();
-        });
+//        });
     }
 
     @Override
@@ -60,9 +60,10 @@ public class CloseBidController extends BiddingController {
 
     private void handleViewMessage(ActionEvent e) {
         System.out.println("From CloseBidController: View Message is clicked");
-        closeBidModel.refresh(); // Important to refresh the view
         try {
             int selection = closeBidView.getOfferSelection();
+        System.out.println("PLEASE PLEASE WORK");
+            System.out.printf(Integer.toString(selection));
             MessagePair messagePair = closeBidModel.viewMessage(selection);
             if (messagePair != null) {
                 CloseMessageView closeMessageView = new CloseMessageView(messagePair, closeBidModel.getBid());
@@ -74,6 +75,7 @@ public class CloseBidController extends BiddingController {
                     replyMessage.getReplyButton().addActionListener(e2 -> {
                         String studentMsg = replyMessage.getMessageText().getText();
                         closeBidModel.sendMessage(messagePair, studentMsg);
+                        closeBidModel.refresh();
                         replyMessage.dispose();
                         closeMessageView.dispose();
                     });

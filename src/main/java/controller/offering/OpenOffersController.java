@@ -14,13 +14,13 @@ public class OpenOffersController {
     private OpenOffersView openOffersView;
 
     public OpenOffersController(String userId, String bidId) {
+        this.openOffersModel = new OpenOffersModel(userId, bidId);
         SwingUtilities.invokeLater(() -> {
-
-            this.openOffersModel = new OpenOffersModel(userId, bidId);
             this.openOffersView = new OpenOffersView(openOffersModel);
             this.openOffersModel.attach(openOffersView);
             listenViewActions();
         });
+
     }
 
     private void listenViewActions() {
