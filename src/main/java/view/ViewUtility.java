@@ -75,13 +75,13 @@ public class ViewUtility {
     public static class MessageTable {
         public static JTable buildTutorTable(MessageBidInfo messageBidInfo, Bid bid) {
             String[][] rec = {
-                    {"Student Name:", Utility.getFullName(messageBidInfo.getInitiatorId())},
+                    {"Tutor Name:", Utility.getFullName(messageBidInfo.getInitiatorId())},
                     {"Subject:", bid.getSubject().getName()},
                     {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
                     {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
                     {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
                     {"Rate (per session):", Integer.toString(messageBidInfo.getRate())},
-                    {"Student's Message:", messageBidInfo.getContent()}
+                    {"Tutor's Message:", messageBidInfo.getContent()}
             };
             String[] col = {"", ""};
             JTable contractTable = new JTable(rec, col);
@@ -93,14 +93,14 @@ public class ViewUtility {
             String freeLesson = messageBidInfo.isFreeLesson()? "Yes": "No";
 
             String[][] rec = {
-                    {"Tutor Name:", Utility.getFullName(messageBidInfo.getInitiatorId())},
+                    {"Student Name:", Utility.getFullName(messageBidInfo.getInitiatorId())},
                     {"Subject:", bid.getSubject().getName()},
                     {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
                     {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
                     {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
                     {"Rate (per session):", Integer.toString(messageBidInfo.getRate())},
                     {"Free Lesson?", freeLesson},
-                    {"Tutor's Message:", messageBidInfo.getContent()}
+                    {"Student's Message:", messageBidInfo.getContent()}
 
             };
             String[] col = {"", ""};
@@ -191,6 +191,8 @@ public class ViewUtility {
         long minutes = (Constants.CLOSE_BID_DAYS * 24 * 60) - TimeUnit.MILLISECONDS.toMinutes(difference);
         // Ref: https://stackoverflow.com/questions/2751073/how-to-convert-minutes-to-days-hours-minutes
         long dayLeft = minutes / (24 * 60);
+        System.out.println("this are the minutes");
+        System.out.println(minutes);
         long hoursLeft = (minutes % (24 * 60)) / 60;
         long minsLeft = (minutes % (24 * 60)) % 60;
         return dayLeft + " days, " +  hoursLeft + " hours, " + minsLeft + " mins left till expiry";

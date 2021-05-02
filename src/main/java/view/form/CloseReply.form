@@ -157,6 +157,7 @@
                 <properties>
                   <lineWrap value="true"/>
                   <text value=""/>
+                  <wrapStyleWord value="true"/>
                 </properties>
               </component>
               <component id="f5723" class="javax.swing.JLabel">

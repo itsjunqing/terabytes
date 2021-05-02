@@ -88,10 +88,8 @@ public class OpenBidView implements Observer {
         errorLabel.setText(openBidModel.getErrorText());
 
         String time = ViewUtility.getOpenBidTimeLeft(openBidModel.getBidDate());
-
+        System.out.println("Open bid time left");
         System.out.println(time);
-
-        timeLeft = new JLabel();
         timeLeft.setHorizontalAlignment(0);
         timeLeft.setHorizontalTextPosition(0);
         timeLeft.setText(time); // TODO: not working

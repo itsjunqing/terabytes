@@ -21,8 +21,8 @@ public class TutorView extends DashboardView {
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
-
-        frame = new JFrame("Tutor Dashboard");
+        String name = dashboardModel.getName();
+        frame = new JFrame("Tutor " + name + "'s Dashboard");
         updateContracts();
         addButtons();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

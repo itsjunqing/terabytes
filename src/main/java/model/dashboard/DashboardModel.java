@@ -1,11 +1,13 @@
 package model.dashboard;
 
 import entity.DashboardStatus;
+import entity.Utility;
 import lombok.Getter;
 import model.BasicModel;
 import service.ApiService;
 import stream.Bid;
 import stream.Contract;
+import stream.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,5 +59,9 @@ public class DashboardModel extends BasicModel {
         }
         return DashboardStatus.PASS;
     }
+    public String getName(){
+        return Utility.getFullName(userId);
+    };
+
 
 }

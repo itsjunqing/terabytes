@@ -21,9 +21,7 @@ public class CloseMessageView implements Observer {
     private JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
-    private JButton refreshButton; // TODO: remove this
     private JButton respondMessageButton; // only keep a respond button
-    private JButton selectBidButton; // TODO: remove this
     private MessagePair messagePair;
     private Bid bid;
     private JFrame frame;
@@ -144,16 +142,12 @@ public class CloseMessageView implements Observer {
         gbc2.gridheight = 3;
         gbc2.weightx = 1;
 
-        // add refresh button
-        refreshButton = new JButton("Refresh");
-        panel.add(refreshButton, gbc2);
 
 
         respondMessageButton = new JButton("Respond");
         panel.add(respondMessageButton, gbc2);
 
-        selectBidButton =new JButton("Select Bid");
-        panel.add(selectBidButton, gbc2);
+
 
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
