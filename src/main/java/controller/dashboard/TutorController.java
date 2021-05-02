@@ -16,7 +16,6 @@ public class TutorController extends DashboardController {
     public TutorController(String userId) {
         super(userId);
         SwingUtilities.invokeLater(() -> {
-
             this.dashboardView = new TutorView(dashboardModel);
             this.dashboardModel.attach(dashboardView);
             listenViewActions();
