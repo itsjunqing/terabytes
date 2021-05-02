@@ -16,11 +16,11 @@ public class CloseOffersController implements EventListener {
 
     public CloseOffersController(String userId, String bidId) {
         this.closeOffersModel = new CloseOffersModel(userId, bidId);
-        SwingUtilities.invokeLater(() -> {
+//        SwingUtilities.invokeLater(() -> {
             this.closeOfferView = new CloseOfferView(closeOffersModel);
             this.closeOffersModel.attach(closeOfferView);
             listenViewActions();
-        });
+//        });
 
     }
 

@@ -15,11 +15,11 @@ public class OfferingController implements EventListener {
 
     public OfferingController(String userId) {
         this.offeringModel = new OfferingModel(userId);
-        SwingUtilities.invokeLater(() -> {
+//        SwingUtilities.invokeLater(() -> {
             this.offeringView = new OfferingView(offeringModel);
             this.offeringModel.attach(offeringView);
             listenViewActions();
-        });
+//        });
 
     }
 
