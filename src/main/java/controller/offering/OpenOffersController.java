@@ -30,7 +30,6 @@ public class OpenOffersController {
     }
 
     private void handleRefresh(ActionEvent e) {
-        // TODO: to be updated
         openOffersModel.refresh();
     }
 

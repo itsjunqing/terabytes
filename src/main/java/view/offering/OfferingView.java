@@ -167,7 +167,7 @@ public class OfferingView implements Observer {
         for (Bid b: bidList) {
             // Code to generate an open contract panel
                 JPanel panel = new JPanel();
-                JTable table = getTable(b, bidSize);
+                JTable table = ViewUtility.BidAndOfferTable.buildTutorTable(b, bidSize);
                 bidSize -= 1;
                 ViewUtility.resizeColumns(table);
                 table.setBounds(10, 10, 500, 100);
@@ -183,29 +183,12 @@ public class OfferingView implements Observer {
         }
     }
 
-    private JTable getTable(Bid bidObject, int index) {
-        String[][] rec = {
-                {"Bid Id", bidObject.getId()},
-                {"Bid Index", Integer.toString(index)},
-                {"Bid Type", bidObject.getType()},
-                {"Student Name:", bidObject.getInitiator().getGivenName() + " " + bidObject.getInitiator().getFamilyName()},
-                {"Subject:", bidObject.getSubject().getName()},
-                {"Number of Sessions:", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getNumberOfSessions())},
-                {"Day & Time:", bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDay() + " " + bidObject.getAdditionalInfo().getBidPreference().getPreferences().getTime()},
-                {"Duration (hours):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDuration())},
-                {"Rate (per hour):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getRate())},
-        };
-        String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-        return contractTable;
-    }
-
     public int getBidNumber() throws NullPointerException {
         return Integer.parseInt(bidSelection.getSelectedItem().toString());
     }
 
     @Override
-    public void update() {refreshContent();
-
+    public void update() {
+        refreshContent();
     }
 }

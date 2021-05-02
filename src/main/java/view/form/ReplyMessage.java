@@ -6,10 +6,7 @@ import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.util.Locale;
 
 @Getter
 public class ReplyMessage {
@@ -20,14 +17,6 @@ public class ReplyMessage {
     private JFrame frame;
 
     public ReplyMessage() {
-        initDisplay();
-    }
-
-    public void dispose() {
-        this.frame.dispose();
-    }
-
-    public void initDisplay() {
         JFrame frame = new JFrame("Reply Message");
         this.frame = frame;
         frame.setContentPane(this.mainPanel);
@@ -35,6 +24,10 @@ public class ReplyMessage {
         frame.setSize(500, 400);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public void dispose() {
+        this.frame.dispose();
     }
 
     {

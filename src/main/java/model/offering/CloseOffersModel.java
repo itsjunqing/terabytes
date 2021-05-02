@@ -25,8 +25,9 @@ public class CloseOffersModel extends BasicModel {
         refresh();
     }
 
+    @Override
     public void refresh() {
-        this.errorText = "";
+        errorText = "";
         Bid bid = ApiService.bidApi.get(bidId);
         BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
         ExpiryService expiryService = new ExpiryService();
@@ -67,10 +68,10 @@ public class CloseOffersModel extends BasicModel {
             messagePair = new MessagePair(tutorMsgId, tutorBidMessage, studentMsgId, studentBidMessage);
         }
         else {
-            errorText = "Bid has expired, please pick another one";
+            messagePair = null;
+            errorText = "This Bid has expired or closed down, please refresh main page";
         }
         oSubject.notifyObservers();
-
     }
 
     private MessageAdditionalInfo convertObject(MessageBidInfo messageBidInfo) {
@@ -79,23 +80,17 @@ public class CloseOffersModel extends BasicModel {
                 messageBidInfo.isFreeLesson());
     }
 
-    public void sendMessage(MessageBidInfo messageBidInfo) {
-        String tutorMsgId = messagePair.getStudentMsgId();
-        if (tutorMsgId == null) {
-            Message message = new Message(bidId, userId, new Date(), messageBidInfo.getContent(), convertObject(messageBidInfo));
-            ApiService.messageApi.add(message);
-        } else {
-            Message message = new Message(messageBidInfo.getContent(), convertObject(messageBidInfo));
-            ApiService.messageApi.patch(tutorMsgId, message);
-        }
-    }
-
-    public void respondMessage(MessageBidInfo messageBidInfo){
-
+    public void sendMessage(MessageBidInfo messageBidInfo){
         if (!expiryService.checkIsExpired(ApiService.bidApi.get(getBidId()))){
-            sendMessage(messageBidInfo);
-        }
-        else{
+            String tutorMsgId = messagePair.getTutorMsgId();
+            if (tutorMsgId == null) {
+                Message message = new Message(bidId, userId, new Date(), messageBidInfo.getContent(), convertObject(messageBidInfo));
+                ApiService.messageApi.add(message);
+            } else {
+                Message message = new Message(messageBidInfo.getContent(), convertObject(messageBidInfo));
+                ApiService.messageApi.patch(tutorMsgId, message);
+            }
+        } else{
             errorText = "Bid has Expired";
             oSubject.notifyObservers();
         }

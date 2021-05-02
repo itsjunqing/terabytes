@@ -10,7 +10,6 @@ import service.ExpiryService;
 import stream.Bid;
 import stream.BidAdditionalInfo;
 import stream.Contract;
-import stream.User;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +31,7 @@ public class OpenOffersModel extends BasicModel {
         refresh();
     }
 
+    @Override
     public void refresh() {
         openOffers.clear();
         errorText = "";
@@ -54,18 +54,13 @@ public class OpenOffersModel extends BasicModel {
         } else{
             myOffer = null;
             openOffers.clear();
-            errorText = "Bid has expired, please pick another one";
+            errorText = "This Bid has expired or closed down, please refresh main page";
         }
         oSubject.notifyObservers();
     }
 
     public Bid getBid() {
         return ApiService.bidApi.get(bidId);
-    }
-
-    public String getUserName(String Id){
-        User user = ApiService.userApi.get(Id);
-        return user.getGivenName() + " " + user.getFamilyName();
     }
 
     public void sendOffer(BidInfo bidInfo) {
@@ -81,14 +76,6 @@ public class OpenOffersModel extends BasicModel {
         }
         info.getBidOffers().add(bidInfo);
         ApiService.bidApi.patch(bidId, new Bid(info));
-    }
-
-    public void buyBid(BidInfo bidInfo) {
-        // Update offer -> Create contract -> Sign contract
-        sendOffer(bidInfo);
-        Contract contract = BuilderService.buildContract(getBid(), bidInfo);
-        Contract contractCreated = ApiService.contractApi.add(contract);
-        ApiService.contractApi.sign(contractCreated.getId(), new Contract(new Date()));
     }
 
     public void buyOut(){

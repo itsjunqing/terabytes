@@ -23,6 +23,7 @@ public class OfferingModel extends BasicModel {
         refresh();
     }
 
+    @Override
     public void refresh() {
         this.errorText = "";
         bidsOnGoing.clear(); // for memory cleaning

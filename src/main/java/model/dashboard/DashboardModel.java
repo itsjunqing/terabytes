@@ -23,6 +23,7 @@ public class DashboardModel extends BasicModel {
         refresh();
     }
 
+    @Override
     public void refresh() {
         this.errorText = "";
         contractsList = ApiService.contractApi.getAll().stream()
@@ -31,7 +32,6 @@ public class DashboardModel extends BasicModel {
                 .collect(Collectors.toList());
         oSubject.notifyObservers();
     }
-
 
     public DashboardStatus getStatus() {
         Bid currentBid = ApiService.userApi.get(userId).getInitiatedBids().stream()

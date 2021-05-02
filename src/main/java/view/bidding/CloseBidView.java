@@ -31,10 +31,6 @@ public class CloseBidView implements Observer {
     private JLabel errorLabel;
     private JLabel timeLeft;
 
-
-    // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
-    // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
-
     public CloseBidView(CloseBidModel closeBidModel) {
         this.closeBidModel = closeBidModel;
 
@@ -69,6 +65,7 @@ public class CloseBidView implements Observer {
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
     }
+
     private void refreshContent(){
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         Bid bid = closeBidModel.getBid();
@@ -127,7 +124,7 @@ public class CloseBidView implements Observer {
         for (MessageBidInfo b : messageBidInfoList) {
             // Code to add open bid panel
             JPanel panel = new JPanel();
-            JTable table = ViewUtility.buildStudentBidTable(b, bidIndex, bid);
+            JTable table = ViewUtility.BidAndOfferTable.buildStudentTable(b, bidIndex, bid);
             bidIndex -= 1;
             ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
@@ -142,8 +139,6 @@ public class CloseBidView implements Observer {
             mainList.add(panel, gbc1, 0);
         }
     }
-
-
 
     private void updateButtons(int count) {
         // constructs buttonPanel and add into the mainPanel of the view

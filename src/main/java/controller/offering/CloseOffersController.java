@@ -15,7 +15,6 @@ public class CloseOffersController {
 
     public CloseOffersController(String userId, String bidId) {
         SwingUtilities.invokeLater(() -> {
-
             this.closeOffersModel = new CloseOffersModel(userId, bidId);
             this.closeOfferView = new CloseOfferView(closeOffersModel);
             this.closeOffersModel.attach(closeOfferView);
@@ -41,7 +40,7 @@ public class CloseOffersController {
         try {
             MessageBidInfo messageBidInfo = extractCloseReplyInfo(closeReply);
             System.out.println("Extracted: " + messageBidInfo);
-            closeOffersModel.respondMessage(messageBidInfo);
+            closeOffersModel.sendMessage(messageBidInfo);
             closeReply.dispose();
         } catch (NullPointerException exception) {
             closeReply.getErrorLabel().setText("Incomplete form!");

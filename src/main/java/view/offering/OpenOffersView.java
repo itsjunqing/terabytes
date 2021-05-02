@@ -123,7 +123,7 @@ public class OpenOffersView implements Observer {
         for (BidInfo b : otherBidInfo) {
             // Code to add open bid panel
             JPanel panel = new JPanel();
-            JTable table = getOpenBidTable(b, bid);
+            JTable table = ViewUtility.OpenOffersTable.buildTutorOpenOffer(b, bid);
             ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);
@@ -135,7 +135,7 @@ public class OpenOffersView implements Observer {
         if (myBidInfo != null) {
             // Code to add open bid panel
             JPanel myBidPanel = new JPanel();
-            JTable myBidTable = getMyTable(myBidInfo, bid);
+            JTable myBidTable = ViewUtility.OpenOffersTable.buildTutorOpenOffer(myBidInfo, bid);
             ViewUtility.resizeColumns(myBidTable);
             myBidPanel.setBounds(10, 10, 500, 100);
             myBidPanel.add(myBidTable);
@@ -159,11 +159,9 @@ public class OpenOffersView implements Observer {
             mainList.add(myBidPanel, gbc1, 0);
         }
 
-
         // display request first
-
         JPanel requestPanel = new JPanel();
-        JTable requestTable = getRequest(bid);
+        JTable requestTable = ViewUtility.OpenOffersTable.buildStudentRequest(bid);
         ViewUtility.resizeColumns(requestTable);
         requestTable.setBounds(10, 10, 500, 100);
         requestPanel.add(requestTable);
@@ -220,61 +218,6 @@ public class OpenOffersView implements Observer {
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
-
-    private JTable getOpenBidTable(BidInfo bidInfo, Bid bid) {
-        String freeLesson = bidInfo.isFreeLesson()? "Yes": "No";
-
-        String[][] rec = {
-                {"Tutor Name:", this.openOffersModel.getUserName(bidInfo.getInitiatorId())},
-                {"Subject:", bid.getSubject().getName()},
-                {"Number of Sessions:", Integer.toString(bidInfo.getNumberOfSessions())},
-                {"Day & Time:", bidInfo.getDay() + " " + bidInfo.getTime()},
-                {"Duration (hours):", Integer.toString(bidInfo.getDuration())},
-                {"Rate (per hour):", Integer.toString(bidInfo.getRate())},
-                {"Free Lesson?", freeLesson},
-
-        };
-        String[] col = {"", ""};
-        return new JTable(rec, col);
-    }
-
-    private JTable getMyTable(BidInfo bidInfo, Bid bid) {
-        String freeLesson;
-        if (bidInfo.isFreeLesson()) {
-            freeLesson = "Yes";
-        } else {
-            freeLesson = "No";
-        }
-
-        String[][] rec = {
-                {"Subject:", bid.getSubject().getName()},
-                {"Number of Sessions:", Integer.toString(bidInfo.getNumberOfSessions())},
-                {"Day & Time:", bidInfo.getDay() + " " + bidInfo.getTime()},
-                {"Duration (hours):", Integer.toString(bidInfo.getDuration())},
-                {"Rate (per hour):", Integer.toString(bidInfo.getRate())},
-                {"Free Lesson?", freeLesson},
-
-        };
-        String[] col = {"", ""};
-        return new JTable(rec, col);
-    }
-
-    private JTable getRequest(Bid bidObject) {
-        String[][] rec = {
-                {"Bid Type", "Open"},
-                {"Student Name:", bidObject.getInitiator().getGivenName() + " " + bidObject.getInitiator().getFamilyName()},
-                {"Subject:", bidObject.getSubject().getName()},
-                {"Number of Sessions:", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getNumberOfSessions())},
-                {"Day & Time:", bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDay() + " " + bidObject.getAdditionalInfo().getBidPreference().getPreferences().getTime()},
-                {"Duration (hours):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDuration())},
-                {"Rate (per hour):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getRate())},
-        };
-        String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-        return contractTable;
-    }
-
-
 
     @Override
     public void update() {

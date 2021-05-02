@@ -37,14 +37,12 @@ public class OpenBidModel extends BiddingModel {
         initModel(userId, existingBid);
     }
 
-
     private void initModel(String userId, Bid bid) {
         this.bidId = bid.getId();
         this.userId = userId;
         this.openBidOffers = new ArrayList<>();
         refresh();
     }
-
 
     public Contract offerSelection(int selection){
         Bid currentBid = getBid();
@@ -54,7 +52,7 @@ public class OpenBidModel extends BiddingModel {
         if (!expiryService.checkIsExpired(currentBid)){
             return BuilderService.buildContract(currentBid, bidInfo);
         }
-        errorText = "This Bid has expired, please close this window";
+        errorText = "This Bid has expired or closed down, please close and refresh main page";
         oSubject.notifyObservers();
         return null;
     }
@@ -66,8 +64,6 @@ public class OpenBidModel extends BiddingModel {
         // If bid is expired, remove the bid
         if (!expiryService.checkIsExpired(bid)) {
             openBidOffers = new ArrayList<>(bid.getAdditionalInfo().getBidOffers()); // reference copy
-            System.out.println(openBidOffers.size());
-            openBidOffers.stream().forEach(b -> System.out.println(b.toString()));
         } else {
             errorText = "This Bid has expired or closed down, please refresh main page";
         }

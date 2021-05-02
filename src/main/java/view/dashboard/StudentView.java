@@ -35,6 +35,7 @@ public class StudentView extends DashboardView {
         frame.setVisible(true);
     }
 
+    @Override
     public void updateContracts() {
         // if contractPanel already constructed, just remove the contents (only one item inside - mainList)
         if (contractPanel != null) {
@@ -64,7 +65,7 @@ public class StudentView extends DashboardView {
         int contractIndex = contractList.size();
         for (Contract c: contractList) {
             JPanel panel = new JPanel();
-            JTable table = ViewUtility.buildStudentContractTable(c, contractIndex);
+            JTable table = ViewUtility.ContractTable.buildStudentTable(c, contractIndex);
             contractIndex -= 1;
             ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);

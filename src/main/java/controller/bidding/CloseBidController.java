@@ -44,7 +44,6 @@ public class CloseBidController extends BiddingController {
             this.closeBidModel.attach(closeBidView);
             listenViewActions();
         });
-
     }
 
     @Override
@@ -61,6 +60,7 @@ public class CloseBidController extends BiddingController {
 
     private void handleViewMessage(ActionEvent e) {
         System.out.println("From CloseBidController: View Message is clicked");
+        closeBidModel.refresh(); // Important to refresh the view
         try {
             int selection = closeBidView.getOfferSelection();
             MessagePair messagePair = closeBidModel.viewMessage(selection);
@@ -79,7 +79,6 @@ public class CloseBidController extends BiddingController {
                     });
                 });
             }
-
         } catch (NullPointerException ef) {
             closeBidView.getErrorLabel().setText("No offers selected!");
         }

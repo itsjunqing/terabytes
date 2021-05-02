@@ -125,7 +125,7 @@ public class OpenBidView implements Observer {
         for (BidInfo b : bidInfoList) {
             // Code to add open bid panel
             JPanel panel = new JPanel();
-            JTable table = ViewUtility.buildStudentBidTable(b, bidIndex, bid);
+            JTable table = ViewUtility.BidAndOfferTable.buildStudentTable(b, bidIndex, bid);
             bidIndex -= 1;
             ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);

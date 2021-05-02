@@ -4,7 +4,6 @@ import lombok.Getter;
 import model.BasicModel;
 import service.ApiService;
 import stream.Bid;
-import stream.User;
 
 import java.util.Date;
 
@@ -40,13 +39,6 @@ public abstract class BiddingModel extends BasicModel {
 
     public Bid getBid() {
         return ApiService.bidApi.get(bidId);
-    }
-
-    public String getUserName(String Id){
-        User user = ApiService.userApi.get(Id);
-        String givenName = user.getGivenName();
-        String familyName = user.getFamilyName();
-        return givenName + " " + familyName;
     }
 
     public Date getBidDate(){

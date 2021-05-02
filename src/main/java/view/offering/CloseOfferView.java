@@ -98,7 +98,7 @@ public class CloseOfferView implements Observer {
         if (messagePair.getTutorMsg() != null) {
             // code to add message panel 2
             JPanel panel1 = new JPanel();
-            JTable table2 = ViewUtility.buildTutorMessageTable(messagePair.getTutorMsg(), closeOffersModel.getBid());
+            JTable table2 = ViewUtility.MessageTable.buildTutorTable(messagePair.getTutorMsg(), closeOffersModel.getBid());
             ViewUtility.resizeColumns(table2);
             table2.setBounds(10, 10, 500, 100);
             panel1.add(table2);
@@ -125,7 +125,7 @@ public class CloseOfferView implements Observer {
         }
             // code to add message panel 1
             JPanel panel = new JPanel();
-            JTable table = ViewUtility.buildStudentMessageTable(messagePair.getStudentMsg(), closeOffersModel.getBid());
+            JTable table = ViewUtility.MessageTable.buildStudentTable(messagePair.getStudentMsg(), closeOffersModel.getBid());
             ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
             panel.add(table);

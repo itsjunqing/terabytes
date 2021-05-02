@@ -30,14 +30,6 @@ public class BidInitiation {
     private JFrame frame;
 
     public BidInitiation() {
-        initDisplay();
-    }
-
-    public void dispose() {
-        this.frame.dispose();
-    }
-
-    public void initDisplay() {
         JFrame frame = new JFrame();
         this.frame = frame;
         frame.setContentPane(this.panel1);
@@ -46,6 +38,10 @@ public class BidInitiation {
         frame.setSize(500, 400);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public void dispose() {
+        this.frame.dispose();
     }
 
     private void setDetails() {

@@ -22,14 +22,7 @@ public class ContractView implements Observer {
 
     public ContractView(ContractModel contractModel) {
         this.contractModel = contractModel;
-        initDisplay();
-    }
 
-    public void dispose() {
-        this.frame.dispose();
-    }
-
-    public void initDisplay() {
         JFrame frame = new JFrame();
         this.frame = frame;
         frame.setContentPane(this.panel1);
@@ -38,6 +31,10 @@ public class ContractView implements Observer {
         frame.setSize(500, 300);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public void dispose() {
+        this.frame.dispose();
     }
 
     private void setDetails() {

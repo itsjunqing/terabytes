@@ -104,7 +104,7 @@ public class CloseMessageView implements Observer {
 
         // code to add message panel 2
         JPanel panel1 = new JPanel();
-        JTable table2 = ViewUtility.buildTutorMessageTable(messagePair.getTutorMsg(), bid);
+        JTable table2 = ViewUtility.MessageTable.buildTutorTable(messagePair.getTutorMsg(), bid);
         ViewUtility.resizeColumns(table2);
         table2.setBounds(10, 10, 500, 100);
         panel1.add(table2);
@@ -115,7 +115,7 @@ public class CloseMessageView implements Observer {
 
         // code to add message panel 1
         JPanel panel = new JPanel();
-        JTable table = ViewUtility.buildStudentMessageTable(messagePair.getStudentMsg(), bid);
+        JTable table = ViewUtility.MessageTable.buildStudentTable(messagePair.getStudentMsg(), bid);
         ViewUtility.resizeColumns(table);
         table.setBounds(10, 10, 500, 100);
         panel.add(table);

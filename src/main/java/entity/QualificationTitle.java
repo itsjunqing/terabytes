@@ -1,10 +1,5 @@
 package entity;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-// change
 public enum QualificationTitle {
     CERTIFICATE("Certificate"),
     DIPLOMA("Diploma"),
@@ -21,11 +16,5 @@ public enum QualificationTitle {
     @Override
     public String toString() {
         return name;
-    }
-
-    // return enum as a list of strings
-    public static List<String> getNames()
-    {
-        return Stream.of(QualificationTitle.values()).map(q->q.toString()).collect(Collectors.toList());
     }
 }

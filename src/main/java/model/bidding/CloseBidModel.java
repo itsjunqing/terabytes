@@ -115,7 +115,6 @@ public class CloseBidModel extends BiddingModel {
         oSubject.notifyObservers();
     }
 
-
     private MessageBidInfo convertObject(Message message) {
         String initiatorId = message.getPoster().getId();
         String content = message.getContent();
@@ -144,9 +143,6 @@ public class CloseBidModel extends BiddingModel {
     }
 
     public MessagePair viewMessage(int selection){
-//        //        Bid currentBid = closeBidModel.getBid();
-////        MessageBidInfo messageBidInfo = closeBidModel.getCloseBidOffers().get(selection-1);
-//        System.out.println();
         if (!expiryService.checkIsExpired(getBid())){
             return closeBidMessages.get(selection-1);
         } else{
