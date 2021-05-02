@@ -189,7 +189,7 @@ public class CloseOfferView implements Observer {
 
 
 
-
+    // TODO : got from stack overflow and not sure how to rewrite
     private class WordWrapCellRenderer extends JTextArea implements TableCellRenderer {
         WordWrapCellRenderer() {
             setLineWrap(true);

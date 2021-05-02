@@ -38,10 +38,14 @@ public class CloseBidController extends BiddingController {
      * @param userId
      */
     public CloseBidController(String userId) {
-        this.closeBidModel = new CloseBidModel(userId);
+        SwingUtilities.invokeLater(() -> {
+
+            this.closeBidModel = new CloseBidModel(userId);
         this.closeBidView = new CloseBidView(closeBidModel);
         this.closeBidModel.attach(closeBidView);
         listenViewActions();
+        });
+
     }
 
     @Override

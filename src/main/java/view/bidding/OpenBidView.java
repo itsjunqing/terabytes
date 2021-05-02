@@ -13,7 +13,9 @@ import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Getter
 public class OpenBidView implements Observer {
@@ -26,6 +28,7 @@ public class OpenBidView implements Observer {
     private JButton selectOfferButton;
     private JFrame frame;
     private JLabel errorLabel;
+    private JLabel timeLeft;
 
     // Note: once refresh is called, openBidPanel and buttonPanel will be cleared off, so the buttons will be removed
     // from the BiddingController POV, refreshButton and selectOfferButton need to re-listen after each refresh
@@ -86,9 +89,24 @@ public class OpenBidView implements Observer {
         offerSelection.removeAllItems();
         for (int i = 1; i < bidIndex + 1; i++) {
             offerSelection.addItem(i);
+            Date then = openBidModel.getBid().getDateCreated();
+            Date now = new Date();
+            long difference = now.getTime() - then.getTime();
+            long dayDifference = TimeUnit.MILLISECONDS.toDays(difference);
+            timeLeft.setText(dayDifference + " days left till expiry");
         }
         // refreshing jlabel
         errorLabel.setText(openBidModel.getErrorText());
+
+        Date then = openBidModel.getBidDate();
+        Date now = new Date();
+        long difference = now.getTime() - then.getTime();
+        long dayDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
+        timeLeft = new JLabel();
+        timeLeft.setHorizontalAlignment(0);
+        timeLeft.setHorizontalTextPosition(0);
+        timeLeft.setText(dayDifference + " days left till expiry");
+
     }
 
 
@@ -190,8 +208,19 @@ public class OpenBidView implements Observer {
         panel.setLayout(layout);
         GridBagConstraints gbc2 = new GridBagConstraints();
         gbc2.gridwidth = GridBagConstraints.REMAINDER;
-        gbc2.gridheight = 3;
+        gbc2.gridheight = 4;
         gbc2.weightx = 1;
+
+        Date then = openBidModel.getBidDate();
+        Date now = new Date();
+        long difference = now.getTime() - then.getTime();
+        long dayDifference = TimeUnit.MILLISECONDS.toMinutes(difference);
+
+        timeLeft = new JLabel();
+        timeLeft.setHorizontalAlignment(0);
+        timeLeft.setHorizontalTextPosition(0);
+        timeLeft.setText(dayDifference + " days left till expiry");
+        panel.add(timeLeft, gbc2);
 
         // add refresh button
         refreshButton = new JButton("Refresh");

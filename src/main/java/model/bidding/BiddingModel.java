@@ -24,6 +24,8 @@ public abstract class BiddingModel extends BasicModel {
 
     protected String bidId;
     protected boolean expired;
+    protected Bid bid;
+
 
     protected BiddingModel() {
         this.expired = false;
@@ -53,5 +55,15 @@ public abstract class BiddingModel extends BasicModel {
         String familyName = user.getFamilyName();
         return givenName + " " + familyName;
     }
+
+    public Date getBidDate(){
+        if (bid == null){
+            return ApiService.bidApi.get(bidId).getDateCreated();
+        }
+        else {
+            return bid.getDateCreated();
+        }
+    }
+
 
 }

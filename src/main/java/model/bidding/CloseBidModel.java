@@ -24,7 +24,6 @@ public class CloseBidModel extends BiddingModel {
 
     private List<MessageBidInfo> closeBidOffers;
     private List<MessagePair> closeBidMessages;
-    private Bid bid;
 
     /**
      * Constructor to construct a new CloseBid

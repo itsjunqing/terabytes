@@ -38,6 +38,7 @@ public class OpenBidModel extends BiddingModel {
 
 
     private void initModel(String userId, Bid bid) {
+        this.bid = bid;
         this.bidId = bid.getId();
         this.userId = userId;
         this.openBidOffers = new ArrayList<>();
@@ -61,7 +62,9 @@ public class OpenBidModel extends BiddingModel {
     @Override
     public void refresh() {
         this.errorText = "";
-        Bid bid = ApiService.bidApi.get(getBidId());
+        if (bid == null) {
+            bid = ApiService.bidApi.get(getBidId());
+        }
         // If bid is expired, remove the bid
         if (!expiryService.checkIsExpired(bid)) {
             openBidOffers = new ArrayList<>(bid.getAdditionalInfo().getBidOffers()); // reference copy

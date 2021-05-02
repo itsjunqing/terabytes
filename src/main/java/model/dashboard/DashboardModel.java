@@ -39,7 +39,9 @@ public class DashboardModel extends BasicModel {
                                 .filter(b -> b.getDateClosedDown() == null)
                                 .findFirst()
                                 .orElse(null);
+        System.out.println(userId);
         System.out.println(currentBid);
+        System.out.println("hi");
         if (currentBid != null) {
             if (!expiryService.checkIsExpired(currentBid)) {
                 errorText = "You already have a bid in progress, displaying active bid";

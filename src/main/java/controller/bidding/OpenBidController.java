@@ -36,10 +36,13 @@ public class OpenBidController extends BiddingController {
      * @param userId
      */
     public OpenBidController(String userId) {
-        this.openBidModel = new OpenBidModel(userId);
+        SwingUtilities.invokeLater(() -> {
+
+            this.openBidModel = new OpenBidModel(userId);
         this.openBidView = new OpenBidView(openBidModel);
         this.openBidModel.attach(openBidView);
         listenViewActions();
+        });
     }
 
     @Override
