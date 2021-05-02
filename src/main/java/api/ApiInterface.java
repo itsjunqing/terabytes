@@ -2,6 +2,10 @@ package api;
 
 import java.util.List;
 
+/**
+ *
+ * @param <T>
+ */
 public interface ApiInterface<T> {
 
     List<T> getAll();
