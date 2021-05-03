@@ -3,8 +3,8 @@ package api;
 import java.util.List;
 
 /**
- *
- * @param <T>
+ * An interface of Api
+ * @param <T> an Object type
  */
 public interface ApiInterface<T> {
 

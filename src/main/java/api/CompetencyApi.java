@@ -4,6 +4,9 @@ import stream.Competency;
 
 import java.util.List;
 
+/**
+ * A class that performs API communication on Competency.
+ */
 public class CompetencyApi extends BasicApi<Competency> {
 
     private final String COMPETENCY_ENDPOINT = "/competency";

@@ -21,11 +21,11 @@ public class OpenBidController extends BiddingController {
      */
     public OpenBidController(String userId, BidPreference bp) {
         this.openBidModel = new OpenBidModel(userId, bp);
-//        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             this.openBidView = new OpenBidView(openBidModel);
             this.openBidModel.attach(openBidView);
             listenViewActions();
-//        });
+        });
     }
 
     /**
@@ -34,11 +34,11 @@ public class OpenBidController extends BiddingController {
      */
     public OpenBidController(String userId) {
         this.openBidModel = new OpenBidModel(userId);
-//        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             this.openBidView = new OpenBidView(openBidModel);
             this.openBidModel.attach(openBidView);
             listenViewActions();
-//        });
+        });
     }
 
     @Override
@@ -53,22 +53,16 @@ public class OpenBidController extends BiddingController {
     }
 
     private void handleOfferSelection(ActionEvent e) {
-        System.out.println("From OpenBidController: Offer is clicked");
-        int selection = openBidView.getOfferSelection();
-        System.out.println("selection");
-        Contract contract = openBidModel.offerSelection(selection);
-        if (contract != null){
-            handleContract(contract);
-            openBidView.dispose();
+        try {
+            int selection = openBidView.getOfferSelection();
+            Contract contract = openBidModel.formContract(selection);
+//            Contract contract = openBidModel.formContract(bidInfo);
+            if (contract != null){
+                handleContract(contract);
+                openBidView.dispose();
+            }
+        } catch (NullPointerException ef) {
+            openBidView.getErrorLabel().setText("No offers selected!");
         }
-        else {;
-        }
-
-//        Bid currentBid = openBidModel.getBid();
-//        BidInfo bidInfo = openBidModel.getOpenBidOffers().get(selection-1);
-//        openBidModel.markBidClose();
-//        System.out.println("From OpenBidController: Selected offer = " + bidInfo.toString());
-//        // change to to usage of contract factory
-//        createContract(currentBid, bidInfo);
     }
 }

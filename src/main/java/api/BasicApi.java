@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 public abstract class BasicApi<T> implements ApiInterface<T> {
 
     private final String ROOT_URL = "https://fit3077.com/api/v1";
+    private final String API_KEY = "TbMzGNkhpQDgQNgdMG6PjtNMFMdpPw";
     private OkHttpClient httpClient;
     private Gson gson;
 
@@ -32,7 +33,7 @@ public abstract class BasicApi<T> implements ApiInterface<T> {
                         Request request = original.newBuilder()
                                 .header("accept", "application/json") // for GET
                                 .header("Content-Type", "application/json") // for POST, PATCH, PUT
-                                .header("Authorization", System.getenv("API_KEY")) // for authentication
+                                .header("Authorization", API_KEY) // for authentication
                                 .method(original.method(), original.body())
                                 .build();
                         return chain.proceed(request);
@@ -50,8 +51,6 @@ public abstract class BasicApi<T> implements ApiInterface<T> {
         this.gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                 .create();
-
-
     }
 
     private Request buildRequest(String url, String json, ApiType type) {
@@ -93,13 +92,13 @@ public abstract class BasicApi<T> implements ApiInterface<T> {
             Response response = getRequest(endpoint);
             if (response.isSuccessful()) {
                 String json = response.body().string();
-                System.out.println("From BasicApi: Successfully GETALL for " + clazz.getName());
+                System.out.println("From BasicApi: Successfully GET ALL for " + clazz.getName());
                 return Arrays.asList(gson.fromJson(json, clazz));
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
-        System.out.println("From BasicApi: Failed GETALL for " + clazz.getName());
+        System.out.println("From BasicApi: Failed GET ALL for " + clazz.getName());
         return null;
     }
 
@@ -155,11 +154,13 @@ public abstract class BasicApi<T> implements ApiInterface<T> {
         try {
             Response response = updateRequest(url, null, ApiType.DELETE);
             if (response.isSuccessful()) {
+                System.out.println("From BasicApi: Successfully DELETE");
                 return true;
             }
         } catch (IOException e) {
             Logger.getLogger(BasicApi.class.getName()).log(Level.SEVERE, null, e);
         }
+        System.out.println("From BasicApi: Failed DELETE");
         return false;
     }
 

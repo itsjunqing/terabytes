@@ -16,11 +16,11 @@ public class OpenOffersController implements EventListener {
 
     public OpenOffersController(String userId, String bidId) {
         this.openOffersModel = new OpenOffersModel(userId, bidId);
-//        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             this.openOffersView = new OpenOffersView(openOffersModel);
             this.openOffersModel.attach(openOffersView);
             listenViewActions();
-//        });
+        });
 
     }
 

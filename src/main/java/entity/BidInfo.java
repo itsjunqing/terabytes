@@ -3,18 +3,13 @@ package entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data @NoArgsConstructor
 /**
- * Class representing the info (offer) of a Bid initiated by student / tutor
+ * A BidInfo class representing the info (offer) of a Bid initiated by student / tutor.
+ * Information could be a Bid information preferred by Tutor or offered from Tutor to Student.
  */
+@Data @NoArgsConstructor
 public class BidInfo {
-    /*
-    BidInfo contains the information of a Bid either:
-    - preferred by Student
-    - offered by Tutor to Student
 
-    Note: no messages are included here.
-     */
     private String initiatorId;
     private String day;
     private String time;
@@ -47,6 +42,5 @@ public class BidInfo {
         this.numberOfSessions = numberOfSessions;
         this.freeLesson = freeLesson;
     }
-
 
 }

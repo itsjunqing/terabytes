@@ -15,11 +15,11 @@ public class OfferingController implements EventListener {
 
     public OfferingController(String userId) {
         this.offeringModel = new OfferingModel(userId);
-//        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             this.offeringView = new OfferingView(offeringModel);
             this.offeringModel.attach(offeringView);
             listenViewActions();
-//        });
+        });
 
     }
 
@@ -38,14 +38,6 @@ public class OfferingController implements EventListener {
         int selection = offeringView.getBidNumber();
         offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
         Bid bid = offeringModel.viewOffers(selection);
-        System.out.println(bid.toString());
-        System.out.println(selection);
-        System.out.println("Hi");
-
-//        System.out.println(selection);
-//        System.out.println(bid.toString());
-//        System.out.println("this is some text \n\n\n lets make it count \n \n");
-
         if (bid != null) {
             if (bid.getType().equals("Open")) {
                 new OpenOffersController(offeringModel.getUserId(), bid.getId());

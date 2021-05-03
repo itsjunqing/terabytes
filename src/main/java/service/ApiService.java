@@ -3,8 +3,8 @@ package service;
 import api.*;
 
 /**
- * Service class to access all API endpoints
- * Singleton is used to prevent unnecessary object creations
+ * Service class to access all API endpoints.
+ * Singleton is used to prevent unnecessary object creations.
  */
 public class ApiService {
 

@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
- * A builder class that builds objects to be re-used
+ * A builder class that builds objects to be re-used.
  */
 public class BuilderService {
 
@@ -42,6 +42,5 @@ public class BuilderService {
 
         return new Contract(studentId, tutorId, subjectId, dateCreated, expiryDate, payment, lesson, new EmptyClass());
     }
-
 
 }

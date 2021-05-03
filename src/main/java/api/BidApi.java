@@ -4,6 +4,9 @@ import stream.Bid;
 
 import java.util.List;
 
+/**
+ * A class that performs API communication on Bid.
+ */
 public class BidApi extends BasicApi<Bid> {
 
     private final String BID_ENDPOINT = "/bid";

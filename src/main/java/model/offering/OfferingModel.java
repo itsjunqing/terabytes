@@ -11,18 +11,28 @@ import stream.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A Class of OfferingModel that stores the data of an Offering by Tutor.
+ */
 @Getter
 public class OfferingModel extends BasicModel {
 
     private List<Bid> bidsOnGoing;
-    protected String errorText; // TODO: are we using this?
+    protected String errorText;
 
+    /**
+     * Constructs an OfferingModel
+     * @param userId a String of user id
+     */
     public OfferingModel(String userId) {
         this.userId = userId;
         this.bidsOnGoing = new ArrayList<>();
         refresh();
     }
 
+    /**
+     * Refreshes the model
+     */
     @Override
     public void refresh() {
         this.errorText = "";
@@ -48,6 +58,11 @@ public class OfferingModel extends BasicModel {
         oSubject.notifyObservers();
     }
 
+    /**
+     * View the offers of a Bid based on the selection option.
+     * @param selection an integer selection value
+     * @return a Bid object
+     */
     public Bid viewOffers(int selection){
         Bid bid = bidsOnGoing.get(selection-1);
         if (!expiryService.checkIsExpired(bid)){

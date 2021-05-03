@@ -4,10 +4,7 @@ import controller.EventListener;
 import controller.contract.ContractController;
 import stream.Contract;
 
-/**
- * Remaining parts:
- * - construction of ContractController, View, Model
- */
+
 public abstract class BiddingController implements EventListener {
 
     protected void handleContract(Contract contract) {
@@ -15,6 +12,5 @@ public abstract class BiddingController implements EventListener {
     }
 
     public abstract void listenViewActions();
-
 
 }

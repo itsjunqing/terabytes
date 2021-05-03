@@ -5,6 +5,9 @@ import lombok.Data;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * A Bid data class, storing the information of a Bid such as preferences and offers.
+ */
 @Data
 public class Bid {
     private String id;

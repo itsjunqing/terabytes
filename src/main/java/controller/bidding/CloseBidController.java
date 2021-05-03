@@ -25,10 +25,10 @@ public class CloseBidController extends BiddingController {
      */
     public CloseBidController(String userId, BidPreference bp) {
         this.closeBidModel = new CloseBidModel(userId, bp);
-//        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             this.closeBidView = new CloseBidView(closeBidModel);
             this.closeBidModel.attach(closeBidView);
-//        });
+        });
         listenViewActions();
     }
 
@@ -39,11 +39,11 @@ public class CloseBidController extends BiddingController {
      */
     public CloseBidController(String userId) {
         this.closeBidModel = new CloseBidModel(userId);
-//        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             this.closeBidView = new CloseBidView(closeBidModel);
             this.closeBidModel.attach(closeBidView);
             listenViewActions();
-//        });
+        });
     }
 
     @Override
@@ -88,10 +88,10 @@ public class CloseBidController extends BiddingController {
     }
 
     private void handleOfferSelection(ActionEvent e) {
-        System.out.println("From CloseBidController: Offer selection is clicked");
         try {
             int selection = closeBidView.getOfferSelection();
-            Contract contract = closeBidModel.offerSelection(selection);
+            Contract contract = closeBidModel.formContract(selection);
+//            Contract contract = closeBidModel.formContract(bidInfo);
             if (contract != null) {
                 handleContract(contract);
                 closeBidView.dispose();
@@ -99,20 +99,6 @@ public class CloseBidController extends BiddingController {
         } catch (NullPointerException ef) {
             closeBidView.getErrorLabel().setText("No offers selected!");
         }
-
     }
 }
-
-
-//        else {;
-//        }
-//        System.out.println("From CloseBidController: Offer selection is clicked");
-//        int selection = closeBidView.getOfferSelection();
-//        Bid currentBid = closeBidModel.getBid();
-//        MessageBidInfo messageBidInfo = closeBidModel.getCloseBidOffers().get(selection-1);
-//        System.out.println("From CloseBidController: Selected offer = " + messageBidInfo.toString());
-//        closeBidModel.markBidClose(); // mark bid as close
-//        createContract(currentBid, messageBidInfo); // create contract
-//        closeBidView.dispose(); // remove view after select offer
-
 

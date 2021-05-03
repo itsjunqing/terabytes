@@ -3,13 +3,15 @@ package stream;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ * A Lesson data class, storing the information of a Lesson.
+ */
 @Data @AllArgsConstructor
 public class Lesson {
-    // basically a replication of BidInfo, but without the message
     private String subject;
     private String day;
     private String time;
-    private Integer duration; // in hours
+    private Integer duration; // hours
     private Integer numberOfSessions;
     private Boolean freeLesson;
 

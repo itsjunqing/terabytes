@@ -4,6 +4,9 @@ import stream.Message;
 
 import java.util.List;
 
+/**
+ * A class that performs API communication on Message.
+ */
 public class MessageApi extends BasicApi<Message> {
 
     private final String MESSAGE_ENDPOINT = "/message";

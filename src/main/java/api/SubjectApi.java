@@ -4,6 +4,9 @@ import stream.Subject;
 
 import java.util.List;
 
+/**
+ * A class that performs API communication on Subject.
+ */
 public class SubjectApi extends BasicApi<Subject> {
 
     private final String SUBJECT_ENDPOINT = "/subject";

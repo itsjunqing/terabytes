@@ -2,6 +2,10 @@ package entity;
 
 import lombok.Data;
 
+/**
+ * A BidPreference class representing the preference of a Bid.
+ * Used by Student upon initiation of Bid.
+ */
 @Data
 public class BidPreference {
 

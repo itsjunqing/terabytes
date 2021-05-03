@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * A Subject data class.
+ */
 @Data @AllArgsConstructor
 public class Subject {
     private String id;

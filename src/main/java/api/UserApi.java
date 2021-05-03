@@ -4,6 +4,9 @@ import stream.User;
 
 import java.util.List;
 
+/**
+ * A class that performs API communication on User.
+ */
 public class UserApi extends BasicApi<User> {
 
     private final String USER_ENDPOINT = "/user";

@@ -4,6 +4,9 @@ import stream.Contract;
 
 import java.util.List;
 
+/**
+ * A class that performs API communication on Contract.
+ */
 public class ContractApi extends BasicApi<Contract> {
 
     private final String CONTRACT_ENDPOINT = "/contract";

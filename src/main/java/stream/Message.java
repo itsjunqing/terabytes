@@ -4,36 +4,23 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * A Message data class.
+ * When Student sends a Message to Tutor, it sends only a String content.
+ * When Tutor sends a Message to Student, it sends a String content + information of an offer.
+ */
 @Data
 public class Message {
-    /*
-    How this work:
-    1) Student send Message to tutor, can only send a String message, so:
-        - posterId will be student's ID
-        - content will be student's message to Tutor
-        - receiverId in additionalInfo will be Tutor's id
 
-    2) Tutor send Message to student, can send a String mesage + information of an offer, so:
-        - posterId will be tutor's ID
-        - content will be tutor's message to Student
-        - receiverId in additionalInfo will be Student's id
-        - information of a bid offer is in additionalInfo
-
-    Irregardless, the following will hold at all possible situations:
-    - posterId is the sender's ID
-    - receiverId in additionalInfo is receiver's ID
-    - content to hold the message from sender to receiver
-    - only bid offer information will hold WHEN posterId is a tutor.
-     */
     private String id;
     private String bidId;
 
     private User poster;
-    private String posterId; // poster = target
+    private String posterId;
 
     private Date datePosted;
     private Date dateLastEdited;
-    private String content; // may not use this
+    private String content;
     private MessageAdditionalInfo additionalInfo;
 
     /**

@@ -17,12 +17,12 @@ public class StudentController extends DashboardController {
 
     public StudentController(String userId) {
         super(userId);
-//        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
                 dashboardView = new StudentView(dashboardModel);
                 dashboardModel.attach(dashboardView);
                 listenViewActions();
-//        }
-//        );
+        }
+        );
     }
 
     @Override

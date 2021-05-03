@@ -15,10 +15,10 @@ public class ContractController implements EventListener {
 
     public ContractController(Contract contract) {
         this.contractModel = new ContractModel(contract);
-//        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             this.contractView = new ContractView(contractModel);
             listenViewActions();
-//        });
+        });
     }
 
     public void listenViewActions() {

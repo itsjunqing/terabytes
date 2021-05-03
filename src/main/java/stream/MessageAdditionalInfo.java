@@ -2,6 +2,9 @@ package stream;
 
 import lombok.Data;
 
+/**
+ * A MessageAdditionalInfo data class.
+ */
 @Data
 public class MessageAdditionalInfo {
 
@@ -15,7 +18,7 @@ public class MessageAdditionalInfo {
     private Boolean freeLesson;
 
     /**
-     * Constructor that sends a Message from Tutor to Student
+     * Constructor that sends a Message from Tutor to Student.
      */
     public MessageAdditionalInfo(String receiverId, String day, String time, Integer duration, Integer rate,
                                  Integer numberOfSessions, Boolean freeLesson) {
@@ -30,7 +33,7 @@ public class MessageAdditionalInfo {
     }
 
     /**
-     * Constructor that sends a Message from Student to Tutor
+     * Constructor that sends a Message from Student to Tutor.
      */
     public MessageAdditionalInfo(String receiverId) {
         this.toStudent = false;

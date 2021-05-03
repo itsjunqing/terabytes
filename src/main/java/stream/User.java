@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * A User data class.
+ */
 @Data
 public class User {
     private String id;

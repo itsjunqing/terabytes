@@ -7,8 +7,12 @@ import entity.BidPreference;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A BidAdditionalInfo data class, storing the extra information of a Bid,
+ * which includes the preferences and a list of current tutors offers (for OpenBid only)
+ */
 @Data
-public class BidAdditionalInfo {// only for open bid
+public class BidAdditionalInfo {
     private BidPreference bidPreference; // student's preference of Bid
     private List<BidInfo> bidOffers; // tutor's offer (for open bid only)
 

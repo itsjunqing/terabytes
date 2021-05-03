@@ -2,6 +2,10 @@ package entity;
 
 import lombok.Data;
 
+/**
+ * A MessageBidInfo class representing the Message's version of BidInfo.
+ * Used in Close Bid where Tutor sends a Bid information to a Student.
+ */
 @Data
 public class MessageBidInfo extends BidInfo {
 
@@ -25,6 +29,10 @@ public class MessageBidInfo extends BidInfo {
         this.content = content;
     }
 
+    /**
+     * Returns the string of MessageBidInfo
+     * @return a String
+     */
     @Override
     public String toString() {
         return "MessageBidInfo(" +

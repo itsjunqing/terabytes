@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.Date;
 
+/**
+ * A Contract data class, storing the information of a Contract.
+ */
 @Data
 public class Contract {
     private String id;
@@ -55,7 +58,6 @@ public class Contract {
         this.lessonInfo = lessonInfo;
         this.additionalInfo = additionalInfo;
     }
-
 
     /**
      * Constructor for signing Contract (Serialization)

@@ -13,18 +13,29 @@ import stream.MessageAdditionalInfo;
 
 import java.util.Date;
 
+/**
+ * A Class of CloseOffersModel that stores the data of an Close Offer by tutor
+ */
 @Getter
 public class CloseOffersModel extends BasicModel {
 
     private String bidId;
     private MessagePair messagePair;
 
+    /**
+     * Constructs a CloseOffersModel
+     * @param userId a String of user id
+     * @param bidId a String of bid id
+     */
     public CloseOffersModel(String userId, String bidId) {
         this.userId = userId;
         this.bidId = bidId;
         refresh();
     }
 
+    /**
+     * Refreshes the model.
+     */
     @Override
     public void refresh() {
         errorText = "";
@@ -74,12 +85,11 @@ public class CloseOffersModel extends BasicModel {
         oSubject.notifyObservers();
     }
 
-    private MessageAdditionalInfo convertObject(MessageBidInfo messageBidInfo) {
-        return new MessageAdditionalInfo(getBid().getInitiator().getId(), messageBidInfo.getDay(), messageBidInfo.getTime(),
-                messageBidInfo.getDuration(), messageBidInfo.getRate(), messageBidInfo.getNumberOfSessions(),
-                messageBidInfo.isFreeLesson());
-    }
 
+    /**
+     * Sends a message to the corresponding student of the Bid
+     * @param messageBidInfo a MessageBidInfo object
+     */
     public void sendMessage(MessageBidInfo messageBidInfo){
         if (!expiryService.checkIsExpired(ApiService.bidApi().get(getBidId()))){
             String tutorMsgId = messagePair.getTutorMsgId();
@@ -97,7 +107,23 @@ public class CloseOffersModel extends BasicModel {
         refresh();
     }
 
+    /**
+     * Converts MessageBidInfo to MessageAdditionalInfo, used for interacting with API.
+     * @param messageBidInfo a MessageBidInfo object
+     * @return a MessageAdditionalInfo object
+     */
+    private MessageAdditionalInfo convertObject(MessageBidInfo messageBidInfo) {
+        return new MessageAdditionalInfo(getBid().getInitiator().getId(), messageBidInfo.getDay(), messageBidInfo.getTime(),
+                messageBidInfo.getDuration(), messageBidInfo.getRate(), messageBidInfo.getNumberOfSessions(),
+                messageBidInfo.isFreeLesson());
+    }
+
+    /**
+     * Gets the Bid object of the corresponding offer
+     * @return a Bid object
+     */
     public Bid getBid() {
         return ApiService.bidApi().get(bidId);
     }
+
 }

@@ -4,6 +4,9 @@ import stream.Qualification;
 
 import java.util.List;
 
+/**
+ * A class that performs API communication on Qualification.
+ */
 public class QualificationApi extends BasicApi<Qualification> {
 
     private final String QUALIFICATION_ENDPOINT = "/qualification";

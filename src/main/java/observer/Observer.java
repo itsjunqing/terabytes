@@ -1,8 +1,7 @@
 package observer;
 
 /**
- * An element of the observer pattern. Classes that implement this
- * interface are
+ * An element of the observer pattern.
  */
 public interface Observer {
 

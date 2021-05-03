@@ -1,5 +1,8 @@
 package entity;
 
+/**
+ * A QualificationTitle enum class representing the types of qualifications.
+ */
 public enum QualificationTitle {
     CERTIFICATE("Certificate"),
     DIPLOMA("Diploma"),

@@ -16,6 +16,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * A Class of OpenOffersModel that stores the data of an Open Offer by tutor
+ */
 @Getter
 public class OpenOffersModel extends BasicModel {
 
@@ -23,6 +26,11 @@ public class OpenOffersModel extends BasicModel {
     private BidInfo myOffer;
     private List<BidInfo> openOffers;
 
+    /**
+     * Constructs a OpenOffersMode
+     * @param userId a String of user id
+     * @param bidId a Bid id
+     */
     public OpenOffersModel(String userId, String bidId) {
         this.userId = userId;
         this.bidId = bidId;
@@ -31,6 +39,9 @@ public class OpenOffersModel extends BasicModel {
         refresh();
     }
 
+    /**
+     * Refreshes the model.
+     */
     @Override
     public void refresh() {
         openOffers.clear();
@@ -45,7 +56,6 @@ public class OpenOffersModel extends BasicModel {
                 // myOffer is BidInfo offered by itself
                 if (bidInfo.getInitiatorId().equals(userId)) {
                     myOffer = bidInfo;
-
                     // openOffers includes all the BidInfo offers (by all tutors) except the current tutor
                 } else {
                     openOffers.add(bidInfo);
@@ -59,11 +69,20 @@ public class OpenOffersModel extends BasicModel {
         oSubject.notifyObservers();
     }
 
+    /**
+     * Gets the Bid object of the corresponding offer
+     * @return a Bid object
+     */
     public Bid getBid() {
         return ApiService.bidApi().get(bidId);
     }
 
-    public void sendOffer(BidInfo bidInfo) {
+
+    /**
+     * Sends an offer to the student by patching to the API.
+     * @param bidInfo a BidInfo object
+     */
+    private void sendOffer(BidInfo bidInfo) {
         // Update offer
         BidAdditionalInfo info = ApiService.bidApi().get(bidId).getAdditionalInfo();
         BidInfo currentBidInfo = info.getBidOffers().stream()
@@ -78,6 +97,9 @@ public class OpenOffersModel extends BasicModel {
         ApiService.bidApi().patch(bidId, new Bid(info));
     }
 
+    /**
+     * Buy out a Bid
+     */
     public void buyOut(){
         if (!expiryService.checkIsExpired(getBid())){
             BidPreference bp = getBid().getAdditionalInfo().getBidPreference();
@@ -89,7 +111,6 @@ public class OpenOffersModel extends BasicModel {
             Contract contractCreated = ApiService.contractApi().add(contract);
 
             // add 10 seconds to contract signing as signDate > creationDate
-            // TODO: we can do timeunit.delay?
             Calendar c = Calendar.getInstance();
             c.setTime(new Date());
             c.add(Calendar.SECOND, 10);
@@ -103,6 +124,10 @@ public class OpenOffersModel extends BasicModel {
         }
     }
 
+    /**
+     * Respond to the Bid by providing an offer contained within a BidInfo
+     * @param bidInfo a BidInfo object
+     */
     public void respond(BidInfo bidInfo) {
         if (!expiryService.checkIsExpired(getBid())) {
             sendOffer(bidInfo);

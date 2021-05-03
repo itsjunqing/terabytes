@@ -7,17 +7,23 @@ import model.BasicModel;
 import service.ApiService;
 import stream.Bid;
 import stream.Contract;
-import stream.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A class of DashboardModel to store the data and content in the dashboard for tutor/student.
+ */
 @Getter
 public class DashboardModel extends BasicModel {
 
     private List<Contract> contractsList;
 
+    /**
+     * Constructs a DashboardModel
+     * @param userId a String user id
+     */
     public DashboardModel(String userId) {
         this.userId = userId;
         this.contractsList = new ArrayList<>();
@@ -25,6 +31,9 @@ public class DashboardModel extends BasicModel {
         refresh();
     }
 
+    /**
+     * Refreshes the model.
+     */
     @Override
     public void refresh() {
         this.errorText = "";
@@ -35,14 +44,15 @@ public class DashboardModel extends BasicModel {
         oSubject.notifyObservers();
     }
 
+    /**
+     * Returns the status of the dashboard. Check DashboardStatus class for more information.
+     * @return a DashboardStatus
+     */
     public DashboardStatus getStatus() {
         Bid currentBid = ApiService.userApi().get(userId).getInitiatedBids().stream()
                                 .filter(b -> b.getDateClosedDown() == null)
                                 .findFirst()
                                 .orElse(null);
-        System.out.println(userId);
-        System.out.println(currentBid);
-        System.out.println("hi");
         if (currentBid != null) {
             if (!expiryService.checkIsExpired(currentBid)) {
                 errorText = "You already have a bid in progress, displaying active bid";
@@ -59,9 +69,14 @@ public class DashboardModel extends BasicModel {
         }
         return DashboardStatus.PASS;
     }
-    public String getName(){
+
+    /**
+     * Gets the name of the current dashboard holder.
+     * @return a String of name
+     */
+    public String getName() {
         return Utility.getFullName(userId);
-    };
+    }
 
 
 }
