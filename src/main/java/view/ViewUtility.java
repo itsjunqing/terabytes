@@ -182,6 +182,10 @@ public class ViewUtility {
         long seconds = (Constants.OPEN_BID_MINS * 60) - TimeUnit.MILLISECONDS.toSeconds(difference);
         long minLeft = seconds / 60;
         long secLeft = seconds % 60;
+        if (difference < 0){
+            secLeft = 0;
+            minLeft = 0;
+        }
         return minLeft + " minutes, " +  secLeft +  " seconds left till expiry";
     }
 
@@ -195,6 +199,11 @@ public class ViewUtility {
         System.out.println(minutes);
         long hoursLeft = (minutes % (24 * 60)) / 60;
         long minsLeft = (minutes % (24 * 60)) % 60;
+        if (difference < 0){
+            hoursLeft = 0;
+            minsLeft = 0;
+            dayLeft = 0;
+        }
         return dayLeft + " days, " +  hoursLeft + " hours, " + minsLeft + " mins left till expiry";
     }
 

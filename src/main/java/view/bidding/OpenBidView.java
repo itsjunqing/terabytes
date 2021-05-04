@@ -92,7 +92,7 @@ public class OpenBidView implements Observer {
         System.out.println(time);
         timeLeft.setHorizontalAlignment(0);
         timeLeft.setHorizontalTextPosition(0);
-        timeLeft.setText(time); // TODO: not working
+        timeLeft.setText(time);
     }
 
     private void updateView(List<BidInfo> bidInfoList, Bid bid) {
