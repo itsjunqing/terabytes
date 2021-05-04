@@ -28,8 +28,8 @@ public class CloseBidController extends BiddingController {
         SwingUtilities.invokeLater(() -> {
             this.closeBidView = new CloseBidView(closeBidModel);
             this.closeBidModel.attach(closeBidView);
+            listenViewActions();
         });
-        listenViewActions();
     }
 
     /**
