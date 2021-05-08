@@ -91,7 +91,6 @@ public class CloseBidController extends BiddingController {
         try {
             int selection = closeBidView.getOfferSelection();
             Contract contract = closeBidModel.formContract(selection);
-//            Contract contract = closeBidModel.formContract(bidInfo);
             if (contract != null) {
                 handleContract(contract);
                 closeBidView.dispose();

@@ -56,7 +56,6 @@ public class OpenBidController extends BiddingController {
         try {
             int selection = openBidView.getOfferSelection();
             Contract contract = openBidModel.formContract(selection);
-//            Contract contract = openBidModel.formContract(bidInfo);
             if (contract != null){
                 handleContract(contract);
                 openBidView.dispose();

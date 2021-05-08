@@ -15,8 +15,8 @@ import java.util.logging.Logger;
 
 public abstract class BasicApi<T> implements ApiInterface<T> {
 
-    private final String ROOT_URL = "https://fit3077.com/api/v1";
-    private final String API_KEY = "TbMzGNkhpQDgQNgdMG6PjtNMFMdpPw";
+    private final String ROOT_URL = "https://fit3077.com/api/v2";
+    private final String API_KEY = "LwDHqBTFWrnrrDCnfQd6J96JwkBtbh";
     private OkHttpClient httpClient;
     private Gson gson;
 

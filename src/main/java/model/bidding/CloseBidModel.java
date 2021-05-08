@@ -166,18 +166,6 @@ public class CloseBidModel extends BiddingModel {
         }
     }
 
-//    /**
-//     * Selects and return an offer based on the selection option
-//     * @param selection an integer selection
-//     * @return a BidInfo object
-//     */
-//    @Override
-//    public BidInfo selectOffer(int selection) {
-//        BidInfo bidInfo = closeBidOffers.get(selection-1);
-//        markBidClose();
-//        return bidInfo;
-//    }
-
     public Contract formContract(int selection) {
         Bid currentBid = getBid();
         BidInfo bidInfo = closeBidOffers.get(selection-1);
