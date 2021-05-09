@@ -30,7 +30,7 @@ public class Driver {
         LoginView loginView = new LoginView();
         LoginController loginController = new LoginController(loginModel, loginView);
 
-        clearData();
+       // clearData();
     }
 
     private static void clearData() {
