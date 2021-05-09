@@ -74,14 +74,16 @@ public class Contract {
     }
 
     /**
-     * Copy constructor that copies a Contract object
+     * Copy constructor that copies a Contract object for Renewing (POST) new contract
      */
     public Contract(Contract contract) {
         this.firstPartyId = contract.getFirstParty().getId();
         this.secondPartyId = contract.getSecondParty().getId();
         this.subjectId = contract.getSubject().getId();
         this.dateCreated = new Date();
+        this.expiryDate = new Date();
         this.paymentInfo = new Payment(contract.getPaymentInfo());
+        this.lessonInfo = new Lesson(contract.getLessonInfo());
         this.preference = new Preference(contract.getPreference());
     }
 }

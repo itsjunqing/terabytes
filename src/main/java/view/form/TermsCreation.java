@@ -1,4 +1,4 @@
-package view.contract;
+package view.form;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -7,18 +7,15 @@ import lombok.Getter;
 import view.ViewUtility;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import javax.swing.text.NumberFormatter;
-import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.text.NumberFormat;
 import java.util.Arrays;
-import java.util.Locale;
 
 @Getter
-public class ContractTermsCreation {
-    private JPanel mainPanel;
+public class TermsCreation {
 
+    private JPanel mainPanel;
     private JComboBox numOfSessionBox;
     private JComboBox dayBox;
     private JComboBox timeBox;
@@ -30,7 +27,7 @@ public class ContractTermsCreation {
 
     private JFrame frame;
 
-    public ContractTermsCreation() {
+    public TermsCreation() {
         $$$setupUI$$$();
         JFrame frame = new JFrame();
         this.frame = frame;
@@ -98,7 +95,7 @@ public class ContractTermsCreation {
         offerReplyLabel = new JLabel();
         Font offerReplyLabelFont = this.$$$getFont$$$("Arial", Font.BOLD, 24, offerReplyLabel.getFont());
         if (offerReplyLabelFont != null) offerReplyLabel.setFont(offerReplyLabelFont);
-        offerReplyLabel.setText("ContractTermsCreation");
+        offerReplyLabel.setText("Contract Terms Creation");
         panel2.add(offerReplyLabel, new GridConstraints(0, 1, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new GridLayoutManager(5, 4, new Insets(0, 0, 0, 0), -1, -1));
@@ -184,23 +181,23 @@ public class ContractTermsCreation {
         rateField = new JFormattedTextField(numberInput);
     }
 
-    public int getNumOfSessionBox() throws NullPointerException {
+    public int getNumOfSessions() throws NullPointerException {
         return Integer.parseInt(numOfSessionBox.getSelectedItem().toString());
     }
 
-    public String getDayBox() throws NullPointerException {
+    public String getDay() throws NullPointerException {
         return dayBox.getSelectedItem().toString();
     }
 
-    public String getTimeBox() throws NullPointerException {
+    public String getTime() throws NullPointerException {
         return timeBox.getSelectedItem().toString();
     }
 
-    public int getDurationBox() throws NullPointerException {
+    public int getDuration() throws NullPointerException {
         return Integer.parseInt(durationBox.getSelectedItem().toString());
     }
 
-    public int getRateField() throws NullPointerException {
+    public int getRate() throws NullPointerException {
         if (rateField.getText().isEmpty()) {
             throw new NullPointerException();
         }

@@ -1,7 +1,7 @@
 package view.contract;
 
 import lombok.Getter;
-import model.dashboard.DashboardModel;
+import model.contract.ContractRenewalModel;
 import stream.Contract;
 import view.ViewUtility;
 
@@ -14,25 +14,27 @@ import java.util.List;
 
 @Getter
 public class ContractRenewalView {
-    private DashboardModel dashboardModel;
+
+    private ContractRenewalModel contractRenewalModel;
+
     private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
     private JPanel contractPanel; // used to clear and update the content, only this need to be updated
     private JButton refreshButton;
-    private JComboBox contractSelection;
-    private JButton renewNewTerms;
-    private JButton renewOldTerms;
+    private JComboBox contractSelectionBox;
+    private JButton renewNewTermsButton;
+    private JButton renewOldTermsButton;
     private JLabel errorLabel;
     private JFrame frame;
     private JPanel buttonPanel;
-    public ContractRenewalView(DashboardModel dashboardModel) {
-        this.dashboardModel = dashboardModel;
+
+    public ContractRenewalView(ContractRenewalModel contractRenewalModel) {
+        this.contractRenewalModel = contractRenewalModel;
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
-        String name = dashboardModel.getName();
         frame = new JFrame("Contract Renewal View");
         updateContracts();
-        addButtons(dashboardModel.getContractsList().size());
+        addButtons(contractRenewalModel.getExpiredContracts().size());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         // resizing if its smaller than the default size
@@ -44,10 +46,9 @@ public class ContractRenewalView {
     }
 
 
-
     protected void refreshContent(){
         updateContracts();
-        refreshButtons(dashboardModel.getContractsList().size());
+        refreshButtons(contractRenewalModel.getExpiredContracts().size());
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
@@ -76,7 +77,7 @@ public class ContractRenewalView {
         contractPanel.add(jScrollPane);
 
         // get the list of contracts and update accordingly
-        List<Contract> contractList = new ArrayList<>(getDashboardModel().getContractsList());
+        List<Contract> contractList = new ArrayList<>(contractRenewalModel.getExpiredContracts());
         Collections.reverse(contractList);
         int contractIndex = contractList.size();
         for (Contract c: contractList) {
@@ -99,9 +100,9 @@ public class ContractRenewalView {
 
     private void refreshButtons(int contractListSize){
         for (int i = 1; i < contractListSize+1; i++){
-            contractSelection.addItem(i);
-            errorLabel.setText(dashboardModel.getErrorText());
+            contractSelectionBox.addItem(i);
         }
+        errorLabel.setText(contractRenewalModel.getErrorText());
     }
 
     private void addButtons(int contractListSize) {
@@ -112,7 +113,6 @@ public class ContractRenewalView {
             buttonPanel.setLayout(new BorderLayout());
             mainPanel.add(buttonPanel);
         }
-
 
         JPanel mainList = new JPanel(new GridBagLayout());
         JPanel panel = new JPanel();
@@ -126,23 +126,22 @@ public class ContractRenewalView {
         refreshButton = new JButton("Refresh");
         panel.add(refreshButton, gbc2);
 
-
         for (int i = 1; i < contractListSize+1; i++){
-            contractSelection.addItem(i);
+            contractSelectionBox.addItem(i);
         }
-        panel.add(contractSelection);
+        panel.add(contractSelectionBox);
 
-        renewNewTerms = new JButton("Renew with New Terms");
-        panel.add(renewNewTerms, gbc2);
+        renewNewTermsButton = new JButton("Renew with New Terms");
+        panel.add(renewNewTermsButton, gbc2);
 
-        renewOldTerms = new JButton("Renew with Old (existing) Terms");
-        panel.add(renewOldTerms, gbc2);
+        renewOldTermsButton = new JButton("Renew with Old (existing) Terms");
+        panel.add(renewOldTermsButton, gbc2);
 
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText(dashboardModel.getErrorText());
+        errorLabel.setText(contractRenewalModel.getErrorText());
         panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
@@ -153,6 +152,10 @@ public class ContractRenewalView {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
+    }
+
+    public int getContractSelectionBox() throws NullPointerException {
+        return Integer.parseInt(contractSelectionBox.getSelectedItem().toString());
     }
 
     public void update() {

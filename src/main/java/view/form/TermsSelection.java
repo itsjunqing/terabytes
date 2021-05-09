@@ -1,7 +1,7 @@
-package view.contract;
+package view.form;
 
 import lombok.Getter;
-import model.dashboard.DashboardModel;
+import model.contract.ContractRenewalModel;
 import stream.Contract;
 import view.ViewUtility;
 
@@ -13,25 +13,28 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class ContractTermsSelection {
-    private DashboardModel dashboardModel;
+public class TermsSelection {
+
+    private ContractRenewalModel contractRenewalModel;
+
     private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
     private JPanel contractPanel; // used to clear and update the content, only this need to be updated
     private JButton refreshButton;
     private JComboBox contractSelection;
-    private JButton selectContract;
+    private JButton selectButton;
     private JLabel errorLabel;
     private JFrame frame;
     private JPanel buttonPanel;
-    public ContractTermsSelection(DashboardModel dashboardModel) {
-        this.dashboardModel = dashboardModel;
+
+
+    public TermsSelection(ContractRenewalModel contractRenewalModel) {
+        this.contractRenewalModel = contractRenewalModel;
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
-        String name = dashboardModel.getName();
         frame = new JFrame("Existing Contract Terms Selection");
         updateContracts();
-        addButtons(dashboardModel.getContractsList().size());
+        addButtons(contractRenewalModel.getAllContracts().size());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         // resizing if its smaller than the default size
@@ -42,11 +45,15 @@ public class ContractTermsSelection {
         frame.setVisible(true);
     }
 
+    public void dispose() {
+        frame.dispose();
+    }
+
 
 
     protected void refreshContent(){
         updateContracts();
-        refreshButtons(dashboardModel.getContractsList().size());
+        refreshButtons(contractRenewalModel.getAllContracts().size());
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
@@ -75,7 +82,7 @@ public class ContractTermsSelection {
         contractPanel.add(jScrollPane);
 
         // get the list of contracts and update accordingly
-        List<Contract> contractList = new ArrayList<>(getDashboardModel().getContractsList());
+        List<Contract> contractList = new ArrayList<>(contractRenewalModel.getAllContracts());
         Collections.reverse(contractList);
         int contractIndex = contractList.size();
         for (Contract c: contractList) {
@@ -99,8 +106,8 @@ public class ContractTermsSelection {
     private void refreshButtons(int contractListSize){
         for (int i = 1; i < contractListSize+1; i++){
             contractSelection.addItem(i);
-            errorLabel.setText(dashboardModel.getErrorText());
         }
+        errorLabel.setText(contractRenewalModel.getErrorText());
     }
 
     private void addButtons(int contractListSize) {
@@ -132,14 +139,14 @@ public class ContractTermsSelection {
         panel.add(contractSelection);
 
 
-        selectContract = new JButton("Select Contract");
-        panel.add(selectContract, gbc2);
+        selectButton = new JButton("Select Contract");
+        panel.add(selectButton, gbc2);
 
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText(dashboardModel.getErrorText());
+        errorLabel.setText(contractRenewalModel.getErrorText());
         panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));

@@ -1,10 +1,9 @@
-package view.contract;
+package view.form;
 
 import lombok.Getter;
 import model.dashboard.DashboardModel;
 import stream.Contract;
 import view.ViewUtility;
-import view.dashboard.DashboardView;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -15,7 +14,7 @@ import java.util.List;
 
 @Getter
 // left dashboardmodel in because im not sure what the new
-public class ContractExpiryNotification {
+public class ExpiryNotification {
     protected DashboardModel dashboardModel;
     protected JPanel mainPanel; // mainPanel holds both contractPanel and buttons
     protected JPanel contractPanel; // used to clear and update the content, only this need to be updated
@@ -24,7 +23,7 @@ public class ContractExpiryNotification {
     protected JFrame frame;
     protected JPanel buttonPanel;
 
-    public ContractExpiryNotification(DashboardModel dashboardModel) {
+    public ExpiryNotification(DashboardModel dashboardModel) {
         this.dashboardModel = dashboardModel;
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));

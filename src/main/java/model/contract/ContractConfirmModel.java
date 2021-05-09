@@ -18,7 +18,6 @@ public class ContractConfirmModel {
     public ContractConfirmModel(Contract contract, int type, boolean sign) {
         this.type = type;
         this.sign = sign;
-//        createContract(contract);
         this.contract = contract;
     }
 

@@ -18,9 +18,9 @@ public class StudentController extends DashboardController {
     public StudentController(String userId) {
         super(userId);
         SwingUtilities.invokeLater(() -> {
-                dashboardView = new StudentView(dashboardModel);
-                dashboardModel.attach(dashboardView);
-                listenViewActions();
+            dashboardView = new StudentView(dashboardModel);
+            dashboardModel.attach(dashboardView);
+            listenViewActions();
         });
     }
 

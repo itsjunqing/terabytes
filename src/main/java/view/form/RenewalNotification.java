@@ -1,4 +1,4 @@
-package view.contract;
+package view.form;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 
 @Getter
-public class ContractRenewalNotification {
+public class RenewalNotification {
     private JPanel panel1;
     private JButton confirmButton;
     private JButton cancelButton;
@@ -19,7 +19,7 @@ public class ContractRenewalNotification {
     private JFrame frame;
 
 
-    public ContractRenewalNotification(Contract contract) {
+    public RenewalNotification(Contract contract) {
 
         JFrame frame = new JFrame();
         this.frame = frame;

@@ -19,7 +19,7 @@ public class Preference {
      * @param qualification the title of the Qualification
      * @param competency competency level
      * @param subject a string subject
-     * @param preferences a
+     * @param preferences a preference of BidInfo
      */
     public Preference(QualificationTitle qualification, int competency, String subject, BidInfo preferences) {
         this.qualification = qualification;

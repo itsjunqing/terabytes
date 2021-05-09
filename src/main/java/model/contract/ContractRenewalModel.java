@@ -1,8 +1,12 @@
 package model.contract;
 
+import entity.BidInfo;
 import entity.Preference;
+import entity.Utility;
+import lombok.Getter;
 import model.BasicModel;
 import service.ApiService;
+import service.BuilderService;
 import stream.Contract;
 import stream.User;
 
@@ -10,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 public class ContractRenewalModel extends BasicModel {
 
     private List<Contract> expiredContracts;
@@ -27,7 +32,7 @@ public class ContractRenewalModel extends BasicModel {
         expiredContracts = ApiService.contractApi().getAll().stream()
                 .filter(c -> c.getExpiryDate().before(today))
                 .collect(Collectors.toList());
-//        oSubject.notifyObservers();
+        oSubject.notifyObservers();
     }
 
     public List<Contract> getAllContracts() {
@@ -36,10 +41,10 @@ public class ContractRenewalModel extends BasicModel {
 
     /**
      * Returns the list of tutors that have the subject and competency requirement of the existing contract.
-     * @param existingContract selected contract to be reused
-     * @return a list of tutor username
      */
-    public List<String> getTutorsList(Contract existingContract) {
+    public List<String> getTutorsList(int selection) {
+        Contract existingContract = expiredContracts.get(selection-1);
+
         Preference preference = existingContract.getPreference();
         String qualification = preference.getQualification().toString();
         int competency = preference.getCompetency();
@@ -58,5 +63,16 @@ public class ContractRenewalModel extends BasicModel {
                 })
                 .map(User::getUserName)
                 .collect(Collectors.toList());
+    }
+
+    public Contract renewNewTerms(int selection, BidInfo newTerms) {
+        Contract oldContract = expiredContracts.get(selection-1);
+        return BuilderService.buildContract(oldContract, newTerms);
+    }
+
+    public Contract renewExistingTerms(int selection, String newTutor) {
+        Contract oldContract = expiredContracts.get(selection-1);
+        User tutor = Utility.getUser(newTutor);
+        return BuilderService.buildContract(oldContract, tutor.getId());
     }
 }
