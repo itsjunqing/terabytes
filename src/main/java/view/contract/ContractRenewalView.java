@@ -15,14 +15,16 @@ import java.util.List;
 
 @Getter
 public class ContractRenewalView {
-    protected DashboardModel dashboardModel;
-    protected JPanel mainPanel; // mainPanel holds both contractPanel and buttons
-    protected JPanel contractPanel; // used to clear and update the content, only this need to be updated
-    protected JButton refreshButton;
-    protected JButton initiateButton;
-    protected JLabel errorLabel;
-    protected JFrame frame;
-    protected JPanel buttonPanel;
+    private DashboardModel dashboardModel;
+    private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
+    private JPanel contractPanel; // used to clear and update the content, only this need to be updated
+    private JButton refreshButton;
+    private JComboBox contractSelection;
+    private JButton renewNewTerms;
+    private JButton renewOldTerms;
+    private JLabel errorLabel;
+    private JFrame frame;
+    private JPanel buttonPanel;
     public ContractRenewalView(DashboardModel dashboardModel) {
         this.dashboardModel = dashboardModel;
 
@@ -117,8 +119,11 @@ public class ContractRenewalView {
         refreshButton = new JButton("Refresh");
         panel.add(refreshButton, gbc2);
 
-        initiateButton = new JButton("Initiate Bid");
-        panel.add(initiateButton, gbc2);
+        renewNewTerms = new JButton("Renew with New Terms");
+        panel.add(renewNewTerms, gbc2);
+
+        renewOldTerms = new JButton("Renew with Old Terms");
+        panel.add(renewOldTerms, gbc2);
 
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
