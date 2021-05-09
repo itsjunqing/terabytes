@@ -7,10 +7,13 @@ import lombok.Getter;
 import view.ViewUtility;
 
 import javax.swing.*;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.text.NumberFormatter;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.text.NumberFormat;
 import java.util.Arrays;
+import java.util.Locale;
 
 @Getter
 public class OpenReply {

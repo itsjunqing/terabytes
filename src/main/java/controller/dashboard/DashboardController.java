@@ -9,6 +9,7 @@ public abstract class DashboardController implements EventListener {
     protected DashboardModel dashboardModel;
     protected DashboardView dashboardView;
 
+
     public DashboardController(String userId) {
         this.dashboardModel = new DashboardModel(userId);
     }

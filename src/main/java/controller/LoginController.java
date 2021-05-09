@@ -8,7 +8,7 @@ import view.LoginView;
 
 import javax.swing.*;
 
-public class LoginController {
+public class LoginController extends JFrame{
 
     private LoginModel loginModel;
     private LoginView loginView;

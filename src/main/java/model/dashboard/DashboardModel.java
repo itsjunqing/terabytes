@@ -84,5 +84,4 @@ public class DashboardModel extends BasicModel {
         return Utility.getFullName(userId);
     }
 
-
 }

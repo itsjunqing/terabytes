@@ -92,6 +92,10 @@ public class OfferingView implements Observer {
         errorLabel.setText(offeringModel.getErrorText());
     }
 
+    /**
+     * Function to initialise the button panel for the
+     * first time
+     */
     private void updateButtons(int bidSize) {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
