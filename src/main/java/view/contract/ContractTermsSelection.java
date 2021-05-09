@@ -4,7 +4,6 @@ import lombok.Getter;
 import model.dashboard.DashboardModel;
 import stream.Contract;
 import view.ViewUtility;
-import view.dashboard.DashboardView;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -14,23 +13,25 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-// left dashboardmodel in because im not sure what the new
-public class ContractExpiryNotification {
-    protected DashboardModel dashboardModel;
-    protected JPanel mainPanel; // mainPanel holds both contractPanel and buttons
-    protected JPanel contractPanel; // used to clear and update the content, only this need to be updated
-    private JButton notedButton;
-    protected JLabel errorLabel;
-    protected JFrame frame;
-    protected JPanel buttonPanel;
-
-    public ContractExpiryNotification(DashboardModel dashboardModel) {
+public class ContractTermsSelection {
+    private DashboardModel dashboardModel;
+    private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
+    private JPanel contractPanel; // used to clear and update the content, only this need to be updated
+    private JButton refreshButton;
+    private JComboBox contractSelection;
+    private JButton selectContract;
+    private JLabel errorLabel;
+    private JFrame frame;
+    private JPanel buttonPanel;
+    public ContractTermsSelection(DashboardModel dashboardModel) {
         this.dashboardModel = dashboardModel;
+
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
-        frame = new JFrame("Contract Expiry Notification");
+        String name = dashboardModel.getName();
+        frame = new JFrame("Existing Contract Terms Selection");
         updateContracts();
-        addButtons();
+        addButtons(dashboardModel.getContractsList().size());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         // resizing if its smaller than the default size
@@ -41,9 +42,11 @@ public class ContractExpiryNotification {
         frame.setVisible(true);
     }
 
+
+
     protected void refreshContent(){
         updateContracts();
-        errorLabel.setText(dashboardModel.getErrorText());
+        refreshButtons(dashboardModel.getContractsList().size());
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
@@ -93,7 +96,14 @@ public class ContractExpiryNotification {
         }
     }
 
-    private void addButtons() {
+    private void refreshButtons(int contractListSize){
+        for (int i = 1; i < contractListSize+1; i++){
+            contractSelection.addItem(i);
+            errorLabel.setText(dashboardModel.getErrorText());
+        }
+    }
+
+    private void addButtons(int contractListSize) {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
         } else {
@@ -101,6 +111,7 @@ public class ContractExpiryNotification {
             buttonPanel.setLayout(new BorderLayout());
             mainPanel.add(buttonPanel);
         }
+
 
         JPanel mainList = new JPanel(new GridBagLayout());
         JPanel panel = new JPanel();
@@ -111,8 +122,18 @@ public class ContractExpiryNotification {
         gbc2.gridheight = 3;
         gbc2.weightx = 1;
 
-        notedButton = new JButton("Noted");
-        panel.add(notedButton, gbc2);
+        refreshButton = new JButton("Refresh");
+        panel.add(refreshButton, gbc2);
+
+
+        for (int i = 1; i < contractListSize+1; i++){
+            contractSelection.addItem(i);
+        }
+        panel.add(contractSelection);
+
+
+        selectContract = new JButton("Select Contract");
+        panel.add(selectContract, gbc2);
 
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
