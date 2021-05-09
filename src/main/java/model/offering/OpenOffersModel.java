@@ -2,6 +2,7 @@ package model.offering;
 
 import entity.BidInfo;
 import entity.BidPreference;
+import entity.Constants;
 import lombok.Getter;
 import model.BasicModel;
 import service.ApiService;
@@ -106,7 +107,8 @@ public class OpenOffersModel extends BasicModel {
             BidInfo bidInfo = bp.getPreferences();
             bidInfo.setInitiatorId(getUserId());
             sendOffer(bidInfo);
-            Contract contract = BuilderService.buildContract(getBid(), bidInfo);
+            // TODO: to be replaced
+            Contract contract = BuilderService.buildContract(getBid(), bidInfo, Constants.DEFAULT_CONTRACT_DURATION);
             // logic to post contract
             Contract contractCreated = ApiService.contractApi().add(contract);
 

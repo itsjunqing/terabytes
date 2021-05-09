@@ -2,6 +2,7 @@ package model.bidding;
 
 import entity.BidInfo;
 import entity.BidPreference;
+import entity.Constants;
 import lombok.Getter;
 import lombok.Setter;
 import service.ApiService;
@@ -88,7 +89,8 @@ public class OpenBidModel extends BiddingModel {
         BidInfo bidInfo = openBidOffers.get(selection-1);
         markBidClose();
         if (!expiryService.checkIsExpired(currentBid)){
-            return BuilderService.buildContract(currentBid, bidInfo);
+            // TODO: to be replaced
+            return BuilderService.buildContract(currentBid, bidInfo, Constants.DEFAULT_CONTRACT_DURATION);
         }
         errorText = "This Bid has expired or closed down, please close and refresh main page";
         oSubject.notifyObservers();

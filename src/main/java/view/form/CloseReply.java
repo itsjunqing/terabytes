@@ -4,13 +4,13 @@ import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
+import view.ViewUtility;
 
 import javax.swing.*;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.text.NumberFormat;
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
 @Getter
 public class CloseReply {
@@ -45,27 +45,24 @@ public class CloseReply {
     }
 
     public void setDetails() {
-        IntStream.range(1, 6)
-                .forEach(v -> numOfSessionBox.addItem(v));
+        Arrays.stream(ViewUtility.sessions)
+                .forEach(s -> numOfSessionBox.addItem(s));
         numOfSessionBox.setSelectedIndex(-1);
 
-        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-        Arrays.stream(days)
+        Arrays.stream(ViewUtility.days)
                 .forEach(d -> dayBox.addItem(d));
         dayBox.setSelectedIndex(-1);
 
-        IntStream.range(1, 6)
-                .forEach(v -> durationBox.addItem(v));
+        Arrays.stream(ViewUtility.durations)
+                .forEach(d -> durationBox.addItem(d));
         durationBox.setSelectedIndex(-1);
 
-        String[] time = {"8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM", "1:00PM", "2:00PM",
-                "3:00PM", "4:00PM", "5:00PM", "6:00PM", "7:00PM"};
-        Arrays.stream(time)
+        Arrays.stream(ViewUtility.times)
                 .forEach(t -> timeBox.addItem(t));
         timeBox.setSelectedIndex(-1);
 
-        freeLessonBox.addItem("Yes");
-        freeLessonBox.addItem("No");
+        Arrays.stream(ViewUtility.freeLessons)
+                .forEach(s -> freeLessonBox.addItem(s));
     }
 
     /**

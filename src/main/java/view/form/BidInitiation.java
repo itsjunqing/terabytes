@@ -6,11 +6,11 @@ import com.intellij.uiDesigner.core.Spacer;
 import entity.QualificationTitle;
 import lombok.Getter;
 import service.ApiService;
+import view.ViewUtility;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
 @Getter
 public class BidInitiation {
@@ -49,31 +49,27 @@ public class BidInitiation {
                 .forEach(qt -> qualificationBox.addItem(qt.toString()));
         qualificationBox.setSelectedIndex(-1);
 
-        IntStream.range(1, 11)
+        Arrays.stream(ViewUtility.competencies)
                 .forEach(v -> competencyBox.addItem(v));
         competencyBox.setSelectedIndex(-1);
 
-        ApiService.subjectApi().getAll()
-                .stream()
+        ApiService.subjectApi().getAll().stream()
                 .forEach(s -> subjectBox.addItem(s.getName()));
         subjectBox.setSelectedIndex(-1);
 
-        IntStream.range(1, 6)
-                .forEach(v -> numOfSessionBox.addItem(v));
+        Arrays.stream(ViewUtility.sessions)
+                .forEach(s -> numOfSessionBox.addItem(s));
         numOfSessionBox.setSelectedIndex(-1);
 
-        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-        Arrays.stream(days)
+        Arrays.stream(ViewUtility.days)
                 .forEach(d -> dayBox.addItem(d));
         dayBox.setSelectedIndex(-1);
 
-        IntStream.range(1, 6)
-                .forEach(v -> durationBox.addItem(v));
+        Arrays.stream(ViewUtility.durations)
+                .forEach(d -> durationBox.addItem(d));
         durationBox.setSelectedIndex(-1);
 
-        String[] time = {"8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM", "1:00PM", "2:00PM",
-                "3:00PM", "4:00PM", "5:00PM", "6:00PM", "7:00PM"};
-        Arrays.stream(time)
+        Arrays.stream(ViewUtility.times)
                 .forEach(t -> timeBox.addItem(t));
         timeBox.setSelectedIndex(-1);
     }

@@ -23,16 +23,21 @@ public class BuilderService {
         return new Bid(type, userId, dateCreated, subjectId, bidAdditionalInfo);
     }
 
-    public static Contract buildContract(Bid bid, BidInfo offer) {
+    public static Contract buildContract(Bid bid, BidInfo offer, int duration) {
         String studentId = bid.getInitiator().getId();
         String tutorId = offer.getInitiatorId();
         String subjectId = bid.getSubject().getId();
         Date dateCreated = new Date();
 
         // take currentDate + number of sessions (weeks) to get expiry date
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(dateCreated);
+//        c.add(Calendar.WEEK_OF_YEAR, offer.getNumberOfSessions());
+//        Date expiryDate = c.getTime();
+
         Calendar c = Calendar.getInstance();
         c.setTime(dateCreated);
-        c.add(Calendar.WEEK_OF_YEAR, offer.getNumberOfSessions());
+        c.add(Calendar.MONTH, duration);
         Date expiryDate = c.getTime();
 
         // calculate payment = rate per session * number of sessions
