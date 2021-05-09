@@ -1,7 +1,7 @@
 package model.offering;
 
 import entity.BidInfo;
-import entity.BidPreference;
+import entity.Preference;
 import lombok.Getter;
 import model.BasicModel;
 import observer.Observer;
@@ -104,12 +104,12 @@ public class MonitoringModel extends BasicModel implements Observer {
      */
     public void buyOut(){
         if (!expiryService.checkIsExpired(getBid())){
-            BidPreference bp = getBid().getAdditionalInfo().getBidPreference();
+            Preference bp = getBid().getAdditionalInfo().getPreference();
             BidInfo bidInfo = bp.getPreferences();
             bidInfo.setInitiatorId(getUserId());
             sendOffer(bidInfo);
             // TODO:change hardcoded values into time
-            Contract contract = BuilderService.buildContract(getBid(), bidInfo, 30);
+            Contract contract = BuilderService.buildContract(getBid(), bidInfo);
             // logic to post contract
             Contract contractCreated = ApiService.contractApi().add(contract);
 
