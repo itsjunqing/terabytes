@@ -1,8 +1,7 @@
 package model.bidding;
 
 import entity.BidInfo;
-import entity.BidPreference;
-import entity.Constants;
+import entity.Preference;
 import lombok.Getter;
 import lombok.Setter;
 import service.ApiService;
@@ -25,9 +24,9 @@ public class OpenBidModel extends BiddingModel {
     /**
      * Constructor to construct a new OpenBidModel with a new Bid initiated.
      * @param userId a String of user id
-     * @param bp a BidPreference object
+     * @param bp a Preference object
      */
-    public OpenBidModel(String userId, BidPreference bp) {
+    public OpenBidModel(String userId, Preference bp) {
         Bid bid = BuilderService.buildBid(userId, bp, "Open");
         Bid bidCreated = ApiService.bidApi().add(bid);
         initModel(userId, bidCreated);
@@ -54,7 +53,6 @@ public class OpenBidModel extends BiddingModel {
         refresh();
     }
 
-
     /**
      * Refreshes the model.
      */
@@ -71,26 +69,16 @@ public class OpenBidModel extends BiddingModel {
         oSubject.notifyObservers();
     }
 
-//    /**
-//     * Selects and return an offer based on the selection option.
-//     * @param selection an integer selection
-//     * @return a BidInfo object
-//     */
-//    @Override
-//    public BidInfo selectOffer(int selection) {
-//        BidInfo bidInfo = openBidOffers.get(selection-1);
-//        markBidClose();
-//        return bidInfo;
-//    }
-
-
+    /**
+     * Constructs and returns a Contract to be confirmed upon bidding
+     * @param selection a selection offer choice
+     * @return a Contract object
+     */
     public Contract formContract(int selection) {
         Bid currentBid = getBid();
         BidInfo bidInfo = openBidOffers.get(selection-1);
-        markBidClose();
         if (!expiryService.checkIsExpired(currentBid)){
-            // TODO: to be replaced
-            return BuilderService.buildContract(currentBid, bidInfo, Constants.DEFAULT_CONTRACT_DURATION);
+            return BuilderService.buildContract(currentBid, bidInfo);
         }
         errorText = "This Bid has expired or closed down, please close and refresh main page";
         oSubject.notifyObservers();

@@ -15,4 +15,17 @@ public class Lesson {
     private Integer numberOfSessions;
     private Boolean freeLesson;
 
+    /**
+     * Copy constructor that copies a Lesson object.
+     * @param lesson a Lesson object
+     */
+    public Lesson(Lesson lesson) {
+        this.subject = lesson.subject;
+        this.day = lesson.day;
+        this.time = lesson.time;
+        this.duration = lesson.duration;
+        this.numberOfSessions = lesson.numberOfSessions;
+        this.freeLesson = lesson.freeLesson;
+    }
+
 }

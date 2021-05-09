@@ -1,8 +1,7 @@
 package model.offering;
 
 import entity.BidInfo;
-import entity.BidPreference;
-import entity.Constants;
+import entity.Preference;
 import lombok.Getter;
 import model.BasicModel;
 import service.ApiService;
@@ -101,14 +100,15 @@ public class OpenOffersModel extends BasicModel {
     /**
      * Buy out a Bid
      */
-    public void buyOut(){
+    public void buyOut2(){
         if (!expiryService.checkIsExpired(getBid())){
-            BidPreference bp = getBid().getAdditionalInfo().getBidPreference();
+            Preference bp = getBid().getAdditionalInfo().getPreference();
             BidInfo bidInfo = bp.getPreferences();
             bidInfo.setInitiatorId(getUserId());
             sendOffer(bidInfo);
-            // TODO: to be replaced
-            Contract contract = BuilderService.buildContract(getBid(), bidInfo, Constants.DEFAULT_CONTRACT_DURATION);
+
+            Contract contract = BuilderService.buildContract(getBid(), bidInfo);
+
             // logic to post contract
             Contract contractCreated = ApiService.contractApi().add(contract);
 
@@ -124,6 +124,23 @@ public class OpenOffersModel extends BasicModel {
             errorText = "Bid Has Expired";
             oSubject.notifyObservers();
         }
+    }
+
+    public Contract buyOut() {
+        Bid currentBid = getBid();
+        if (!expiryService.checkIsExpired(currentBid)) {
+            Preference bp = getBid().getAdditionalInfo().getPreference();
+            BidInfo bidInfo = bp.getPreferences();
+            bidInfo.setInitiatorId(getUserId());
+            sendOffer(bidInfo);
+            return BuilderService.buildContract(getBid(), bidInfo);
+
+//            // Mark bid as closed
+//            ApiService.bidApi().close(bidId, new Bid(new Date()));
+        }
+        errorText = "Bid Has Expired";
+        oSubject.notifyObservers();
+        return null;
     }
 
     /**

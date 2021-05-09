@@ -40,7 +40,7 @@ public class CloseOffersModel extends BasicModel {
     public void refresh() {
         errorText = "";
         Bid bid = ApiService.bidApi().get(bidId);
-        BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
+        BidInfo bidInfo = bid.getAdditionalInfo().getPreference().getPreferences();
         ExpiryService expiryService = new ExpiryService();
         if (!expiryService.checkIsExpired(bid)){
             // Student's message sent to me

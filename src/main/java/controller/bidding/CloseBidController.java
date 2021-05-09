@@ -1,6 +1,6 @@
 package controller.bidding;
 
-import entity.BidPreference;
+import entity.Preference;
 import entity.MessagePair;
 import model.bidding.CloseBidModel;
 import stream.Contract;
@@ -23,7 +23,7 @@ public class CloseBidController extends BiddingController {
      * @param userId
      * @param bp
      */
-    public CloseBidController(String userId, BidPreference bp) {
+    public CloseBidController(String userId, Preference bp) {
         this.closeBidModel = new CloseBidModel(userId, bp);
         SwingUtilities.invokeLater(() -> {
             this.closeBidView = new CloseBidView(closeBidModel);
@@ -62,7 +62,6 @@ public class CloseBidController extends BiddingController {
         System.out.println("From CloseBidController: View Message is clicked");
         try {
             int selection = closeBidView.getOfferSelection();
-            System.out.println("PLEASE PLEASE WORK");
             System.out.printf(Integer.toString(selection));
             MessagePair messagePair = closeBidModel.viewMessage(selection);
             if (messagePair != null) {
@@ -92,8 +91,11 @@ public class CloseBidController extends BiddingController {
             int selection = closeBidView.getOfferSelection();
             Contract contract = closeBidModel.formContract(selection);
             if (contract != null) {
-                handleContract(contract);
-                closeBidView.dispose();
+                boolean confirmed = handleContract(contract);
+                if (confirmed) {
+                    closeBidModel.markBidClose();
+                    closeBidView.dispose();
+                }
             }
         } catch (NullPointerException ef) {
             closeBidView.getErrorLabel().setText("No offers selected!");

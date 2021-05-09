@@ -6,6 +6,7 @@ import com.intellij.uiDesigner.core.Spacer;
 import entity.QualificationTitle;
 import lombok.Getter;
 import service.ApiService;
+import stream.Subject;
 import view.ViewUtility;
 
 import javax.swing.*;
@@ -54,7 +55,9 @@ public class BidInitiation {
         competencyBox.setSelectedIndex(-1);
 
         ApiService.subjectApi().getAll().stream()
-                .forEach(s -> subjectBox.addItem(s.getName()));
+                .map(Subject::getName)
+                .distinct()
+                .forEach(s -> subjectBox.addItem(s));
         subjectBox.setSelectedIndex(-1);
 
         Arrays.stream(ViewUtility.sessions)

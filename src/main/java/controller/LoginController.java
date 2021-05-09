@@ -15,10 +15,10 @@ public class LoginController {
 
     public LoginController(LoginModel loginModel, LoginView loginView) {
         this.loginModel = loginModel;
-//        SwingUtilities.invokeLater(() -> {
+        SwingUtilities.invokeLater(() -> {
             this.loginView = loginView;
             listenLogin();
-//        });
+        });
     }
 
     private void listenLogin() {

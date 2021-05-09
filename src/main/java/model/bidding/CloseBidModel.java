@@ -29,9 +29,9 @@ public class CloseBidModel extends BiddingModel {
     /**
      * Constructor to construct a new CloseBidModel with a new Bid initiated.
      * @param userId a String of user id
-     * @param bp a BidPreference object
+     * @param bp a Preference object
      */
-    public CloseBidModel(String userId, BidPreference bp) {
+    public CloseBidModel(String userId, Preference bp) {
         Bid bid = BuilderService.buildBid(userId, bp, "Close");
         Bid bidCreated = ApiService.bidApi().add(bid);
         initModel(userId, bidCreated);
@@ -73,7 +73,7 @@ public class CloseBidModel extends BiddingModel {
         // check if the bid is expired, if the bid is expired, then remove the bid,
         // return an empty list, and update the error text
         if (!expiryService.checkIsExpired(bid)){
-            BidInfo bidInfo = bid.getAdditionalInfo().getBidPreference().getPreferences();
+            BidInfo bidInfo = bid.getAdditionalInfo().getPreference().getPreferences();
 
             // Get the Messages where the initiator is a tutor
             List<Message> tutorMessages = bid.getMessages().stream()
@@ -124,7 +124,6 @@ public class CloseBidModel extends BiddingModel {
         oSubject.notifyObservers();
     }
 
-
     /**
      * Constructs a Message to send to tutor.
      * If student has not sent a message before, a new message is posted.
@@ -163,13 +162,16 @@ public class CloseBidModel extends BiddingModel {
         }
     }
 
+    /**
+     * Constructs and returns a Contract to be confirmed upon bidding
+     * @param selection a selection offer choice
+     * @return a Contract object
+     */
     public Contract formContract(int selection) {
         Bid currentBid = getBid();
         BidInfo bidInfo = closeBidOffers.get(selection-1);
-        markBidClose();
         if (!expiryService.checkIsExpired(currentBid)){
-            // TODO: to be replaced
-            return BuilderService.buildContract(currentBid, bidInfo, Constants.DEFAULT_CONTRACT_DURATION);
+            return BuilderService.buildContract(currentBid, bidInfo);
         }
         errorText = "This Bid has expired or closed down, please close and refresh main page";
         oSubject.notifyObservers();

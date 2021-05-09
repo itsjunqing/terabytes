@@ -1,8 +1,8 @@
 package stream;
 
+import entity.Preference;
 import lombok.Data;
 import entity.BidInfo;
-import entity.BidPreference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,11 @@ import java.util.List;
  */
 @Data
 public class BidAdditionalInfo {
-    private BidPreference bidPreference; // student's preference of Bid
+    private Preference preference; // student's preference of Bid
     private List<BidInfo> bidOffers; // tutor's offer (for open bid only)
 
-    public BidAdditionalInfo(BidPreference bidPreference) {
-        this.bidPreference = bidPreference;
+    public BidAdditionalInfo(Preference preference) {
+        this.preference = preference;
         this.bidOffers = new ArrayList<>();
     }
 }

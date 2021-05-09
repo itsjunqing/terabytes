@@ -3,7 +3,7 @@ package controller.dashboard;
 import controller.bidding.CloseBidController;
 import controller.bidding.OpenBidController;
 import entity.BidInfo;
-import entity.BidPreference;
+import entity.Preference;
 import entity.DashboardStatus;
 import entity.QualificationTitle;
 import view.dashboard.StudentView;
@@ -18,11 +18,10 @@ public class StudentController extends DashboardController {
     public StudentController(String userId) {
         super(userId);
         SwingUtilities.invokeLater(() -> {
-                dashboardView = new StudentView(dashboardModel);
-                dashboardModel.attach(dashboardView);
-                listenViewActions();
-        }
-        );
+            dashboardView = new StudentView(dashboardModel);
+            dashboardModel.attach(dashboardView);
+            listenViewActions();
+        });
     }
 
     @Override
@@ -75,7 +74,7 @@ public class StudentController extends DashboardController {
 
     private void initiateOpenBid(ActionEvent e, BidInitiation form) {
         try {
-            BidPreference bp = extractFormInfo(form);
+            Preference bp = extractFormInfo(form);
             System.out.println("From StudentController: Extracted: " + bp);
             form.dispose();
             new OpenBidController(dashboardModel.getUserId(), bp);
@@ -87,7 +86,7 @@ public class StudentController extends DashboardController {
 
     private void initiateCloseBid(ActionEvent e, BidInitiation form) {
         try {
-            BidPreference bp = extractFormInfo(form);
+            Preference bp = extractFormInfo(form);
             System.out.println("From StudentController: Extracted: " + bp);
             form.dispose();
             new CloseBidController(dashboardModel.getUserId(), bp);
@@ -97,7 +96,7 @@ public class StudentController extends DashboardController {
         }
     }
 
-    private BidPreference extractFormInfo(BidInitiation form) throws NullPointerException {
+    private Preference extractFormInfo(BidInitiation form) throws NullPointerException {
         System.out.println("From StudentController: Extracting bid information..");
         QualificationTitle q = form.getQualification();
         int c = form.getCompetency();
@@ -109,7 +108,7 @@ public class StudentController extends DashboardController {
         int rate = form.getRate();
         String initiatorId = dashboardModel.getUserId();
         BidInfo bidInfo = new BidInfo(initiatorId, time, day, duration, rate, numOfSession);
-        return new BidPreference(q, c, s, bidInfo);
+        return new Preference(q, c, s, bidInfo);
     }
 
 

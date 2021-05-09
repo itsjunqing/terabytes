@@ -16,6 +16,11 @@ import java.util.concurrent.TimeUnit;
 
 public class ViewUtility {
 
+    public static final int STUDENT_CODE = 0;
+    public static final int TUTOR_CODE = 1;
+
+
+
     public static Integer[] competencies = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     public static Integer[] sessions = {1, 2, 3, 4, 5};
     public static String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
@@ -126,10 +131,10 @@ public class ViewUtility {
                     {"Bid Type", bidObject.getType()},
                     {"Student Name:", bidObject.getInitiator().getGivenName() + " " + bidObject.getInitiator().getFamilyName()},
                     {"Subject:", bidObject.getSubject().getName()},
-                    {"Number of Sessions:", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getNumberOfSessions())},
-                    {"Day & Time:", bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDay() + " " + bidObject.getAdditionalInfo().getBidPreference().getPreferences().getTime()},
-                    {"Duration (hours):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDuration())},
-                    {"Rate (per session):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getRate())},
+                    {"Number of Sessions:", Integer.toString(bidObject.getAdditionalInfo().getPreference().getPreferences().getNumberOfSessions())},
+                    {"Day & Time:", bidObject.getAdditionalInfo().getPreference().getPreferences().getDay() + " " + bidObject.getAdditionalInfo().getPreference().getPreferences().getTime()},
+                    {"Duration (hours):", Integer.toString(bidObject.getAdditionalInfo().getPreference().getPreferences().getDuration())},
+                    {"Rate (per session):", Integer.toString(bidObject.getAdditionalInfo().getPreference().getPreferences().getRate())},
             };
             String[] col = {"", ""};
             return new JTable(rec, col);
@@ -174,10 +179,10 @@ public class ViewUtility {
                     {"Bid Type", "Open"},
                     {"Student Name:", Utility.getFullName(bidObject.getInitiator())},
                     {"Subject:", bidObject.getSubject().getName()},
-                    {"Number of Sessions:", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getNumberOfSessions())},
-                    {"Day & Time:", bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDay() + " " + bidObject.getAdditionalInfo().getBidPreference().getPreferences().getTime()},
-                    {"Duration (hours):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getDuration())},
-                    {"Rate (per session):", Integer.toString(bidObject.getAdditionalInfo().getBidPreference().getPreferences().getRate())},
+                    {"Number of Sessions:", Integer.toString(bidObject.getAdditionalInfo().getPreference().getPreferences().getNumberOfSessions())},
+                    {"Day & Time:", bidObject.getAdditionalInfo().getPreference().getPreferences().getDay() + " " + bidObject.getAdditionalInfo().getPreference().getPreferences().getTime()},
+                    {"Duration (hours):", Integer.toString(bidObject.getAdditionalInfo().getPreference().getPreferences().getDuration())},
+                    {"Rate (per session):", Integer.toString(bidObject.getAdditionalInfo().getPreference().getPreferences().getRate())},
             };
             String[] col = {"", ""};
             return new JTable(rec, col);

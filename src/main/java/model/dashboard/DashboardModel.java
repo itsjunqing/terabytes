@@ -49,10 +49,16 @@ public class DashboardModel extends BasicModel {
      * @return a DashboardStatus
      */
     public DashboardStatus getStatus() {
-        Bid currentBid = ApiService.userApi().get(userId).getInitiatedBids().stream()
-                                .filter(b -> b.getDateClosedDown() == null)
-                                .findFirst()
-                                .orElse(null);
+        // don't use the code below, buggy
+//        Bid currentBid = ApiService.userApi().get(userId).getInitiatedBids().stream()
+//                                .filter(b -> b.getDateClosedDown() == null)
+//                                .findFirst()
+//                                .orElse(null);
+        Bid currentBid = ApiService.bidApi().getAll().stream()
+                .filter(b -> b.getInitiator().getId().equals(userId))
+                .filter(b -> b.getDateClosedDown() == null)
+                .findFirst()
+                .orElse(null);
         if (currentBid != null) {
             if (!expiryService.checkIsExpired(currentBid)) {
                 errorText = "You already have a bid in progress, displaying active bid";

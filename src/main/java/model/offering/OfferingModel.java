@@ -1,6 +1,6 @@
 package model.offering;
 
-import entity.BidPreference;
+import entity.Preference;
 import lombok.Getter;
 import model.BasicModel;
 import service.ExpiryService;
@@ -42,7 +42,7 @@ public class OfferingModel extends BasicModel {
         ExpiryService expiryService = new ExpiryService();
         for (Bid b: bids) {
             if (!expiryService.checkIsExpired(b)) {
-                BidPreference bp = b.getAdditionalInfo().getBidPreference();
+                Preference bp = b.getAdditionalInfo().getPreference();
                 boolean hasQualification = currentUser.getQualifications().stream()
                         .anyMatch(q -> q.getTitle().equals(bp.getQualification().toString()));
 

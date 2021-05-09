@@ -1,6 +1,6 @@
 package controller.bidding;
 
-import entity.BidPreference;
+import entity.Preference;
 import model.bidding.OpenBidModel;
 import stream.Contract;
 import view.bidding.OpenBidView;
@@ -19,7 +19,7 @@ public class OpenBidController extends BiddingController {
      * @param userId
      * @param bp
      */
-    public OpenBidController(String userId, BidPreference bp) {
+    public OpenBidController(String userId, Preference bp) {
         this.openBidModel = new OpenBidModel(userId, bp);
         SwingUtilities.invokeLater(() -> {
             this.openBidView = new OpenBidView(openBidModel);
@@ -57,8 +57,11 @@ public class OpenBidController extends BiddingController {
             int selection = openBidView.getOfferSelection();
             Contract contract = openBidModel.formContract(selection);
             if (contract != null){
-                handleContract(contract);
-                openBidView.dispose();
+                boolean confirmed = handleContract(contract);
+                if (confirmed) {
+                    openBidModel.markBidClose();
+                    openBidView.dispose();
+                }
             }
         } catch (NullPointerException ef) {
             openBidView.getErrorLabel().setText("No offers selected!");

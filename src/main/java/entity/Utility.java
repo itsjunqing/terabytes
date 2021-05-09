@@ -16,4 +16,12 @@ public class Utility {
         User user = ApiService.userApi().get(userId);
         return getFullName(user);
     }
+
+    public static User getUser(String username) {
+        return ApiService.userApi().getAll().stream()
+                .filter(u -> u.getUserName().equals(username))
+                .findFirst()
+                .orElse(null);
+    }
+
 }

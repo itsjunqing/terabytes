@@ -1,5 +1,6 @@
 package model;
 
+import entity.Utility;
 import service.ApiService;
 import stream.User;
 
@@ -19,22 +20,10 @@ public class LoginModel {
     public boolean performLogin(String username, String password) {
         User loginUser = new User(username, password);
         if (ApiService.userApi().verify(loginUser)) {
-            this.user = getUser(username);
+            this.user = Utility.getUser(username);
             return true;
         }
         return false;
-    }
-
-    /**
-     * Returns a User object of the LoginModel
-     * @param username username of the user
-     * @return User object
-     */
-    private User getUser(String username) {
-        return ApiService.userApi().getAll().stream()
-                .filter(u -> u.getUserName().equals(username))
-                .findFirst()
-                .orElse(null);
     }
 
     /**
