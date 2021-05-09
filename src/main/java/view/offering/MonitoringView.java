@@ -2,7 +2,7 @@ package view.offering;
 
 import entity.BidInfo;
 import lombok.Getter;
-import model.offering.OpenOffersModel;
+import model.offering.MonitoringModel;
 import observer.Observer;
 import stream.Bid;
 import view.ViewUtility;
@@ -16,23 +16,28 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class OpenOffersView implements Observer {
+public class MonitoringView implements Observer {
     private JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
-    private JButton refreshButton;
+    private JComboBox bidSelection;
     private JButton respondButton;
     private JButton buyOutButton;
-    private OpenOffersModel openOffersModel;
+    private MonitoringModel monitoringModel;
     private JLabel errorLabel;
     private JFrame frame;
 
-    public OpenOffersView(OpenOffersModel offeringModel) {
-        this.openOffersModel = offeringModel;
+    /**
+     * Constructor that creates the main frame and calls
+     * functions to populate it
+     * @param monitoringModel;
+     */
+    public MonitoringView(MonitoringModel monitoringModel) {
+        this.monitoringModel = monitoringModel;
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
-        frame = new JFrame("All Open Offers for this Bid");
+        frame = new JFrame("Monitoring Dashboard");
         // Updating the panels in the frame
         updateContent();
 
@@ -51,40 +56,51 @@ public class OpenOffersView implements Observer {
         this.frame.dispose();
     }
 
+    /**
+     * Function to create the panel for the first time
+     */
     private void updateContent() {
 
         // getting the constants from the model
-        List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
-        BidInfo myBidInfo = openOffersModel.getMyOffer();
-        Bid bid = openOffersModel.getBid();
-        // making the frames 
-        updateView(otherBidInfo, myBidInfo, bid);
-        updateButtons();
+        List<Bid> selectedBids = new ArrayList<>(monitoringModel.getSelectedBids());
+        // making the frames
+        updateView(selectedBids);
+        createButtons(selectedBids.size());
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
 
+    /**
+     * Function to refresh the content of the panels without
+     * unecessarily creating new panels
+     */
     private void refreshContent(){
         // getting the constants from the model
-        List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
+        List<Bid> selectedBids = new ArrayList<>(monitoringModel.getSelectedBids());
 
         System.out.println("From OpenOffersView refreshContent function");
-        otherBidInfo.stream().forEach(e -> System.out.println(e.toString()));
+        selectedBids.stream().forEach(e -> System.out.println(e.toString()));
 
-        BidInfo myBidInfo = openOffersModel.getMyOffer();
-        Bid bid = openOffersModel.getBid();
         // making the frames
-        updateView(otherBidInfo, myBidInfo, bid);
-        refreshButtons();
+        updateView(selectedBids);
+        // refreshing info in buttons
+        refreshButtons(selectedBids.size());
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
 
-    private void refreshButtons(){
-        errorLabel.setText(openOffersModel.getErrorText());
+
+    private void refreshButtons(int bidListSize){
+        for (int i = 1; i < bidListSize + 1; i++) {
+            bidSelection.addItem(i);
+        }
+        errorLabel.setText(monitoringModel.getErrorText());
     }
 
-    private void updateView(List<BidInfo> otherBidInfo, BidInfo myBidInfo, Bid bid) {
+    /**
+     * function to create the information panel
+     */
+    private void updateView(List<Bid> choosenBidList) {
         // to be used upon refresh to update both openBidPanel and buttonPanel
         if (openBidPanel != null) {
             openBidPanel.removeAll();
@@ -94,9 +110,7 @@ public class OpenOffersView implements Observer {
             mainPanel.add(openBidPanel);
         }
         // if bid has expired, return empty panel
-        if (bid.getDateClosedDown() != null){
-            return;
-        }
+
 
         JPanel mainList = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -118,66 +132,49 @@ public class OpenOffersView implements Observer {
         gbc1.weightx = 1;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
-        Collections.reverse(otherBidInfo);
+        Collections.reverse(choosenBidList);
 
+        for (Bid b:choosenBidList) {
         /**
-         * First add all the "other bids", if empty, return empty panel
+         * Add the latest other bids
          */
-        for (BidInfo b : otherBidInfo) {
-            // Code to add open bid panel
+            List <BidInfo> bidOfferList =  b.getAdditionalInfo().getBidOffers();
+            int bidOfferSize = bidOfferList.size();
             JPanel panel = new JPanel();
-            JTable table = ViewUtility.OpenOffersTable.buildTutorOpenOffer(b, bid);
-            ViewUtility.resizeColumns(table);
-            table.setBounds(10, 10, 500, 100);
-            panel.add(table);
-            panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
+            if ( bidOfferSize > 0){
+                // Code to add open bid panel
+                JTable table = ViewUtility.OpenOffersTable.buildTutorOpenOffer(bidOfferList.get(bidOfferSize-1), b);
+                ViewUtility.resizeColumns(table);
+                table.setBounds(10, 10, 500, 100);
+                panel.add(table);
+            }else{
+                String[][] noOffer = { {"No Offer"}};
+                String[] col = {"", ""};
+                JTable noOfferTable = new JTable(noOffer, col);
+                ViewUtility.resizeColumns(noOfferTable);
+                noOfferTable.setBounds(10, 10, 500, 100);
+                panel.add(noOfferTable);
+            }
+            TitledBorder otherTitle = BorderFactory.createTitledBorder("Latest Offer");
+            panel.setBorder(otherTitle);
             mainList.add(panel, gbc1, 0);
+
+            /**
+             * Display student request, will always exist
+             */
+            JPanel requestPanel = new JPanel();
+            JTable requestTable = ViewUtility.OpenOffersTable.buildStudentRequest(b);
+            ViewUtility.resizeColumns(requestTable);
+            requestTable.setBounds(10, 10, 500, 100);
+            requestPanel.add(requestTable);
+            TitledBorder titledBorder;
+            titledBorder = BorderFactory.createTitledBorder("Student Request");
+            requestPanel.setBorder(titledBorder);
+            mainList.add(requestPanel, gbc1, 0);
         }
-        /**
-         * Display my offer, may be empty
-         */
-        if (myBidInfo != null) {
-            // Code to add open bid panel
-            JPanel myBidPanel = new JPanel();
-            JTable myBidTable = ViewUtility.OpenOffersTable.buildTutorOpenOffer(myBidInfo, bid);
-            ViewUtility.resizeColumns(myBidTable);
-            myBidPanel.setBounds(10, 10, 500, 100);
-            myBidPanel.add(myBidTable);
-            TitledBorder myOfferTitle;
-            myOfferTitle = BorderFactory.createTitledBorder("My Offer");
-            myBidPanel.setBorder(myOfferTitle);
-            mainList.add(myBidPanel, gbc1, 0);
-
-        }else{
-            JPanel myBidPanel = new JPanel();
-            String[][] noOffer = { {"No Offer", " Please Input Offer"}};
-            String[] col = {"", ""};
-            JTable noOfferTable = new JTable(noOffer, col);
-
-            ViewUtility.resizeColumns(noOfferTable);
-            noOfferTable.setBounds(10, 10, 500, 100);
-            myBidPanel.add(noOfferTable);
-            TitledBorder myOfferTitle;
-            myOfferTitle = BorderFactory.createTitledBorder("My Offer");
-            myBidPanel.setBorder(myOfferTitle);
-            mainList.add(myBidPanel, gbc1, 0);
-        }
-
-        /**
-         * Display student request, will always exist
-         */
-        JPanel requestPanel = new JPanel();
-        JTable requestTable = ViewUtility.OpenOffersTable.buildStudentRequest(bid);
-        ViewUtility.resizeColumns(requestTable);
-        requestTable.setBounds(10, 10, 500, 100);
-        requestPanel.add(requestTable);
-        TitledBorder titledBorder;
-        titledBorder = BorderFactory.createTitledBorder("Student Request");
-        requestPanel.setBorder(titledBorder);
-        mainList.add(requestPanel, gbc1, 0);
     }
 
-    private void updateButtons() {
+    private void createButtons(int choosenSize) {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();
@@ -196,13 +193,18 @@ public class OpenOffersView implements Observer {
         gbc2.gridheight = 3;
         gbc2.weightx = 1;
 
-        // add refresh button
-        refreshButton = new JButton("Refresh");
-        panel.add(refreshButton, gbc2);
+
+        // add choose bid combobox
+        bidSelection = new JComboBox();
+        for (int i = 1; i < choosenSize + 1; i ++){
+            bidSelection.addItem(i);
+        }
 
         // add Provide Offer button
         respondButton = new JButton("Provide Offer");
         panel.add(respondButton, gbc2);
+
+
 
         // add select offer button
         buyOutButton = new JButton("Buy Out");
@@ -212,7 +214,7 @@ public class OpenOffersView implements Observer {
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText(openOffersModel.getErrorText());
+        errorLabel.setText("");
         panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
@@ -223,6 +225,7 @@ public class OpenOffersView implements Observer {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
+
     }
 
     @Override

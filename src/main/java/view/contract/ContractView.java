@@ -17,6 +17,9 @@ public class ContractView implements Observer {
     private JButton confirmButton;
     private JButton cancelButton;
     private JScrollPane ScrollPane;
+    private JComboBox contractDuration;
+    private JTextField contractDurationTextField;
+    private JLabel errorLabel;
     private JFrame frame;
     private ContractModel contractModel;
 
@@ -40,6 +43,8 @@ public class ContractView implements Observer {
     private void setDetails() {
         JTable table1 = getTable(this.contractModel.getContract());
         this.ScrollPane.setViewportView(table1);
+        for (int d = 3; d < 25; d= d*2)
+        contractDuration.addItem(d);
     }
 
     {
@@ -129,6 +134,10 @@ public class ContractView implements Observer {
     @Override
     public void update() {
         setDetails();
+    }
+
+    public int getcontractDuration() {
+        return Integer.parseInt(contractDuration.getSelectedItem().toString());
     }
 }
 
