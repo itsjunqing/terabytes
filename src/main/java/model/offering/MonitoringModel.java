@@ -4,6 +4,7 @@ import entity.BidInfo;
 import entity.BidPreference;
 import lombok.Getter;
 import model.BasicModel;
+import observer.Observer;
 import service.ApiService;
 import service.BuilderService;
 import service.ExpiryService;
@@ -20,7 +21,7 @@ import java.util.List;
  * A Class of OpenOffersModel that stores the data of an Open Offer by tutor
  */
 @Getter
-public class MonitoringModel extends BasicModel {
+public class MonitoringModel extends BasicModel implements Observer {
 
     private String bidId;
     private BidInfo myOffer;
@@ -141,6 +142,11 @@ public class MonitoringModel extends BasicModel {
     public List<Bid> getSelectedBids(){
             return selectedBids;
     };
+
+    @Override
+    public void update() {
+
+    }
 
 
 }

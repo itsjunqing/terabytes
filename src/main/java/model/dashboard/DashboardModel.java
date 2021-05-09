@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * A class of DashboardModel to store the data and content in the dashboard for tutor/student.
  */
 @Getter
-public class DashboardModel extends BasicModel implements Observer {
+public class DashboardModel extends BasicModel {
 
     private List<Contract> contractsList;
 
@@ -86,8 +86,5 @@ public class DashboardModel extends BasicModel implements Observer {
     }
 
 
-    @Override
-    public void update() {
-        refresh();
-    }
+
 }

@@ -9,7 +9,6 @@ public abstract class DashboardController implements EventListener {
 
     protected DashboardModel dashboardModel;
     protected DashboardView dashboardView;
-    protected Scheduler scheduler;
 
 
     public DashboardController(String userId) {
