@@ -91,11 +91,8 @@ public class CloseBidController extends BiddingController {
             int selection = closeBidView.getOfferSelection();
             Contract contract = closeBidModel.formContract(selection);
             if (contract != null) {
-                boolean confirmed = handleContract(contract);
-                if (confirmed) {
-                    closeBidModel.markBidClose();
-                    closeBidView.dispose();
-                }
+                handleContract(contract);
+                closeBidView.dispose();
             }
         } catch (NullPointerException ef) {
             closeBidView.getErrorLabel().setText("No offers selected!");

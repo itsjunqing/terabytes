@@ -170,6 +170,7 @@ public class CloseBidModel extends BiddingModel {
     public Contract formContract(int selection) {
         Bid currentBid = getBid();
         BidInfo bidInfo = closeBidOffers.get(selection-1);
+        markBidClose();
         if (!expiryService.checkIsExpired(currentBid)){
             return BuilderService.buildContract(currentBid, bidInfo);
         }

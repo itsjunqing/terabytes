@@ -133,10 +133,11 @@ public class OpenOffersModel extends BasicModel {
             BidInfo bidInfo = bp.getPreferences();
             bidInfo.setInitiatorId(getUserId());
             sendOffer(bidInfo);
-            return BuilderService.buildContract(getBid(), bidInfo);
 
-//            // Mark bid as closed
-//            ApiService.bidApi().close(bidId, new Bid(new Date()));
+            // Mark bid as closed
+            ApiService.bidApi().close(bidId, new Bid(new Date()));
+
+            return BuilderService.buildContract(getBid(), bidInfo);
         }
         errorText = "Bid Has Expired";
         oSubject.notifyObservers();

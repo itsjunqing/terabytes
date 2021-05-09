@@ -1,6 +1,7 @@
 package entity;
 
 import service.ApiService;
+import stream.Subject;
 import stream.User;
 
 /**
@@ -22,6 +23,11 @@ public class Utility {
                 .filter(u -> u.getUserName().equals(username))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public static String getSubjectName(String subjectId) {
+        Subject subject = ApiService.subjectApi().get(subjectId);
+        return subject.getName();
     }
 
 }

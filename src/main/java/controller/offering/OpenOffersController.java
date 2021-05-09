@@ -1,11 +1,11 @@
 package controller.offering;
 
 import controller.EventListener;
+import controller.contract.ContractConfirmController;
 import entity.BidInfo;
 import model.offering.OpenOffersModel;
 import stream.Contract;
 import view.ViewUtility;
-import view.form.Confirmation;
 import view.form.OpenReply;
 import view.offering.OpenOffersView;
 
@@ -54,15 +54,10 @@ public class OpenOffersController implements EventListener {
     }
 
     private void handleBuyOut(ActionEvent e) {
-        // Get preferences -> Add BidInfo -> create contract -> confirm/sign or cancel -> dispose
-
+        // Get preferences -> Form contract to be posted to API
         Contract contract = openOffersModel.buyOut();
-        Confirmation confirmation = new Confirmation(contract, ViewUtility.TUTOR_CODE);
-
-//        confirmation.getConfirmSignButton()
-
-
-
+        // Get contract duration -> post -> sign -> dispose
+        new ContractConfirmController(contract, ViewUtility.TUTOR_CODE, true);
         openOffersView.dispose();
     }
 
