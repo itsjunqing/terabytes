@@ -2,12 +2,15 @@ package controller.dashboard;
 
 import controller.EventListener;
 import model.dashboard.DashboardModel;
+import scheduler.Scheduler;
 import view.dashboard.DashboardView;
 
 public abstract class DashboardController implements EventListener {
 
     protected DashboardModel dashboardModel;
     protected DashboardView dashboardView;
+    protected Scheduler scheduler;
+
 
     public DashboardController(String userId) {
         this.dashboardModel = new DashboardModel(userId);

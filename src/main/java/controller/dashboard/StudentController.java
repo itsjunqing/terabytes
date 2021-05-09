@@ -6,6 +6,7 @@ import entity.BidInfo;
 import entity.Preference;
 import entity.DashboardStatus;
 import entity.QualificationTitle;
+import scheduler.Scheduler;
 import view.dashboard.StudentView;
 import view.form.BidInitiation;
 
@@ -18,10 +19,13 @@ public class StudentController extends DashboardController {
     public StudentController(String userId) {
         super(userId);
         SwingUtilities.invokeLater(() -> {
-            dashboardView = new StudentView(dashboardModel);
-            dashboardModel.attach(dashboardView);
-            listenViewActions();
-        });
+                dashboardView = new StudentView(dashboardModel);
+                dashboardModel.attach(dashboardView);
+                listenViewActions();
+        }
+        );
+        scheduler = Scheduler.getInstance();
+        scheduler.oSubject.attach(dashboardModel);
     }
 
     @Override

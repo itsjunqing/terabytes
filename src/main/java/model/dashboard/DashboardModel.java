@@ -4,6 +4,7 @@ import entity.DashboardStatus;
 import entity.Utility;
 import lombok.Getter;
 import model.BasicModel;
+import observer.Observer;
 import service.ApiService;
 import stream.Bid;
 import stream.Contract;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
  * A class of DashboardModel to store the data and content in the dashboard for tutor/student.
  */
 @Getter
-public class DashboardModel extends BasicModel {
+public class DashboardModel extends BasicModel implements Observer {
 
     private List<Contract> contractsList;
 
@@ -85,4 +86,8 @@ public class DashboardModel extends BasicModel {
     }
 
 
+    @Override
+    public void update() {
+        refresh();
+    }
 }
