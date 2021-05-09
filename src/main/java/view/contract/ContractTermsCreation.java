@@ -1,4 +1,4 @@
-package view.form;
+package view.contract;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -16,22 +16,21 @@ import java.util.Arrays;
 import java.util.Locale;
 
 @Getter
-public class CloseReply {
+public class ContractTermsCreation {
     private JPanel mainPanel;
+
     private JComboBox numOfSessionBox;
     private JComboBox dayBox;
     private JComboBox timeBox;
     private JComboBox durationBox;
-    private JButton sendCloseReplyButton;
+    private JButton sendOpenReplyButton;
     private JFormattedTextField rateField;
-    private JTextArea messageText;
-    private JComboBox freeLessonBox;
     private JLabel errorLabel;
-    private JLabel closeReplyLabel;
+    private JLabel offerReplyLabel;
 
     private JFrame frame;
 
-    public CloseReply() {
+    public ContractTermsCreation() {
         $$$setupUI$$$();
         JFrame frame = new JFrame();
         this.frame = frame;
@@ -47,7 +46,8 @@ public class CloseReply {
         this.frame.dispose();
     }
 
-    public void setDetails() {
+    private void setDetails() {
+
         Arrays.stream(ViewUtility.sessions)
                 .forEach(s -> numOfSessionBox.addItem(s));
         numOfSessionBox.setSelectedIndex(-1);
@@ -64,8 +64,6 @@ public class CloseReply {
                 .forEach(t -> timeBox.addItem(t));
         timeBox.setSelectedIndex(-1);
 
-        Arrays.stream(ViewUtility.freeLessons)
-                .forEach(s -> freeLessonBox.addItem(s));
     }
 
     /**
@@ -86,28 +84,32 @@ public class CloseReply {
         panel2.setLayout(new GridLayoutManager(2, 5, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         errorLabel = new JLabel();
+        errorLabel.setEnabled(false);
         errorLabel.setForeground(new Color(-4521974));
+        errorLabel.setHorizontalAlignment(0);
+        errorLabel.setHorizontalTextPosition(0);
         errorLabel.setRequestFocusEnabled(false);
         errorLabel.setText("");
-        errorLabel.setVisible(true);
         panel2.add(errorLabel, new GridConstraints(1, 1, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel2.add(spacer1, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
         panel2.add(spacer2, new GridConstraints(1, 4, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        closeReplyLabel = new JLabel();
-        Font closeReplyLabelFont = this.$$$getFont$$$("Arial", Font.BOLD, 24, closeReplyLabel.getFont());
-        if (closeReplyLabelFont != null) closeReplyLabel.setFont(closeReplyLabelFont);
-        closeReplyLabel.setText("Close Reply");
-        panel2.add(closeReplyLabel, new GridConstraints(0, 1, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        offerReplyLabel = new JLabel();
+        Font offerReplyLabelFont = this.$$$getFont$$$("Arial", Font.BOLD, 24, offerReplyLabel.getFont());
+        if (offerReplyLabelFont != null) offerReplyLabel.setFont(offerReplyLabelFont);
+        offerReplyLabel.setText("ContractTermsCreation");
+        panel2.add(offerReplyLabel, new GridConstraints(0, 1, 1, 3, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
-        panel3.setLayout(new GridLayoutManager(7, 4, new Insets(0, 0, 0, 0), -1, -1));
+        panel3.setLayout(new GridLayoutManager(5, 4, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(24, 267), null, 0, false));
         numOfSessionBox = new JComboBox();
         panel3.add(numOfSessionBox, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         dayBox = new JComboBox();
         panel3.add(dayBox, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         durationBox = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        durationBox.setModel(defaultComboBoxModel1);
         panel3.add(durationBox, new GridConstraints(3, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JLabel label1 = new JLabel();
         label1.setText("Number Of Sessions");
@@ -124,33 +126,20 @@ public class CloseReply {
         final JLabel label5 = new JLabel();
         label5.setText("Rate (per session)");
         panel3.add(label5, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        final JLabel label6 = new JLabel();
-        label6.setText("Message");
-        panel3.add(label6, new GridConstraints(6, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         rateField.setText("");
         panel3.add(rateField, new GridConstraints(4, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         timeBox = new JComboBox();
         panel3.add(timeBox, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        messageText = new JTextArea();
-        messageText.setLineWrap(true);
-        messageText.setText("");
-        messageText.setWrapStyleWord(true);
-        panel3.add(messageText, new GridConstraints(6, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
-        final JLabel label7 = new JLabel();
-        label7.setText("Free Lesson?");
-        panel3.add(label7, new GridConstraints(5, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        freeLessonBox = new JComboBox();
-        panel3.add(freeLessonBox, new GridConstraints(5, 2, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer3 = new Spacer();
-        panel3.add(spacer3, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel3.add(spacer3, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer4 = new Spacer();
-        panel3.add(spacer4, new GridConstraints(3, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel3.add(spacer4, new GridConstraints(2, 3, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel4, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(24, 124), null, 0, false));
-        sendCloseReplyButton = new JButton();
-        sendCloseReplyButton.setText("Send Close Reply");
-        panel4.add(sendCloseReplyButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        sendOpenReplyButton = new JButton();
+        sendOpenReplyButton.setText("Send Open Reply");
+        panel4.add(sendOpenReplyButton, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final Spacer spacer5 = new Spacer();
         panel4.add(spacer5, new GridConstraints(0, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer6 = new Spacer();
@@ -194,10 +183,9 @@ public class CloseReply {
         numberInput.setMinimum(0);
         numberInput.setMaximum(Integer.MAX_VALUE);
         numberInput.setAllowsInvalid(false);
+
         rateField = new JFormattedTextField(numberInput);
-
     }
-
 
     public int getNumOfSessionBox() throws NullPointerException {
         return Integer.parseInt(numOfSessionBox.getSelectedItem().toString());
@@ -222,12 +210,6 @@ public class CloseReply {
         return Integer.parseInt(rateField.getText());
     }
 
-    public String getMessageText() throws NullPointerException {
-        return messageText.getText();
-    }
 
-    public boolean getFreeLessonBox() throws NullPointerException {
-        return freeLessonBox.getSelectedItem().toString().equals("Yes");
-    }
 }
 

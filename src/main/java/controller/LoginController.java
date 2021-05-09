@@ -8,7 +8,7 @@ import view.LoginView;
 
 import javax.swing.*;
 
-public class LoginController {
+public class LoginController extends JFrame{
 
     private LoginModel loginModel;
     private LoginView loginView;
@@ -22,6 +22,8 @@ public class LoginController {
     }
 
     private void listenLogin() {
+
+
         loginView.getLoginButton().addActionListener(e -> {
             String username = loginView.getUserField().getText();
             String password = String.valueOf(loginView.getPasswordField().getPassword());

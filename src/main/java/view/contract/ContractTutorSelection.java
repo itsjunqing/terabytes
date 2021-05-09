@@ -12,26 +12,19 @@ import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.stream.IntStream;
 
 @Getter
-public class ContracTutorSelection {
+public class ContractTutorSelection {
     private JPanel panel1;
-    private JComboBox qualificationBox;
-    private JComboBox competencyBox;
-    private JComboBox subjectBox;
-    private JComboBox numOfSessionBox;
-    private JComboBox dayBox;
-    private JComboBox timeBox;
-    private JComboBox durationBox;
-    private JFormattedTextField rateField;
     private JLabel errorLabel;
-    private JComboBox comboBox1;
+    private JComboBox tutorSelection;
 
     private JFrame frame;
 
-    public ContracTutorSelection() {
+    public ContractTutorSelection() {
         JFrame frame = new JFrame();
         this.frame = frame;
         frame.setContentPane(this.panel1);
@@ -47,73 +40,18 @@ public class ContracTutorSelection {
     }
 
     private void setDetails() {
-        Arrays.stream(QualificationTitle.values())
-                .forEach(qt -> qualificationBox.addItem(qt.toString()));
-        qualificationBox.setSelectedIndex(-1);
+        String[] tutors = {"", "", ""};
+        Arrays.stream(tutors)
+                .forEach(t -> tutorSelection.addItem(t));
 
-        IntStream.range(1, 11)
-                .forEach(v -> competencyBox.addItem(v));
-        competencyBox.setSelectedIndex(-1);
 
-        ApiService.subjectApi().getAll()
-                .stream()
-                .forEach(s -> subjectBox.addItem(s.getName()));
-        subjectBox.setSelectedIndex(-1);
-
-        IntStream.range(1, 6)
-                .forEach(v -> numOfSessionBox.addItem(v));
-        numOfSessionBox.setSelectedIndex(-1);
-
-        String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
-        Arrays.stream(days)
-                .forEach(d -> dayBox.addItem(d));
-        dayBox.setSelectedIndex(-1);
-
-        IntStream.range(1, 6)
-                .forEach(v -> durationBox.addItem(v));
-        durationBox.setSelectedIndex(-1);
-
-        String[] time = {"8:00AM", "9:00AM", "10:00AM", "11:00AM", "12:00PM", "1:00PM", "2:00PM",
-                "3:00PM", "4:00PM", "5:00PM", "6:00PM", "7:00PM"};
-        Arrays.stream(time)
-                .forEach(t -> timeBox.addItem(t));
-        timeBox.setSelectedIndex(-1);
     }
 
     // GETTERS SECTION
-    public QualificationTitle getQualification() throws NullPointerException {
-        return QualificationTitle.valueOf(qualificationBox.getSelectedItem().toString().toUpperCase());
-    }
 
-    public int getCompetency() throws NullPointerException {
-        return Integer.parseInt(competencyBox.getSelectedItem().toString());
-    }
 
-    public String getSubject() throws NullPointerException {
-        return subjectBox.getSelectedItem().toString();
-    }
-
-    public int getNumOfSessions() throws NullPointerException {
-        return Integer.parseInt(numOfSessionBox.getSelectedItem().toString());
-    }
-
-    public String getDay() throws NullPointerException {
-        return dayBox.getSelectedItem().toString();
-    }
-
-    public String getTime() throws NullPointerException {
-        return timeBox.getSelectedItem().toString();
-    }
-
-    public int getDuration() throws NullPointerException {
-        return Integer.parseInt(durationBox.getSelectedItem().toString());
-    }
-
-    public int getRate() throws NullPointerException {
-        if (rateField.getText().isEmpty()) {
-            throw new NullPointerException();
-        }
-        return Integer.parseInt(rateField.getText());
+    public String getTutorSelection() throws NullPointerException {
+        return tutorSelection.getSelectedItem().toString();
     }
 
 
@@ -164,8 +102,10 @@ public class ContracTutorSelection {
         final JPanel panel5 = new JPanel();
         panel5.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
         panel3.add(panel5, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        comboBox1 = new JComboBox();
-        panel5.add(comboBox1, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        tutorSelection = new JComboBox();
+        final DefaultComboBoxModel defaultComboBoxModel1 = new DefaultComboBoxModel();
+        tutorSelection.setModel(defaultComboBoxModel1);
+        panel5.add(tutorSelection, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**

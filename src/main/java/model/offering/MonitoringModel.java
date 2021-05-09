@@ -108,7 +108,8 @@ public class MonitoringModel extends BasicModel implements Observer {
             BidInfo bidInfo = bp.getPreferences();
             bidInfo.setInitiatorId(getUserId());
             sendOffer(bidInfo);
-            Contract contract = BuilderService.buildContract(getBid(), bidInfo);
+            // TODO:change hardcoded values into time
+            Contract contract = BuilderService.buildContract(getBid(), bidInfo, 30);
             // logic to post contract
             Contract contractCreated = ApiService.contractApi().add(contract);
 

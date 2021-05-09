@@ -14,11 +14,18 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class ContractExpiryNotification extends DashboardView {
+// left dashboardmodel in because im not sure what the new
+public class ContractExpiryNotification {
+    protected DashboardModel dashboardModel;
+    protected JPanel mainPanel; // mainPanel holds both contractPanel and buttons
+    protected JPanel contractPanel; // used to clear and update the content, only this need to be updated
+    private JButton notedButton;
+    protected JLabel errorLabel;
+    protected JFrame frame;
+    protected JPanel buttonPanel;
 
     public ContractExpiryNotification(DashboardModel dashboardModel) {
-        super(dashboardModel);
-
+        this.dashboardModel = dashboardModel;
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         String name = dashboardModel.getName();
@@ -35,7 +42,13 @@ public class ContractExpiryNotification extends DashboardView {
         frame.setVisible(true);
     }
 
-    @Override
+    protected void refreshContent(){
+        updateContracts();
+        errorLabel.setText(dashboardModel.getErrorText());
+        SwingUtilities.updateComponentTreeUI(frame);
+//        frame.pack();
+    }
+
     public void updateContracts() {
         // if contractPanel already constructed, just remove the contents (only one item inside - mainList)
         if (contractPanel != null) {
@@ -99,11 +112,8 @@ public class ContractExpiryNotification extends DashboardView {
         gbc2.gridheight = 3;
         gbc2.weightx = 1;
 
-        refreshButton = new JButton("Refresh");
-        panel.add(refreshButton, gbc2);
-
-        initiateButton = new JButton("Initiate Bid");
-        panel.add(initiateButton, gbc2);
+        notedButton = new JButton("Noted");
+        panel.add(notedButton, gbc2);
 
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
@@ -122,7 +132,6 @@ public class ContractExpiryNotification extends DashboardView {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    @Override
     public void update() {
         refreshContent();
     }

@@ -1,4 +1,4 @@
-package view.contract;
+package test;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 @Getter
-public class ExistingContractView {
+public class ContractTermsSelection {
     private JPanel mainPanel;
 
     private JComboBox numOfSessionBox;
@@ -28,7 +28,7 @@ public class ExistingContractView {
 
     private JFrame frame;
 
-    public ExistingContractView() {
+    public ContractTermsSelection() {
         $$$setupUI$$$();
         JFrame frame = new JFrame();
         this.frame = frame;
