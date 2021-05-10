@@ -85,8 +85,8 @@ public class MonitoringModel extends BasicModel implements Observer {
                         .anyMatch(c -> c.getLevel() - 2 >= bp.getCompetency()
                                 && c.getSubject().getName().equals(bp.getSubject()));
                 if (hasQualification && hasCompetency) {
-                    Bid filteredBid = filterBidOffers(b);
-                    outputBidList.add(filteredBid);
+//                    Bid filteredBid = filterBidOffers(b);
+                    outputBidList.add(b);
                 }
             }
         }
