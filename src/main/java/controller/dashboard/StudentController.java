@@ -2,6 +2,7 @@ package controller.dashboard;
 
 import controller.bidding.CloseBidController;
 import controller.bidding.OpenBidController;
+import controller.contract.ContractRenewalController;
 import entity.BidInfo;
 import entity.Preference;
 import entity.DashboardStatus;
@@ -28,6 +29,12 @@ public class StudentController extends DashboardController {
     public void listenViewActions() {
         dashboardView.getRefreshButton().addActionListener(this::handleRefresh);
         dashboardView.getInitiateButton().addActionListener(this::handleInitiation);
+        dashboardView.getRenewContractsButton().addActionListener((this::handleRenewContract));
+    }
+
+    private void handleRenewContract(ActionEvent e){
+        System.out.println("From StudentController: Renew Contract Button is pressed");
+        ContractRenewalController contractRenewalController = new ContractRenewalController(dashboardModel.getUserId());
     }
 
     private void handleRefresh(ActionEvent e) {

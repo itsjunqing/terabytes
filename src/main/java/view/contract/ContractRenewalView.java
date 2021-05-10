@@ -126,10 +126,11 @@ public class ContractRenewalView {
         refreshButton = new JButton("Refresh");
         panel.add(refreshButton, gbc2);
 
+        contractSelectionBox = new JComboBox();
         for (int i = 1; i < contractListSize+1; i++){
             contractSelectionBox.addItem(i);
         }
-        panel.add(contractSelectionBox);
+        panel.add(contractSelectionBox, gbc2);
 
         renewNewTermsButton = new JButton("Renew with New Terms");
         panel.add(renewNewTermsButton, gbc2);

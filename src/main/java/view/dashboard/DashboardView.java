@@ -17,6 +17,8 @@ public abstract class DashboardView implements Observer {
     protected JLabel errorLabel;
     protected JFrame frame;
     protected JPanel buttonPanel;
+    protected JButton renewContractsButton = new JButton();
+
 
     public DashboardView(DashboardModel dashboardModel) {
         this.dashboardModel = dashboardModel;

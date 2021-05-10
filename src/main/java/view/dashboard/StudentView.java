@@ -103,6 +103,10 @@ public class StudentView extends DashboardView {
         initiateButton = new JButton("Initiate Bid");
         panel.add(initiateButton, gbc2);
 
+        renewContractsButton = new JButton("Renew Contracts");
+        panel.add(renewContractsButton, gbc2);
+
+
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
