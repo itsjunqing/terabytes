@@ -1,4 +1,4 @@
-package view.form;
+package view.offering;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.Locale;
 
 @Getter
-public class BidInitiation {
+public class SubscriptionService {
     private JPanel panel1;
     private JComboBox qualificationBox;
     private JComboBox competencyBox;
@@ -33,7 +33,7 @@ public class BidInitiation {
 
     private JFrame frame;
 
-    public BidInitiation() {
+    public SubscriptionService() {
         JFrame frame = new JFrame();
         this.frame = frame;
         frame.setContentPane(this.panel1);

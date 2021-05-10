@@ -16,10 +16,10 @@ import java.util.List;
 @Getter
 public class OpenBidView implements Observer {
     private OpenBidModel openBidModel;
-    private JPanel mainPanel;
+    private final JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
-    private JComboBox offerSelection;
+    private JComboBox<Integer> offerSelection;
     private JButton refreshButton;
     private JButton selectOfferButton;
     private JFrame frame;
@@ -173,7 +173,7 @@ public class OpenBidView implements Observer {
         panel.add(refreshButton, gbc2);
 
         // add offer selection menu
-        offerSelection = new JComboBox<>();
+        offerSelection = new JComboBox<Integer>();
         for (int i = 1; i < count + 1; i++) {
             offerSelection.addItem(i);
         }

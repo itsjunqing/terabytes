@@ -1,8 +1,5 @@
-package com.company;
+package test;
 
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * A Bid data class, storing the information of a Bid such as preferences and offers.
@@ -17,10 +14,9 @@ public class Bid {
     /**
      * Constructor used to GET Bid (Deserialization)
      */
-    public Bid(String id, String type, Subject subject) {
+    public Bid(String id, String type) {
         this.id = id;
         this.type = type;
-        this.subjectId = subjectId;
     }
 
     /**
@@ -42,7 +38,7 @@ public class Bid {
 
 
     public String toString(){
-        return subjectId + initiatorId;
+        return type + " bid for " + subjectId + " by " + initiatorId;
     }
 
 }
