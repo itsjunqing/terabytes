@@ -24,6 +24,7 @@ public class OfferingView implements Observer {
     private JComboBox bidSelection;
     private JButton refreshButton;
     private JButton viewOffersButton;
+    private JButton subscribeOfferButton;
     private JLabel errorLabel;
 
     private JFrame frame;
@@ -128,6 +129,9 @@ public class OfferingView implements Observer {
         // add view offers button
         viewOffersButton = new JButton("View Offers");
         panel.add(viewOffersButton, gbc2);
+
+        subscribeOfferButton = new JButton("Subscribe to bids");
+        panel.add(subscribeOfferButton, gbc2);
 
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));

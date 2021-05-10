@@ -17,7 +17,6 @@ public class StudentView extends DashboardView {
 
     public StudentView(DashboardModel dashboardModel) {
         super(dashboardModel);
-
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         String name = dashboardModel.getName();

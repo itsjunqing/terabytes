@@ -61,4 +61,8 @@ public class Bid {
         this.dateClosedDown = dateClosedDown;
     }
 
+    public String toString(){
+        return type + " bid for " + subject.getName() + " by " + initiator.getGivenName() + " " + initiator.getFamilyName();
+    }
+
 }

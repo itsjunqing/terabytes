@@ -1,5 +1,6 @@
 package observer;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +25,19 @@ public class OSubject {
         observers.add(o);
     }
 
+    public void remove(Observer o) {
+        observers.remove(o);
+    }
+
     /**
      * Notifies the list of observers.
      */
     public void notifyObservers() {
         for (Observer o:observers) {
-            o.update();
+            SwingUtilities.invokeLater(() -> {
+                o.update();
+            });
+
         }
     }
 }

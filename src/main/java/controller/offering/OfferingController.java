@@ -7,13 +7,16 @@ import view.offering.OfferingView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.sql.SQLOutput;
 
 public class OfferingController implements EventListener {
 
     private OfferingModel offeringModel;
     private OfferingView offeringView;
+    private String userId;
 
     public OfferingController(String userId) {
+        this.userId = userId;
         this.offeringModel = new OfferingModel(userId);
         SwingUtilities.invokeLater(() -> {
             this.offeringView = new OfferingView(offeringModel);
@@ -26,6 +29,7 @@ public class OfferingController implements EventListener {
     public void listenViewActions() {
         offeringView.getRefreshButton().addActionListener(this::handleRefresh);
         offeringView.getViewOffersButton().addActionListener(this::handleViewOffers);
+        offeringView.getSubscribeOfferButton().addActionListener(this::handleSubscribeOffer);
     }
 
     private void handleRefresh(ActionEvent e) {
@@ -46,6 +50,11 @@ public class OfferingController implements EventListener {
                 new CloseOffersController(offeringModel.getUserId(), bid.getId());
             }
         }
+    }
+
+    private void handleSubscribeOffer(ActionEvent e){
+        System.out.println("From Offering Controller: subscribe offer Button is pressed");
+        new MonitoringController(userId);
     }
 
 }

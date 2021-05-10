@@ -26,6 +26,7 @@ public class MonitoringView implements Observer {
     private MonitoringModel monitoringModel;
     private JLabel errorLabel;
     private JFrame frame;
+    private List<Bid> selectedBids;
 
     /**
      * Constructor that creates the main frame and calls
@@ -62,8 +63,9 @@ public class MonitoringView implements Observer {
     private void updateContent() {
 
         // getting the constants from the model
-        List<Bid> selectedBids = new ArrayList<>(monitoringModel.getSelectedBids());
+        selectedBids = new ArrayList<>(monitoringModel.getSelectedBids());
         // making the frames
+        selectedBids.stream().forEach(b-> System.out.println(b.toString()));
         updateView(selectedBids);
         createButtons(selectedBids.size());
         SwingUtilities.updateComponentTreeUI(frame);
@@ -77,20 +79,20 @@ public class MonitoringView implements Observer {
     private void refreshContent(){
         // getting the constants from the model
         List<Bid> selectedBids = new ArrayList<>(monitoringModel.getSelectedBids());
-
-        System.out.println("From OpenOffersView refreshContent function");
+        System.out.println("From Monitoring view refresh content function");
         selectedBids.stream().forEach(e -> System.out.println(e.toString()));
-
         // making the frames
         updateView(selectedBids);
         // refreshing info in buttons
         refreshButtons(selectedBids.size());
+        errorLabel.setText(monitoringModel.getErrorText());
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
 
 
     private void refreshButtons(int bidListSize){
+        bidSelection.removeAllItems();
         for (int i = 1; i < bidListSize + 1; i++) {
             bidSelection.addItem(i);
         }
@@ -148,7 +150,7 @@ public class MonitoringView implements Observer {
                 table.setBounds(10, 10, 500, 100);
                 panel.add(table);
             }else{
-                String[][] noOffer = { {"No Offer"}};
+                String[][] noOffer = { {"No Offer", "Waiting for offer"}};
                 String[] col = {"", ""};
                 JTable noOfferTable = new JTable(noOffer, col);
                 ViewUtility.resizeColumns(noOfferTable);
@@ -199,12 +201,11 @@ public class MonitoringView implements Observer {
         for (int i = 1; i < choosenSize + 1; i ++){
             bidSelection.addItem(i);
         }
+        panel.add(bidSelection, gbc2);
 
         // add Provide Offer button
         respondButton = new JButton("Provide Offer");
         panel.add(respondButton, gbc2);
-
-
 
         // add select offer button
         buyOutButton = new JButton("Buy Out");
@@ -225,7 +226,12 @@ public class MonitoringView implements Observer {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
+    }
 
+    public String getSelectionId() throws NullPointerException {
+        int indexBid = Integer.parseInt(bidSelection.getSelectedItem().toString());
+        String bidId = selectedBids.get(indexBid - 1).getId();
+        return bidId;
     }
 
     @Override

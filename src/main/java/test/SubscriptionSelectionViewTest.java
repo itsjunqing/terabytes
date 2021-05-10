@@ -1,9 +1,7 @@
-package view.offering;
+package test;
 
 import lombok.Getter;
-import test.Bid;
-
-import java.awt.*;
+import model.offering.MonitoringModel;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -11,15 +9,18 @@ import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class SubscriptionSelection extends JFrame {
+public class SubscriptionSelectionViewTest extends JFrame {
     private JPanel contentPane;
     private JLabel errorLabel;
     private JButton confirmSelection;
     private JList<Bid> bidJList;
+    private MonitoringModel monitoringModel;
+    private JFrame mainFrame;
 
 
     /**
@@ -29,7 +30,7 @@ public class SubscriptionSelection extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    SubscriptionSelection frame = new SubscriptionSelection();
+                    SubscriptionSelectionViewTest frame = new SubscriptionSelectionViewTest();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -41,21 +42,48 @@ public class SubscriptionSelection extends JFrame {
     /**
      * Create the frame.
      */
-    public SubscriptionSelection() {
-        super("Subscription Selection");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setMinimumSize(new Dimension(860, 400));
-        this.setMaximumSize(new Dimension(1000, 1000));
-        this.setPreferredSize(new Dimension(860, 500));
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+//    public SubscriptionSelectionView(MonitoringModel monitoringModel) {
 
+    public SubscriptionSelectionViewTest() {
+        this.monitoringModel = monitoringModel;
+        // setting up the frame
+        mainFrame = new JFrame("Subscription Selection");
+
+        // adding to the main JPanel
         contentPane = new JPanel();
-        this.add(contentPane);
+        mainFrame.add(contentPane);
         contentPane.setLayout(new GridBagLayout());
 
+        // making the constraints of the button panel
+        setDetails();
+
+        bidJList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                // getting the values from the bidJList
+                final List<Bid> selected = bidJList.getSelectedValuesList();
+                if (selected.size() > 0){
+                    System.out.println(selected.get(0).getClass());
+                }
+
+                System.out.println(selected);
+            }
+        });
+        mainFrame.pack();
+        mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        mainFrame.setMinimumSize(new Dimension(860, 400));
+        mainFrame.setMaximumSize(new Dimension(1000, 1000));
+        mainFrame.setPreferredSize(new Dimension(860, 500));
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
+
+
+    }
+
+    private void setDetails(){
+        // initialising the bidList for testing, TODO: replace with a call
+        // of the model
         List<Bid> bidList = new ArrayList<Bid>();
-
         bidList.add(new Bid("Open", "James", "Maths"));
         bidList.add(new Bid("Open", "James", "Maths"));
         bidList.add(new Bid("Open", "James", "Maths"));
@@ -93,21 +121,18 @@ public class SubscriptionSelection extends JFrame {
         bidList.add(new Bid("Open", "James", "Maths"));
         bidList.add(new Bid("Open", "James", "Maths"));
 
+        // adding the bids into the list model
         DefaultListModel<Bid> listModel = new DefaultListModel<>();
         for (Bid b: bidList) {
             listModel.addElement(b);
         }
-        bidJList = new JList<Bid>(listModel);
-//        {
-//            @Override
-//            public Dimension getPreferredScrollableViewportSize() {
-//                Dimension size = super.getPreferredScrollableViewportSize();
-//                size.width = 300;
-//                size.height = 800;
-//                return size;
-//            }
-//        };
+        updateContent(listModel);
+        updateButtons();
+    }
 
+    private void updateContent(DefaultListModel listModel){
+        bidJList = new JList<Bid>(listModel);
+        // making the constraints of the jpanel containg the jlist
         JPanel panel = new JPanel();
         GridBagConstraints panelConstraints = new GridBagConstraints();
         panelConstraints.fill = GridBagConstraints.BOTH;
@@ -125,37 +150,11 @@ public class SubscriptionSelection extends JFrame {
         panel.add(bidScrollpane, BorderLayout.CENTER);
         bidScrollpane.setViewportView(bidJList);
         contentPane.add(panel, panelConstraints);
-
-
-        JPanel panel_1 = updateButtons();
-        GridBagConstraints buttonConstraints = new GridBagConstraints();
-        buttonConstraints.fill = GridBagConstraints.BOTH;
-        buttonConstraints.weightx = 0.7;
-        buttonConstraints.weighty = 1;
-        buttonConstraints.gridx = 1;
-        buttonConstraints.gridy = 0;
-        contentPane.add(panel_1, buttonConstraints);
-
-        this.pack();
-
-        bidJList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                final List<Bid> selected = bidJList.getSelectedValuesList();
-                if (selected.size() > 0){
-                    System.out.println(selected.get(0).getClass());
-                }
-
-                System.out.println(selected);
-            }
-        });
-
-
     }
 
-    private JPanel updateButtons() {
-
-
+    // making the button panel
+    private void updateButtons() {
+        JPanel buttonPanel = new JPanel();
         JPanel mainList = new JPanel(new GridBagLayout());
         JPanel panel = new JPanel();
         GridBagLayout layout = new GridBagLayout();
@@ -164,8 +163,6 @@ public class SubscriptionSelection extends JFrame {
         gbc2.gridwidth = GridBagConstraints.REMAINDER;
         gbc2.gridheight = 3;
         gbc2.weightx = 1;
-
-
         // add select offer button
         confirmSelection  = new JButton("Confirm Selection");
         panel.add(confirmSelection, gbc2);
@@ -184,7 +181,13 @@ public class SubscriptionSelection extends JFrame {
         gbc1.weightx = 100;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 //        mainList.add(panel, gbc1, 0);
-        return panel;
+        GridBagConstraints buttonConstraints = new GridBagConstraints();
+        buttonConstraints.fill = GridBagConstraints.BOTH;
+        buttonConstraints.weightx = 0.7;
+        buttonConstraints.weighty = 1;
+        buttonConstraints.gridx = 1;
+        buttonConstraints.gridy = 0;
+        contentPane.add(buttonPanel, buttonConstraints);
     }
 
 }

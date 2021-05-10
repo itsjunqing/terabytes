@@ -2,6 +2,7 @@ package scheduler;
 
 import observer.OSubject;
 
+import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -10,9 +11,9 @@ public class Scheduler{
     private Timer timer = null;
     private static Scheduler uniqueInstance = null;
     private Scheduler(){
-        oSubject = new OSubject();
-        timer = new Timer();
-        runTasks();
+            oSubject = new OSubject();
+            timer = new Timer();
+            runTasks();
     }
     public static Scheduler getInstance()
     {
@@ -22,19 +23,24 @@ public class Scheduler{
         return uniqueInstance;
     }
 
-    private void doSomething() {
+    private void doTask() {
         System.out.println("Running Instance");
         oSubject.notifyObservers();
     }
 
     public void runTasks() {
-        timer.schedule(new TimerTask(){
+            timer.schedule(new TimerTask(){
             @Override
             public void run() {
-                doSomething();
+                doTask();
             }},
                 0,        //initial delay
                 1*5000);  //subsequent rate
+    }
+
+    public void endScheduler(){
+        timer.cancel();
+        timer.purge();
     }
 
 

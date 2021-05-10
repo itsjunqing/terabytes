@@ -19,6 +19,7 @@ public class OpenBidView implements Observer {
     private final JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
+
     private JComboBox<Integer> offerSelection;
     private JButton refreshButton;
     private JButton selectOfferButton;
@@ -29,13 +30,10 @@ public class OpenBidView implements Observer {
     public OpenBidView(OpenBidModel openBidModel) {
         this.openBidModel = openBidModel;
         System.out.println(this.getClass().getName() + " is initiating");
-
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Open Offers");
-
         updateContent();
-
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
 //        frame.pack();
