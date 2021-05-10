@@ -9,6 +9,7 @@ import stream.Bid;
 import stream.Contract;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,7 @@ public class DashboardModel extends BasicModel {
      * Returns the status of the dashboard. Check DashboardStatus class for more information.
      * @return a DashboardStatus
      */
-    public DashboardStatus getStatus() {
+    public DashboardStatus getBidStatus() {
         // don't use the code below, buggy
 //        Bid currentBid = ApiService.userApi().get(userId).getInitiatedBids().stream()
 //                                .filter(b -> b.getDateClosedDown() == null)
@@ -74,6 +75,28 @@ public class DashboardModel extends BasicModel {
             return DashboardStatus.MAX;
         }
         return DashboardStatus.PASS;
+    }
+
+
+    public List<Contract> getRenewingContracts() {
+        return ApiService.contractApi().getAll().stream()
+                .filter(c -> c.getSecondParty().getId().equals(userId)) // for tutor matching second party
+                .filter(c -> c.getDateSigned() == null) // for contract unsigned
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Signs or remove a contract to be renewed
+     * @param contract a contract to be responded
+     * @param toSign true for signing / confirming and false otherwise
+     */
+    public void executeRenewalResponse(Contract contract, boolean toSign) {
+        String contractId = contract.getId();
+        if (toSign) {
+            ApiService.contractApi().sign(contractId, new Contract(new Date()));
+        } else {
+            ApiService.contractApi().remove(contractId);
+        }
     }
 
     /**
