@@ -1,30 +1,31 @@
 package view.form;
 
 import lombok.Getter;
-import model.dashboard.DashboardModel;
 import stream.Contract;
 import view.ViewUtility;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
-// left dashboardmodel in because im not sure what the new
-public class ExpiryNotification {
-    protected DashboardModel dashboardModel;
-    protected JPanel mainPanel; // mainPanel holds both contractPanel and buttons
-    protected JPanel contractPanel; // used to clear and update the content, only this need to be updated
-    private JButton notedButton;
-    protected JLabel errorLabel;
-    protected JFrame frame;
-    protected JPanel buttonPanel;
 
-    public ExpiryNotification(DashboardModel dashboardModel) {
-        this.dashboardModel = dashboardModel;
+public class ExpiryNotification {
+
+    private List<Contract> expiringContracts;
+    private int type;
+
+    private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
+    private JPanel contractPanel;
+    private JButton notedButton;
+    private JFrame frame;
+    private JPanel buttonPanel;
+
+    public ExpiryNotification(List<Contract> expiringContracts, int type) {
+        this.expiringContracts = expiringContracts;
+        this.type = type;
+
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Contract Expiry Notification");
@@ -32,6 +33,7 @@ public class ExpiryNotification {
         addButtons();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
+
         // resizing if its smaller than the default size
         frame.setMinimumSize(new Dimension(860, 400));
         frame.setMaximumSize(new Dimension(860, 1000));
@@ -40,22 +42,14 @@ public class ExpiryNotification {
         frame.setVisible(true);
     }
 
-    protected void refreshContent(){
-        updateContracts();
-        errorLabel.setText(dashboardModel.getErrorText());
-        SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
+    public void dispose() {
+        frame.dispose();
     }
 
-    public void updateContracts() {
-        // if contractPanel already constructed, just remove the contents (only one item inside - mainList)
-        if (contractPanel != null) {
-            contractPanel.removeAll();
-        } else {
-            contractPanel = new JPanel();
-            contractPanel.setLayout(new BorderLayout());
-            mainPanel.add(contractPanel);
-        }
+    private void updateContracts() {
+        contractPanel = new JPanel();
+        contractPanel.setLayout(new BorderLayout());
+        mainPanel.add(contractPanel);
 
         JPanel mainList = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -70,13 +64,12 @@ public class ExpiryNotification {
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         contractPanel.add(jScrollPane);
 
-        // get the list of contracts and update accordingly
-        List<Contract> contractList = new ArrayList<>(getDashboardModel().getContractsList());
-        Collections.reverse(contractList);
-        int contractIndex = contractList.size();
-        for (Contract c: contractList) {
+        // get the list of contracts that are expiring and update accordingly
+        int contractIndex = expiringContracts.size();
+        for (Contract c: expiringContracts) {
             JPanel panel = new JPanel();
-            JTable table = ViewUtility.ContractTable.buildStudentTable(c, contractIndex);
+            JTable table = ViewUtility.ContractTable.buildTable(c, contractIndex, type);
+//            JTable table = ViewUtility.ContractTable.buildStudentTable(c, contractIndex); // to be removed
             contractIndex -= 1;
             ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);
@@ -93,13 +86,9 @@ public class ExpiryNotification {
     }
 
     private void addButtons() {
-        if (buttonPanel != null) {
-            buttonPanel.removeAll();
-        } else {
-            buttonPanel = new JPanel();
-            buttonPanel.setLayout(new BorderLayout());
-            mainPanel.add(buttonPanel);
-        }
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BorderLayout());
+        mainPanel.add(buttonPanel);
 
         JPanel mainList = new JPanel(new GridBagLayout());
         JPanel panel = new JPanel();
@@ -113,13 +102,6 @@ public class ExpiryNotification {
         notedButton = new JButton("Noted");
         panel.add(notedButton, gbc2);
 
-        errorLabel = new JLabel();
-        errorLabel.setForeground(new Color(-4521974));
-        errorLabel.setHorizontalAlignment(0);
-        errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText(dashboardModel.getErrorText());
-        panel.add(errorLabel);
-
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();
         gbc1.gridwidth = GridBagConstraints.REMAINDER;
@@ -128,9 +110,5 @@ public class ExpiryNotification {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
-    }
-
-    public void update() {
-        refreshContent();
     }
 }

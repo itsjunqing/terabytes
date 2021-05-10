@@ -3,12 +3,16 @@ package controller;
 import controller.dashboard.StudentController;
 import controller.dashboard.TutorController;
 import model.LoginModel;
+import stream.Contract;
 import stream.User;
 import view.LoginView;
+import view.ViewUtility;
+import view.form.ExpiryNotification;
 
 import javax.swing.*;
+import java.util.List;
 
-public class LoginController extends JFrame{
+public class LoginController {
 
     private LoginModel loginModel;
     private LoginView loginView;
@@ -35,9 +39,18 @@ public class LoginController extends JFrame{
     }
 
     private void loginSuccess(User user) {
+        List<Contract> expiringContracts = loginModel.getExpiringContracts();
         if (user.getIsStudent()) {
+            if (!expiringContracts.isEmpty()) {
+                ExpiryNotification en = new ExpiryNotification(expiringContracts, ViewUtility.STUDENT_CODE);
+                en.getNotedButton().addActionListener(e -> en.dispose());
+            }
             new StudentController(user.getId());
         } else {
+            if (!expiringContracts.isEmpty()) {
+                ExpiryNotification en = new ExpiryNotification(expiringContracts, ViewUtility.TUTOR_CODE);
+                en.getNotedButton().addActionListener(e -> en.dispose());
+            }
             new TutorController(user.getId());
         }
         loginView.dispose(); // destroy login view

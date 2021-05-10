@@ -36,7 +36,7 @@ public class StudentController extends DashboardController {
     }
 
     private void handleInitiation(ActionEvent e) {
-        DashboardStatus status = dashboardModel.getStatus();
+        DashboardStatus status = dashboardModel.getBidStatus();
         switch (status) {
             case MAX:
                 break;

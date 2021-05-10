@@ -56,6 +56,28 @@ public class ViewUtility {
     }
 
     public static class ContractTable {
+        public static JTable buildTable(Contract contractObject, int contractNo, int type) {
+            // TODO: Nick, I think we can do such generalization for all tables construction
+            String[] nameDescription;
+            if (type == ViewUtility.STUDENT_CODE) {
+                nameDescription = new String[]{"Tutor Name", Utility.getFullName(contractObject.getSecondParty())};
+            } else {
+                nameDescription = new String[]{"Student Name", Utility.getFullName(contractObject.getFirstParty())};
+            }
+
+            String[][] rec = {
+                    {"Contract Number", Integer.toString(contractNo)},
+                    {"Contract End Date", contractObject.getExpiryDate().toString()},
+                    nameDescription,
+                    {"Subject", contractObject.getSubject().getName()},
+                    {"Number Of Sessions",  contractObject.getLessonInfo().getNumberOfSessions().toString()},
+                    {"Day & Time", contractObject.getLessonInfo().getTime() + " " + contractObject.getLessonInfo().getDay()},
+                    {"Duration", contractObject.getLessonInfo().getDuration().toString() + " hour(s)"},
+                    {"Total Price", "$" + contractObject.getPaymentInfo().getTotalPrice()}};
+            String[] col = {"", ""};
+            return new JTable(rec, col);
+        }
+
         public static JTable buildTutorTable(Contract contractObject, int contractNo) {
             String[][] rec = {
                     {"Contract Number", Integer.toString(contractNo)},
