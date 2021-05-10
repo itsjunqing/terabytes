@@ -37,10 +37,13 @@ public class ContractConfirmModel {
         contract.setExpiryDate(expiryDate);
     }
 
-    public void signContract() {
-        // push to API and sign
+    public void signContract(boolean toSign) {
+        // push to API
         Contract contractAdded = ApiService.contractApi().add(contract);
         String contractId = contractAdded.getId();
-        ApiService.contractApi().sign(contractId, new Contract(new Date()));
+        // sign when it is required
+        if (toSign) {
+            ApiService.contractApi().sign(contractId, new Contract(new Date()));
+        }
     }
 }
