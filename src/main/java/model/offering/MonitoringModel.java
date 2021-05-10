@@ -71,6 +71,10 @@ public class MonitoringModel extends BasicModel implements Observer {
         oSubject.notifyObservers();
     }
 
+    public List<Bid> getBids(){
+        return new ArrayList<Bid>();
+    }
+
     /**
      * Gets the Bid object of the corresponding offer
      * @return a Bid object
