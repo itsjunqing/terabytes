@@ -21,15 +21,16 @@ public class ContractConfirmModel {
         this.contract = contract;
     }
 
-    private void createContract(Contract contract) {
-        // post to API and update the contract attribute to be the (posted) contract
-        this.contract = ApiService.contractApi().add(contract);
-    }
-
+    /**
+     * Updates the expiry date of the Contract object based on the given monts
+     * @param months an integer representing how many months is the contract duration
+     */
     public void updateExpiry(int months) {
         // calculate expiry date based on date creation
         Calendar c = Calendar.getInstance();
         c.setTime(contract.getDateCreated());
+//        c.add(Constants.DEFAULT_CONTRACT_ADD_TYPE, months);
+
         c.add(Calendar.MONTH, months);
         Date expiryDate = c.getTime();
 
@@ -37,6 +38,10 @@ public class ContractConfirmModel {
         contract.setExpiryDate(expiryDate);
     }
 
+    /**
+     * Pushes the Contract object to the API and sign if required
+     * @param toSign a Boolean to indicate to sign contract or otherwise
+     */
     public void signContract(boolean toSign) {
         // push to API
         Contract contractAdded = ApiService.contractApi().add(contract);

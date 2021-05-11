@@ -41,17 +41,17 @@ public class LoginController {
     private void loginSuccess(User user) {
         List<Contract> expiringContracts = loginModel.getExpiringContracts();
         if (user.getIsStudent()) {
+            new StudentController(user.getId());
             if (!expiringContracts.isEmpty()) {
                 ExpiryNotification en = new ExpiryNotification(expiringContracts, ViewUtility.STUDENT_CODE);
                 en.getNotedButton().addActionListener(e -> en.dispose());
             }
-            new StudentController(user.getId());
         } else {
+            new TutorController(user.getId());
             if (!expiringContracts.isEmpty()) {
                 ExpiryNotification en = new ExpiryNotification(expiringContracts, ViewUtility.TUTOR_CODE);
                 en.getNotedButton().addActionListener(e -> en.dispose());
             }
-            new TutorController(user.getId());
         }
         loginView.dispose(); // destroy login view
     }

@@ -33,7 +33,7 @@ public class ContractConfirmController implements EventListener {
 
     /**
      * A helper function that signs the contract
-     * @param e
+     * @param e the ActionEvent
      */
     private void handleSign(ActionEvent e) {
         System.out.println("From ContractConfirmController: Confirm/Sign Button is pressed");

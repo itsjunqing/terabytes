@@ -10,8 +10,7 @@ public abstract class BiddingController implements EventListener {
 
     protected void handleContract(Contract contract) {
         System.out.println("From BiddingController: Contract is being confirmed now");
-        ContractConfirmController contractConfirmController =
-                new ContractConfirmController(contract, ViewUtility.STUDENT_CODE, true);
+        new ContractConfirmController(contract, ViewUtility.STUDENT_CODE, true);
     }
 
     public abstract void listenViewActions();

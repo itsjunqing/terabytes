@@ -28,7 +28,6 @@ public class Contract {
 
     private Payment paymentInfo;
     private Lesson lessonInfo;
-//    private EmptyClass preference;
 
     @SerializedName("additionalInfo")
     private Preference preference;

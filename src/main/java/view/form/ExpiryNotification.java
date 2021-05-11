@@ -10,7 +10,6 @@ import java.awt.*;
 import java.util.List;
 
 @Getter
-
 public class ExpiryNotification {
 
     private List<Contract> expiringContracts;

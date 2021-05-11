@@ -38,8 +38,15 @@ public class ContractRenewalController implements EventListener {
     private void handleNewTerms(ActionEvent e) {
         try {
             int selection = contractRenewalView.getContractSelectionBox();
-            TermsCreation form = new TermsCreation();
-            form.getSubmitNewTermsButton().addActionListener(e1 -> renewNewTerms(e1, form, selection));
+
+            // create terms if active contracts less than 5
+            if (contractRenewalModel.getActiveContracts().size() < 5) {
+                TermsCreation form = new TermsCreation();
+                form.getSubmitNewTermsButton().addActionListener(e1 -> renewNewTerms(e1, form, selection));
+            } else {
+                contractRenewalView.getErrorLabel().setText("Error, 5 contracts are already active");
+            }
+
         } catch (NullPointerException ex) {
             contractRenewalView.getErrorLabel().setText("No contract selected!");
         }
@@ -48,8 +55,14 @@ public class ContractRenewalController implements EventListener {
     private void handleExistingTerms(ActionEvent e) {
         try {
             int selection = contractRenewalView.getContractSelectionBox();
-            TermsSelection form = new TermsSelection(contractRenewalModel);
-            form.getSelectButton().addActionListener(e1 -> renewExistingTerms(e1, form, selection));
+            // create terms if active contracts less than 5
+            if (contractRenewalModel.getActiveContracts().size() < 5) {
+                TermsSelection form = new TermsSelection(contractRenewalModel);
+                form.getSelectButton().addActionListener(e1 -> renewExistingTerms(e1, form, selection));
+            } else {
+                contractRenewalView.getErrorLabel().setText("Error, 5 contracts are already active");
+            }
+
         } catch (NullPointerException ex) {
             contractRenewalView.getErrorLabel().setText("No contract selected!");
         }

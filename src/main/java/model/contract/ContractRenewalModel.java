@@ -18,20 +18,41 @@ import java.util.stream.Collectors;
 public class ContractRenewalModel extends BasicModel {
 
     private List<Contract> expiredContracts;
+    private List<Contract> activeContracts;
 
     public ContractRenewalModel(String userId) {
         this.userId = userId;
         refresh();
     }
 
-
     @Override
     public void refresh() {
-        this.errorText = "";
+        errorText = "";
+        expiredContracts.clear();
+        activeContracts.clear();
+
+        List<Contract> contracts = ApiService.contractApi().getAll();
         Date today = new Date();
-        expiredContracts = ApiService.contractApi().getAll().stream()
-                .filter(c -> c.getExpiryDate().before(today))
-                .collect(Collectors.toList());
+        for (Contract c: contracts) {
+            if (c.getFirstParty().getId().equals(userId)) {
+                Date expiry = c.getExpiryDate();
+                // if expired
+                if (expiry.before(today) || expiry.equals(today)) {
+                    expiredContracts.add(c);
+                // else still active
+                } else {
+                    activeContracts.add(c);
+                }
+            }
+        }
+
+        System.out.println("Expired contracts are: ");
+        expiredContracts.stream().forEach(c -> System.out.println(c));
+
+        System.out.println("Active contracts are: ");
+        activeContracts.stream().forEach(c -> System.out.println(c));
+
+
         oSubject.notifyObservers();
     }
 

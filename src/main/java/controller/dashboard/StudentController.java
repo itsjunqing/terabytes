@@ -29,12 +29,12 @@ public class StudentController extends DashboardController {
     public void listenViewActions() {
         dashboardView.getRefreshButton().addActionListener(this::handleRefresh);
         dashboardView.getInitiateButton().addActionListener(this::handleInitiation);
-        dashboardView.getRenewContractsButton().addActionListener((this::handleRenewContract));
+        dashboardView.getRenewContractsButton().addActionListener(this::handleRenewContract);
     }
 
     private void handleRenewContract(ActionEvent e){
         System.out.println("From StudentController: Renew Contract Button is pressed");
-        ContractRenewalController contractRenewalController = new ContractRenewalController(dashboardModel.getUserId());
+        new ContractRenewalController(dashboardModel.getUserId());
     }
 
     private void handleRefresh(ActionEvent e) {
