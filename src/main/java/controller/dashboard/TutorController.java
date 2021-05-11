@@ -18,6 +18,7 @@ public class TutorController extends DashboardController {
             this.dashboardModel.attach(dashboardView);
             listenViewActions();
         });
+        checkContractRenewals();
     }
 
     @Override
@@ -29,24 +30,30 @@ public class TutorController extends DashboardController {
     private void handleRefresh(ActionEvent e) {
         System.out.println("From TutorController: Refresh Button is pressed");
         dashboardModel.refresh();
-        List<Contract> renewingContracts = dashboardModel.getRenewingContracts();
-        if (!renewingContracts.isEmpty()) {
-            for (Contract c: renewingContracts) {
-                RenewalNotification rn = new RenewalNotification(c);
-                rn.getConfirmSignButton().addActionListener(e1 -> {
-                    dashboardModel.executeRenewalResponse(c, true);
-                    rn.dispose();
-                });
-                rn.getCancelButton().addActionListener(e1 -> {
-                    dashboardModel.executeRenewalResponse(c, false);
-                    rn.dispose();
-                });
-            }
-        }
+        checkContractRenewals();
     }
 
     private void handleInitiation(ActionEvent e) {
         System.out.println("From TutorController: Initiation Button is pressed");
         new OfferingController(dashboardModel.getUserId());
+    }
+
+    private void checkContractRenewals() {
+        List<Contract> renewingContracts = dashboardModel.getRenewingContracts();
+        if (!renewingContracts.isEmpty()) {
+            System.out.println("From TutorController: Renewing contracts are: ");
+            for (Contract c: renewingContracts) {
+                System.out.println(c);
+                RenewalNotification rn = new RenewalNotification(c);
+                rn.getConfirmSignButton().addActionListener(e1 -> {
+                    dashboardModel.executeRenewalResponse(c, true);
+                    rn.dispose();
+                });
+                rn.getRejectButton().addActionListener(e1 -> {
+                    dashboardModel.executeRenewalResponse(c, false);
+                    rn.dispose();
+                });
+            }
+        }
     }
 }

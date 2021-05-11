@@ -66,7 +66,7 @@ public class TestScript {
      * Example of usage: TestScript.clearData()
      * This will clear ALL Message -> ALL Bid -> ALL Contract
      */
-    private static void clearData() {
+    public static void clearData() {
         MessageApi messageApi = new MessageApi();
         List<Message> messages = messageApi.getAll();
         messages.stream().forEach(b -> messageApi.remove(b.getId()));
@@ -81,12 +81,14 @@ public class TestScript {
     }
 
     /**
-     * Example of usage: TestScript.clearData("123456")
+     * Example of usage: TestScript.clearData("renewalstudent")
      * This will clear ALL Message -> ALL Bid -> ALL Contract of a particular user
      */
-    private static void clearData(String userId) {
-        MessageApi messageApi = new MessageApi();
+    public static void clearData(String username) {
+        User user = Utility.getUser(username);
+        String userId = user.getId();
 
+        MessageApi messageApi = new MessageApi();
         List<Message> messages = messageApi.getAll();
         messages.stream()
                 .filter(m -> m.getPoster().getId().equals(userId))
@@ -196,6 +198,114 @@ public class TestScript {
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
+
+    }
+
+    /**
+     * Example of usage: TestScript.generateExpiredContracts("renewalstudent", "dummytutor", 3);
+     * Creates a Contract between "renewalstudent" and "dummytutor" whose subject competency preference is 3
+     * When level = 3 is provided, upon renewal, dummytutor, dummytutor1, dummytutor2, dummytutor3 should appear in tutor selection
+     * When level = 4 is provided, upon renewal, dummytutor, dummytutor1 should appear in tutor selection
+     *      (dummytutor2 and dummytutor3 doesn't fulfill requirement of old expired contract)
+     * Used to perform testing on ContractRenewal by Student
+     */
+    public static void generateExpiredContracts(String studentUsername, String tutorUsername, int level) {
+        if (level != 3 && level != 4) { // safety check
+            System.out.println("Provide only level = 3 or level = 4");
+            return;
+        }
+        User student = ApiService.userApi().getAll().stream()
+                .filter(u -> u.getUserName().equals(studentUsername))
+                .findFirst()
+                .orElse(null);
+        if (student == null || !student.getIsStudent()) { // safety check
+            System.out.println("Student doesn't exist or it is not a student, pls check parameters or create first");
+            return;
+        }
+
+        User tutor = ApiService.userApi().getAll().stream()
+                .filter(u -> u.getUserName().equals(tutorUsername))
+                .findFirst()
+                .orElse(null);
+        if (tutor == null || !tutor.getIsTutor()) { // safety check
+            System.out.println("Tutor doesn't exist or it is not a tutor, pls check parameters or create first");
+            return;
+        }
+
+        Calendar c = Calendar.getInstance();
+        Date today = new Date();
+
+        // Generate 1 contract that is expired 10 days before today - subtract 10 days from today
+        c.setTime(today);
+        c.add(Calendar.DAY_OF_YEAR, -10);
+        Date expired10DaysAgo = c.getTime();
+
+        // Generate 1 contract that is expired 1 day before today - subtract 1 day from today
+        c.setTime(today);
+        c.add(Calendar.DAY_OF_YEAR, -1);
+        Date expired1DayAgo = c.getTime();
+
+        // Generate 1 contract that is expired 10 seconds before today (now) - subtract 10 seconds from today
+        c.setTime(today);
+        c.add(Calendar.SECOND, -10);
+        Date expired10SecAgo = c.getTime();
+
+        // Test if expired before today
+        assert expired10DaysAgo.before(today);
+        assert expired1DayAgo.before(today);
+        assert expired10SecAgo.before(today);
+
+        // Get creation date because creation date must be before expiry date
+        c.set(2021, Calendar.MARCH, 1);
+        Date creationDate = c.getTime();
+
+        // general usage
+        Payment defaultPayment = new Payment(100);
+        BidInfo defaultBidInfo = new BidInfo(student.getId(), "Monday", "2:00PM", 2, 13, 5);
+        Preference defaultPreference = new Preference(QualificationTitle.PHD, level, "Chemistry", defaultBidInfo);
+
+        /* ====================================================
+        MODIFICATION STARTS HERE
+         ==================================================== */
+
+        // Create contract for expired10DaysAgo
+        String chemSubjectId = "acd0bfef-8aa7-4b1b-8716-95124b397766";
+        Lesson chemLesson = new Lesson("Chemistry", "Monday", "2:00PM", 2, 3, false);
+        defaultPreference.setSubject("Chemistry");
+        Contract chemContract = new Contract(student.getId(), tutor.getId(), chemSubjectId, creationDate, expired10DaysAgo,
+                defaultPayment, chemLesson, defaultPreference);
+        // Update for expired10DaysAgo and post to API
+        Contract pushed10DaysAgo = ApiService.contractApi().add(chemContract);
+
+        // Create contract for expired1DayAgo
+        String paintingSubId = "47ebe20c-a752-470c-aedd-73cfe52efa4f";
+        Lesson paintingLesson = new Lesson("Painting", "Friday", "5:00PM", 3, 5, false);
+        defaultPreference.setSubject("Painting");
+        Contract paintingContract = new Contract(student.getId(), tutor.getId(), paintingSubId, creationDate, expired1DayAgo,
+                defaultPayment, paintingLesson, defaultPreference);
+        // Update for expired1DayAgo and post to API
+        Contract pushed1DayAgo = ApiService.contractApi().add(paintingContract);
+
+
+        // Create contract for expired1DayAgo
+        String englishSubId = "aff328c9-2da2-47ae-a2c5-1acc06f6f7eb";
+        Lesson englishLes = new Lesson("English", "Wednesday", "3:00PM", 2, 4, false);
+        defaultPreference.setSubject("English");
+        Contract englishContract = new Contract(student.getId(), tutor.getId(), englishSubId, creationDate, expired10SecAgo,
+                defaultPayment, englishLes, defaultPreference);
+        // Update for expired10SecAgo and post to API
+        Contract pushed10SecAgo = ApiService.contractApi().add(englishContract);
+
+        // Sign 5 seconds after creation date, because sign time must be > creation time
+        c.setTime(creationDate);
+        c.add(Calendar.SECOND, 5);
+        Date signDate = c.getTime();
+        Contract signCon = new Contract(signDate);
+
+        ApiService.contractApi().sign(pushed10DaysAgo.getId(), signCon);
+        ApiService.contractApi().sign(pushed1DayAgo.getId(), signCon);
+        ApiService.contractApi().sign(pushed10SecAgo.getId(), signCon);
+
 
     }
 }

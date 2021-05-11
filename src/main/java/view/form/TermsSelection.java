@@ -1,7 +1,6 @@
 package view.form;
 
 import lombok.Getter;
-import model.contract.ContractRenewalModel;
 import stream.Contract;
 import view.ViewUtility;
 
@@ -9,32 +8,33 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
 public class TermsSelection {
 
-    private ContractRenewalModel contractRenewalModel;
+//    private ContractRenewalModel contractRenewalModel;
 
     private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
     private JPanel contractPanel; // used to clear and update the content, only this need to be updated
-    private JButton refreshButton;
-    private JComboBox contractSelection;
+//    private JButton refreshButton;
+    private JComboBox contractSelectionBox;
     private JButton selectButton;
     private JLabel errorLabel;
     private JFrame frame;
     private JPanel buttonPanel;
 
+    private List<Contract> contracts;
 
-    public TermsSelection(ContractRenewalModel contractRenewalModel) {
-        this.contractRenewalModel = contractRenewalModel;
+
+    public TermsSelection(List<Contract> contracts) {
+        this.contracts = new ArrayList<>(contracts);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Existing Contract Terms Selection");
         updateContracts();
-        addButtons(contractRenewalModel.getAllContracts().size());
+        addButtons(contracts.size());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         // resizing if its smaller than the default size
@@ -53,7 +53,7 @@ public class TermsSelection {
 
     protected void refreshContent(){
         updateContracts();
-        refreshButtons(contractRenewalModel.getAllContracts().size());
+        refreshButtons(contracts.size());
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
@@ -82,10 +82,8 @@ public class TermsSelection {
         contractPanel.add(jScrollPane);
 
         // get the list of contracts and update accordingly
-        List<Contract> contractList = new ArrayList<>(contractRenewalModel.getAllContracts());
-        Collections.reverse(contractList);
-        int contractIndex = contractList.size();
-        for (Contract c: contractList) {
+        int contractIndex = contracts.size();
+        for (Contract c: contracts) {
             JPanel panel = new JPanel();
             JTable table = ViewUtility.ContractTable.buildStudentTable(c, contractIndex);
             contractIndex -= 1;
@@ -105,12 +103,12 @@ public class TermsSelection {
 
     private void refreshButtons(int contractListSize){
         for (int i = 1; i < contractListSize+1; i++){
-            contractSelection.addItem(i);
+            contractSelectionBox.addItem(i);
         }
-        errorLabel.setText(contractRenewalModel.getErrorText());
     }
 
     private void addButtons(int contractListSize) {
+        System.out.println("contract liist size = " + contractListSize);
         if (buttonPanel != null) {
             buttonPanel.removeAll();
         } else {
@@ -118,7 +116,6 @@ public class TermsSelection {
             buttonPanel.setLayout(new BorderLayout());
             mainPanel.add(buttonPanel);
         }
-
 
         JPanel mainList = new JPanel(new GridBagLayout());
         JPanel panel = new JPanel();
@@ -129,24 +126,24 @@ public class TermsSelection {
         gbc2.gridheight = 3;
         gbc2.weightx = 1;
 
-        refreshButton = new JButton("Refresh");
-        panel.add(refreshButton, gbc2);
+//        refreshButton = new JButton("Refresh");
+//        panel.add(refreshButton, gbc2);
 
-
+        contractSelectionBox = new JComboBox();
         for (int i = 1; i < contractListSize+1; i++){
-            contractSelection.addItem(i);
+            contractSelectionBox.addItem(i);
         }
-        panel.add(contractSelection);
-
+        panel.add(contractSelectionBox, gbc2);
 
         selectButton = new JButton("Select Contract");
         panel.add(selectButton, gbc2);
 
+        // TODO: removing this
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        errorLabel.setText(contractRenewalModel.getErrorText());
+//        errorLabel.setText(contractRenewalModel.getErrorText());
         panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));

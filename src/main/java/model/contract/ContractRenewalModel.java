@@ -10,6 +10,7 @@ import service.BuilderService;
 import stream.Contract;
 import stream.User;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,8 @@ public class ContractRenewalModel extends BasicModel {
 
     public ContractRenewalModel(String userId) {
         this.userId = userId;
+        expiredContracts = new ArrayList<>();
+        activeContracts = new ArrayList<>();
         refresh();
     }
 
@@ -37,7 +40,7 @@ public class ContractRenewalModel extends BasicModel {
             if (c.getFirstParty().getId().equals(userId)) {
                 Date expiry = c.getExpiryDate();
                 // if expired
-                if (expiry.before(today) || expiry.equals(today)) {
+                if (expiry.before(today)) {
                     expiredContracts.add(c);
                 // else still active
                 } else {
@@ -57,7 +60,9 @@ public class ContractRenewalModel extends BasicModel {
     }
 
     public List<Contract> getAllContracts() {
-        return ApiService.contractApi().getAll();
+        return ApiService.contractApi().getAll().stream()
+                .filter(c -> c.getFirstParty().getId().equals(userId))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -88,12 +93,14 @@ public class ContractRenewalModel extends BasicModel {
 
     public Contract renewNewTerms(int selection, BidInfo newTerms) {
         Contract oldContract = expiredContracts.get(selection-1);
+        System.out.println("OldContract selected = " + oldContract);
         return BuilderService.buildContract(oldContract, newTerms);
     }
 
     public Contract renewExistingTerms(int selection, String newTutor) {
         Contract oldContract = expiredContracts.get(selection-1);
         User tutor = Utility.getUser(newTutor);
+        System.out.println("tutor = " + tutor);
         return BuilderService.buildContract(oldContract, tutor.getId());
     }
 }

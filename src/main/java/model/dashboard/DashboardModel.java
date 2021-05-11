@@ -41,6 +41,7 @@ public class DashboardModel extends BasicModel {
         contractsList = ApiService.contractApi().getAll().stream()
                 .filter(c -> c.getFirstParty().getId().equals(userId)
                         || c.getSecondParty().getId().equals(userId))
+                .filter(c -> c.getDateSigned() != null) // must be signed contracts
                 .collect(Collectors.toList());
         oSubject.notifyObservers();
     }

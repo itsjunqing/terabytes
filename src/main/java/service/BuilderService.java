@@ -64,7 +64,7 @@ public class BuilderService {
      */
     public static Contract buildContract(Contract contract, BidInfo newTerms) {
         Contract newContract = new Contract(contract); // copies a new Contract
-
+        System.out.println("new contract copied = " + newContract);
         // calculate expiry date based on date creation
         Calendar c = Calendar.getInstance();
         c.setTime(newContract.getDateCreated());
@@ -75,14 +75,14 @@ public class BuilderService {
         Payment newPayment = new Payment(newTerms.getRate() * newTerms.getNumberOfSessions());
 
         // get the updated lesson terms
-        Lesson newLesson = new Lesson(Utility.getSubjectName(contract.getSubjectId()), newTerms.getDay(),
+        Lesson newLesson = new Lesson(Utility.getSubjectName(newContract.getSubjectId()), newTerms.getDay(),
                 newTerms.getTime(), newTerms.getDuration(), newTerms.getNumberOfSessions(), newTerms.isFreeLesson());
 
         // update the terms of the expired (old contract) to new terms
         newContract.setExpiryDate(expiryDate);
         newContract.setPaymentInfo(newPayment);
         newContract.setLessonInfo(newLesson);
-
+        System.out.println("From BuilderService: Contract built: " + newContract);
         return newContract;
     }
 
@@ -91,7 +91,7 @@ public class BuilderService {
      */
     public static Contract buildContract(Contract contract, String tutorId) {
         Contract newContract = new Contract(contract); // copies a new Contract
-        contract.setSecondPartyId(tutorId); // set to new tutor
+        newContract.setSecondPartyId(tutorId); // set to new tutor
 
         // calculate expiry date based on date creation
         Calendar c = Calendar.getInstance();

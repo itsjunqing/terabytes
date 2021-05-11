@@ -35,7 +35,7 @@ public class ContractRenewalView {
         frame = new JFrame("Contract Renewal View");
         updateContracts();
         addButtons(contractRenewalModel.getExpiredContracts().size());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         // resizing if its smaller than the default size
         frame.setMinimumSize(new Dimension(860, 400));
@@ -50,6 +50,7 @@ public class ContractRenewalView {
         updateContracts();
         refreshButtons(contractRenewalModel.getExpiredContracts().size());
         SwingUtilities.updateComponentTreeUI(frame);
+        System.out.println("ContractRenewalView refreshing..");
 //        frame.pack();
     }
 

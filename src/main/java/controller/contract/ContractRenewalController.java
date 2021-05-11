@@ -38,7 +38,6 @@ public class ContractRenewalController implements EventListener {
     private void handleNewTerms(ActionEvent e) {
         try {
             int selection = contractRenewalView.getContractSelectionBox();
-
             // create terms if active contracts less than 5
             if (contractRenewalModel.getActiveContracts().size() < 5) {
                 TermsCreation form = new TermsCreation();
@@ -57,7 +56,7 @@ public class ContractRenewalController implements EventListener {
             int selection = contractRenewalView.getContractSelectionBox();
             // create terms if active contracts less than 5
             if (contractRenewalModel.getActiveContracts().size() < 5) {
-                TermsSelection form = new TermsSelection(contractRenewalModel);
+                TermsSelection form = new TermsSelection(contractRenewalModel.getAllContracts());
                 form.getSelectButton().addActionListener(e1 -> renewExistingTerms(e1, form, selection));
             } else {
                 contractRenewalView.getErrorLabel().setText("Error, 5 contracts are already active");
@@ -92,6 +91,7 @@ public class ContractRenewalController implements EventListener {
             TutorSelection tutorSelection = new TutorSelection(tutorsUserNames);
             tutorSelection.getSelectTutorButton().addActionListener(e1 -> {
                 String tutorUsername = tutorSelection.getTutorOption();
+                System.out.println("Tutor selected " + tutorUsername);
                 Contract contract = contractRenewalModel.renewExistingTerms(selection, tutorUsername);
                 tutorSelection.dispose(); // dispose when option is selected
 
