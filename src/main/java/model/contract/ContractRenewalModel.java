@@ -20,11 +20,13 @@ public class ContractRenewalModel extends BasicModel {
 
     private List<Contract> expiredContracts;
     private List<Contract> activeContracts;
+    private List<Contract> allContracts;
 
     public ContractRenewalModel(String userId) {
         this.userId = userId;
         expiredContracts = new ArrayList<>();
         activeContracts = new ArrayList<>();
+        allContracts = new ArrayList<>();
         refresh();
     }
 
@@ -33,20 +35,20 @@ public class ContractRenewalModel extends BasicModel {
         errorText = "";
         expiredContracts.clear();
         activeContracts.clear();
+        allContracts.clear();
+        List<Contract> contracts = ApiService.contractApi().getAll().stream()
+                .filter(c -> c.getFirstParty().getId().equals(userId))
+                .collect(Collectors.toList());
 
-        List<Contract> contracts = ApiService.contractApi().getAll();
         Date today = new Date();
         for (Contract c: contracts) {
-            if (c.getFirstParty().getId().equals(userId)) {
-                Date expiry = c.getExpiryDate();
-                // if expired
-                if (expiry.before(today)) {
-                    expiredContracts.add(c);
-                // else still active
-                } else {
-                    activeContracts.add(c);
-                }
+            Date expiry = c.getExpiryDate();
+            if (expiry.before(today)) {
+                expiredContracts.add(c);
+            } else {
+                activeContracts.add(c);
             }
+            allContracts.add(c);
         }
 
         System.out.println("Expired contracts are: ");
@@ -55,21 +57,14 @@ public class ContractRenewalModel extends BasicModel {
         System.out.println("Active contracts are: ");
         activeContracts.stream().forEach(c -> System.out.println(c));
 
-
         oSubject.notifyObservers();
-    }
-
-    public List<Contract> getAllContracts() {
-        return ApiService.contractApi().getAll().stream()
-                .filter(c -> c.getFirstParty().getId().equals(userId))
-                .collect(Collectors.toList());
     }
 
     /**
      * Returns the list of tutors that have the subject and competency requirement of the existing contract.
      */
     public List<String> getTutorsList(int selection) {
-        Contract existingContract = expiredContracts.get(selection-1);
+        Contract existingContract = allContracts.get(selection-1);
 
         Preference preference = existingContract.getPreference();
         String qualification = preference.getQualification().toString();
@@ -91,16 +86,28 @@ public class ContractRenewalModel extends BasicModel {
                 .collect(Collectors.toList());
     }
 
-    public Contract renewNewTerms(int selection, BidInfo newTerms) {
-        Contract oldContract = expiredContracts.get(selection-1);
-        System.out.println("OldContract selected = " + oldContract);
-        return BuilderService.buildContract(oldContract, newTerms);
+    public Contract getContractWithNewTerms(int selection, BidInfo newTerms, String tutorUsername) {
+        Contract oldContract = allContracts.get(selection-1);
+        User tutor = Utility.getUser(tutorUsername);
+        return BuilderService.buildContract(oldContract, newTerms, tutor.getId());
     }
 
-    public Contract renewExistingTerms(int selection, String newTutor) {
-        Contract oldContract = expiredContracts.get(selection-1);
-        User tutor = Utility.getUser(newTutor);
-        System.out.println("tutor = " + tutor);
+    public Contract getContractWithOldTerms(int selection, String tutorUsername) {
+        Contract oldContract = allContracts.get(selection-1);
+        User tutor = Utility.getUser(tutorUsername);
         return BuilderService.buildContract(oldContract, tutor.getId());
     }
+
 }
+
+
+//    public Contract renewNewTerms(int selection, BidInfo newTerms) {
+//        Contract oldContract = expiredContracts.get(selection-1);
+//        return BuilderService.buildContract(oldContract, newTerms);
+//    }
+//
+//    public Contract renewExistingTerms(int selection, String newTutor) {
+//        Contract oldContract = expiredContracts.get(selection-1);
+//        User tutor = Utility.getUser(newTutor);
+//        return BuilderService.buildContract(oldContract, tutor.getId());
+//    }

@@ -2,6 +2,7 @@ package view.contract;
 
 import lombok.Getter;
 import model.contract.ContractRenewalModel;
+import observer.Observer;
 import stream.Contract;
 import view.ViewUtility;
 
@@ -13,14 +14,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class ContractRenewalView {
+public class ContractRenewalView implements Observer {
 
     private ContractRenewalModel contractRenewalModel;
 
     private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
     private JPanel contractPanel; // used to clear and update the content, only this need to be updated
     private JButton refreshButton;
-    private JButton renewContract;
+    private JButton renewContractButton;
     private JLabel errorLabel;
     private JFrame frame;
     private JPanel buttonPanel;
@@ -35,14 +36,13 @@ public class ContractRenewalView {
         addButtons(contractRenewalModel.getExpiredContracts().size());
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
-        // resizing if its smaller than the default size
+
         frame.setMinimumSize(new Dimension(860, 400));
         frame.setMaximumSize(new Dimension(860, 1000));
         frame.setPreferredSize(new Dimension(860, 500));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
-
 
     protected void refreshContent(){
         updateContracts();
@@ -123,9 +123,8 @@ public class ContractRenewalView {
         refreshButton = new JButton("Refresh");
         panel.add(refreshButton, gbc2);
 
-
-        renewContract = new JButton("Renew Contract");
-        panel.add(renewContract, gbc2);
+        renewContractButton = new JButton("Renew Contract");
+        panel.add(renewContractButton, gbc2);
 
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
@@ -144,8 +143,7 @@ public class ContractRenewalView {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-
-
+    @Override
     public void update() {
         refreshContent();
     }

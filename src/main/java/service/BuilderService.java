@@ -59,50 +59,93 @@ public class BuilderService {
                 lesson, bid.getAdditionalInfo().getPreference());
     }
 
-    /**
-     * Builds contract with new terms
-     */
-    public static Contract buildContract(Contract contract, BidInfo newTerms) {
-        Contract newContract = new Contract(contract); // copies a new Contract
-        System.out.println("new contract copied = " + newContract);
-        // calculate expiry date based on date creation
+
+    public static Contract buildContract(Contract contract, BidInfo newTerms, String tutorId) {
+        Contract newContract = new Contract(contract);
+
+        // Calculate expiry date based on date creation
         Calendar c = Calendar.getInstance();
         c.setTime(newContract.getDateCreated());
         c.add(Calendar.MONTH, Constants.DEFAULT_CONTRACT_DURATION);
         Date expiryDate = c.getTime();
 
-        // calculate payment = rate per session * number of session
-        Payment newPayment = new Payment(newTerms.getRate() * newTerms.getNumberOfSessions());
+        // Calculate payment = rate * number of sessions
+        Payment payment = new Payment(newTerms.getRate() * newTerms.getNumberOfSessions());
 
-        // get the updated lesson terms
-        Lesson newLesson = new Lesson(Utility.getSubjectName(newContract.getSubjectId()), newTerms.getDay(),
+        // Get updated Lesson
+        Lesson lesson = new Lesson(Utility.getSubjectName(newContract.getSubjectId()), newTerms.getDay(),
                 newTerms.getTime(), newTerms.getDuration(), newTerms.getNumberOfSessions(), newTerms.isFreeLesson());
 
-        // update the terms of the expired (old contract) to new terms
+        // Update tutor + expiry date + payment + lesson
+        newContract.setSecondPartyId(tutorId);
         newContract.setExpiryDate(expiryDate);
-        newContract.setPaymentInfo(newPayment);
-        newContract.setLessonInfo(newLesson);
-        System.out.println("From BuilderService: Contract built: " + newContract);
+        newContract.setPaymentInfo(payment);
+        newContract.setLessonInfo(lesson);
+
         return newContract;
     }
 
-    /**
-     * Builds contract with existing terms with a new tutor
-     */
     public static Contract buildContract(Contract contract, String tutorId) {
-        Contract newContract = new Contract(contract); // copies a new Contract
-        newContract.setSecondPartyId(tutorId); // set to new tutor
+        Contract newContract = new Contract(contract);
 
-        // calculate expiry date based on date creation
+        // Calculate expiry date based on date creation
         Calendar c = Calendar.getInstance();
         c.setTime(newContract.getDateCreated());
         c.add(Calendar.MONTH, Constants.DEFAULT_CONTRACT_DURATION);
         Date expiryDate = c.getTime();
 
-        // update expiry date to default months
+        // Update tutor + expiry date
+        newContract.setSecondPartyId(tutorId);
         newContract.setExpiryDate(expiryDate);
 
         return newContract;
     }
 
 }
+
+
+//    /**
+//     * Builds contract with new terms
+//     */
+//    public static Contract buildContract(Contract contract, BidInfo newTerms) {
+//        Contract newContract = new Contract(contract); // copies a new Contract
+//        System.out.println("new contract copied = " + newContract);
+//        // calculate expiry date based on date creation
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(newContract.getDateCreated());
+//        c.add(Calendar.MONTH, Constants.DEFAULT_CONTRACT_DURATION);
+//        Date expiryDate = c.getTime();
+//
+//        // calculate payment = rate per session * number of session
+//        Payment newPayment = new Payment(newTerms.getRate() * newTerms.getNumberOfSessions());
+//
+//        // get the updated lesson terms
+//        Lesson newLesson = new Lesson(Utility.getSubjectName(newContract.getSubjectId()), newTerms.getDay(),
+//                newTerms.getTime(), newTerms.getDuration(), newTerms.getNumberOfSessions(), newTerms.isFreeLesson());
+//
+//        // update the terms of the expired (old contract) to new terms
+//        newContract.setExpiryDate(expiryDate);
+//        newContract.setPaymentInfo(newPayment);
+//        newContract.setLessonInfo(newLesson);
+//        System.out.println("From BuilderService: Contract built: " + newContract);
+//        return newContract;
+//    }
+
+//    /**
+//     * Builds contract with existing terms with a new tutor
+//     */
+//    public static Contract buildContract(Contract contract, String tutorId) {
+//        Contract newContract = new Contract(contract); // copies a new Contract
+//        newContract.setSecondPartyId(tutorId); // set to new tutor
+//
+//        // calculate expiry date based on date creation
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(newContract.getDateCreated());
+//        c.add(Calendar.MONTH, Constants.DEFAULT_CONTRACT_DURATION);
+//        Date expiryDate = c.getTime();
+//
+//        // update expiry date to default months
+//        newContract.setExpiryDate(expiryDate);
+//
+//        return newContract;
+//    }

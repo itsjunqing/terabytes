@@ -8,35 +8,33 @@ import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
 public class TermsSelection {
 
-//    private ContractRenewalModel contractRenewalModel;
+    private List<Contract> contracts;
 
     private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
     private JPanel contractPanel; // used to clear and update the content, only this need to be updated
-//    private JButton refreshButton;
     private JComboBox contractSelectionBox;
     private JButton renewNewTermsButton;
     private JButton renewOldTermsButton;
-    private JLabel errorLabel;
+//    private JLabel errorLabel;
     private JFrame frame;
     private JPanel buttonPanel;
 
-    private List<Contract> contracts;
-
-
     public TermsSelection(List<Contract> contracts) {
         this.contracts = new ArrayList<>(contracts);
+        Collections.reverse(this.contracts);
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Contract Terms Selection");
         updateContracts();
         addButtons(contracts.size());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
         // resizing if its smaller than the default size
         frame.setMinimumSize(new Dimension(860, 400));
@@ -50,24 +48,18 @@ public class TermsSelection {
         frame.dispose();
     }
 
-
-
-    protected void refreshContent(){
-        updateContracts();
-        refreshButtons(contracts.size());
-        SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
-    }
+    // TODO: remove, unused
+//    protected void refreshContent(){
+//        updateContracts();
+//        refreshButtons(contracts.size());
+//        SwingUtilities.updateComponentTreeUI(frame);
+////        frame.pack();
+//    }
 
     public void updateContracts() {
-        // if contractPanel already constructed, just remove the contents (only one item inside - mainList)
-        if (contractPanel != null) {
-            contractPanel.removeAll();
-        } else {
-            contractPanel = new JPanel();
-            contractPanel.setLayout(new BorderLayout());
-            mainPanel.add(contractPanel);
-        }
+        contractPanel = new JPanel();
+        contractPanel.setLayout(new BorderLayout());
+        mainPanel.add(contractPanel);
 
         JPanel mainList = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -102,21 +94,17 @@ public class TermsSelection {
         }
     }
 
-    private void refreshButtons(int contractListSize){
-        for (int i = 1; i < contractListSize+1; i++){
-            contractSelectionBox.addItem(i);
-        }
-    }
+    // TODO: unused
+//    private void refreshButtons(int contractListSize){
+//        for (int i = 1; i < contractListSize+1; i++){
+//            contractSelectionBox.addItem(i);
+//        }
+//    }
 
     private void addButtons(int contractListSize) {
-        System.out.println("contract liist size = " + contractListSize);
-        if (buttonPanel != null) {
-            buttonPanel.removeAll();
-        } else {
-            buttonPanel = new JPanel();
-            buttonPanel.setLayout(new BorderLayout());
-            mainPanel.add(buttonPanel);
-        }
+        buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BorderLayout());
+        mainPanel.add(buttonPanel);
 
         JPanel mainList = new JPanel(new GridBagLayout());
         JPanel panel = new JPanel();
@@ -127,16 +115,11 @@ public class TermsSelection {
         gbc2.gridheight = 3;
         gbc2.weightx = 1;
 
-//        refreshButton = new JButton("Refresh");
-//        panel.add(refreshButton, gbc2);
-
         contractSelectionBox = new JComboBox();
         for (int i = 1; i < contractListSize+1; i++){
             contractSelectionBox.addItem(i);
         }
         panel.add(contractSelectionBox, gbc2);
-
-
 
         renewNewTermsButton = new JButton("Renew with New Terms");
         panel.add(renewNewTermsButton, gbc2);
@@ -145,12 +128,12 @@ public class TermsSelection {
         panel.add(renewOldTermsButton, gbc2);
 
         // TODO: removing this
-        errorLabel = new JLabel();
-        errorLabel.setForeground(new Color(-4521974));
-        errorLabel.setHorizontalAlignment(0);
-        errorLabel.setHorizontalTextPosition(0);
-//        errorLabel.setText(contractRenewalModel.getErrorText());
-        panel.add(errorLabel);
+//        errorLabel = new JLabel();
+//        errorLabel.setForeground(new Color(-4521974));
+//        errorLabel.setHorizontalAlignment(0);
+//        errorLabel.setHorizontalTextPosition(0);
+////        errorLabel.setText(contractRenewalModel.getErrorText());
+//        panel.add(errorLabel);
 
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();
@@ -162,7 +145,13 @@ public class TermsSelection {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    public void update() {
-        refreshContent();
+    // TODO; remove this, unused
+//    public void update() {
+//        refreshContent();
+//    }
+
+    public int getContractSelection() throws NullPointerException {
+        return Integer.parseInt(contractSelectionBox.getSelectedItem().toString());
     }
+
 }

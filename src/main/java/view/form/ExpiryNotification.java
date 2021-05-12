@@ -30,7 +30,7 @@ public class ExpiryNotification {
         frame = new JFrame("Contract Expiry Notification");
         updateContracts();
         addButtons();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
 
         // resizing if its smaller than the default size
