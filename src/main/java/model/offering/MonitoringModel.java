@@ -5,14 +5,12 @@ import entity.Preference;
 import lombok.Getter;
 import model.BasicModel;
 import observer.Observer;
-import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import service.ApiService;
 import service.BuilderService;
 import service.ExpiryService;
 import stream.Bid;
 import stream.BidAdditionalInfo;
 import stream.Contract;
-import stream.User;
 
 import java.util.ArrayList;
 import java.util.Calendar;
