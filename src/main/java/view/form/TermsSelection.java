@@ -19,7 +19,8 @@ public class TermsSelection {
     private JPanel contractPanel; // used to clear and update the content, only this need to be updated
 //    private JButton refreshButton;
     private JComboBox contractSelectionBox;
-    private JButton selectButton;
+    private JButton renewNewTermsButton;
+    private JButton renewOldTermsButton;
     private JLabel errorLabel;
     private JFrame frame;
     private JPanel buttonPanel;
@@ -32,7 +33,7 @@ public class TermsSelection {
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
-        frame = new JFrame("Existing Contract Terms Selection");
+        frame = new JFrame("Contract Terms Selection");
         updateContracts();
         addButtons(contracts.size());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -135,8 +136,13 @@ public class TermsSelection {
         }
         panel.add(contractSelectionBox, gbc2);
 
-        selectButton = new JButton("Select Contract");
-        panel.add(selectButton, gbc2);
+
+
+        renewNewTermsButton = new JButton("Renew with New Terms");
+        panel.add(renewNewTermsButton, gbc2);
+
+        renewOldTermsButton = new JButton("Renew with Old (existing) Terms");
+        panel.add(renewOldTermsButton, gbc2);
 
         // TODO: removing this
         errorLabel = new JLabel();

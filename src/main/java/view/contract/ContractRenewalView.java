@@ -20,9 +20,7 @@ public class ContractRenewalView {
     private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
     private JPanel contractPanel; // used to clear and update the content, only this need to be updated
     private JButton refreshButton;
-    private JComboBox contractSelectionBox;
-    private JButton renewNewTermsButton;
-    private JButton renewOldTermsButton;
+    private JButton renewContract;
     private JLabel errorLabel;
     private JFrame frame;
     private JPanel buttonPanel;
@@ -100,9 +98,7 @@ public class ContractRenewalView {
     }
 
     private void refreshButtons(int contractListSize){
-        for (int i = 1; i < contractListSize+1; i++){
-            contractSelectionBox.addItem(i);
-        }
+
         errorLabel.setText(contractRenewalModel.getErrorText());
     }
 
@@ -127,17 +123,9 @@ public class ContractRenewalView {
         refreshButton = new JButton("Refresh");
         panel.add(refreshButton, gbc2);
 
-        contractSelectionBox = new JComboBox();
-        for (int i = 1; i < contractListSize+1; i++){
-            contractSelectionBox.addItem(i);
-        }
-        panel.add(contractSelectionBox, gbc2);
 
-        renewNewTermsButton = new JButton("Renew with New Terms");
-        panel.add(renewNewTermsButton, gbc2);
-
-        renewOldTermsButton = new JButton("Renew with Old (existing) Terms");
-        panel.add(renewOldTermsButton, gbc2);
+        renewContract = new JButton("Renew Contract");
+        panel.add(renewContract, gbc2);
 
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
@@ -156,9 +144,7 @@ public class ContractRenewalView {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    public int getContractSelectionBox() throws NullPointerException {
-        return Integer.parseInt(contractSelectionBox.getSelectedItem().toString());
-    }
+
 
     public void update() {
         refreshContent();
