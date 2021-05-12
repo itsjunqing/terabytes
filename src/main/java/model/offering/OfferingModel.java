@@ -37,24 +37,26 @@ public class OfferingModel extends BasicModel {
     public void refresh() {
         this.errorText = "";
         bidsOnGoing.clear(); // for memory cleaning
-        User currentUser = ApiService.userApi().get(userId);
         List<Bid> bids = ApiService.bidApi().getAll();
-        ExpiryService expiryService = new ExpiryService();
-        for (Bid b: bids) {
-            if (!expiryService.checkIsExpired(b)) {
-                Preference bp = b.getAdditionalInfo().getPreference();
-                boolean hasQualification = currentUser.getQualifications().stream()
-                        .anyMatch(q -> q.getTitle().equals(bp.getQualification().toString()));
-
-                // Bonus mark on checking 2 levels higher for competency requirement
-                boolean hasCompetency = currentUser.getCompetencies().stream()
-                        .anyMatch(c -> c.getLevel() - 2 >= bp.getCompetency()
-                                && c.getSubject().getName().equals(bp.getSubject()));
-                if (hasQualification && hasCompetency) {
-                    bidsOnGoing.add(b);
-                }
-            }
-        }
+        bidsOnGoing = OpenBidsService.processBids(bids, userId);
+//        User currentUser = ApiService.userApi().get(userId);
+//
+//        ExpiryService expiryService = new ExpiryService();
+//        for (Bid b: bids) {
+//            if (!expiryService.checkIsExpired(b)) {
+//                Preference bp = b.getAdditionalInfo().getPreference();
+//                boolean hasQualification = currentUser.getQualifications().stream()
+//                        .anyMatch(q -> q.getTitle().equals(bp.getQualification().toString()));
+//
+//                // Bonus mark on checking 2 levels higher for competency requirement
+//                boolean hasCompetency = currentUser.getCompetencies().stream()
+//                        .anyMatch(c -> c.getLevel() - 2 >= bp.getCompetency()
+//                                && c.getSubject().getName().equals(bp.getSubject()));
+//                if (hasQualification && hasCompetency) {
+//                    bidsOnGoing.add(b);
+//                }
+//            }
+//        }
         oSubject.notifyObservers();
     }
 
