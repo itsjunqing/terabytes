@@ -5,6 +5,7 @@ import entity.Preference;
 import lombok.Getter;
 import model.BasicModel;
 import observer.Observer;
+import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import service.ApiService;
 import service.BuilderService;
 import service.ExpiryService;
@@ -38,7 +39,7 @@ public class MonitoringModel extends BasicModel implements Observer {
         this.userId = userId;
         this.errorText = "";
         List<Bid> bids = ApiService.bidApi().getAll();
-        bidsOnGoing = processBids(bids);
+        bidsOnGoing = OpenBidsService.processBids(bids, userId);
     }
 
     /**
@@ -50,7 +51,9 @@ public class MonitoringModel extends BasicModel implements Observer {
         for (String bidId : selectedBidIds){
             selectedBids.add(ApiService.bidApi().get(bidId));
         }
-        selectedBids  = processBids(selectedBids);
+        this.errorText = "";
+
+        selectedBids  = OpenBidsService.processBids(selectedBids, userId);
         System.out.println("Refreshing content");
         oSubject.notifyObservers();
     }
@@ -68,30 +71,29 @@ public class MonitoringModel extends BasicModel implements Observer {
      * Get list of bids that are ongoing and save it to class variable
      * get bidsOngoing
      */
-    private List<Bid> processBids(List<Bid> bids) {
-        this.errorText = "";
-        List<Bid> outputBidList = new ArrayList<Bid>();
-        outputBidList.clear(); // for memory cleaning
-        User currentUser = ApiService.userApi().get(userId);
-        ExpiryService expiryService = new ExpiryService();
-        for (Bid b: bids) {
-            if (!expiryService.checkIsExpired(b)) {
-                Preference bp = b.getAdditionalInfo().getPreference();
-                boolean hasQualification = currentUser.getQualifications().stream()
-                        .anyMatch(q -> q.getTitle().equals(bp.getQualification().toString()));
-
-                // Bonus mark on checking 2 levels higher for competency requirement
-                boolean hasCompetency = currentUser.getCompetencies().stream()
-                        .anyMatch(c -> c.getLevel() - 2 >= bp.getCompetency()
-                                && c.getSubject().getName().equals(bp.getSubject()));
-                if (hasQualification && hasCompetency) {
-//                    Bid filteredBid = filterBidOffers(b);
-                    outputBidList.add(b);
-                }
-            }
-        }
-        return outputBidList;
-    }
+//    private List<Bid> processBids(List<Bid> bids) {
+//        List<Bid> outputBidList = new ArrayList<Bid>();
+//        outputBidList.clear(); // for memory cleaning
+//        User currentUser = ApiService.userApi().get(userId);
+//        ExpiryService expiryService = new ExpiryService();
+//        for (Bid b: bids) {
+//            if (!expiryService.checkIsExpired(b)) {
+//                Preference bp = b.getAdditionalInfo().getPreference();
+//                boolean hasQualification = currentUser.getQualifications().stream()
+//                        .anyMatch(q -> q.getTitle().equals(bp.getQualification().toString()));
+//
+//                // Bonus mark on checking 2 levels higher for competency requirement
+//                boolean hasCompetency = currentUser.getCompetencies().stream()
+//                        .anyMatch(c -> c.getLevel() - 2 >= bp.getCompetency()
+//                                && c.getSubject().getName().equals(bp.getSubject()));
+//                if (hasQualification && hasCompetency) {
+////                    Bid filteredBid = filterBidOffers(b);
+//                    outputBidList.add(b);
+//                }
+//            }
+//        }
+//        return outputBidList;
+//    }
 
     /**
      * Function to check if bid is expired and to only
