@@ -37,7 +37,6 @@ public class OSubject {
             SwingUtilities.invokeLater(() -> {
                 o.update();
             });
-
         }
     }
 }

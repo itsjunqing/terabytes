@@ -17,16 +17,17 @@ import java.util.List;
 
 @Getter
 public class MonitoringView implements Observer {
+
+    private MonitoringModel monitoringModel;
+
     private JPanel mainPanel;
     private JPanel openBidPanel;
     private JPanel buttonPanel;
     private JComboBox bidSelection;
-    private JButton respondButton;
-    private JButton buyOutButton;
-    private MonitoringModel monitoringModel;
+    private JButton viewOffersButton;
+
     private JLabel errorLabel;
     private JFrame frame;
-    private List<Bid> selectedBids;
 
     /**
      * Constructor that creates the main frame and calls
@@ -61,15 +62,11 @@ public class MonitoringView implements Observer {
      * Function to create the panel for the first time
      */
     private void updateContent() {
-
-        // getting the constants from the model
-        selectedBids = new ArrayList<>(monitoringModel.getSelectedBids());
-        // making the frames
-        selectedBids.stream().forEach(b-> System.out.println(b.toString()));
-        updateView(selectedBids);
-        createButtons(selectedBids.size());
+        List<Bid> monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
+        Collections.reverse(monitoringBids);
+        updateView(monitoringBids);
+        createButtons(monitoringBids.size());
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
     /**
@@ -77,17 +74,12 @@ public class MonitoringView implements Observer {
      * unecessarily creating new panels
      */
     private void refreshContent(){
-        // getting the constants from the model
-        List<Bid> selectedBids = new ArrayList<>(monitoringModel.getSelectedBids());
-        System.out.println("From Monitoring view refresh content function");
-        selectedBids.stream().forEach(e -> System.out.println(e.toString()));
-        // making the frames
-        updateView(selectedBids);
-        // refreshing info in buttons
-        refreshButtons(selectedBids.size());
+        List<Bid> monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
+        Collections.reverse(monitoringBids);
+        updateView(monitoringBids);
+        refreshButtons(monitoringBids.size());
         errorLabel.setText(monitoringModel.getErrorText());
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
 
@@ -102,8 +94,7 @@ public class MonitoringView implements Observer {
     /**
      * function to create the information panel
      */
-    private void updateView(List<Bid> choosenBidList) {
-        // to be used upon refresh to update both openBidPanel and buttonPanel
+    private void updateView(List<Bid> monitoringBids) {
         if (openBidPanel != null) {
             openBidPanel.removeAll();
         } else {
@@ -111,8 +102,6 @@ public class MonitoringView implements Observer {
             openBidPanel.setLayout(new BorderLayout());
             mainPanel.add(openBidPanel);
         }
-        // if bid has expired, return empty panel
-
 
         JPanel mainList = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -127,29 +116,25 @@ public class MonitoringView implements Observer {
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         openBidPanel.add(jScrollPane);
 
-        // initialize gridBagConstraits
+        // initialize gridBagConstraints
         GridBagConstraints gbc1 = new GridBagConstraints();
         gbc1.gridwidth = GridBagConstraints.REMAINDER;
         gbc1.gridheight = 2;
         gbc1.weightx = 1;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
-        Collections.reverse(choosenBidList);
-
-        for (Bid b:choosenBidList) {
-        /**
-         * Add the latest other bids
-         */
+        // Add latest bids
+        for (Bid b: monitoringBids) {
             List <BidInfo> bidOfferList =  b.getAdditionalInfo().getBidOffers();
             int bidOfferSize = bidOfferList.size();
             JPanel panel = new JPanel();
-            if ( bidOfferSize > 0){
+            if ( bidOfferSize > 0) {
                 // Code to add open bid panel
                 JTable table = ViewUtility.OpenOffersTable.buildTutorOpenOffer(bidOfferList.get(bidOfferSize-1), b);
                 ViewUtility.resizeColumns(table);
                 table.setBounds(10, 10, 500, 100);
                 panel.add(table);
-            }else{
+            } else {
                 String[][] noOffer = { {"No Offer", "Waiting for offer"}};
                 String[] col = {"", ""};
                 JTable noOfferTable = new JTable(noOffer, col);
@@ -161,9 +146,7 @@ public class MonitoringView implements Observer {
             panel.setBorder(otherTitle);
             mainList.add(panel, gbc1, 0);
 
-            /**
-             * Display student request, will always exist
-             */
+            // Display student request, will always exist
             JPanel requestPanel = new JPanel();
             JTable requestTable = ViewUtility.OpenOffersTable.buildStudentRequest(b);
             ViewUtility.resizeColumns(requestTable);
@@ -203,13 +186,10 @@ public class MonitoringView implements Observer {
         }
         panel.add(bidSelection, gbc2);
 
-        // add Provide Offer button
-        respondButton = new JButton("Provide Offer");
-        panel.add(respondButton, gbc2);
+        // add View Offers button
+        viewOffersButton = new JButton("View Detailed Offers");
+        panel.add(viewOffersButton, gbc2);
 
-        // add select offer button
-        buyOutButton = new JButton("Buy Out");
-        panel.add(buyOutButton, gbc2);
 
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
@@ -228,10 +208,8 @@ public class MonitoringView implements Observer {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    public String getSelectionId() throws NullPointerException {
-        int indexBid = Integer.parseInt(bidSelection.getSelectedItem().toString());
-        String bidId = selectedBids.get(indexBid - 1).getId();
-        return bidId;
+    public int getBidNumber() throws NullPointerException {
+        return Integer.parseInt(bidSelection.getSelectedItem().toString());
     }
 
     @Override

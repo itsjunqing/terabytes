@@ -50,13 +50,8 @@ public class OfferingView implements Observer {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         List<Bid> bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
         offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
-        System.out.println(bidList.size());
-        System.out.println("size, look at me \n \n ");
         bidList.stream()
                 .forEach(c -> System.out.println(c.toString()));
-
-        System.out.println(bidList.size());
-        System.out.println("hi");
         int bidSize = bidList.size();
         Collections.reverse(bidList);
         updateView(bidList);
@@ -69,12 +64,8 @@ public class OfferingView implements Observer {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
         List<Bid> bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
         offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
-        System.out.println(bidList.size());
-        System.out.println("size, look at me \n \n ");
         bidList.stream()
                 .forEach(c -> System.out.println(c.toString()));
-        System.out.println(bidList.size());
-        System.out.println("hi");
         int bidSize = bidList.size();
         Collections.reverse(bidList);
         updateView(bidList);
@@ -165,6 +156,7 @@ public class OfferingView implements Observer {
         gbc.weightx = 100;
         gbc.weighty = 100;
         mainList.add(new JPanel(), gbc);
+
         JScrollPane jScrollPane = new JScrollPane(mainList);
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);

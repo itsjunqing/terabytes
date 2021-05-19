@@ -2,40 +2,36 @@ package scheduler;
 
 import observer.OSubject;
 
-import javax.swing.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Scheduler{
-    public OSubject oSubject;
-    private Timer timer = null;
-    private static Scheduler uniqueInstance = null;
-    private Scheduler(){
-            oSubject = new OSubject();
-            timer = new Timer();
-            runTasks();
-    }
-    public static Scheduler getInstance()
-    {
-        if (uniqueInstance == null)
-            uniqueInstance = new Scheduler();
+public class Scheduler extends OSubject {
 
-        return uniqueInstance;
-    }
+//    private static Scheduler uniqueInstance = null;
+    private final int FREQUENCY = 10; // Scheduled interval for every 5 seconds
+    private Timer timer;
 
-    private void doTask() {
-        System.out.println("Running Instance");
-        oSubject.notifyObservers();
+    public Scheduler(){
+        this.timer = new Timer();
+        runTasks();
     }
+    // TODO: Note to Nick: uniqueInstance doesn't work when screen is closed and opened again,
+    //  possible unless endScheduler sets uniqueInstance = null too
+//    public static Scheduler getInstance() {
+//        if (uniqueInstance == null)
+//            uniqueInstance = new Scheduler();
+//        return uniqueInstance;
+//    }
 
     public void runTasks() {
-            timer.schedule(new TimerTask(){
+        TimerTask scheduledRun = new TimerTask() {
             @Override
             public void run() {
-                doTask();
-            }},
-                0,        //initial delay
-                1*5000);  //subsequent rate
+                System.out.println("From Scheduler: Running Instance");
+                notifyObservers();
+            }
+        };
+        timer.schedule(scheduledRun, 0, FREQUENCY * 1000); // delay of 0 seconds + period interval of frequency
     }
 
     public void endScheduler(){
@@ -43,8 +39,9 @@ public class Scheduler{
         timer.purge();
     }
 
-
 }
+
+
 //package com.company;
 //
 //        import java.util.TimerTask;

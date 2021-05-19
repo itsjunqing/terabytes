@@ -15,6 +15,7 @@ import java.util.List;
 
 @Getter
 public class SubscriptionSelectionViewTest extends JFrame {
+
     private JPanel contentPane;
     private JLabel errorLabel;
     private JButton confirmSelection;

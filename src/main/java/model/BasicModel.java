@@ -22,6 +22,7 @@ public abstract class BasicModel {
     protected BasicModel() {
         this.oSubject = new OSubject();
         this.expiryService = new ExpiryService();
+        this.errorText = "";
     }
 
     /**

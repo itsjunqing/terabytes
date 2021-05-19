@@ -44,7 +44,7 @@ public class ContractConfirmController implements EventListener {
 
         // if this contract is to be confirmed -> sign, then sign
         // only upon contract renewal, it will not be signed by student (but by tutor)
-        contractConfirmModel.signContract(contractConfirmModel.isSign());
+        contractConfirmModel.signContract();
 
         // dispose view
         contractConfirmView.dispose();

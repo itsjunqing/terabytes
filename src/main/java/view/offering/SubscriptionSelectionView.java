@@ -1,32 +1,28 @@
 package view.offering;
 
 import lombok.Getter;
-import model.offering.MonitoringModel;
 import stream.Bid;
-
-import java.awt.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import java.util.ArrayList;
+import java.awt.*;
 import java.util.List;
 
 @Getter
 public class SubscriptionSelectionView extends JFrame {
+
+    private List<Bid> bidsOnGoing;
+    private JFrame mainFrame;
     private JPanel contentPane;
     private JLabel errorLabel;
-    private JButton confirmSelection;
+    private JButton confirmButton;
     private JList<Bid> bidJList;
-    private MonitoringModel monitoringModel;
-    private JFrame mainFrame;
 
 
-    public SubscriptionSelectionView(MonitoringModel monitoringModel) {
-        this.monitoringModel = monitoringModel;
+    public SubscriptionSelectionView(List<Bid> bidsOnGoing) {
+        this.bidsOnGoing = bidsOnGoing;
         // setting up the frame
         mainFrame = new JFrame("Subscription Selection");
 
@@ -46,13 +42,14 @@ public class SubscriptionSelectionView extends JFrame {
         mainFrame.setVisible(true);
     }
 
+    public void dispose(){
+        mainFrame.dispose();
+    }
+
     private void setDetails(){
-        // initialising the bidList for testing, TODO: replace with a call
-        // of the model
-        List<Bid> bidList = monitoringModel.getBidsOnGoing();
         // adding the bids into the list model
         DefaultListModel<Bid> listModel = new DefaultListModel<>();
-        for (Bid b: bidList) {
+        for (Bid b: bidsOnGoing) {
             listModel.addElement(b);
         }
         updateContent(listModel);
@@ -61,7 +58,8 @@ public class SubscriptionSelectionView extends JFrame {
 
     private void updateContent(DefaultListModel listModel){
         bidJList = new JList<Bid>(listModel);
-        // making the constraints of the jpanel containg the jlist
+
+        // Construct the constraints of JPanel containing the JList
         JPanel panel = new JPanel();
         GridBagConstraints panelConstraints = new GridBagConstraints();
         panelConstraints.fill = GridBagConstraints.BOTH;
@@ -70,20 +68,24 @@ public class SubscriptionSelectionView extends JFrame {
         panelConstraints.gridx = 0;
         panelConstraints.gridy = 0;
         panel.setLayout(new BorderLayout(0, 0));
-        Border loweredbevel = BorderFactory.createLoweredBevelBorder();
+
+        // Construct loweredBevel
+        Border loweredBevel = BorderFactory.createLoweredBevelBorder();
         TitledBorder titledBorder = BorderFactory.createTitledBorder(
-                loweredbevel, "Please Select Bids to Subscribe to");
+                loweredBevel, "Please Select Bids to Subscribe to");
         titledBorder.setTitlePosition(TitledBorder.ABOVE_TOP);
         panel.setBorder(titledBorder);
-        JScrollPane bidScrollpane = new JScrollPane();
-        panel.add(bidScrollpane, BorderLayout.CENTER);
-        bidScrollpane.setViewportView(bidJList);
+
+        // Construct scrollPane
+        JScrollPane bidScrollPane = new JScrollPane();
+        panel.add(bidScrollPane, BorderLayout.CENTER);
+        bidScrollPane.setViewportView(bidJList);
         contentPane.add(panel, panelConstraints);
     }
 
     // making the button panel
     private void updateButtons() {
-        JPanel mainList = new JPanel(new GridBagLayout());
+        JPanel mainList = new JPanel(new GridBagLayout()); // TODO, JQ: What's the purpose of this? Remove?
         JPanel buttonPanel = new JPanel();
         GridBagLayout layout = new GridBagLayout();
         buttonPanel.setLayout(layout);
@@ -91,16 +93,18 @@ public class SubscriptionSelectionView extends JFrame {
         gbc2.gridwidth = GridBagConstraints.REMAINDER;
         gbc2.gridheight = 3;
         gbc2.weightx = 1;
+
         // add select offer button
-        confirmSelection  = new JButton("Confirm Selection");
-        buttonPanel.add(confirmSelection, gbc2);
+        confirmButton = new JButton("Confirm Selection");
+        buttonPanel.add(confirmButton, gbc2);
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
         errorLabel.setHorizontalTextPosition(0);
-        //TODO: get error text from the model instead
+        // TODO: get error text from the model instead
         errorLabel.setText("");
         buttonPanel.add(errorLabel);
+
         System.out.println("Adding Buttons");
         buttonPanel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints buttonConstraints = new GridBagConstraints();
@@ -112,8 +116,8 @@ public class SubscriptionSelectionView extends JFrame {
         contentPane.add(buttonPanel, buttonConstraints);
     }
 
-    public void dispose(){
-        mainFrame.dispose();
+    public List<Bid> getSelectedBids() {
+        return bidJList.getSelectedValuesList();
     }
 
 }

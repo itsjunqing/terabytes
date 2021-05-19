@@ -1,74 +1,78 @@
 package model.offering;
 
-import entity.BidInfo;
-import entity.Preference;
 import lombok.Getter;
 import model.BasicModel;
 import observer.Observer;
 import service.ApiService;
-import service.BuilderService;
-import service.ExpiryService;
 import stream.Bid;
-import stream.BidAdditionalInfo;
-import stream.Contract;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
+
 /**
- * A Class of OpenOffersModel that stores the data of an Open Offer by tutor
+ * A Class of MonitoringModel that stores the information that monitors on-going Bids.
+ *
+ * MonitoringModel is both a Subject and an Observer.
+ * Subject: To be observed by the View to update the UI
+ * Observer: To observe the scheduler to be notified and updated whenever the Scheduler calls
  */
 @Getter
 public class MonitoringModel extends BasicModel implements Observer {
 
-    private BidInfo myOffer;
-    private List<Bid> bidsOnGoing = new ArrayList<Bid>();
-    private List<Bid> selectedBids = new ArrayList<Bid>();
-    private List<String> selectedBidIds = new ArrayList<String>();
+    private List<Bid> monitoringBids;
 
-    /**
-     * Constructs a OpenOffersMode
-     * @param userId a String of user id
-     *
-     */
-    public MonitoringModel(String userId) {
+    public MonitoringModel(String userId, List<Bid> monitoringBids) {
         this.userId = userId;
-        this.errorText = "";
-        List<Bid> bids = ApiService.bidApi().getAll();
-        bidsOnGoing = OpenBidsService.processBids(bids, userId);
+        this.monitoringBids = new ArrayList<>(monitoringBids);
     }
 
-    /**
-     * Calling view to update itself
-     */
     @Override
     public void refresh() {
-        selectedBids.clear();
-        for (String bidId : selectedBidIds){
-            selectedBids.add(ApiService.bidApi().get(bidId));
+        System.out.println("From MonitoringModel: Refreshing content...");
+        List<Bid> updateBids = new ArrayList<>();
+        for (Bid bid: monitoringBids) {
+            Bid latestBid = ApiService.bidApi().get(bid.getId());
+            // If the bid is not closed down yet, display it
+            if (latestBid.getDateClosedDown() == null) {
+                updateBids.add(latestBid);
+            }
         }
-        this.errorText = "";
-
-        selectedBids  = OpenBidsService.processBids(selectedBids, userId);
-        System.out.println("Refreshing content");
+        monitoringBids.clear(); // Remove old content
+        monitoringBids.addAll(updateBids); // Add the updated Bid
         oSubject.notifyObservers();
     }
 
     /**
-     * Function called by scheduller to update the model
+     * Function called by scheduler to update the model
      */
     @Override
     public void update() {
         refresh();
     }
 
+    public Bid viewOffers(int selection){
+        Bid bid = monitoringBids.get(selection-1);
+        if (!expiryService.checkIsExpired(bid)){
+            return bid;
+        }
+        return null;
+    }
 
-    /**
-     * Get list of bids that are ongoing and save it to class variable
-     * get bidsOngoing
-     */
+
+}
+
+
+//    public void setSelectedBids(List<Bid> selectedBids){
+//        this.selectedBids = selectedBids;
+//        selectedBidIds.clear();
+//        selectedBids.stream().forEach(b -> selectedBidIds.add(b.getId()));
+//    }
+
+//    /**
+//     * Get list of bids that are ongoing and save it to class variable
+//     * get bidsOngoing
+//     */
 //    private List<Bid> processBids(List<Bid> bids) {
 //        List<Bid> outputBidList = new ArrayList<Bid>();
 //        outputBidList.clear(); // for memory cleaning
@@ -92,114 +96,106 @@ public class MonitoringModel extends BasicModel implements Observer {
 //        }
 //        return outputBidList;
 //    }
-
-    /**
-     * Function to check if bid is expired and to only
-     * @param bid
-     * @return a bid without offers given by this tutor
-     */
-    private Bid filterBidOffers(Bid bid) {
-        List<BidInfo> allOffers = new ArrayList<BidInfo>();
-        Bid returnBid = bid;
-        List<BidInfo> offers = new ArrayList<>(bid.getAdditionalInfo().getBidOffers());
-        System.out.println("From OpenOfferModel Refreshing..");
-        ExpiryService expiryService = new ExpiryService();
-        // if bid has expired, close down the bid
-        if (!expiryService.checkIsExpired(bid)){
-            for (BidInfo bidInfo: offers) {
-                // myOffer is BidInfo offered by itself
-                if (!bidInfo.getInitiatorId().equals(userId)) {
-                    // openOffers includes all the BidInfo offers (by all tutors) except the current tutor
-                    allOffers.add(bidInfo);
-                }
-            }
-            returnBid.getAdditionalInfo().setBidOffers(allOffers);
-        } else{
-            returnBid = null;
-        }
-        return returnBid;
-    }
-
-
-
-    /**
-     * Gets the Bid object of the corresponding offer
-     * @return a Bid object
-     */
-    public Bid getBid(String bidId) {
-        return ApiService.bidApi().get(bidId);
-    }
-
-    /**
-     * Buy out a Bid
-     */
-    public void buyOut(String bidId){
-        Bid bid = getBid(bidId);
-        if (!expiryService.checkIsExpired(bid)){
-            Preference bp = bid.getAdditionalInfo().getPreference();
-            BidInfo bidInfo = bp.getPreferences();
-            bidInfo.setInitiatorId(getUserId());
-            sendOffer(bidInfo, bidId);
-            Contract contract = BuilderService.buildContract(bid, bidInfo);
-            // logic to post contract
-            Contract contractCreated = ApiService.contractApi().add(contract);
-
-            // add 10 seconds to contract signing as signDate > creationDate
-            Calendar c = Calendar.getInstance();
-            c.setTime(new Date());
-            c.add(Calendar.SECOND, 10);
-            ApiService.contractApi().sign(contractCreated.getId(), new Contract(c.getTime()));
-
-            // mark bid as closed
-            ApiService.bidApi().close(bidId, new Bid(new Date()));
-        } else {
-            errorText = "Bid Has Expired";
-            oSubject.notifyObservers();
-        }
-    }
-
-    /**
-     * Respond to the Bid by providing an offer contained within a BidInfo
-     * @param bidInfo a BidInfo object
-     */
-    public void respond(BidInfo bidInfo, String selectedBidId) {
-        if (!expiryService.checkIsExpired(getBid(selectedBidId))) {
-            sendOffer(bidInfo, selectedBidId);
-            System.out.println("providing offer");
-        } else {
-            errorText = "Bid Has Expired";
-        }
-        refresh();
-    }
-
-    /**
-     * Sends an offer to the student by patching to the API.
-     * @param bidInfo a BidInfo object
-     */
-    private void sendOffer(BidInfo bidInfo, String selectedBidId) {
-        // Update offer
-        BidAdditionalInfo info = ApiService.bidApi().get(selectedBidId).getAdditionalInfo();
-        BidInfo currentBidInfo = info.getBidOffers().stream()
-                .filter(i -> i.getInitiatorId().equals(userId))
-                .findFirst()
-                .orElse(null);
-        // if the tutor has provided an offer before, remove the offer
-        if (currentBidInfo != null) {
-            info.getBidOffers().remove(currentBidInfo);
-        }
-        info.getBidOffers().add(bidInfo);
-        ApiService.bidApi().patch(selectedBidId, new Bid(info));
-    }
-
-    public void setSelectedBids(List<Bid> selectedBids){
-        this.selectedBids = selectedBids;
-        selectedBidIds.clear();
-        selectedBids.stream().forEach(b -> selectedBidIds.add(b.getId()));
-    }
-
-}
-
-
+//
+//
+//    // TODO DELETE FUNCTION
+//    /**
+//     * Function to check if bid is expired and to only
+//     * @param bid
+//     * @return a bid without offers given by this tutor
+//     */
+//    private Bid filterBidOffers(Bid bid) {
+//        List<BidInfo> allOffers = new ArrayList<BidInfo>();
+//        Bid returnBid = bid;
+//        List<BidInfo> offers = new ArrayList<>(bid.getAdditionalInfo().getBidOffers());
+//        System.out.println("From OpenOfferModel Refreshing..");
+//        ExpiryService expiryService = new ExpiryService();
+//        // if bid has expired, close down the bid
+//        if (!expiryService.checkIsExpired(bid)){
+//            for (BidInfo bidInfo: offers) {
+//                // myOffer is BidInfo offered by itself
+//                if (!bidInfo.getInitiatorId().equals(userId)) {
+//                    // openOffers includes all the BidInfo offers (by all tutors) except the current tutor
+//                    allOffers.add(bidInfo);
+//                }
+//            }
+//            returnBid.getAdditionalInfo().setBidOffers(allOffers);
+//        } else{
+//            returnBid = null;
+//        }
+//        return returnBid;
+//    }
+//
+//
+//
+//    /**
+//     * Gets the Bid object of the corresponding offer
+//     * @return a Bid object
+//     */
+//    public Bid getBid(String bidId) {
+//        return ApiService.bidApi().get(bidId);
+//    }
+//
+//    /**
+//     * Buy out a Bid
+//     */
+//    public void buyOut(String bidId){
+//        Bid bid = getBid(bidId);
+//        if (!expiryService.checkIsExpired(bid)){
+//            Preference bp = bid.getAdditionalInfo().getPreference();
+//            BidInfo bidInfo = bp.getPreferences();
+//            bidInfo.setInitiatorId(getUserId());
+//            sendOffer(bidInfo, bidId);
+//            Contract contract = BuilderService.buildContract(bid, bidInfo);
+//            // logic to post contract
+//            Contract contractCreated = ApiService.contractApi().add(contract);
+//
+//            // add 10 seconds to contract signing as signDate > creationDate
+//            Calendar c = Calendar.getInstance();
+//            c.setTime(new Date());
+//            c.add(Calendar.SECOND, 10);
+//            ApiService.contractApi().sign(contractCreated.getId(), new Contract(c.getTime()));
+//
+//            // mark bid as closed
+//            ApiService.bidApi().close(bidId, new Bid(new Date()));
+//        } else {
+//            errorText = "Bid Has Expired";
+//            oSubject.notifyObservers();
+//        }
+//    }
+//
+//    /**
+//     * Respond to the Bid by providing an offer contained within a BidInfo
+//     * @param bidInfo a BidInfo object
+//     */
+//    public void respond(BidInfo bidInfo, String selectedBidId) {
+//        if (!expiryService.checkIsExpired(getBid(selectedBidId))) {
+//            sendOffer(bidInfo, selectedBidId);
+//            System.out.println("providing offer");
+//        } else {
+//            errorText = "Bid Has Expired";
+//        }
+//        refresh();
+//    }
+//
+//    /**
+//     * Sends an offer to the student by patching to the API.
+//     * @param bidInfo a BidInfo object
+//     */
+//    private void sendOffer(BidInfo bidInfo, String selectedBidId) {
+//        // Update offer
+//        BidAdditionalInfo info = ApiService.bidApi().get(selectedBidId).getAdditionalInfo();
+//        BidInfo currentBidInfo = info.getBidOffers().stream()
+//                .filter(i -> i.getInitiatorId().equals(userId))
+//                .findFirst()
+//                .orElse(null);
+//        // if the tutor has provided an offer before, remove the offer
+//        if (currentBidInfo != null) {
+//            info.getBidOffers().remove(currentBidInfo);
+//        }
+//        info.getBidOffers().add(bidInfo);
+//        ApiService.bidApi().patch(selectedBidId, new Bid(info));
+//    }
 
 
 

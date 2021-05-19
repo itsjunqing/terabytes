@@ -4,19 +4,18 @@ import controller.EventListener;
 import model.offering.OfferingModel;
 import stream.Bid;
 import view.offering.OfferingView;
+import view.offering.SubscriptionSelectionView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.sql.SQLOutput;
+import java.util.List;
 
 public class OfferingController implements EventListener {
 
     private OfferingModel offeringModel;
     private OfferingView offeringView;
-    private String userId;
 
     public OfferingController(String userId) {
-        this.userId = userId;
         this.offeringModel = new OfferingModel(userId);
         SwingUtilities.invokeLater(() -> {
             this.offeringView = new OfferingView(offeringModel);
@@ -46,15 +45,21 @@ public class OfferingController implements EventListener {
             if (bid.getType().equals("Open")) {
                 new OpenOffersController(offeringModel.getUserId(), bid.getId());
             } else {
-                System.out.println("this is some text \n\n\n lets make it count");
                 new CloseOffersController(offeringModel.getUserId(), bid.getId());
             }
         }
     }
 
     private void handleSubscribeOffer(ActionEvent e){
-        System.out.println("From Offering Controller: subscribe offer Button is pressed");
-        new MonitoringController(userId);
+        System.out.println("From Offering Controller: Subscribe offer Button is pressed");
+
+        SubscriptionSelectionView subscriptionSelectionView =
+                new SubscriptionSelectionView(offeringModel.getBidsOnGoing());
+        subscriptionSelectionView.getConfirmButton().addActionListener(e1 -> {
+            List<Bid> selectedBids = subscriptionSelectionView.getSelectedBids();
+            new MonitoringController(offeringModel.getUserId(), selectedBids);
+            subscriptionSelectionView.dispose();
+        });
     }
 
 }

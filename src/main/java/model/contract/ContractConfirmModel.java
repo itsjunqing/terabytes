@@ -40,14 +40,13 @@ public class ContractConfirmModel {
 
     /**
      * Pushes the Contract object to the API and sign if required
-     * @param toSign a Boolean to indicate to sign contract or otherwise
      */
-    public void signContract(boolean toSign) {
+    public void signContract() {
         // push to API
         Contract contractAdded = ApiService.contractApi().add(contract);
         String contractId = contractAdded.getId();
         // sign when it is required
-        if (toSign) {
+        if (sign) {
             ApiService.contractApi().sign(contractId, new Contract(new Date()));
         }
     }
