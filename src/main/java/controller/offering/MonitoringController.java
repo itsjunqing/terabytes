@@ -23,7 +23,6 @@ public class MonitoringController implements EventListener {
         SwingUtilities.invokeLater(() -> {
             // Construct the view and the scheduler to update automatically
             this.monitoringView = new MonitoringView(monitoringModel);
-//            this.scheduler = Scheduler.getInstance();
             this.scheduler = new Scheduler();
             initObserving();
             listenViewActions();

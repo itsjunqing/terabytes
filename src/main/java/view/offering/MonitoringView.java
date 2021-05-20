@@ -21,7 +21,7 @@ public class MonitoringView implements Observer {
     private MonitoringModel monitoringModel;
 
     private JPanel mainPanel;
-    private JPanel openBidPanel;
+    private JPanel monitoringPanel;
     private JPanel buttonPanel;
     private JComboBox bidSelection;
     private JButton viewOffersButton;
@@ -95,12 +95,12 @@ public class MonitoringView implements Observer {
      * function to create the information panel
      */
     private void updateView(List<Bid> monitoringBids) {
-        if (openBidPanel != null) {
-            openBidPanel.removeAll();
+        if (monitoringPanel != null) {
+            monitoringPanel.removeAll();
         } else {
-            openBidPanel = new JPanel();
-            openBidPanel.setLayout(new BorderLayout());
-            mainPanel.add(openBidPanel);
+            monitoringPanel = new JPanel();
+            monitoringPanel.setLayout(new BorderLayout());
+            mainPanel.add(monitoringPanel);
         }
 
         JPanel mainList = new JPanel(new GridBagLayout());
@@ -114,7 +114,7 @@ public class MonitoringView implements Observer {
         JScrollPane jScrollPane = new JScrollPane(mainList);
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        openBidPanel.add(jScrollPane);
+        monitoringPanel.add(jScrollPane);
 
         // initialize gridBagConstraints
         GridBagConstraints gbc1 = new GridBagConstraints();

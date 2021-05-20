@@ -98,6 +98,13 @@ public class ContractRenewalModel extends BasicModel {
         return BuilderService.buildContract(oldContract, tutor.getId());
     }
 
+    public int getActiveSize() {
+        return activeContracts.size();
+    }
+    public int getExpiredSize() {
+        return expiredContracts.size();
+    }
+
 }
 
 

@@ -8,7 +8,7 @@ import java.util.TimerTask;
 public class Scheduler extends OSubject {
 
 //    private static Scheduler uniqueInstance = null;
-    private final int FREQUENCY = 10; // Scheduled interval for every 5 seconds
+    private int frequency = 10; // Scheduled interval for every 5 seconds
     private Timer timer;
 
     public Scheduler(){
@@ -31,7 +31,7 @@ public class Scheduler extends OSubject {
                 notifyObservers();
             }
         };
-        timer.schedule(scheduledRun, 0, FREQUENCY * 1000); // delay of 0 seconds + period interval of frequency
+        timer.schedule(scheduledRun, 0, frequency * 1000); // delay of 0 seconds + period interval of frequency
     }
 
     public void endScheduler(){

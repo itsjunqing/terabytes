@@ -18,7 +18,6 @@ import java.util.List;
 public class OfferingModel extends BasicModel {
 
     private List<Bid> bidsOnGoing;
-    protected String errorText;
 
     /**
      * Constructs an OfferingModel

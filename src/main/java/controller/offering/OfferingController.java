@@ -38,28 +38,39 @@ public class OfferingController implements EventListener {
 
     private void handleViewOffers(ActionEvent e) {
         System.out.println("From OfferingController: ViewOffers Button is pressed");
-        int selection = offeringView.getBidNumber();
-        offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
-        Bid bid = offeringModel.viewOffers(selection);
-        if (bid != null) {
-            if (bid.getType().equals("Open")) {
-                new OpenOffersController(offeringModel.getUserId(), bid.getId());
-            } else {
-                new CloseOffersController(offeringModel.getUserId(), bid.getId());
+        try {
+            int selection = offeringView.getBidNumber();
+            offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
+            Bid bid = offeringModel.viewOffers(selection);
+            if (bid != null) {
+                if (bid.getType().equals("Open")) {
+                    new OpenOffersController(offeringModel.getUserId(), bid.getId());
+                } else {
+                    new CloseOffersController(offeringModel.getUserId(), bid.getId());
+                }
             }
+        } catch (NullPointerException ex) {
+            offeringView.getErrorLabel().setText("No bid selected");
         }
+
+
     }
 
     private void handleSubscribeOffer(ActionEvent e){
         System.out.println("From Offering Controller: Subscribe offer Button is pressed");
 
-        SubscriptionSelectionView subscriptionSelectionView =
-                new SubscriptionSelectionView(offeringModel.getBidsOnGoing());
-        subscriptionSelectionView.getConfirmButton().addActionListener(e1 -> {
-            List<Bid> selectedBids = subscriptionSelectionView.getSelectedBids();
-            new MonitoringController(offeringModel.getUserId(), selectedBids);
-            subscriptionSelectionView.dispose();
-        });
+        if (offeringModel.getBidsOnGoing().size() > 0) {
+            SubscriptionSelectionView subscriptionSelectionView =
+                    new SubscriptionSelectionView(offeringModel.getBidsOnGoing());
+            subscriptionSelectionView.getConfirmButton().addActionListener(e1 -> {
+                List<Bid> selectedBids = subscriptionSelectionView.getSelectedBids();
+                new MonitoringController(offeringModel.getUserId(), selectedBids);
+                subscriptionSelectionView.dispose();
+            });
+        } else {
+            offeringView.getErrorLabel().setText("No ongoing bids, can't subscribe");
+        }
+
     }
 
 }
