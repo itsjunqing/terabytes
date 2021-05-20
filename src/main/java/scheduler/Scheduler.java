@@ -5,25 +5,26 @@ import observer.OSubject;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * A Scheduler (Subject) that periodically notifies its Observer(s) to perform certain actions.
+ */
 public class Scheduler extends OSubject {
 
-//    private static Scheduler uniqueInstance = null;
     private int frequency = 10; // Scheduled interval for every 5 seconds
     private Timer timer;
 
+    /**
+     * Constructs a Scheduler
+     */
     public Scheduler(){
         this.timer = new Timer();
         runTasks();
     }
-    // TODO: Note to Nick: uniqueInstance doesn't work when screen is closed and opened again,
-    //  possible unless endScheduler sets uniqueInstance = null too
-//    public static Scheduler getInstance() {
-//        if (uniqueInstance == null)
-//            uniqueInstance = new Scheduler();
-//        return uniqueInstance;
-//    }
 
-    public void runTasks() {
+    /**
+     * Run the tasks of notifying the observers for every set of interval
+     */
+    private void runTasks() {
         TimerTask scheduledRun = new TimerTask() {
             @Override
             public void run() {
@@ -34,6 +35,9 @@ public class Scheduler extends OSubject {
         timer.schedule(scheduledRun, 0, frequency * 1000); // delay of 0 seconds + period interval of frequency
     }
 
+    /**
+     * End the scheduler tasks
+     */
     public void endScheduler(){
         timer.cancel();
         timer.purge();

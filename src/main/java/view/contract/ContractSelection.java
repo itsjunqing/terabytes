@@ -1,4 +1,4 @@
-package view.form;
+package view.contract;
 
 import lombok.Getter;
 import stream.Contract;
@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class TermsSelection {
+public class ContractSelection {
 
     private List<Contract> contracts;
 
@@ -25,7 +25,7 @@ public class TermsSelection {
     private JFrame frame;
     private JPanel buttonPanel;
 
-    public TermsSelection(List<Contract> contracts) {
+    public ContractSelection(List<Contract> contracts) {
         this.contracts = new ArrayList<>(contracts);
         Collections.reverse(this.contracts);
 

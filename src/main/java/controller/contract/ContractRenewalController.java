@@ -6,7 +6,7 @@ import strategy.RenewByNewTerms;
 import strategy.RenewByOldTerms;
 import strategy.RenewStrategy;
 import view.contract.ContractRenewalView;
-import view.form.TermsSelection;
+import view.contract.ContractSelection;
 
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
@@ -61,13 +61,13 @@ public class ContractRenewalController implements EventListener {
             contractRenewalView.getErrorLabel().setText("Error, 5 contracts are already in active!");
 
         } else {
-            TermsSelection termsSelection = new TermsSelection(contractRenewalModel.getAllContracts());
+            ContractSelection contractSelection = new ContractSelection(contractRenewalModel.getAllContracts());
             try {
-                termsSelection.getRenewNewTermsButton().addActionListener(e1 -> {
-                    renewStrategies.get("new").renew(termsSelection);
+                contractSelection.getRenewNewTermsButton().addActionListener(e1 -> {
+                    renewStrategies.get("new").renew(contractSelection);
                 });
-                termsSelection.getRenewOldTermsButton().addActionListener(e1 -> {
-                    renewStrategies.get("old").renew(termsSelection);
+                contractSelection.getRenewOldTermsButton().addActionListener(e1 -> {
+                    renewStrategies.get("old").renew(contractSelection);
                 });
             } catch (NullPointerException ex) {
                 contractRenewalView.getErrorLabel().setText("No contracts selected");
@@ -81,10 +81,10 @@ public class ContractRenewalController implements EventListener {
 
 
 /*
-    TermsSelection termsSelection = new TermsSelection(contractRenewalModel.getAllContracts());
+    ContractSelection termsSelection = new ContractSelection(contractRenewalModel.getAllContracts());
         termsSelection.getRenewNewTermsButton().addActionListener(e1 -> handleNewTerms(e1, termsSelection));
                 termsSelection.getRenewOldTermsButton().addActionListener(e1 -> handleOldTerms(e1, termsSelection));
-private void handleNewTerms(ActionEvent e, TermsSelection termsSelection) {
+private void handleNewTerms(ActionEvent e, ContractSelection termsSelection) {
         try {
         int selection = termsSelection.getContractSelection();
 
@@ -97,7 +97,7 @@ private void handleNewTerms(ActionEvent e, TermsSelection termsSelection) {
         }
         }
 
-private void renewNewTerms(ActionEvent e, TermsSelection termsSelection,
+private void renewNewTerms(ActionEvent e, ContractSelection termsSelection,
         TermsCreation termsCreation, int selection) {
         try {
         BidInfo newTerms = extractNewTerms(termsCreation);
@@ -121,7 +121,7 @@ private void renewNewTerms(ActionEvent e, TermsSelection termsSelection,
         }
         }
 
-private void handleOldTerms(ActionEvent e, TermsSelection termsSelection) {
+private void handleOldTerms(ActionEvent e, ContractSelection termsSelection) {
         try {
         int selection = termsSelection.getContractSelection();
 

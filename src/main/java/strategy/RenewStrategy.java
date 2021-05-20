@@ -1,7 +1,10 @@
 package strategy;
 
-import view.form.TermsSelection;
+import view.contract.ContractSelection;
 
+/**
+ * An interface of RenewStrategy
+ */
 public interface RenewStrategy {
-    void renew(TermsSelection termsSelection) throws NullPointerException;
+    void renew(ContractSelection contractSelection) throws NullPointerException;
 }

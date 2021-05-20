@@ -37,7 +37,7 @@ public class OfferingController implements EventListener {
     public void listenViewActions() {
         offeringView.getRefreshButton().addActionListener(this::handleRefresh);
         offeringView.getViewOffersButton().addActionListener(this::handleViewOffers);
-        offeringView.getSubscribeOfferButton().addActionListener(this::handleSubscribeOffer);
+        offeringView.getSubscribeOfferButton().addActionListener(this::handleSubscribeBids);
     }
 
     /**
@@ -74,7 +74,7 @@ public class OfferingController implements EventListener {
     /**
      * Handles the request to subscribe to the existing bids for monitoring purposes
      */
-    private void handleSubscribeOffer(ActionEvent e){
+    private void handleSubscribeBids(ActionEvent e){
         System.out.println("From Offering Controller: Subscribe offer Button is pressed");
 
         if (offeringModel.getBidsOnGoing().size() > 0) {

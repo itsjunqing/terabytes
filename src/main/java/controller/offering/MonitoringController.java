@@ -65,13 +65,13 @@ public class MonitoringController implements EventListener {
      */
     @Override
     public void listenViewActions() {
-        monitoringView.getViewOffersButton().addActionListener(this::handleSelection);
+        monitoringView.getViewOffersButton().addActionListener(this::handleViewOffers);
     }
 
     /**
      * Handles the request to provide offers for a selected Bid
      */
-    private void handleSelection(ActionEvent e) {
+    private void handleViewOffers(ActionEvent e) {
         System.out.println("From MonitoringController: ViewOffers Button is pressed");
         try {
             int selection = monitoringView.getBidNumber();

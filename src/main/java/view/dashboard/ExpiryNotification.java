@@ -1,4 +1,4 @@
-package view.form;
+package view.dashboard;
 
 import lombok.Getter;
 import stream.Contract;
