@@ -37,7 +37,6 @@ public class OfferingModel extends BasicModel {
         this.errorText = "";
         bidsOnGoing.clear(); // for memory cleaning
         List<Bid> bids = ApiService.bidApi().getAll();
-//        bidsOnGoing = OpenBidsService.processBids(bids, userId);
         User currentUser = ApiService.userApi().get(userId);
 
         ExpiryService expiryService = new ExpiryService();

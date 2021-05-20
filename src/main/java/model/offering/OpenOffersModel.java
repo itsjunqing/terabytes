@@ -12,7 +12,6 @@ import stream.BidAdditionalInfo;
 import stream.Contract;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class OpenOffersModel extends BasicModel {
     private List<BidInfo> openOffers;
 
     /**
-     * Constructs a OpenOffersMode
+     * Constructs a OpenOffersModel
      * @param userId a String of user id
      * @param bidId a Bid id
      */
@@ -70,13 +69,17 @@ public class OpenOffersModel extends BasicModel {
     }
 
     /**
-     * Gets the Bid object of the corresponding offer
-     * @return a Bid object
+     * Respond to the Bid by providing an offer contained within a BidInfo
+     * @param bidInfo a BidInfo object
      */
-    public Bid getBid() {
-        return ApiService.bidApi().get(bidId);
+    public void respond(BidInfo bidInfo) {
+        if (!expiryService.checkIsExpired(getBid())) {
+            sendOffer(bidInfo);
+        } else {
+            errorText = "Bid Has Expired";
+        }
+        refresh();
     }
-
 
     /**
      * Sends an offer to the student by patching to the API.
@@ -100,32 +103,6 @@ public class OpenOffersModel extends BasicModel {
     /**
      * Buy out a Bid
      */
-    public void buyOut2(){
-        if (!expiryService.checkIsExpired(getBid())){
-            Preference bp = getBid().getAdditionalInfo().getPreference();
-            BidInfo bidInfo = bp.getPreferences();
-            bidInfo.setInitiatorId(getUserId());
-            sendOffer(bidInfo);
-
-            Contract contract = BuilderService.buildContract(getBid(), bidInfo);
-
-            // logic to post contract
-            Contract contractCreated = ApiService.contractApi().add(contract);
-
-            // add 10 seconds to contract signing as signDate > creationDate
-            Calendar c = Calendar.getInstance();
-            c.setTime(new Date());
-            c.add(Calendar.SECOND, 10);
-            ApiService.contractApi().sign(contractCreated.getId(), new Contract(c.getTime()));
-
-            // mark bid as closed
-            ApiService.bidApi().close(bidId, new Bid(new Date()));
-        } else {
-            errorText = "Bid Has Expired";
-            oSubject.notifyObservers();
-        }
-    }
-
     public Contract buyOut() {
         Bid currentBid = getBid();
         if (!expiryService.checkIsExpired(currentBid)) {
@@ -145,16 +122,11 @@ public class OpenOffersModel extends BasicModel {
     }
 
     /**
-     * Respond to the Bid by providing an offer contained within a BidInfo
-     * @param bidInfo a BidInfo object
+     * Gets the Bid object of the corresponding offer
+     * @return a Bid object
      */
-    public void respond(BidInfo bidInfo) {
-        if (!expiryService.checkIsExpired(getBid())) {
-            sendOffer(bidInfo);
-        } else {
-            errorText = "Bid Has Expired";
-        }
-        refresh();
+    public Bid getBid() {
+        return ApiService.bidApi().get(bidId);
     }
 
 }

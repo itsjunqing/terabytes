@@ -15,6 +15,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * A Class of ContractRenewalModel to store the information on renewing contracts by Student
+ */
 @Getter
 public class ContractRenewalModel extends BasicModel {
 
@@ -22,6 +25,10 @@ public class ContractRenewalModel extends BasicModel {
     private List<Contract> activeContracts;
     private List<Contract> allContracts;
 
+    /**
+     * Constructs a ContractRenewalModel
+     * @param userId a String of user id
+     */
     public ContractRenewalModel(String userId) {
         this.userId = userId;
         expiredContracts = new ArrayList<>();
@@ -30,6 +37,9 @@ public class ContractRenewalModel extends BasicModel {
         refresh();
     }
 
+    /**
+     * Refreshes the model
+     */
     @Override
     public void refresh() {
         errorText = "";
@@ -61,7 +71,10 @@ public class ContractRenewalModel extends BasicModel {
     }
 
     /**
-     * Returns the list of tutors that have the subject and competency requirement of the existing contract.
+     * Returns a list of tutors that have the corresponding subject and competency requirement
+     * of the existing contract to be renewed
+     * @param selection a Contract to be renewed
+     * @return a list of String of tutor username
      */
     public List<String> getTutorsList(int selection) {
         Contract existingContract = allContracts.get(selection-1);
@@ -86,35 +99,30 @@ public class ContractRenewalModel extends BasicModel {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns a new Contract with renewed with new terms
+     * @param selection contract to be renewed
+     * @param newTerms new terms established
+     * @param tutorUsername the tutor whose contract to be established with
+     * @return a Contract object
+     */
     public Contract getContractWithNewTerms(int selection, BidInfo newTerms, String tutorUsername) {
         Contract oldContract = allContracts.get(selection-1);
         User tutor = Utility.getUser(tutorUsername);
         return BuilderService.buildContract(oldContract, newTerms, tutor.getId());
     }
 
+    /**
+     * Returns a new Contract with renewed with old terms
+     * @param selection contract to be renewed
+     * @param tutorUsername the tutor whose contract to be established with
+     * @return a Contract object
+     */
     public Contract getContractWithOldTerms(int selection, String tutorUsername) {
         Contract oldContract = allContracts.get(selection-1);
         User tutor = Utility.getUser(tutorUsername);
         return BuilderService.buildContract(oldContract, tutor.getId());
     }
 
-    public int getActiveSize() {
-        return activeContracts.size();
-    }
-    public int getExpiredSize() {
-        return expiredContracts.size();
-    }
 
 }
-
-
-//    public Contract renewNewTerms(int selection, BidInfo newTerms) {
-//        Contract oldContract = expiredContracts.get(selection-1);
-//        return BuilderService.buildContract(oldContract, newTerms);
-//    }
-//
-//    public Contract renewExistingTerms(int selection, String newTutor) {
-//        Contract oldContract = expiredContracts.get(selection-1);
-//        User tutor = Utility.getUser(newTutor);
-//        return BuilderService.buildContract(oldContract, tutor.getId());
-//    }

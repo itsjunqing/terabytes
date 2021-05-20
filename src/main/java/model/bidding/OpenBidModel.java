@@ -74,6 +74,7 @@ public class OpenBidModel extends BiddingModel {
      * @param selection a selection offer choice
      * @return a Contract object
      */
+    @Override
     public Contract formContract(int selection) {
         Bid currentBid = getBid();
         BidInfo bidInfo = openBidOffers.get(selection-1);

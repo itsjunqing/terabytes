@@ -50,12 +50,7 @@ public class DashboardModel extends BasicModel {
      * Returns the status of the dashboard. Check DashboardStatus class for more information.
      * @return a DashboardStatus
      */
-    public DashboardStatus getBidStatus() {
-        // don't use the code below, buggy
-//        Bid currentBid = ApiService.userApi().get(userId).getInitiatedBids().stream()
-//                                .filter(b -> b.getDateClosedDown() == null)
-//                                .findFirst()
-//                                .orElse(null);
+    public DashboardStatus getDashboardStatus() {
         Bid currentBid = ApiService.bidApi().getAll().stream()
                 .filter(b -> b.getInitiator().getId().equals(userId))
                 .filter(b -> b.getDateClosedDown() == null)
@@ -79,6 +74,12 @@ public class DashboardModel extends BasicModel {
     }
 
 
+    /**
+     * Get the list of contracts to be renewed for Tutor
+     * These contracts are contracts whose renewal are initiated by Students but require the
+     * need of Tutor's approval/agreement.
+     * @return a list of Contract objects
+     */
     public List<Contract> getRenewingContracts() {
         return ApiService.contractApi().getAll().stream()
                 .filter(c -> c.getSecondParty().getId().equals(userId)) // for tutor matching second party

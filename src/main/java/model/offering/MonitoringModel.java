@@ -22,11 +22,19 @@ public class MonitoringModel extends BasicModel implements Observer {
 
     private List<Bid> monitoringBids;
 
+    /**
+     * Constructs a MonitoringModel
+     * @param userId a String of user id
+     * @param monitoringBids list of bids to be monitored
+     */
     public MonitoringModel(String userId, List<Bid> monitoringBids) {
         this.userId = userId;
         this.monitoringBids = new ArrayList<>(monitoringBids);
     }
 
+    /**
+     * Refreshes the model
+     */
     @Override
     public void refresh() {
         System.out.println("From MonitoringModel: Refreshing content...");
@@ -44,13 +52,10 @@ public class MonitoringModel extends BasicModel implements Observer {
     }
 
     /**
-     * Function called by scheduler to update the model
+     * View the offers of a Bid based on the selection option.
+     * @param selection an integer selection value
+     * @return a Bid object
      */
-    @Override
-    public void update() {
-        refresh();
-    }
-
     public Bid viewOffers(int selection){
         Bid bid = monitoringBids.get(selection-1);
         if (!expiryService.checkIsExpired(bid)){
@@ -58,6 +63,15 @@ public class MonitoringModel extends BasicModel implements Observer {
         }
         return null;
     }
+
+    /**
+     * Update the model (to be called by Scheduler) to periodically update the model
+     */
+    @Override
+    public void update() {
+        refresh();
+    }
+
 
 
 }

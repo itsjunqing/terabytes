@@ -7,6 +7,9 @@ import stream.Contract;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * A class of ContractConfirmModel to store the information on confirming/verifying the contract details.
+ */
 @Getter
 public class ContractConfirmModel {
 
@@ -15,6 +18,12 @@ public class ContractConfirmModel {
     private int type;
     private boolean sign;
 
+    /**
+     * Constructs a ContractConfirmModel
+     * @param contract a Contract object to be confirmed
+     * @param type type (by confirmed by Tutor / Student)
+     * @param sign a Boolean mark to indicate to sign the contract or otherwise
+     */
     public ContractConfirmModel(Contract contract, int type, boolean sign) {
         this.type = type;
         this.sign = sign;
@@ -22,14 +31,13 @@ public class ContractConfirmModel {
     }
 
     /**
-     * Updates the expiry date of the Contract object based on the given monts
+     * Updates the expiry date of the Contract object based on the given months
      * @param months an integer representing how many months is the contract duration
      */
     public void updateExpiry(int months) {
         // calculate expiry date based on date creation
         Calendar c = Calendar.getInstance();
         c.setTime(contract.getDateCreated());
-//        c.add(Constants.DEFAULT_CONTRACT_ADD_TYPE, months);
 
         c.add(Calendar.MONTH, months);
         Date expiryDate = c.getTime();

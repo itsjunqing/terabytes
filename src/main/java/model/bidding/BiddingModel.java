@@ -4,6 +4,7 @@ import lombok.Getter;
 import model.BasicModel;
 import service.ApiService;
 import stream.Bid;
+import stream.Contract;
 
 import java.util.Date;
 
@@ -54,18 +55,10 @@ public abstract class BiddingModel extends BasicModel {
         return ApiService.bidApi().get(bidId).getDateCreated();
     }
 
-
     /**
-     * Contructs and returns a Contract object based on a BidInfo provided.
-     * @param bidInfo a BidInfo object
+     * Constructs and returns a Contract to be confirmed upon bidding
+     * @param selection a selection offer choice
      * @return a Contract object
      */
-
-
-    /**
-     * An abstract method that returns a BidInfo based on a selection.
-     * @param selection an integer selection
-     * @return a BidInfo object
-     */
-//    public abstract BidInfo selectOffer(int selection);
+    public abstract Contract formContract(int selection);
 }

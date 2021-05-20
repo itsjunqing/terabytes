@@ -129,7 +129,6 @@ public class CloseBidModel extends BiddingModel {
      * If student has not sent a message before, a new message is posted.
      * If student has sent a message before, the message is edited (edited).
      * The display and the corresponding MessagePair is then refreshed (and updated) accordingly.
-     *
      * @param messagePair a MessagePair object
      * @param stringMsg a String message
      */
@@ -167,6 +166,7 @@ public class CloseBidModel extends BiddingModel {
      * @param selection a selection offer choice
      * @return a Contract object
      */
+    @Override
     public Contract formContract(int selection) {
         Bid currentBid = getBid();
         BidInfo bidInfo = closeBidOffers.get(selection-1);
