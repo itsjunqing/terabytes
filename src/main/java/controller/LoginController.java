@@ -12,11 +12,19 @@ import view.form.ExpiryNotification;
 import javax.swing.*;
 import java.util.List;
 
+/**
+ * A Class to control Login's dashboard movements
+ */
 public class LoginController {
 
     private LoginModel loginModel;
     private LoginView loginView;
 
+    /**
+     * Constructs LoginController object
+     * @param loginModel a LoginModel object
+     * @param loginView a LoginView object
+     */
     public LoginController(LoginModel loginModel, LoginView loginView) {
         this.loginModel = loginModel;
         SwingUtilities.invokeLater(() -> {
@@ -25,6 +33,9 @@ public class LoginController {
         });
     }
 
+    /**
+     * Listens to login action
+     */
     private void listenLogin() {
         loginView.getLoginButton().addActionListener(e -> {
             String username = loginView.getUserField().getText();
@@ -38,6 +49,11 @@ public class LoginController {
         });
     }
 
+    /**
+     * Performs the login of the user and prompt ExpiryNotification view for contracts that are
+     * about to expire within 1 month if necessary.
+     * @param user the User object to login
+     */
     private void loginSuccess(User user) {
         List<Contract> expiringContracts = loginModel.getExpiringContracts();
         if (user.getIsStudent()) {

@@ -12,11 +12,19 @@ import view.offering.OpenOffersView;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * A Class of OpenOffersController to control actions on the Open Offers dashboard
+ */
 public class OpenOffersController implements EventListener {
 
     private OpenOffersModel openOffersModel;
     private OpenOffersView openOffersView;
 
+    /**
+     * Constructs a OpenOffersControrller
+     * @param userId a String of user id
+     * @param bidId a String of bid id
+     */
     public OpenOffersController(String userId, String bidId) {
         this.openOffersModel = new OpenOffersModel(userId, bidId);
         SwingUtilities.invokeLater(() -> {
@@ -26,21 +34,33 @@ public class OpenOffersController implements EventListener {
         });
     }
 
+    /**
+     * Listens to actions on the dashboard
+     */
     public void listenViewActions() {
         openOffersView.getRefreshButton().addActionListener(this::handleRefresh);
         openOffersView.getRespondButton().addActionListener(this::handleRespond);
         openOffersView.getBuyOutButton().addActionListener(this::handleBuyOut);
     }
 
+    /**
+     * Handles dashboard refreshing
+     */
     private void handleRefresh(ActionEvent e) {
         openOffersModel.refresh();
     }
 
+    /**
+     * Handles the request to respond a Bid by providing an offer.
+     */
     private void handleRespond(ActionEvent e) {
         OpenReply openReply = new OpenReply();
         openReply.getSendOpenReplyButton().addActionListener(e1 -> handleBidInfo(e1, openReply));
     }
 
+    /**
+     * Handles the sending of offer for open offers
+     */
     private void handleBidInfo(ActionEvent e, OpenReply openReplyForm) {
         try {
             BidInfo bidInfo = extractOpenReplyInfo(openReplyForm);
@@ -53,6 +73,9 @@ public class OpenOffersController implements EventListener {
         }
     }
 
+    /**
+     * Handles the request of buying out a bid
+     */
     private void handleBuyOut(ActionEvent e) {
         // Get preferences -> Form contract to be posted to API
         Contract contract = openOffersModel.buyOut();
@@ -61,6 +84,12 @@ public class OpenOffersController implements EventListener {
         openOffersView.dispose();
     }
 
+    /**
+     * Returns the BidInfo extracted from OpenReply form
+     * representing the information sent from tutor to the student
+     * @param openReplyForm a OpenReply form
+     * @return a BidInfo object
+     */
     private BidInfo extractOpenReplyInfo(OpenReply openReplyForm) throws NullPointerException {
         String tutorId = openOffersModel.getUserId();
         String time = openReplyForm.getTimeBox();

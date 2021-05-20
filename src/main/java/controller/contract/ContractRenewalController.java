@@ -11,12 +11,19 @@ import view.form.TermsSelection;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 
+/**
+ * A class of ContractRenewalController to handle the actions of renewing contracts
+ */
 public class ContractRenewalController implements EventListener {
 
     private ContractRenewalModel contractRenewalModel;
     private ContractRenewalView contractRenewalView;
     private HashMap<String, RenewStrategy> renewStrategies;
 
+    /**
+     * Constructs a ContractRenewalController
+     * @param userId a String of user id
+     */
     public ContractRenewalController(String userId) {
         this.contractRenewalModel = new ContractRenewalModel(userId);
         this.contractRenewalView = new ContractRenewalView(contractRenewalModel);
@@ -27,16 +34,25 @@ public class ContractRenewalController implements EventListener {
         listenViewActions();
     }
 
+    /**
+     * Listen to dashboard actions
+     */
     @Override
     public void listenViewActions() {
         contractRenewalView.getRefreshButton().addActionListener(this::handleRefresh);
         contractRenewalView.getRenewContractButton().addActionListener(this::handleRenew);
     }
 
+    /**
+     * Handles dashboard refreshing
+     */
     private void handleRefresh(ActionEvent e) {
         contractRenewalModel.refresh();
     }
 
+    /**
+     * Handles contract renewing action
+     */
     private void handleRenew(ActionEvent e) {
         if (contractRenewalModel.getExpiredContracts().size() == 0) {
             contractRenewalView.getErrorLabel().setText("There is no expired contracts, can't renew");

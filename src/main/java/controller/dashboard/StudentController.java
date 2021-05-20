@@ -14,8 +14,15 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * A Class to control Student's dashboard movements
+ */
 public class StudentController extends DashboardController {
 
+    /**
+     * Constructor to construct StudentController
+     * @param userId a String of user id
+     */
     public StudentController(String userId) {
         super(userId);
         SwingUtilities.invokeLater(() -> {
@@ -25,6 +32,9 @@ public class StudentController extends DashboardController {
         });
     }
 
+    /**
+     * Listens to actions on the dashboard
+     */
     @Override
     public void listenViewActions() {
         dashboardView.getRefreshButton().addActionListener(this::handleRefresh);
@@ -32,16 +42,25 @@ public class StudentController extends DashboardController {
         dashboardView.getRenewContractsButton().addActionListener(this::handleRenewContract);
     }
 
+    /**
+     * Handles contract renewing
+     */
     private void handleRenewContract(ActionEvent e){
         System.out.println("From StudentController: Renew Contract Button is pressed");
         new ContractRenewalController(dashboardModel.getUserId());
     }
 
+    /**
+     * Handles dashboard refreshing
+     */
     private void handleRefresh(ActionEvent e) {
         System.out.println("From StudentController: Refresh Button is pressed");
         dashboardModel.refresh();
     }
 
+    /**
+     * Handles bid initiation
+     */
     private void handleInitiation(ActionEvent e) {
         DashboardStatus status = dashboardModel.getDashboardStatus();
         switch (status) {
@@ -72,6 +91,9 @@ public class StudentController extends DashboardController {
         }
     }
 
+    /**
+     * Listens to BidInitiationForm
+     */
     private void listenBidInitiationForm() {
         System.out.println("From StudentController: Initiation Button is pressed");
         BidInitiation form = new BidInitiation();
@@ -79,6 +101,9 @@ public class StudentController extends DashboardController {
         form.getCloseBidButton().addActionListener(ef -> initiateCloseBid(ef, form));
     }
 
+    /**
+     * Initiates an Open Bid
+     */
     private void initiateOpenBid(ActionEvent e, BidInitiation form) {
         try {
             Preference bp = extractFormInfo(form);
@@ -91,6 +116,9 @@ public class StudentController extends DashboardController {
         }
     }
 
+    /**
+     * Initiates a Close Bid
+     */
     private void initiateCloseBid(ActionEvent e, BidInitiation form) {
         try {
             Preference bp = extractFormInfo(form);
@@ -103,6 +131,9 @@ public class StudentController extends DashboardController {
         }
     }
 
+    /**
+     * Helper method to extract all information from the BidInitiation form
+     */
     private Preference extractFormInfo(BidInitiation form) throws NullPointerException {
         System.out.println("From StudentController: Extracting bid information..");
         QualificationTitle q = form.getQualification();

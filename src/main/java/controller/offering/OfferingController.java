@@ -10,11 +10,18 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.util.List;
 
+/**
+ * A Class of OfferingController to control actions on the offering dashboard by tutors
+ */
 public class OfferingController implements EventListener {
 
     private OfferingModel offeringModel;
     private OfferingView offeringView;
 
+    /**
+     * Constructs an OfferingController
+     * @param userId a String of user id
+     */
     public OfferingController(String userId) {
         this.offeringModel = new OfferingModel(userId);
         SwingUtilities.invokeLater(() -> {
@@ -22,20 +29,28 @@ public class OfferingController implements EventListener {
             this.offeringModel.attach(offeringView);
             listenViewActions();
         });
-
     }
 
+    /**
+     * Listens to actions on the dashboard
+     */
     public void listenViewActions() {
         offeringView.getRefreshButton().addActionListener(this::handleRefresh);
         offeringView.getViewOffersButton().addActionListener(this::handleViewOffers);
         offeringView.getSubscribeOfferButton().addActionListener(this::handleSubscribeOffer);
     }
 
+    /**
+     * Handles dashboard refreshing
+     */
     private void handleRefresh(ActionEvent e) {
         System.out.println("From OfferingController: Refresh Button is pressed");
         offeringModel.refresh();
     }
 
+    /**
+     * Handles the request to view the offers of Bid (this can be open or close offers)
+     */
     private void handleViewOffers(ActionEvent e) {
         System.out.println("From OfferingController: ViewOffers Button is pressed");
         try {
@@ -56,6 +71,9 @@ public class OfferingController implements EventListener {
 
     }
 
+    /**
+     * Handles the request to subscribe to the existing bids for monitoring purposes
+     */
     private void handleSubscribeOffer(ActionEvent e){
         System.out.println("From Offering Controller: Subscribe offer Button is pressed");
 

@@ -12,12 +12,21 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
+/**
+ * A Class of MonitoringController to control the actions on the monitoring dashboard.
+ * This uses a Scheduler to construct the automatic refresh and updates of the dashboard.
+ */
 public class MonitoringController implements EventListener {
 
     private MonitoringView monitoringView;
     private MonitoringModel monitoringModel;
     private Scheduler scheduler;
 
+    /**
+     * Constructs a MonitoringController
+     * @param userId a String of user id
+     * @param monitoringBids a list of Bid to be monitored
+     */
     public MonitoringController(String userId, List<Bid> monitoringBids) {
         this.monitoringModel = new MonitoringModel(userId, monitoringBids);
         SwingUtilities.invokeLater(() -> {
@@ -29,6 +38,12 @@ public class MonitoringController implements EventListener {
         });
     }
 
+    /**
+     * Initializes the aspects of:
+     * Scheduler: periodically updates and notifies the observer (model)
+     * Model: observe the scheduler
+     * View: observe the model
+     */
     private void initObserving() {
         // Let the View to observe the Model
         this.monitoringModel.attach(monitoringView);
@@ -45,11 +60,17 @@ public class MonitoringController implements EventListener {
         });
     }
 
+    /**
+     * Listen to actions on the dashboard
+     */
     @Override
     public void listenViewActions() {
         monitoringView.getViewOffersButton().addActionListener(this::handleSelection);
     }
 
+    /**
+     * Handles the request to provide offers for a selected Bid
+     */
     private void handleSelection(ActionEvent e) {
         System.out.println("From MonitoringController: ViewOffers Button is pressed");
         try {

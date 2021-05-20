@@ -20,12 +20,21 @@ public class ContractConfirmController implements EventListener {
     private ContractConfirmModel contractConfirmModel;
     private ContractConfirmView contractConfirmView;
 
+    /**
+     * Constructs a ContractConfirmController
+     * @param contract the contract to be confirmed
+     * @param type type of the confirmation (by student / tutor)
+     * @param sign boolean mark to indicate to sign the contract or otherwise
+     */
     public ContractConfirmController(Contract contract, int type, boolean sign) {
         this.contractConfirmModel = new ContractConfirmModel(contract, type, sign);
         this.contractConfirmView = new ContractConfirmView(contractConfirmModel);
         listenViewActions();
     }
 
+    /**
+     * Listen to dashboard actions
+     */
     @Override
     public void listenViewActions() {
         contractConfirmView.getConfirmSignButton().addActionListener(this::handleSign);
