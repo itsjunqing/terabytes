@@ -58,7 +58,7 @@ public class StudentView extends DashboardView {
         contractPanel.add(jScrollPane);
 
         // get the list of contracts and update accordingly
-        List<Contract> contractList = new ArrayList<>(getDashboardModel().getContractsList());
+        List<Contract> contractList = new ArrayList<>(getDashboardModel().getTopFiveContracts());
         Collections.reverse(contractList);
         int contractIndex = contractList.size();
         for (Contract c: contractList) {

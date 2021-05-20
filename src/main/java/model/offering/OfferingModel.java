@@ -10,6 +10,7 @@ import stream.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * A Class of OfferingModel that stores the data of an Offering by Tutor.
@@ -69,6 +70,14 @@ public class OfferingModel extends BasicModel {
             return bid;
         }
         return null;
+    }
+
+    /**
+     * Filters a list of bids for open bids.
+     * @return a list of Open Bids
+     */
+    public List<Bid> getOpenBidsOnGoing(){
+        return bidsOnGoing.stream().filter(b -> b.getType().equals("Open")).collect(Collectors.toList());
     }
 
 }

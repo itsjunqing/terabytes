@@ -8,9 +8,7 @@ import service.ApiService;
 import stream.Bid;
 import stream.Contract;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -28,6 +26,7 @@ public class DashboardModel extends BasicModel {
     public DashboardModel(String userId) {
         this.userId = userId;
         this.contractsList = new ArrayList<>();
+
         this.errorText = "";
         refresh();
     }
@@ -109,4 +108,20 @@ public class DashboardModel extends BasicModel {
         return Utility.getFullName(userId);
     }
 
+    /**
+     * Returns the top 5 latest contracts
+     * @return List of top 5 latest contracts
+     */
+    public List<Contract> getTopFiveContracts(){
+        return contractsList.stream()
+                // custom comparator to sort contract based on date
+                .sorted(new Comparator<Contract>() {
+                    public int compare(Contract contractA, Contract contractB) {
+                        return contractA.getDateCreated().compareTo(contractB.getDateCreated());
+                    // reverse list to have latest dates first
+                    }}.reversed())
+                // only collect the first 5 items
+                .limit(5)
+                .collect(Collectors.toList());
+    }
 }

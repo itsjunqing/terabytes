@@ -9,13 +9,8 @@ public class Driver {
         LoginModel loginModel = new LoginModel();
         LoginView loginView = new LoginView();
         LoginController loginController = new LoginController(loginModel, loginView);
-
 //        mainScript();
-
-
-
     }
-
 
     public static void mainScript() {
         TestScript.clearAllData();
@@ -37,6 +32,8 @@ public class Driver {
 //        TestScript.generateExpiredContracts("renewalstudent", "dummytutor1", 3);
         // if 4 is provided, then only dummytutor and dummytutor1 can be used in renewal
         TestScript.generateExpiredContracts("renewalstudent", "dummytutor1", 4);
+
+        TestScript.generateAlmostExpiredContract("almostexpiredstudent", "dummytutor");
     }
 
 }
