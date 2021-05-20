@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
  */
 @Data @NoArgsConstructor
 public class BidInfo {
-    // TODO: Rename class name to DealInfo
     private String initiatorId;
     private String day;
     private String time;

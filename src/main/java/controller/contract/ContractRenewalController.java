@@ -38,10 +38,10 @@ public class ContractRenewalController implements EventListener {
     }
 
     private void handleRenew(ActionEvent e) {
-        if (contractRenewalModel.getExpiredSize() == 0) {
+        if (contractRenewalModel.getExpiredContracts().size() == 0) {
             contractRenewalView.getErrorLabel().setText("There is no expired contracts, can't renew");
 
-        } else if (contractRenewalModel.getActiveSize() == 5) {
+        } else if (contractRenewalModel.getActiveContracts().size() == 5) {
             contractRenewalView.getErrorLabel().setText("Error, 5 contracts are already in active!");
 
         } else {
