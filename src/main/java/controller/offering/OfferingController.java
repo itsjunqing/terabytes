@@ -79,7 +79,7 @@ public class OfferingController implements EventListener {
 
         if (offeringModel.getBidsOnGoing().size() > 0) {
             SubscriptionSelectionView subscriptionSelectionView =
-                    new SubscriptionSelectionView(offeringModel.getBidsOnGoing());
+                    new SubscriptionSelectionView(offeringModel.getOpenBidsOnGoing());
             subscriptionSelectionView.getConfirmButton().addActionListener(e1 -> {
                 List<Bid> selectedBids = subscriptionSelectionView.getSelectedBids();
                 new MonitoringController(offeringModel.getUserId(), selectedBids);
