@@ -413,4 +413,88 @@ public class TestScript {
         ApiService.contractApi().sign(pushedMus.getId(), signCon);
 
     }
+
+    /**
+     * Example of usage: TestScript.generateAboutToExpireContracts("expirystudent", "dummytutor");
+     * This creates contracts that are about to expire for the student "expirystudent".
+     * Used to perform testing on ExpiryNotification
+     */
+    public static void generateAlmostExpiredContract(String studentUsername, String tutorUsername) {
+        User student = ApiService.userApi().getAll().stream()
+                .filter(u -> u.getUserName().equals(studentUsername))
+                .findFirst()
+                .orElse(null);
+        if (student == null || !student.getIsStudent()) { // safety check
+            System.out.println("Student doesn't exist or it is not a student, pls check parameters or create first");
+            return;
+        }
+
+        User tutor = ApiService.userApi().getAll().stream()
+                .filter(u -> u.getUserName().equals(tutorUsername))
+                .findFirst()
+                .orElse(null);
+        if (tutor == null || !tutor.getIsTutor()) { // safety check
+            System.out.println("Tutor doesn't exist or it is not a tutor, pls check parameters or create first");
+            return;
+        }
+
+        Calendar c = Calendar.getInstance();
+        Date today = new Date();
+
+        c.setTime(today);
+        c.add(Calendar.MINUTE, 1);
+        Date exactly1Min = c.getTime();
+
+        c.setTime(today);
+        c.add(Calendar.MINUTE, 2);
+        Date exactly2Min = c.getTime();
+
+        c.setTime(today);
+        c.add(Calendar.DAY_OF_YEAR, 10);
+        Date exactly10Days = c.getTime();
+
+        c.setTime(exactly1Min);
+        c.add(Calendar.MINUTE, 1);
+        assert Utility.isSameDay(c.getTime(), today);
+
+        c.setTime(exactly2Min);
+        c.add(Calendar.MINUTE, 2);
+        assert c.getTime().before(today);
+
+        c.setTime(exactly10Days);
+        c.add(Calendar.DAY_OF_YEAR, 10);
+        assert c.getTime().after(today);
+
+        // Create general contract
+        String frenchSubjectId = "e514c1e0-7510-46d6-a582-395be7f4dc76";
+        Payment defaultPayment = new Payment(100);
+        Lesson defaultLesson = new Lesson("French", "Friday", "8:00AM", 2, 3, false);
+        BidInfo defaultBidInfo = new BidInfo(student.getId(), "Friday", "8:00AM", 2, 13, 3);
+        Preference defaultPreference = new Preference(QualificationTitle.PHD, 3, "French", defaultBidInfo);
+        Contract contract = new Contract(student.getId(), tutor.getId(), frenchSubjectId, today, exactly1Min,
+                defaultPayment, defaultLesson, defaultPreference);
+
+        contract.setExpiryDate(exactly1Min);
+        Contract pushedExact = ApiService.contractApi().add(contract);
+
+        contract.setExpiryDate(exactly2Min);
+        Contract pushedLess = ApiService.contractApi().add(contract);
+
+        contract.setExpiryDate(exactly10Days);
+        Contract pushedMore = ApiService.contractApi().add(contract);
+
+        // Sign after 5 seconds, because sign time must be > current time
+        try {
+            TimeUnit.SECONDS.sleep(5);
+            Date signDate = new Date();
+            Contract signCon = new Contract(signDate);
+
+            ApiService.contractApi().sign(pushedExact.getId(), signCon);
+            ApiService.contractApi().sign(pushedLess.getId(), signCon);
+            ApiService.contractApi().sign(pushedMore.getId(), signCon);
+        } catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+
+    }
 }
