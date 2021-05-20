@@ -17,6 +17,9 @@ public class Subject {
     private List<Competency> competencies;
     private List<Bid> bids;
 
+    /**
+     * Constructor for GET (deserialization)
+     */
     public Subject(String id, String name, String description) {
         this.id = id;
         this.name = name;

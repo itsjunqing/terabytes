@@ -15,21 +15,6 @@ public class Lesson {
     private Integer numberOfSessions;
     private Boolean freeLesson;
 
-//    /**
-//     * Constructor to create a Lesson (used for Contract renewal) in new terms establishment
-//     * @param subject
-//     * @param day
-//     * @param time
-//     * @param duration
-//     * @param numberOfSessions
-//     */
-//    public Lesson(String subject, String day, String time, Integer duration, Integer numberOfSessions) {
-//        this.subject = subject;
-//        this.day = day;
-//        this.time = time;
-//        this.duration = duration;
-//        this.numberOfSessions = numberOfSessions;
-//    }
 
     /**
      * Copy constructor that copies a Lesson object.

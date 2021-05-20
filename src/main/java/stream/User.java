@@ -40,21 +40,6 @@ public class User {
         this.initiatedBids = initiatedBids;
     }
 
-    /* Not very sure why I have this
-    /**
-     * Constructor for GET User (Deserialization)
-
-    public User(String id, String givenName, String familyName, String userName,
-                Boolean isStudent, Boolean isTutor) {
-        this.id = id;
-        this.givenName = givenName;
-        this.familyName = familyName;
-        this.userName = userName;
-        this.isStudent = isStudent;
-        this.isTutor = isTutor;
-    }
-    */
-
     /**
      * Constructor for verifying user credentials (Serialization)
      */
