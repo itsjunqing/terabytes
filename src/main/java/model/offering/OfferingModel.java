@@ -77,7 +77,7 @@ public class OfferingModel extends BasicModel {
      * @return a list of Open Bids
      */
     public List<Bid> getOpenBidsOnGoing(){
-        return bidsOnGoing.stream().filter(b -> b.getType() == "Open").collect(Collectors.toList());
+        return bidsOnGoing.stream().filter(b -> b.getType().equals("Open")).collect(Collectors.toList());
     }
 
 }
