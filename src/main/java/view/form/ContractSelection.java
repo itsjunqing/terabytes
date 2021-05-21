@@ -21,7 +21,6 @@ public class ContractSelection {
     private JComboBox contractSelectionBox;
     private JButton renewNewTermsButton;
     private JButton renewOldTermsButton;
-//    private JLabel errorLabel;
     private JFrame frame;
     private JPanel buttonPanel;
 
@@ -48,13 +47,6 @@ public class ContractSelection {
         frame.dispose();
     }
 
-    // TODO: remove, unused
-//    protected void refreshContent(){
-//        updateContracts();
-//        refreshButtons(contracts.size());
-//        SwingUtilities.updateComponentTreeUI(frame);
-////        frame.pack();
-//    }
 
     public void updateContracts() {
         contractPanel = new JPanel();
@@ -94,13 +86,6 @@ public class ContractSelection {
         }
     }
 
-    // TODO: unused
-//    private void refreshButtons(int contractListSize){
-//        for (int i = 1; i < contractListSize+1; i++){
-//            contractSelectionBox.addItem(i);
-//        }
-//    }
-
     private void addButtons(int contractListSize) {
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new BorderLayout());
@@ -127,14 +112,6 @@ public class ContractSelection {
         renewOldTermsButton = new JButton("Renew with Old (existing) Terms");
         panel.add(renewOldTermsButton, gbc2);
 
-        // TODO: removing this
-//        errorLabel = new JLabel();
-//        errorLabel.setForeground(new Color(-4521974));
-//        errorLabel.setHorizontalAlignment(0);
-//        errorLabel.setHorizontalTextPosition(0);
-////        errorLabel.setText(contractRenewalModel.getErrorText());
-//        panel.add(errorLabel);
-
         panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
         GridBagConstraints gbc1 = new GridBagConstraints();
         gbc1.gridwidth = GridBagConstraints.REMAINDER;
@@ -144,11 +121,6 @@ public class ContractSelection {
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
-
-    // TODO; remove this, unused
-//    public void update() {
-//        refreshContent();
-//    }
 
     public int getContractSelection() throws NullPointerException {
         return Integer.parseInt(contractSelectionBox.getSelectedItem().toString());
