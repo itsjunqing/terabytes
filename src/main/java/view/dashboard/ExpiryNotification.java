@@ -12,7 +12,6 @@ import java.util.List;
 @Getter
 public class ExpiryNotification {
 
-    private List<Contract> expiringContracts;
     private int type;
 
     private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
@@ -22,13 +21,12 @@ public class ExpiryNotification {
     private JPanel buttonPanel;
 
     public ExpiryNotification(List<Contract> expiringContracts, int type) {
-        this.expiringContracts = expiringContracts;
         this.type = type;
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Contract Expiry Notification");
-        addContracts();
+        addContracts(expiringContracts);
         addButtons();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
@@ -45,7 +43,7 @@ public class ExpiryNotification {
         frame.dispose();
     }
 
-    private void addContracts() {
+    private void addContracts(List<Contract> expiringContracts) {
         contractPanel = new JPanel();
         contractPanel.setLayout(new BorderLayout());
         mainPanel.add(contractPanel);
