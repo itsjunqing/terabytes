@@ -43,7 +43,7 @@ public class SubscriptionSelectionViewTest extends JFrame {
     /**
      * Create the frame.
      */
-//    public SubscriptionSelectionView(MonitoringModel monitoringModel) {
+//    public SubscriptionSelection(MonitoringModel monitoringModel) {
 
     public SubscriptionSelectionViewTest() {
         this.monitoringModel = monitoringModel;

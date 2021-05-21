@@ -1,4 +1,4 @@
-package view.offering;
+package view.form;
 
 import lombok.Getter;
 import stream.Bid;
@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.List;
 
 @Getter
-public class SubscriptionSelectionView extends JFrame {
+public class SubscriptionSelection extends JFrame {
 
     private List<Bid> bidsOnGoing;
     private JFrame mainFrame;
@@ -21,7 +21,7 @@ public class SubscriptionSelectionView extends JFrame {
     private JList<Bid> bidJList;
 
 
-    public SubscriptionSelectionView(List<Bid> bidsOnGoing) {
+    public SubscriptionSelection(List<Bid> bidsOnGoing) {
         this.bidsOnGoing = bidsOnGoing;
         // setting up the frame
         mainFrame = new JFrame("Subscription Selection");

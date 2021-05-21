@@ -4,7 +4,7 @@ import controller.EventListener;
 import model.offering.OfferingModel;
 import stream.Bid;
 import view.offering.OfferingView;
-import view.offering.SubscriptionSelectionView;
+import view.form.SubscriptionSelection;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -78,12 +78,12 @@ public class OfferingController implements EventListener {
         System.out.println("From Offering Controller: Subscribe offer Button is pressed");
 
         if (offeringModel.getBidsOnGoing().size() > 0) {
-            SubscriptionSelectionView subscriptionSelectionView =
-                    new SubscriptionSelectionView(offeringModel.getOpenBidsOnGoing());
-            subscriptionSelectionView.getConfirmButton().addActionListener(e1 -> {
-                List<Bid> selectedBids = subscriptionSelectionView.getSelectedBids();
+            SubscriptionSelection subscriptionSelection =
+                    new SubscriptionSelection(offeringModel.getOpenBidsOnGoing());
+            subscriptionSelection.getConfirmButton().addActionListener(e1 -> {
+                List<Bid> selectedBids = subscriptionSelection.getSelectedBids();
                 new MonitoringController(offeringModel.getUserId(), selectedBids);
-                subscriptionSelectionView.dispose();
+                subscriptionSelection.dispose();
             });
         } else {
             offeringView.getErrorLabel().setText("No ongoing bids, can't subscribe");
