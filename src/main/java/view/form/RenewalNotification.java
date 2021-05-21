@@ -25,7 +25,7 @@ public class RenewalNotification {
     public RenewalNotification(Contract contract) {
         frame = new JFrame();
         frame.setContentPane(this.mainPanel);
-        setDetails(contract);
+        displayView(contract);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(500, 300);
         frame.setLocationRelativeTo(null);
@@ -36,7 +36,7 @@ public class RenewalNotification {
         this.frame.dispose();
     }
 
-    private void setDetails(Contract contract) {
+    private void displayView(Contract contract) {
         JTable table1 = getTable(contract);
         this.scrollPane.setViewportView(table1);
     }

@@ -32,7 +32,7 @@ public class ContractConfirmView {
 
         frame = new JFrame();
         frame.setContentPane(this.mainPanel);
-        setDetails();
+        displayView();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(500, 300);
         frame.setLocationRelativeTo(null);
@@ -43,7 +43,7 @@ public class ContractConfirmView {
         this.frame.dispose();
     }
 
-    private void setDetails() {
+    private void displayView() {
         Contract contract = contractConfirmModel.getContract();
         JTable table1 = getTable(contract);
         this.scrollPane.setViewportView(table1);

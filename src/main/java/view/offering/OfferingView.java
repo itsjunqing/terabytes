@@ -165,20 +165,20 @@ public class OfferingView implements Observer {
         int bidSize = bidList.size();
         for (Bid b: bidList) {
             // Code to generate an open contract panel
-                JPanel panel = new JPanel();
-                JTable table = ViewUtility.BidAndOfferTable.buildTutorTable(b, bidSize);
-                bidSize -= 1;
-                ViewUtility.resizeColumns(table);
-                table.setBounds(10, 10, 500, 100);
-                panel.add(table);
+            JPanel panel = new JPanel();
+            JTable table = ViewUtility.BidAndOfferTable.buildTutorTable(b, bidSize);
+            bidSize -= 1;
+            ViewUtility.resizeColumns(table);
+            table.setBounds(10, 10, 500, 100);
+            panel.add(table);
 
-                panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
-                GridBagConstraints gbc1 = new GridBagConstraints();
-                gbc1.gridwidth = GridBagConstraints.REMAINDER;
-                gbc1.gridheight = 2;
-                gbc1.weightx = 1;
-                gbc1.fill = GridBagConstraints.HORIZONTAL;
-                mainList.add(panel, gbc1, 0);
+            panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
+            GridBagConstraints gbc1 = new GridBagConstraints();
+            gbc1.gridwidth = GridBagConstraints.REMAINDER;
+            gbc1.gridheight = 2;
+            gbc1.weightx = 1;
+            gbc1.fill = GridBagConstraints.HORIZONTAL;
+            mainList.add(panel, gbc1, 0);
         }
     }
 

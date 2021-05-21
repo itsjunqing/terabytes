@@ -65,13 +65,13 @@ public class MonitoringView implements Observer {
         List<Bid> monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
         Collections.reverse(monitoringBids);
         updateView(monitoringBids);
-        createButtons(monitoringBids.size());
+        updateButtons(monitoringBids.size());
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
     /**
      * Function to refresh the content of the panels without
-     * unecessarily creating new panels
+     * unnecessarily creating new panels
      */
     private void refreshContent(){
         List<Bid> monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
@@ -159,7 +159,7 @@ public class MonitoringView implements Observer {
         }
     }
 
-    private void createButtons(int choosenSize) {
+    private void updateButtons(int bidSize) {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();
@@ -181,7 +181,7 @@ public class MonitoringView implements Observer {
 
         // add choose bid combobox
         bidSelection = new JComboBox();
-        for (int i = 1; i < choosenSize + 1; i ++){
+        for (int i = 1; i < bidSize + 1; i ++){
             bidSelection.addItem(i);
         }
         panel.add(bidSelection, gbc2);

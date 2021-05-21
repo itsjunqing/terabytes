@@ -44,7 +44,7 @@ public class ContractRenewalView implements Observer {
         frame.setVisible(true);
     }
 
-    protected void refreshContent(){
+    private void refreshContent(){
         updateContracts();
         refreshButtons(contractRenewalModel.getExpiredContracts().size());
         SwingUtilities.updateComponentTreeUI(frame);
@@ -98,7 +98,6 @@ public class ContractRenewalView implements Observer {
     }
 
     private void refreshButtons(int contractListSize){
-
         errorLabel.setText(contractRenewalModel.getErrorText());
     }
 
