@@ -57,7 +57,6 @@ public class ViewUtility {
 
     public static class ContractTable {
         public static JTable buildTable(Contract contractObject, int contractNo, int type) {
-            // TODO: Nick, I think we can do such generalization for all tables construction
             String[] nameDescription;
             if (type == ViewUtility.STUDENT_CODE) {
                 nameDescription = new String[]{"Tutor Name", Utility.getFullName(contractObject.getSecondParty())};
@@ -107,7 +106,7 @@ public class ViewUtility {
             return new JTable(rec, col);
         }
 
-        private JTable getTable(Contract contract, int confirmationType) {
+        public static JTable buildConfirmationTable(Contract contract, int confirmationType) {
             String[] nameDescription;
             if (confirmationType == ViewUtility.STUDENT_CODE) {
                 nameDescription = new String[]{"Tutor Name", Utility.getFullName(contract.getSecondPartyId())};

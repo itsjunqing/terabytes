@@ -45,7 +45,7 @@ public class ContractConfirmView {
 
     private void displayView() {
         Contract contract = contractConfirmModel.getContract();
-        JTable table1 = getTable(contract);
+        JTable table1 = ViewUtility.ContractTable.buildConfirmationTable(contract, contractConfirmModel.getType());
         this.scrollPane.setViewportView(table1);
         // add the array of: {3, 6, 12, 24} into the dropdown list
         for (int d = 3; d < 25; d = d * 2) {
@@ -54,28 +54,7 @@ public class ContractConfirmView {
         contractDuration.setSelectedIndex(1); // set to 6 months default
     }
 
-    private JTable getTable(Contract contract) {
-        int confirmationType = contractConfirmModel.getType();
-        String[] nameDescription;
-        if (confirmationType == ViewUtility.STUDENT_CODE) {
-            nameDescription = new String[]{"Tutor Name", Utility.getFullName(contract.getSecondPartyId())};
-        } else {
-            nameDescription = new String[]{"Student Name", Utility.getFullName(contract.getFirstPartyId())};
-        }
 
-        String[][] rec = {
-                nameDescription,
-                {"Subject", Utility.getSubjectName(contract.getSubjectId())},
-                {"Number Of Sessions", contract.getLessonInfo().getNumberOfSessions().toString()},
-                {"Day & Time", contract.getLessonInfo().getTime() + " " + contract.getLessonInfo().getDay()},
-                {"Duration", contract.getLessonInfo().getDuration().toString() + " hour(s)"},
-                {"Total Contract Price", "$" + contract.getPaymentInfo().getTotalPrice()}};
-
-        String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-        contractTable.setPreferredScrollableViewportSize(new Dimension(400, 40));
-        return contractTable;
-    }
 
     public int getContractDuration() {
         return Integer.parseInt(contractDuration.getSelectedItem().toString());
