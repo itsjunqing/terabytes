@@ -6,7 +6,7 @@ import strategy.RenewByNewTerms;
 import strategy.RenewByOldTerms;
 import strategy.RenewStrategy;
 import view.contract.ContractRenewalView;
-import view.contract.ContractSelection;
+import view.form.ContractSelection;
 
 import java.awt.event.ActionEvent;
 import java.util.HashMap;

@@ -1,6 +1,6 @@
 package strategy;
 
-import view.contract.ContractSelection;
+import view.form.ContractSelection;
 
 /**
  * An interface of RenewStrategy

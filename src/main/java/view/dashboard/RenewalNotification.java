@@ -1,4 +1,4 @@
-package view.form;
+package view.dashboard;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;

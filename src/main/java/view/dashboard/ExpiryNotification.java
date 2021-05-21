@@ -28,7 +28,7 @@ public class ExpiryNotification {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Contract Expiry Notification");
-        updateContracts();
+        addContracts();
         addButtons();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
@@ -45,7 +45,7 @@ public class ExpiryNotification {
         frame.dispose();
     }
 
-    private void updateContracts() {
+    private void addContracts() {
         contractPanel = new JPanel();
         contractPanel.setLayout(new BorderLayout());
         mainPanel.add(contractPanel);

@@ -33,7 +33,7 @@ public class ContractRenewalView implements Observer {
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Contract Renewal View");
         updateContracts();
-        addButtons(contractRenewalModel.getExpiredContracts().size());
+        updateButtons();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
 
@@ -44,9 +44,9 @@ public class ContractRenewalView implements Observer {
         frame.setVisible(true);
     }
 
-    private void refreshContent(){
+    private void updateContent(){
         updateContracts();
-        refreshButtons(contractRenewalModel.getExpiredContracts().size());
+        refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
         System.out.println("ContractRenewalView refreshing..");
 //        frame.pack();
@@ -97,11 +97,11 @@ public class ContractRenewalView implements Observer {
         }
     }
 
-    private void refreshButtons(int contractListSize){
+    private void refreshButtons(){
         errorLabel.setText(contractRenewalModel.getErrorText());
     }
 
-    private void addButtons(int contractListSize) {
+    private void updateButtons() {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
         } else {
@@ -144,6 +144,6 @@ public class ContractRenewalView implements Observer {
 
     @Override
     public void update() {
-        refreshContent();
+        updateContent();
     }
 }

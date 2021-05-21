@@ -5,7 +5,7 @@ import entity.BidInfo;
 import model.contract.ContractRenewalModel;
 import stream.Contract;
 import view.ViewUtility;
-import view.contract.ContractSelection;
+import view.form.ContractSelection;
 import view.form.TermsCreation;
 import view.form.TutorSelection;
 
