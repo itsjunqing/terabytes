@@ -106,6 +106,29 @@ public class ViewUtility {
             String[] col = {"", ""};
             return new JTable(rec, col);
         }
+
+        private JTable getTable(Contract contract, int confirmationType) {
+            String[] nameDescription;
+            if (confirmationType == ViewUtility.STUDENT_CODE) {
+                nameDescription = new String[]{"Tutor Name", Utility.getFullName(contract.getSecondPartyId())};
+            } else {
+                nameDescription = new String[]{"Student Name", Utility.getFullName(contract.getFirstPartyId())};
+            }
+
+            String[][] rec = {
+                    nameDescription,
+                    {"Subject", Utility.getSubjectName(contract.getSubjectId())},
+                    {"Number Of Sessions", contract.getLessonInfo().getNumberOfSessions().toString()},
+                    {"Day & Time", contract.getLessonInfo().getTime() + " " + contract.getLessonInfo().getDay()},
+                    {"Duration", contract.getLessonInfo().getDuration().toString() + " hour(s)"},
+                    {"Total Contract Price", "$" + contract.getPaymentInfo().getTotalPrice()}};
+
+            String[] col = {"", ""};
+            JTable contractTable = new JTable(rec, col);
+            contractTable.setPreferredScrollableViewportSize(new Dimension(400, 40));
+            return contractTable;
+        }
+
     }
 
     public static class MessageTable {
