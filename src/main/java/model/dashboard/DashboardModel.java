@@ -125,6 +125,10 @@ public class DashboardModel extends BasicModel {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns the list of active contracts
+     * @return a list of active contracts
+     */
     private List<Contract> getActiveContracts() {
         Date today = new Date();
         return contractsList.stream()
