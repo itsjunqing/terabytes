@@ -66,7 +66,7 @@ public class TutorView extends DashboardView {
         int contractIndex = contractList.size();
         for (Contract c: contractList) {
             JPanel panel = new JPanel();
-            JTable table = ViewUtility.ContractTable.buildTutorTable(c, contractIndex);
+            JTable table = ViewUtility.ContractTable.buildTutorTable(c, contractIndex, true);
             contractIndex -= 1;
             ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);

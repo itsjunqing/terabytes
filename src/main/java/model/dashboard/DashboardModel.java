@@ -64,8 +64,8 @@ public class DashboardModel extends BasicModel {
             else {
                 return DashboardStatus.PASS;
             }
-        } else if (contractsList.size() == 5) {
-            errorText = "Error, you already have 5 Contracts";
+        } else if (getActiveContracts().size() == 5) {
+            errorText = "Error, you already have 5 Active Contracts";
             oSubject.notifyObservers();
             return DashboardStatus.MAX;
         }
@@ -112,7 +112,7 @@ public class DashboardModel extends BasicModel {
      * Returns the top 5 latest contracts
      * @return List of top 5 latest contracts
      */
-    public List<Contract> getTopFiveContracts(){
+    public List<Contract> getTopFiveContracts() {
         return contractsList.stream()
                 // custom comparator to sort contract based on date
                 .sorted(new Comparator<Contract>() {
@@ -122,6 +122,16 @@ public class DashboardModel extends BasicModel {
                     }}.reversed())
                 // only collect the first 5 items
                 .limit(5)
+                .collect(Collectors.toList());
+    }
+
+    private List<Contract> getActiveContracts() {
+        Date today = new Date();
+        return contractsList.stream()
+                .filter(c -> {
+                    Date expiry = c.getExpiryDate();
+                    return !expiry.before(today);
+                })
                 .collect(Collectors.toList());
     }
 }

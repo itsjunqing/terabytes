@@ -3,16 +3,12 @@ package view.dashboard;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
-import entity.Utility;
 import lombok.Getter;
 import stream.Contract;
 import view.ViewUtility;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.util.Locale;
 
 @Getter
 public class RenewalNotification {
@@ -38,7 +34,8 @@ public class RenewalNotification {
     }
 
     private void displayView(Contract contract) {
-        JTable table1 = ViewUtility.ContractTable.buildTutorTable(contract, 1);
+        JTable table1 = ViewUtility.ContractTable.buildTutorTable(contract, 1, false);
+        table1.setPreferredScrollableViewportSize(new Dimension(400, 40));
         this.scrollPane.setViewportView(table1);
     }
 

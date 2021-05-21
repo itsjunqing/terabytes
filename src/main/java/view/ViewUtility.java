@@ -77,9 +77,21 @@ public class ViewUtility {
             return new JTable(rec, col);
         }
 
-        public static JTable buildTutorTable(Contract contractObject, int contractNo) {
+        public static JTable buildTutorTable(Contract contractObject, int contractNo, boolean labelNo) {
+            String[] col = {"", ""};
+            if (labelNo) {
+                String[][] rec = {
+                        {"Contract Number", Integer.toString(contractNo)},
+                        {"Contract End Date", contractObject.getExpiryDate().toString()},
+                        {"Student Name", Utility.getFullName(contractObject.getFirstParty())},
+                        {"Subject", contractObject.getSubject().getName()},
+                        {"Number Of Sessions", contractObject.getLessonInfo().getNumberOfSessions().toString()},
+                        {"Day & Time", contractObject.getLessonInfo().getTime() + " " + contractObject.getLessonInfo().getDay()},
+                        {"Duration", contractObject.getLessonInfo().getDuration().toString() + " hour(s)"},
+                        {"Total Price", "$" + contractObject.getPaymentInfo().getTotalPrice()}};
+                return new JTable(rec, col);
+            }
             String[][] rec = {
-                    {"Contract Number", Integer.toString(contractNo)},
                     {"Contract End Date", contractObject.getExpiryDate().toString()},
                     {"Student Name", Utility.getFullName(contractObject.getFirstParty())},
                     {"Subject", contractObject.getSubject().getName()},
@@ -87,7 +99,6 @@ public class ViewUtility {
                     {"Day & Time", contractObject.getLessonInfo().getTime() + " " + contractObject.getLessonInfo().getDay()},
                     {"Duration", contractObject.getLessonInfo().getDuration().toString() + " hour(s)"},
                     {"Total Price", "$" + contractObject.getPaymentInfo().getTotalPrice()}};
-            String[] col = {"", ""};
             return new JTable(rec, col);
         }
 
