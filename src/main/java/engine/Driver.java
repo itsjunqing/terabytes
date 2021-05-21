@@ -9,7 +9,7 @@ public class Driver {
         LoginModel loginModel = new LoginModel();
         LoginView loginView = new LoginView();
         LoginController loginController = new LoginController(loginModel, loginView);
-        mainScript();
+//        mainScript();
     }
 
     public static void mainScript() {

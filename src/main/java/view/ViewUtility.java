@@ -57,7 +57,6 @@ public class ViewUtility {
 
     public static class ContractTable {
         public static JTable buildTable(Contract contractObject, int contractNo, int type) {
-            // TODO: Nick, I think we can do such generalization for all tables construction
             String[] nameDescription;
             if (type == ViewUtility.STUDENT_CODE) {
                 nameDescription = new String[]{"Tutor Name", Utility.getFullName(contractObject.getSecondParty())};
@@ -106,6 +105,29 @@ public class ViewUtility {
             String[] col = {"", ""};
             return new JTable(rec, col);
         }
+
+        public static JTable buildConfirmationTable(Contract contract, int confirmationType) {
+            String[] nameDescription;
+            if (confirmationType == ViewUtility.STUDENT_CODE) {
+                nameDescription = new String[]{"Tutor Name", Utility.getFullName(contract.getSecondPartyId())};
+            } else {
+                nameDescription = new String[]{"Student Name", Utility.getFullName(contract.getFirstPartyId())};
+            }
+
+            String[][] rec = {
+                    nameDescription,
+                    {"Subject", Utility.getSubjectName(contract.getSubjectId())},
+                    {"Number Of Sessions", contract.getLessonInfo().getNumberOfSessions().toString()},
+                    {"Day & Time", contract.getLessonInfo().getTime() + " " + contract.getLessonInfo().getDay()},
+                    {"Duration", contract.getLessonInfo().getDuration().toString() + " hour(s)"},
+                    {"Total Contract Price", "$" + contract.getPaymentInfo().getTotalPrice()}};
+
+            String[] col = {"", ""};
+            JTable contractTable = new JTable(rec, col);
+            contractTable.setPreferredScrollableViewportSize(new Dimension(400, 40));
+            return contractTable;
+        }
+
     }
 
     public static class MessageTable {

@@ -6,6 +6,7 @@ import com.intellij.uiDesigner.core.Spacer;
 import entity.Utility;
 import lombok.Getter;
 import stream.Contract;
+import view.ViewUtility;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
@@ -37,7 +38,7 @@ public class RenewalNotification {
     }
 
     private void displayView(Contract contract) {
-        JTable table1 = getTable(contract);
+        JTable table1 = ViewUtility.ContractTable.buildTutorTable(contract, 1);
         this.scrollPane.setViewportView(table1);
     }
 
@@ -113,20 +114,6 @@ public class RenewalNotification {
         return mainPanel;
     }
 
-    private JTable getTable(Contract contractObject) {
-        String[][] rec = {
-                {"Contract End Date", contractObject.getExpiryDate().toString()},
-                {"Student Name", Utility.getFullName(contractObject.getFirstParty())},
-                {"Subject", contractObject.getSubject().getName()},
-                {"Number Of Sessions", contractObject.getLessonInfo().getNumberOfSessions().toString()},
-                {"Day & Time", contractObject.getLessonInfo().getTime() + " " + contractObject.getLessonInfo().getDay()},
-                {"Duration", contractObject.getLessonInfo().getDuration().toString() + " hour(s)"},
-                {"Total Price", "$" + contractObject.getPaymentInfo().getTotalPrice()},
-        };
-        String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-        contractTable.setPreferredScrollableViewportSize(new Dimension(400, 40));
-        return contractTable;
-    }
+
 }
 
