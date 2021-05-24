@@ -2,9 +2,9 @@ package view.offering;
 
 import lombok.Getter;
 import model.offering.OfferingModel;
-import observer.Observer;
 import stream.Bid;
 import view.ViewUtility;
+import view.template.viewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -14,67 +14,57 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class OfferingView implements Observer {
+public class OfferingView extends viewTemplate {
 
     private OfferingModel offeringModel;
-
-    private JPanel mainPanel;
-    private JPanel offeringPanel;
     private JPanel buttonPanel;
     private JComboBox bidSelection;
     private JButton refreshButton;
     private JButton viewOffersButton;
     private JButton subscribeOfferButton;
     private JLabel errorLabel;
+    private List<Bid> bidList;
+    private int bidSize;
 
     private JFrame frame;
 
     public OfferingView(OfferingModel offeringModel) {
         this.offeringModel = offeringModel;
-
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1,2));
+        makeMainPanel();
         frame = new JFrame("Tutor Offering View");
         updateContent();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(mainPanel);
-//        frame.pack();
-        frame.setMinimumSize(new Dimension(860, 400));
-        frame.setMaximumSize(new Dimension(860, 1000));
-        frame.setPreferredSize(new Dimension(860, 500));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        makeFrame("Tutor Offering View", JFrame.DISPOSE_ON_CLOSE);
     }
 
-    private void updateContent() {
+    protected void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        List<Bid> bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
+        bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
         offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
         bidList.stream()
                 .forEach(c -> System.out.println(c.toString()));
-        int bidSize = bidList.size();
+        bidSize = bidList.size();
         Collections.reverse(bidList);
-        updateView(bidList);
-        updateButtons(bidSize);
+        updateView();
+        updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
 
-    private void refreshContent() {
+    protected void refreshContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        List<Bid> bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
+        bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
         offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
         bidList.stream()
                 .forEach(c -> System.out.println(c.toString()));
-        int bidSize = bidList.size();
+        bidSize = bidList.size();
         Collections.reverse(bidList);
-        updateView(bidList);
-        refreshButtons(bidSize);
+        updateView();
+        refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
 
-    private void refreshButtons(int bidSize){
+    protected void refreshButtons(){
         // refreshing jcombobox
         bidSelection.removeAllItems();
         for (int i = 1; i < bidSize + 1; i++) {
@@ -88,7 +78,7 @@ public class OfferingView implements Observer {
      * Function to initialise the button panel for the
      * first time
      */
-    private void updateButtons(int bidSize) {
+    protected void updateButtons() {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
         } else {
@@ -141,13 +131,13 @@ public class OfferingView implements Observer {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    private void updateView(List<Bid> bidList) {
-        if (offeringPanel != null) {
-            offeringPanel.removeAll();
+    protected void updateView() {
+        if (contentPanel != null) {
+            contentPanel.removeAll();
         } else {
-            offeringPanel = new JPanel();
-            offeringPanel.setLayout(new BorderLayout());
-            mainPanel.add(offeringPanel);
+            contentPanel = new JPanel();
+            contentPanel.setLayout(new BorderLayout());
+            mainPanel.add(contentPanel);
         }
 
         JPanel mainList = new JPanel(new GridBagLayout());
@@ -160,7 +150,7 @@ public class OfferingView implements Observer {
         JScrollPane jScrollPane = new JScrollPane(mainList);
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        offeringPanel.add(jScrollPane);
+        contentPanel.add(jScrollPane);
 
         int bidSize = bidList.size();
         for (Bid b: bidList) {
@@ -186,8 +176,4 @@ public class OfferingView implements Observer {
         return Integer.parseInt(bidSelection.getSelectedItem().toString());
     }
 
-    @Override
-    public void update() {
-        refreshContent();
-    }
 }

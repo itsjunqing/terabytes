@@ -3,20 +3,16 @@ package view.dashboard;
 import lombok.Getter;
 import model.dashboard.DashboardModel;
 import observer.Observer;
+import view.template.viewTemplate;
 
 import javax.swing.*;
 
 @Getter
-public abstract class DashboardView implements Observer {
+public abstract class DashboardView extends viewTemplate {
 
     protected DashboardModel dashboardModel;
-    protected JPanel mainPanel; // mainPanel holds both contractPanel and buttons
-    protected JPanel contractPanel; // used to clear and update the content, only this need to be updated
     protected JButton refreshButton;
     protected JButton initiateButton;
-    protected JLabel errorLabel;
-    protected JFrame frame;
-    protected JPanel buttonPanel;
     protected JButton renewContractsButton = new JButton();
 
 
@@ -25,11 +21,8 @@ public abstract class DashboardView implements Observer {
     }
 
     protected void refreshContent(){
-        updateContracts();
-        errorLabel.setText(dashboardModel.getErrorText());
+        updateView();
+        refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
-
-    public abstract void updateContracts();
 }

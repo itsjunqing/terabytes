@@ -2,9 +2,9 @@ package view.bidding;
 
 import entity.MessagePair;
 import lombok.Getter;
-import observer.Observer;
 import stream.Bid;
 import view.ViewUtility;
+import view.template.viewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -16,33 +16,18 @@ import java.awt.*;
  * This might need to be updated to cater for the latest Bidding design
  */
 @Getter
-public class CloseMessageView implements Observer {
+public class CloseMessageView extends viewTemplate {
 
-    private JPanel mainPanel;
-    private JPanel openBidPanel;
-    private JPanel buttonPanel;
     private JButton respondMessageButton; // only keep a respond button
     private MessagePair messagePair;
     private Bid bid;
-    private JFrame frame;
-    private JLabel errorLabel;
 
     public CloseMessageView(MessagePair messagePair, Bid bid) {
         this.messagePair = messagePair;
         this.bid = bid;
-
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1,2));
-        frame = new JFrame("Closed Messages");
+        makeMainPanel();
         updateContent();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(mainPanel);
-//        frame.pack();
-        frame.setMinimumSize(new Dimension(860, 400));
-        frame.setMaximumSize(new Dimension(860, 1000));
-        frame.setPreferredSize(new Dimension(860, 500));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        makeFrame("Closed Messages", JFrame.DISPOSE_ON_CLOSE);
     }
 
     public void dispose() {
@@ -53,28 +38,27 @@ public class CloseMessageView implements Observer {
         updateView();
         updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
 
     }
 
-    private void refreshContent(){
+    protected void refreshContent(){
         updateView();
+        refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
-    private void refreshButtons(){
-        ;
+    protected void refreshButtons(){
+        errorLabel.setText("");
     }
 
-    private void updateView() {
+    protected void updateView() {
         // to be used upon refresh to update both openBidPanel and buttonPanel
-        if (openBidPanel != null) {
-            openBidPanel.removeAll();
+        if (contentPanel != null) {
+            contentPanel.removeAll();
         } else {
-            openBidPanel = new JPanel();
-            openBidPanel.setLayout(new BorderLayout());
-            mainPanel.add(openBidPanel);
+            contentPanel = new JPanel();
+            contentPanel.setLayout(new BorderLayout());
+            mainPanel.add(contentPanel);
         }
 
         JPanel mainList = new JPanel(new GridBagLayout());
@@ -88,7 +72,7 @@ public class CloseMessageView implements Observer {
         JScrollPane jScrollPane = new JScrollPane(mainList);
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        openBidPanel.add(jScrollPane);
+        contentPanel.add(jScrollPane);
 
         // Code to add open bid panel
 
@@ -123,7 +107,7 @@ public class CloseMessageView implements Observer {
         mainList.add(panel, gbc1, 0);
     }
 
-    private void updateButtons() {
+    protected void updateButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();
@@ -166,10 +150,7 @@ public class CloseMessageView implements Observer {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    @Override
-    public void update() {
-        updateContent();
-    }
+
 
 
 
