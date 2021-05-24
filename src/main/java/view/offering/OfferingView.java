@@ -38,7 +38,7 @@ public class OfferingView extends ViewTemplate {
 
     protected void updateContent() {
         updateView();
-        updateButtons();
+        createButtons();
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
@@ -63,7 +63,7 @@ public class OfferingView extends ViewTemplate {
      * Function to initialise the button panel for the
      * first time
      */
-    protected void updateButtons() {
+    protected void createButtons() {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
         } else {

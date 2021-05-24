@@ -47,7 +47,7 @@ public class OpenOffersView extends ViewTemplate {
     protected void updateContent() {
         // making the frames
         updateView();
-        updateButtons();
+        createButtons();
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
@@ -158,7 +158,7 @@ public class OpenOffersView extends ViewTemplate {
         mainList.add(requestPanel, gbc1, 0);
     }
 
-    protected void updateButtons() {
+    protected void createButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();

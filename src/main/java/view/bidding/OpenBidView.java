@@ -43,7 +43,7 @@ public class OpenBidView extends ViewTemplate {
 
     protected void updateContent() {
         updateView();
-        updateButtons();
+        createButtons();
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
@@ -117,7 +117,7 @@ public class OpenBidView extends ViewTemplate {
         }
     }
 
-    protected void updateButtons() {
+    protected void createButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();

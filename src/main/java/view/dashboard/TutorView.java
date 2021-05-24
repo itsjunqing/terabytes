@@ -19,7 +19,7 @@ public class TutorView extends DashboardView {
         super(dashboardModel);
         makeMainPanel();
         updateView();
-        updateButtons();
+        createButtons();
         makeFrame("Tutor " + dashboardModel.getName() + "'s Dashboard", JFrame.EXIT_ON_CLOSE);
     }
 
@@ -70,7 +70,7 @@ public class TutorView extends DashboardView {
     }
 
     @Override
-    protected void updateButtons() {
+    protected void createButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();

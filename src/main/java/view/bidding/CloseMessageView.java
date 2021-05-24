@@ -32,7 +32,7 @@ public class CloseMessageView extends ViewTemplate {
 
     private void updateContent() {
         updateView();
-        updateButtons();
+        createButtons();
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
@@ -102,7 +102,7 @@ public class CloseMessageView extends ViewTemplate {
         mainList.add(panel, gbc1, 0);
     }
 
-    protected void updateButtons() {
+    protected void createButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();

@@ -22,7 +22,7 @@ public class CloseOfferView extends ViewTemplate {
         this.closeOffersModel = closeOffersModel;
         makeMainPanel();
         updateView();
-        updateButtons();
+        createButtons();
         makeFrame("Close Message View", JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -119,7 +119,7 @@ public class CloseOfferView extends ViewTemplate {
             mainList.add(panel, gbc1, 0);
     }
 
-    protected void updateButtons() {
+    protected void createButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();
