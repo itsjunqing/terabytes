@@ -18,10 +18,9 @@ public class StudentView extends DashboardView {
     public StudentView(DashboardModel dashboardModel) {
         super(dashboardModel);
         makeMainPanel();
-        String name = dashboardModel.getName();
         updateView();
         updateButtons();
-        makeFrame("Student " + name + "'s Dashboard", JFrame.EXIT_ON_CLOSE);
+        makeFrame("Student " + dashboardModel.getName() + "'s Dashboard", JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
@@ -70,6 +69,7 @@ public class StudentView extends DashboardView {
         }
     }
 
+    @Override
     protected void updateButtons() {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
@@ -97,7 +97,6 @@ public class StudentView extends DashboardView {
         renewContractsButton = new JButton("Renew Contracts");
         panel.add(renewContractsButton, gbc2);
 
-
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
         errorLabel.setHorizontalAlignment(0);
@@ -115,6 +114,7 @@ public class StudentView extends DashboardView {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
+    @Override
     public void refreshButtons(){
         errorLabel.setText(dashboardModel.getErrorText());
     }

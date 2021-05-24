@@ -2,24 +2,23 @@ package view.dashboard;
 
 import lombok.Getter;
 import model.dashboard.DashboardModel;
-import observer.Observer;
-import view.template.viewTemplate;
+import view.ViewTemplate;
 
 import javax.swing.*;
 
 @Getter
-public abstract class DashboardView extends viewTemplate {
+public abstract class DashboardView extends ViewTemplate {
 
     protected DashboardModel dashboardModel;
     protected JButton refreshButton;
     protected JButton initiateButton;
-    protected JButton renewContractsButton = new JButton();
+    protected JButton renewContractsButton;
 
-
-    public DashboardView(DashboardModel dashboardModel) {
+    protected DashboardView(DashboardModel dashboardModel) {
         this.dashboardModel = dashboardModel;
     }
 
+    @Override
     protected void refreshContent(){
         updateView();
         refreshButtons();

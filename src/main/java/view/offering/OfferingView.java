@@ -4,7 +4,7 @@ import lombok.Getter;
 import model.offering.OfferingModel;
 import stream.Bid;
 import view.ViewUtility;
-import view.template.viewTemplate;
+import view.ViewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -14,19 +14,13 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class OfferingView extends viewTemplate {
+public class OfferingView extends ViewTemplate {
 
     private OfferingModel offeringModel;
-    private JPanel buttonPanel;
     private JComboBox bidSelection;
     private JButton refreshButton;
     private JButton viewOffersButton;
     private JButton subscribeOfferButton;
-    private JLabel errorLabel;
-    private List<Bid> bidList;
-    private int bidSize;
-
-    private JFrame frame;
 
     public OfferingView(OfferingModel offeringModel) {
         this.offeringModel = offeringModel;
@@ -36,37 +30,28 @@ public class OfferingView extends viewTemplate {
         makeFrame("Tutor Offering View", JFrame.DISPOSE_ON_CLOSE);
     }
 
-    protected void updateContent() {
-        // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
-        offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
-        bidList.stream()
-                .forEach(c -> System.out.println(c.toString()));
-        bidSize = bidList.size();
+    private List<Bid> getBidList() {
+        List<Bid> bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
         Collections.reverse(bidList);
+        return bidList;
+    }
+
+    protected void updateContent() {
         updateView();
         updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
     protected void refreshContent() {
-        // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
-        offeringModel.getBidsOnGoing().forEach(b -> System.out.println(b.toString()));
-        bidList.stream()
-                .forEach(c -> System.out.println(c.toString()));
-        bidSize = bidList.size();
-        Collections.reverse(bidList);
         updateView();
         refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
     protected void refreshButtons(){
         // refreshing jcombobox
         bidSelection.removeAllItems();
+        int bidSize = getBidList().size();
         for (int i = 1; i < bidSize + 1; i++) {
             bidSelection.addItem(i);
         }
@@ -99,6 +84,8 @@ public class OfferingView extends viewTemplate {
         // add refresh button
         refreshButton = new JButton("Refresh");
         panel.add(refreshButton, gbc2);
+
+        int bidSize = getBidList().size();
 
         // add bid selection menu
         bidSelection = new JComboBox<>();
@@ -151,6 +138,8 @@ public class OfferingView extends viewTemplate {
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         contentPanel.add(jScrollPane);
+
+        List<Bid> bidList = getBidList();
 
         int bidSize = bidList.size();
         for (Bid b: bidList) {

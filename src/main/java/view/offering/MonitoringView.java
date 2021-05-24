@@ -3,10 +3,9 @@ package view.offering;
 import entity.BidInfo;
 import lombok.Getter;
 import model.offering.MonitoringModel;
-import observer.Observer;
 import stream.Bid;
 import view.ViewUtility;
-import view.template.viewTemplate;
+import view.ViewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -17,13 +16,11 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class MonitoringView extends viewTemplate {
+public class MonitoringView extends ViewTemplate {
 
     private MonitoringModel monitoringModel;
     private JComboBox bidSelection;
     private JButton viewOffersButton;
-    private List<Bid> monitoringBids;
-    private int bidListSize;
 
     /**
      * Constructor that creates the main frame and calls
@@ -42,14 +39,17 @@ public class MonitoringView extends viewTemplate {
         this.frame.dispose();
     }
 
+    private List<Bid> getBids() {
+        List<Bid> monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
+        Collections.reverse(monitoringBids);
+        return monitoringBids;
+    }
+
     /**
      * Function to create the panel for the first time
      */
     protected void updateContent() {
-        monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
-        Collections.reverse(monitoringBids);
         updateView();
-        bidListSize = monitoringBids.size();
         updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
     }
@@ -59,18 +59,15 @@ public class MonitoringView extends viewTemplate {
      * unnecessarily creating new panels
      */
     protected void refreshContent(){
-        monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
-        Collections.reverse(monitoringBids);
         updateView();
-        bidListSize = monitoringBids.size();
         refreshButtons();
-        errorLabel.setText(monitoringModel.getErrorText());
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
 
     protected void refreshButtons(){
         bidSelection.removeAllItems();
+        int bidListSize = getBids().size();
         for (int i = 1; i < bidListSize + 1; i++) {
             bidSelection.addItem(i);
         }
@@ -108,6 +105,8 @@ public class MonitoringView extends viewTemplate {
         gbc1.gridheight = 2;
         gbc1.weightx = 1;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
+
+        List<Bid> monitoringBids = getBids();
 
         // Add latest bids
         for (Bid b: monitoringBids) {
@@ -164,6 +163,7 @@ public class MonitoringView extends viewTemplate {
         gbc2.gridheight = 3;
         gbc2.weightx = 1;
 
+        int bidListSize = getBids().size();
 
         // add choose bid combobox
         bidSelection = new JComboBox();

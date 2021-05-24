@@ -4,19 +4,15 @@ import entity.MessagePair;
 import lombok.Getter;
 import stream.Bid;
 import view.ViewUtility;
-import view.template.viewTemplate;
+import view.ViewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
 
-
-/**
- * This might need to be updated to cater for the latest Bidding design
- */
 @Getter
-public class CloseMessageView extends viewTemplate {
+public class CloseMessageView extends ViewTemplate {
 
     private JButton respondMessageButton; // only keep a respond button
     private MessagePair messagePair;
@@ -38,7 +34,6 @@ public class CloseMessageView extends viewTemplate {
         updateView();
         updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-
     }
 
     protected void refreshContent(){
@@ -126,12 +121,8 @@ public class CloseMessageView extends viewTemplate {
         gbc2.gridheight = 3;
         gbc2.weightx = 1;
 
-
-
         respondMessageButton = new JButton("Respond");
         panel.add(respondMessageButton, gbc2);
-
-
 
         errorLabel = new JLabel();
         errorLabel.setForeground(new Color(-4521974));
@@ -149,9 +140,6 @@ public class CloseMessageView extends viewTemplate {
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
-
-
-
 
 
 }

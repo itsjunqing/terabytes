@@ -5,7 +5,7 @@ import lombok.Getter;
 import model.bidding.CloseBidModel;
 import stream.Bid;
 import view.ViewUtility;
-import view.template.viewTemplate;
+import view.ViewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -15,7 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class CloseBidView extends viewTemplate {
+public class CloseBidView extends ViewTemplate {
+
     private CloseBidModel closeBidModel;
     private JComboBox offerSelection;
     private JButton refreshButton;
@@ -23,9 +24,6 @@ public class CloseBidView extends viewTemplate {
     private JButton selectOfferButton;
     private JLabel errorLabel;
     private JLabel timeLeft;
-    private int bidIndex;
-    private List<MessageBidInfo> messageBidInfoList;
-    private Bid bid;
 
     public CloseBidView(CloseBidModel closeBidModel) {
         this.closeBidModel = closeBidModel;
@@ -38,34 +36,29 @@ public class CloseBidView extends viewTemplate {
         this.frame.dispose();
     }
 
-    private void updateContent() {
-        // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        bid = closeBidModel.getBid();
-        messageBidInfoList = new ArrayList<>(closeBidModel.getCloseBidOffers());
+    private List<MessageBidInfo> getMessageBidInfoList() {
+        List<MessageBidInfo> messageBidInfoList = new ArrayList<>(closeBidModel.getCloseBidOffers());
         Collections.reverse(messageBidInfoList);
-        bidIndex = messageBidInfoList.size();
+        return messageBidInfoList;
+    }
+
+    private void updateContent() {
         updateView();
         updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
-    protected void refreshContent(){
-        // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        bid = closeBidModel.getBid();
-        messageBidInfoList = new ArrayList<>(closeBidModel.getCloseBidOffers());
-        Collections.reverse(messageBidInfoList);
-        bidIndex = messageBidInfoList.size();
+    protected void refreshContent() {
         updateView();
         refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
-    protected void refreshButtons(){
+    protected void refreshButtons() {
         // refreshing jcombobox
         offerSelection.removeAllItems();
-        for (int i = 1; i < bidIndex + 1; i++) {
+        int bidSize = getMessageBidInfoList().size();
+        for (int i = 1; i < bidSize + 1; i++) {
             offerSelection.addItem(i);
         }
         // refreshing jlabel
@@ -101,6 +94,9 @@ public class CloseBidView extends viewTemplate {
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         contentPanel.add(jScrollPane);
+
+        List<MessageBidInfo> messageBidInfoList = getMessageBidInfoList();
+        Bid bid = closeBidModel.getBid();
 
         int bidIndex = messageBidInfoList.size();
         for (MessageBidInfo b : messageBidInfoList) {
@@ -153,9 +149,11 @@ public class CloseBidView extends viewTemplate {
         refreshButton = new JButton("Refresh");
         panel.add(refreshButton, gbc2);
 
+        int bidSize = getMessageBidInfoList().size();
+
         // add offer selection menu
         offerSelection = new JComboBox<>();
-        for (int i = 1; i < bidIndex + 1; i++) {
+        for (int i = 1; i < bidSize + 1; i++) {
             offerSelection.addItem(i);
         }
         panel.add(offerSelection, gbc2);
@@ -186,33 +184,9 @@ public class CloseBidView extends viewTemplate {
         int size = offerSelection.getItemCount();
         for (int i = 0; i < size; i++) {
             int item = (int) offerSelection.getItemAt(i);
-            System.out.println("Item at " + i + " = " + Integer.toString(item));
+            System.out.println("Item at " + i + " = " + item);
         }
-        System.out.println("this is the raw input from the jcombo box");
-        System.out.println(offerSelection.getSelectedItem().toString());
-        System.out.println("this is the index of the selection");
-        System.out.println(offerSelection.getSelectedIndex());
         return Integer.parseInt(offerSelection.getSelectedItem().toString());
     }
 }
 
-/*
- private JTable getOpenBidTable(MessageBidInfo messageBidInfo, int bidNo, Bid bid) {
-        String freeLesson = messageBidInfo.isFreeLesson()? "Yes": "No";
-
-        String[][] rec = {
-                {"Offer Number: ", Integer.toString(bidNo)},
-                {"Tutor Name:", Utility.getFullName(messageBidInfo.getInitiatorId())},
-                {"Subject:", bid.getSubject().getName()},
-                {"Number of Sessions:", Integer.toString(messageBidInfo.getNumberOfSessions())},
-                {"Day & Time:", messageBidInfo.getDay() + " " + messageBidInfo.getTime()},
-                {"Duration (hours):", Integer.toString(messageBidInfo.getDuration())},
-                {"Rate (per hour):", Integer.toString(messageBidInfo.getRate())},
-                {"Free Lesson?", freeLesson},
-
-        };
-        String[] col = {"", ""};
-        JTable contractTable = new JTable(rec, col);
-        return contractTable;
-    }
- */

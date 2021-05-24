@@ -4,7 +4,7 @@ import entity.MessagePair;
 import lombok.Getter;
 import model.offering.CloseOffersModel;
 import view.ViewUtility;
-import view.template.viewTemplate;
+import view.ViewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -12,7 +12,7 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 @Getter
-public class CloseOfferView extends viewTemplate {
+public class CloseOfferView extends ViewTemplate {
 
     private CloseOffersModel closeOffersModel;
     private JButton refreshButton;
@@ -35,7 +35,6 @@ public class CloseOfferView extends viewTemplate {
         updateView();
         refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
     protected void refreshButtons(){
@@ -69,8 +68,6 @@ public class CloseOfferView extends viewTemplate {
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         contentPanel.add(jScrollPane);
-
-        // Code to add open bid panel
 
         // code to crete gridBagConstraints
         GridBagConstraints gbc1 = new GridBagConstraints();

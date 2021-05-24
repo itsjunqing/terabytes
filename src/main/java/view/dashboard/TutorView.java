@@ -1,7 +1,6 @@
 package view.dashboard;
 
 import lombok.Getter;
-import lombok.Setter;
 import model.dashboard.DashboardModel;
 import stream.Contract;
 import view.ViewUtility;
@@ -13,16 +12,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Getter @Setter
+@Getter
 public class TutorView extends DashboardView {
 
     public TutorView(DashboardModel dashboardModel) {
         super(dashboardModel);
         makeMainPanel();
-        String name = dashboardModel.getName();
         updateView();
         updateButtons();
-        makeFrame("Tutor " + name + "'s Dashboard", JFrame.EXIT_ON_CLOSE);
+        makeFrame("Tutor " + dashboardModel.getName() + "'s Dashboard", JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
@@ -50,7 +48,6 @@ public class TutorView extends DashboardView {
         contentPanel.add(jScrollPane);
 
         // get the list of contracts and update accordingly
-
         List<Contract> contractList = new ArrayList<>(getDashboardModel().getContractsList());
         Collections.reverse(contractList);
         int contractIndex = contractList.size();
@@ -72,6 +69,7 @@ public class TutorView extends DashboardView {
         }
     }
 
+    @Override
     protected void updateButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
@@ -111,6 +109,8 @@ public class TutorView extends DashboardView {
         errorLabel.setText(dashboardModel.getErrorText());
         panel.add(errorLabel);
     }
+
+    @Override
     public void refreshButtons(){
         errorLabel.setText(dashboardModel.getErrorText());
     }

@@ -3,10 +3,9 @@ package view.offering;
 import entity.BidInfo;
 import lombok.Getter;
 import model.offering.OpenOffersModel;
-import observer.Observer;
 import stream.Bid;
 import view.ViewUtility;
-import view.template.viewTemplate;
+import view.ViewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -17,14 +16,12 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class OpenOffersView extends viewTemplate{
+public class OpenOffersView extends ViewTemplate {
+
+    private OpenOffersModel openOffersModel;
     private JButton refreshButton;
     private JButton respondButton;
     private JButton buyOutButton;
-    private OpenOffersModel openOffersModel;
-    private List<BidInfo> otherBidInfo;
-    private BidInfo myBidInfo;
-    private Bid bid;
 
     public OpenOffersView(OpenOffersModel offeringModel) {
         this.openOffersModel = offeringModel;
@@ -37,32 +34,28 @@ public class OpenOffersView extends viewTemplate{
         this.frame.dispose();
     }
 
+    private List<BidInfo> getBidInfos() {
+        List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
+        Collections.reverse(otherBidInfo);
+        return otherBidInfo;
+    }
+
+    private BidInfo getMyBidInfo() {
+        return openOffersModel.getMyOffer();
+    }
+
     protected void updateContent() {
-        // getting the constants from the model
-        otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
-        myBidInfo = openOffersModel.getMyOffer();
-        bid = openOffersModel.getBid();
-        // making the frames 
+        // making the frames
         updateView();
         updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
     protected void refreshContent(){
-        // getting the constants from the model
-        otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
-
-        System.out.println("From OpenOffersView refreshContent function");
-        otherBidInfo.stream().forEach(e -> System.out.println(e.toString()));
-
-        myBidInfo = openOffersModel.getMyOffer();
-        bid = openOffersModel.getBid();
         // making the frames
         updateView();
         refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
     protected void refreshButtons(){
@@ -78,6 +71,7 @@ public class OpenOffersView extends viewTemplate{
             contentPanel.setLayout(new BorderLayout());
             mainPanel.add(contentPanel);
         }
+        Bid bid = openOffersModel.getBid();
         // if bid has expired, return empty panel
         if (bid.getDateClosedDown() != null){
             return;
@@ -103,7 +97,9 @@ public class OpenOffersView extends viewTemplate{
         gbc1.weightx = 1;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
-        Collections.reverse(otherBidInfo);
+
+        List<BidInfo> otherBidInfo = getBidInfos();
+        BidInfo myBidInfo = getMyBidInfo();
 
         /**
          * First add all the "other bids", if empty, return empty panel

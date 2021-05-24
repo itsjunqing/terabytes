@@ -4,27 +4,24 @@ import entity.BidInfo;
 import lombok.Getter;
 import model.bidding.OpenBidModel;
 import stream.Bid;
+import view.ViewTemplate;
 import view.ViewUtility;
-import view.template.viewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class OpenBidView extends viewTemplate {
-    private OpenBidModel openBidModel;
+public class OpenBidView extends ViewTemplate {
 
+    private OpenBidModel openBidModel;
     private JComboBox<Integer> offerSelection;
     private JButton refreshButton;
     private JButton selectOfferButton;
     private JLabel timeLeft;
-    private int bidIndex;
-    private Bid bid;
-    private List<BidInfo> bidInfoList;
-
 
     public OpenBidView(OpenBidModel openBidModel) {
         this.openBidModel = openBidModel;
@@ -38,38 +35,29 @@ public class OpenBidView extends viewTemplate {
         this.frame.dispose();
     }
 
-    protected void updateContent() {
-        // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        bid = openBidModel.getBid();
-        bidInfoList = new ArrayList<>(openBidModel.getOpenBidOffers());
-//        Collections.reverse(bidInfoList);
+    private List<BidInfo> getBidInfoList() {
+        List<BidInfo> bidInfoList = new ArrayList<>(openBidModel.getOpenBidOffers());
+        Collections.reverse(bidInfoList);
+        return bidInfoList;
+    }
 
-        bidIndex = bidInfoList.size();
+    protected void updateContent() {
         updateView();
         updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
-    protected void refreshContent(){
-        // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        bid = openBidModel.getBid();
-        bidInfoList = new ArrayList<>(openBidModel.getOpenBidOffers());
-        System.out.println("From OpenBidView refreshContent function: ");
-        bidInfoList.stream().forEach(b -> System.out.println(b.toString()));
-//        Collections.reverse(bidInfoList);
-
-        bidIndex = bidInfoList.size();
+    protected void refreshContent() {
         updateView();
         refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
-//        frame.pack();
     }
 
-    protected void refreshButtons(){
+    protected void refreshButtons() {
         // refreshing jcombobox
         offerSelection.removeAllItems();
-        for (int i = 1; i < bidIndex + 1; i++) {
+        int bidSize = getBidInfoList().size();
+        for (int i = 1; i < bidSize + 1; i++) {
             offerSelection.addItem(i);
         }
         // refreshing jlabel
@@ -106,6 +94,8 @@ public class OpenBidView extends viewTemplate {
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
         contentPanel.add(jScrollPane);
 
+        List<BidInfo> bidInfoList = getBidInfoList();
+        Bid bid = openBidModel.getBid();
 
         int bidIndex = bidInfoList.size();
         for (BidInfo b : bidInfoList) {
@@ -160,9 +150,11 @@ public class OpenBidView extends viewTemplate {
         refreshButton = new JButton("Refresh");
         panel.add(refreshButton, gbc2);
 
+        int bidSize = getBidInfoList().size();
+
         // add offer selection menu
         offerSelection = new JComboBox<Integer>();
-        for (int i = 1; i < bidIndex + 1; i++) {
+        for (int i = 1; i < bidSize + 1; i++) {
             offerSelection.addItem(i);
         }
         panel.add(offerSelection, gbc2);
@@ -194,24 +186,3 @@ public class OpenBidView extends viewTemplate {
 }
 
 
-
-
-/*
-
-    private JTable getOpenBidTable(BidInfo bidInfo, int bidNo, Bid bid) {
-        String freeLesson = bidInfo.isFreeLesson()? "Yes": "No";
-        String[][] rec = {
-                {"Offer Number: ", Integer.toString(bidNo)},
-                {"Tutor Name:", this.openBidModel.getUserName(bidInfo.getInitiatorId())},
-                {"Subject:", bid.getSubject().getName()},
-                {"Number of Sessions:", Integer.toString(bidInfo.getNumberOfSessions())},
-                {"Day & Time:", bidInfo.getDay() + " " + bidInfo.getTime()},
-                {"Duration (hours):", Integer.toString(bidInfo.getDuration())},
-                {"Rate (per hour):", Integer.toString(bidInfo.getRate())},
-                {"Free Lesson?", freeLesson},
-
-        };
-        String[] col = {"", ""};
-        return new JTable(rec, col);
-    }
- */

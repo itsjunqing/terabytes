@@ -4,7 +4,7 @@ import lombok.Getter;
 import model.contract.ContractRenewalModel;
 import stream.Contract;
 import view.ViewUtility;
-import view.template.viewTemplate;
+import view.ViewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -14,10 +14,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class ContractRenewalView extends viewTemplate {
+public class ContractRenewalView extends ViewTemplate {
 
     private ContractRenewalModel contractRenewalModel;
-
     private JButton refreshButton;
     private JButton renewContractButton;
 
@@ -34,7 +33,6 @@ public class ContractRenewalView extends viewTemplate {
         refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
         System.out.println("ContractRenewalView refreshing..");
-//        frame.pack();
     }
 
     protected void updateView() {
