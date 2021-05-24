@@ -29,9 +29,9 @@ public class Driver {
           */
 
         // if 3 is provided, all dummy tutors (0-3) can be used in renewal
-//        TestScript.generateExpiredContracts("renewalstudent", "dummytutor1", 3);
+        TestScript.generateExpiredContracts("renewalstudent", "dummytutor1", 3);
         // if 4 is provided, then only dummytutor and dummytutor1 can be used in renewal
-        TestScript.generateExpiredContracts("renewalstudent", "dummytutor1", 4);
+//        TestScript.generateExpiredContracts("renewalstudent", "dummytutor1", 4);
 
         TestScript.generateAlmostExpiredContract("almostexpiredstudent", "dummytutor");
     }

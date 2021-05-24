@@ -22,7 +22,6 @@ public class CloseBidView extends ViewTemplate {
     private JButton refreshButton;
     private JButton viewMessageButton;
     private JButton selectOfferButton;
-    private JLabel errorLabel;
     private JLabel timeLeft;
 
     public CloseBidView(CloseBidModel closeBidModel) {

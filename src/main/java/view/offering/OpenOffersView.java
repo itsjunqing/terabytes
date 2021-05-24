@@ -64,7 +64,7 @@ public class OpenOffersView extends ViewTemplate {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
 
-        List<BidInfo> otherBidInfo = getBidInfos();
+        List<BidInfo> otherBidInfo = getBidInfoList();
         BidInfo myBidInfo = getMyBidInfo();
 
         /**
@@ -176,7 +176,7 @@ public class OpenOffersView extends ViewTemplate {
         errorLabel.setText(openOffersModel.getErrorText());
     }
 
-    private List<BidInfo> getBidInfos() {
+    private List<BidInfo> getBidInfoList() {
         List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
         Collections.reverse(otherBidInfo);
         return otherBidInfo;

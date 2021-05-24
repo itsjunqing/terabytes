@@ -56,7 +56,7 @@ public class MonitoringView extends ViewTemplate {
         gbc1.weightx = 1;
         gbc1.fill = GridBagConstraints.HORIZONTAL;
 
-        List<Bid> monitoringBids = getBids();
+        List<Bid> monitoringBids = getMonitoringBids();
 
         // Add latest bids
         for (Bid b: monitoringBids) {
@@ -113,7 +113,7 @@ public class MonitoringView extends ViewTemplate {
         gbc2.gridheight = 3;
         gbc2.weightx = 1;
 
-        int bidListSize = getBids().size();
+        int bidListSize = getMonitoringBids().size();
 
         // add choose bid combobox
         bidSelection = new JComboBox();
@@ -146,14 +146,14 @@ public class MonitoringView extends ViewTemplate {
 
     protected void refreshButtons(){
         bidSelection.removeAllItems();
-        int bidListSize = getBids().size();
+        int bidListSize = getMonitoringBids().size();
         for (int i = 1; i < bidListSize + 1; i++) {
             bidSelection.addItem(i);
         }
         errorLabel.setText(monitoringModel.getErrorText());
     }
 
-    private List<Bid> getBids() {
+    private List<Bid> getMonitoringBids() {
         List<Bid> monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
         Collections.reverse(monitoringBids);
         return monitoringBids;

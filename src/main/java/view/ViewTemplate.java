@@ -25,7 +25,7 @@ public abstract class ViewTemplate implements Observer {
      * @param frameTitle the title of the frame
      * @param closeAction the action to be performed upon closing
      */
-    public void initViewTemplate(String frameTitle, int closeAction) {
+    protected void initViewTemplate(String frameTitle, int closeAction) {
         makeMainPanel();
         updateView();
         createButtons();
