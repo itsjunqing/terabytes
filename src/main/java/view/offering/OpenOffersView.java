@@ -25,41 +25,7 @@ public class OpenOffersView extends ViewTemplate {
 
     public OpenOffersView(OpenOffersModel offeringModel) {
         this.openOffersModel = offeringModel;
-        makeMainPanel();
-        updateContent();
-        makeFrame("All Open Offers for this Bid", JFrame.DISPOSE_ON_CLOSE);
-    }
-
-    public void dispose() {
-        this.frame.dispose();
-    }
-
-    private List<BidInfo> getBidInfos() {
-        List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
-        Collections.reverse(otherBidInfo);
-        return otherBidInfo;
-    }
-
-    private BidInfo getMyBidInfo() {
-        return openOffersModel.getMyOffer();
-    }
-
-    protected void updateContent() {
-        // making the frames
-        updateView();
-        createButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
-    protected void refreshContent(){
-        // making the frames
-        updateView();
-        refreshButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
-    protected void refreshButtons(){
-        errorLabel.setText(openOffersModel.getErrorText());
+        initViewTemplate("All Open Offers for this Bid", JFrame.DISPOSE_ON_CLOSE);
     }
 
     protected void updateView() {
@@ -204,6 +170,20 @@ public class OpenOffersView extends ViewTemplate {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
+    }
+
+    protected void refreshButtons(){
+        errorLabel.setText(openOffersModel.getErrorText());
+    }
+
+    private List<BidInfo> getBidInfos() {
+        List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
+        Collections.reverse(otherBidInfo);
+        return otherBidInfo;
+    }
+
+    private BidInfo getMyBidInfo() {
+        return openOffersModel.getMyOffer();
     }
 
 

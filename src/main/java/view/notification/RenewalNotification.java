@@ -1,4 +1,4 @@
-package view.dashboard;
+package view.notification;
 
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;

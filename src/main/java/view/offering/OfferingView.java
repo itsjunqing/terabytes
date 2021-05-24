@@ -24,45 +24,52 @@ public class OfferingView extends ViewTemplate {
 
     public OfferingView(OfferingModel offeringModel) {
         this.offeringModel = offeringModel;
-        makeMainPanel();
-        frame = new JFrame("Tutor Offering View");
-        updateContent();
-        makeFrame("Tutor Offering View", JFrame.DISPOSE_ON_CLOSE);
+        initViewTemplate("Tutor Offering View", JFrame.DISPOSE_ON_CLOSE);
     }
 
-    private List<Bid> getBidList() {
-        List<Bid> bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
-        Collections.reverse(bidList);
-        return bidList;
-    }
-
-    protected void updateContent() {
-        updateView();
-        createButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
-    protected void refreshContent() {
-        updateView();
-        refreshButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
-    protected void refreshButtons(){
-        // refreshing jcombobox
-        bidSelection.removeAllItems();
-        int bidSize = getBidList().size();
-        for (int i = 1; i < bidSize + 1; i++) {
-            bidSelection.addItem(i);
+    protected void updateView() {
+        if (contentPanel != null) {
+            contentPanel.removeAll();
+        } else {
+            contentPanel = new JPanel();
+            contentPanel.setLayout(new BorderLayout());
+            mainPanel.add(contentPanel);
         }
-        // refreshing jlabel
-        errorLabel.setText(offeringModel.getErrorText());
+
+        JPanel mainList = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.weightx = 100;
+        gbc.weighty = 100;
+        mainList.add(new JPanel(), gbc);
+
+        JScrollPane jScrollPane = new JScrollPane(mainList);
+        jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
+        jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
+        contentPanel.add(jScrollPane);
+
+        List<Bid> bidList = getBidList();
+
+        int bidSize = bidList.size();
+        for (Bid b: bidList) {
+            // Code to generate an open contract panel
+            JPanel panel = new JPanel();
+            JTable table = ViewUtility.BidAndOfferTable.buildTutorTable(b, bidSize);
+            bidSize -= 1;
+            ViewUtility.resizeColumns(table);
+            table.setBounds(10, 10, 500, 100);
+            panel.add(table);
+
+            panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
+            GridBagConstraints gbc1 = new GridBagConstraints();
+            gbc1.gridwidth = GridBagConstraints.REMAINDER;
+            gbc1.gridheight = 2;
+            gbc1.weightx = 1;
+            gbc1.fill = GridBagConstraints.HORIZONTAL;
+            mainList.add(panel, gbc1, 0);
+        }
     }
 
-    /**
-     * Function to initialise the button panel for the
-     * first time
-     */
     protected void createButtons() {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
@@ -118,47 +125,21 @@ public class OfferingView extends ViewTemplate {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    protected void updateView() {
-        if (contentPanel != null) {
-            contentPanel.removeAll();
-        } else {
-            contentPanel = new JPanel();
-            contentPanel.setLayout(new BorderLayout());
-            mainPanel.add(contentPanel);
+    protected void refreshButtons(){
+        // refreshing jcombobox
+        bidSelection.removeAllItems();
+        int bidSize = getBidList().size();
+        for (int i = 1; i < bidSize + 1; i++) {
+            bidSelection.addItem(i);
         }
+        // refreshing jlabel
+        errorLabel.setText(offeringModel.getErrorText());
+    }
 
-        JPanel mainList = new JPanel(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.weightx = 100;
-        gbc.weighty = 100;
-        mainList.add(new JPanel(), gbc);
-
-        JScrollPane jScrollPane = new JScrollPane(mainList);
-        jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
-        jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        contentPanel.add(jScrollPane);
-
-        List<Bid> bidList = getBidList();
-
-        int bidSize = bidList.size();
-        for (Bid b: bidList) {
-            // Code to generate an open contract panel
-            JPanel panel = new JPanel();
-            JTable table = ViewUtility.BidAndOfferTable.buildTutorTable(b, bidSize);
-            bidSize -= 1;
-            ViewUtility.resizeColumns(table);
-            table.setBounds(10, 10, 500, 100);
-            panel.add(table);
-
-            panel.setBorder(new MatteBorder(0, 0, 1, 0, Color.GRAY));
-            GridBagConstraints gbc1 = new GridBagConstraints();
-            gbc1.gridwidth = GridBagConstraints.REMAINDER;
-            gbc1.gridheight = 2;
-            gbc1.weightx = 1;
-            gbc1.fill = GridBagConstraints.HORIZONTAL;
-            mainList.add(panel, gbc1, 0);
-        }
+    private List<Bid> getBidList() {
+        List<Bid> bidList = new ArrayList<>(offeringModel.getBidsOnGoing());
+        Collections.reverse(bidList);
+        return bidList;
     }
 
     public int getBidNumber() throws NullPointerException {

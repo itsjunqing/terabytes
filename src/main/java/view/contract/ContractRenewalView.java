@@ -22,17 +22,7 @@ public class ContractRenewalView extends ViewTemplate {
 
     public ContractRenewalView(ContractRenewalModel contractRenewalModel) {
         this.contractRenewalModel = contractRenewalModel;
-        makeMainPanel();
-        updateView();
-        createButtons();
-        makeFrame("Contract Renewal View", JFrame.DISPOSE_ON_CLOSE);
-    }
-
-    protected void refreshContent(){
-        updateView();
-        refreshButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-        System.out.println("ContractRenewalView refreshing..");
+        initViewTemplate("Contract Renewal View", JFrame.DISPOSE_ON_CLOSE);
     }
 
     protected void updateView() {
@@ -80,10 +70,6 @@ public class ContractRenewalView extends ViewTemplate {
         }
     }
 
-    protected void refreshButtons(){
-        errorLabel.setText(contractRenewalModel.getErrorText());
-    }
-
     protected void createButtons() {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
@@ -123,6 +109,10 @@ public class ContractRenewalView extends ViewTemplate {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
+    }
+
+    protected void refreshButtons(){
+        errorLabel.setText(contractRenewalModel.getErrorText());
     }
 
 }

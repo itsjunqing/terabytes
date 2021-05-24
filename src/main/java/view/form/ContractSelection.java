@@ -47,8 +47,7 @@ public class ContractSelection {
         frame.dispose();
     }
 
-
-    public void updateContracts() {
+    private void updateContracts() {
         contractPanel = new JPanel();
         contractPanel.setLayout(new BorderLayout());
         mainPanel.add(contractPanel);

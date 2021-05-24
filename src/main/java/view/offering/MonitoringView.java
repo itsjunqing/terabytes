@@ -22,61 +22,11 @@ public class MonitoringView extends ViewTemplate {
     private JComboBox bidSelection;
     private JButton viewOffersButton;
 
-    /**
-     * Constructor that creates the main frame and calls
-     * functions to populate it
-     * @param monitoringModel;
-     */
     public MonitoringView(MonitoringModel monitoringModel) {
         this.monitoringModel = monitoringModel;
-        makeMainPanel();
-        // Updating the panels in the frame
-        updateContent();
-        makeFrame("Monitoring Dashboard", JFrame.DISPOSE_ON_CLOSE);
+        initViewTemplate("Monitoring Dashboard", JFrame.DISPOSE_ON_CLOSE);
     }
 
-    public void dispose() {
-        this.frame.dispose();
-    }
-
-    private List<Bid> getBids() {
-        List<Bid> monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
-        Collections.reverse(monitoringBids);
-        return monitoringBids;
-    }
-
-    /**
-     * Function to create the panel for the first time
-     */
-    protected void updateContent() {
-        updateView();
-        createButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
-    /**
-     * Function to refresh the content of the panels without
-     * unnecessarily creating new panels
-     */
-    protected void refreshContent(){
-        updateView();
-        refreshButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
-
-    protected void refreshButtons(){
-        bidSelection.removeAllItems();
-        int bidListSize = getBids().size();
-        for (int i = 1; i < bidListSize + 1; i++) {
-            bidSelection.addItem(i);
-        }
-        errorLabel.setText(monitoringModel.getErrorText());
-    }
-
-    /**
-     * function to create the information panel
-     */
     protected void updateView() {
         if (contentPanel != null) {
             contentPanel.removeAll();
@@ -194,9 +144,23 @@ public class MonitoringView extends ViewTemplate {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
+    protected void refreshButtons(){
+        bidSelection.removeAllItems();
+        int bidListSize = getBids().size();
+        for (int i = 1; i < bidListSize + 1; i++) {
+            bidSelection.addItem(i);
+        }
+        errorLabel.setText(monitoringModel.getErrorText());
+    }
+
+    private List<Bid> getBids() {
+        List<Bid> monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
+        Collections.reverse(monitoringBids);
+        return monitoringBids;
+    }
+
     public int getBidNumber() throws NullPointerException {
         return Integer.parseInt(bidSelection.getSelectedItem().toString());
     }
-
 
 }

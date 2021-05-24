@@ -21,29 +21,7 @@ public class CloseMessageView extends ViewTemplate {
     public CloseMessageView(MessagePair messagePair, Bid bid) {
         this.messagePair = messagePair;
         this.bid = bid;
-        makeMainPanel();
-        updateContent();
-        makeFrame("Closed Messages", JFrame.DISPOSE_ON_CLOSE);
-    }
-
-    public void dispose() {
-        this.frame.dispose();
-    }
-
-    private void updateContent() {
-        updateView();
-        createButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
-    protected void refreshContent(){
-        updateView();
-        refreshButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
-    protected void refreshButtons(){
-        errorLabel.setText("");
+        initViewTemplate("Closed Messages", JFrame.DISPOSE_ON_CLOSE);
     }
 
     protected void updateView() {
@@ -141,5 +119,8 @@ public class CloseMessageView extends ViewTemplate {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
+    protected void refreshButtons(){
+        errorLabel.setText("");
+    }
 
 }

@@ -6,12 +6,9 @@ import com.intellij.uiDesigner.core.Spacer;
 import lombok.Getter;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
-import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Getter
 public class TutorSelection {

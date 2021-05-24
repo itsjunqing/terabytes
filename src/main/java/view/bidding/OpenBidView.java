@@ -25,50 +25,7 @@ public class OpenBidView extends ViewTemplate {
 
     public OpenBidView(OpenBidModel openBidModel) {
         this.openBidModel = openBidModel;
-        System.out.println(this.getClass().getName() + " is initiating");
-        makeMainPanel();
-        updateContent();
-        makeFrame("Open Offers", JFrame.DISPOSE_ON_CLOSE);
-    }
-
-    public void dispose() {
-        this.frame.dispose();
-    }
-
-    private List<BidInfo> getBidInfoList() {
-        List<BidInfo> bidInfoList = new ArrayList<>(openBidModel.getOpenBidOffers());
-        Collections.reverse(bidInfoList);
-        return bidInfoList;
-    }
-
-    protected void updateContent() {
-        updateView();
-        createButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
-    protected void refreshContent() {
-        updateView();
-        refreshButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
-    protected void refreshButtons() {
-        // refreshing jcombobox
-        offerSelection.removeAllItems();
-        int bidSize = getBidInfoList().size();
-        for (int i = 1; i < bidSize + 1; i++) {
-            offerSelection.addItem(i);
-        }
-        // refreshing jlabel
-        errorLabel.setText(openBidModel.getErrorText());
-
-        String time = ViewUtility.getOpenBidTimeLeft(openBidModel.getBidDate());
-        System.out.println("Open bid time left");
-        System.out.println(time);
-        timeLeft.setHorizontalAlignment(0);
-        timeLeft.setHorizontalTextPosition(0);
-        timeLeft.setText(time);
+        initViewTemplate("Open Offers", JFrame.DISPOSE_ON_CLOSE);
     }
 
     protected void updateView() {
@@ -177,6 +134,30 @@ public class OpenBidView extends ViewTemplate {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
+    }
+
+    protected void refreshButtons() {
+        // refreshing jcombobox
+        offerSelection.removeAllItems();
+        int bidSize = getBidInfoList().size();
+        for (int i = 1; i < bidSize + 1; i++) {
+            offerSelection.addItem(i);
+        }
+        // refreshing jlabel
+        errorLabel.setText(openBidModel.getErrorText());
+
+        String time = ViewUtility.getOpenBidTimeLeft(openBidModel.getBidDate());
+        System.out.println("Open bid time left");
+        System.out.println(time);
+        timeLeft.setHorizontalAlignment(0);
+        timeLeft.setHorizontalTextPosition(0);
+        timeLeft.setText(time);
+    }
+
+    private List<BidInfo> getBidInfoList() {
+        List<BidInfo> bidInfoList = new ArrayList<>(openBidModel.getOpenBidOffers());
+        Collections.reverse(bidInfoList);
+        return bidInfoList;
     }
 
     public int getOfferSelection() throws NullPointerException {

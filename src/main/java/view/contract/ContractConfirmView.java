@@ -50,7 +50,6 @@ public class ContractConfirmView {
         contractDuration.setSelectedIndex(1); // set to 6 months default
     }
 
-
     public int getContractDuration() {
         return Integer.parseInt(contractDuration.getSelectedItem().toString());
     }

@@ -1,4 +1,4 @@
-package view.dashboard;
+package view.notification;
 
 import lombok.Getter;
 import stream.Contract;
@@ -13,7 +13,6 @@ import java.util.List;
 public class ExpiryNotification {
 
     private int type;
-
     private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
     private JPanel contractPanel;
     private JButton notedButton;
@@ -66,7 +65,6 @@ public class ExpiryNotification {
         for (Contract c: expiringContracts) {
             JPanel panel = new JPanel();
             JTable table = ViewUtility.ContractTable.buildTable(c, contractIndex, type);
-//            JTable table = ViewUtility.ContractTable.buildStudentTable(c, contractIndex); // to be removed
             contractIndex -= 1;
             ViewUtility.resizeColumns(table);
             table.setBounds(10, 10, 500, 100);

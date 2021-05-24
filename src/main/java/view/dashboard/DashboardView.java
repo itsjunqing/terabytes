@@ -14,14 +14,9 @@ public abstract class DashboardView extends ViewTemplate {
     protected JButton initiateButton;
     protected JButton renewContractsButton;
 
-    protected DashboardView(DashboardModel dashboardModel) {
+    protected DashboardView(DashboardModel dashboardModel, String frameTitle) {
         this.dashboardModel = dashboardModel;
+        initViewTemplate(frameTitle, JFrame.EXIT_ON_CLOSE);
     }
 
-    @Override
-    protected void refreshContent(){
-        updateView();
-        refreshButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
 }

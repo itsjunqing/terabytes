@@ -21,9 +21,21 @@ public abstract class ViewTemplate implements Observer {
     protected JLabel errorLabel;
 
     /**
+     * Initializes the ViewTemplate
+     * @param frameTitle the title of the frame
+     * @param closeAction the action to be performed upon closing
+     */
+    public void initViewTemplate(String frameTitle, int closeAction) {
+        makeMainPanel();
+        updateView();
+        createButtons();
+        makeFrame(frameTitle, closeAction);
+    }
+
+    /**
      * Creates a main panel
      */
-    protected void makeMainPanel() {
+    private void makeMainPanel() {
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
     }
@@ -33,7 +45,7 @@ public abstract class ViewTemplate implements Observer {
      * @param frameTitle the title of the frame
      * @param closeAction the action to be performed upon closing
      */
-    protected void makeFrame(String frameTitle, int closeAction) {
+    private void makeFrame(String frameTitle, int closeAction) {
         frame = new JFrame(frameTitle);
         frame.add(mainPanel);
         frame.setDefaultCloseOperation(closeAction);
@@ -45,16 +57,27 @@ public abstract class ViewTemplate implements Observer {
     }
 
     /**
-     * Refreshes the content of the view
+     * Perform a refresh on the view
      */
     public void update() {
         refreshContent();
     }
 
     /**
-     * Creates the button panel
+     * Disposes the frame
      */
-    abstract protected void createButtons();
+    public void dispose() {
+        frame.dispose();
+    }
+
+    /**
+     * Refreshes the content of the view
+     */
+    private void refreshContent() {
+        updateView();
+        refreshButtons();
+        SwingUtilities.updateComponentTreeUI(frame);
+    }
 
     /**
      * Updates the content of the content panel
@@ -62,15 +85,13 @@ public abstract class ViewTemplate implements Observer {
     abstract protected void updateView();
 
     /**
-     * Refreshes the content of the view without unnecessarily re-creating UI components
+     * Creates the button panel
      */
-    abstract protected void refreshContent();
+    abstract protected void createButtons();
 
     /**
      * Refreshes the content of the buttonPanel without unnecessarily re-creating UI components
      */
     abstract protected void refreshButtons();
-
-
 
 }

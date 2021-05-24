@@ -20,7 +20,6 @@ public class SubscriptionSelection extends JFrame {
     private JButton confirmButton;
     private JList<Bid> bidJList;
 
-
     public SubscriptionSelection(List<Bid> bidsOnGoing) {
         this.bidsOnGoing = bidsOnGoing;
         // setting up the frame

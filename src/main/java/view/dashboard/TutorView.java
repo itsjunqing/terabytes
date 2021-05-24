@@ -16,15 +16,11 @@ import java.util.List;
 public class TutorView extends DashboardView {
 
     public TutorView(DashboardModel dashboardModel) {
-        super(dashboardModel);
-        makeMainPanel();
-        updateView();
-        createButtons();
-        makeFrame("Tutor " + dashboardModel.getName() + "'s Dashboard", JFrame.EXIT_ON_CLOSE);
+        super(dashboardModel, "Tutor " + dashboardModel.getName() + "'s Dashboard");
     }
 
     @Override
-    public void updateView() {
+    protected void updateView() {
         // if contractPanel already constructed, just remove the contents (only one item inside - mainList)
         if (contentPanel != null) {
             contentPanel.removeAll();
@@ -111,7 +107,7 @@ public class TutorView extends DashboardView {
     }
 
     @Override
-    public void refreshButtons(){
+    protected void refreshButtons(){
         errorLabel.setText(dashboardModel.getErrorText());
     }
 

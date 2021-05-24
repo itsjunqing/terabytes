@@ -3,7 +3,7 @@ package controller.dashboard;
 import controller.offering.OfferingController;
 import stream.Contract;
 import view.dashboard.TutorView;
-import view.dashboard.RenewalNotification;
+import view.notification.RenewalNotification;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

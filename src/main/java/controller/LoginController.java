@@ -7,7 +7,7 @@ import stream.Contract;
 import stream.User;
 import view.LoginView;
 import view.ViewUtility;
-import view.dashboard.ExpiryNotification;
+import view.notification.ExpiryNotification;
 
 import javax.swing.*;
 import java.util.List;

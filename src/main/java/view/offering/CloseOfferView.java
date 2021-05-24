@@ -20,25 +20,7 @@ public class CloseOfferView extends ViewTemplate {
 
     public CloseOfferView(CloseOffersModel closeOffersModel) {
         this.closeOffersModel = closeOffersModel;
-        makeMainPanel();
-        updateView();
-        createButtons();
-        makeFrame("Close Message View", JFrame.DISPOSE_ON_CLOSE);
-    }
-
-    public void dispose() {
-        this.frame.dispose();
-    }
-
-    protected void refreshContent(){
-        // refreshing jcombobox
-        updateView();
-        refreshButtons();
-        SwingUtilities.updateComponentTreeUI(frame);
-    }
-
-    protected void refreshButtons(){
-        errorLabel.setText(closeOffersModel.getErrorText());
+        initViewTemplate("Close Message View", JFrame.DISPOSE_ON_CLOSE);
     }
 
     protected void updateView() {
@@ -105,18 +87,18 @@ public class CloseOfferView extends ViewTemplate {
             panel1.setBorder(title2);
             mainList.add(panel1, gbc1, 0);
         }
-            // code to add message panel 1
-            JPanel panel = new JPanel();
-            System.out.println("this is the student message:");
-            System.out.println(messagePair.getStudentMsg().toString());
-            JTable table = ViewUtility.MessageTable.buildStudentTable(messagePair.getStudentMsg(), closeOffersModel.getBid());
-            ViewUtility.resizeColumns(table);
-            table.setBounds(10, 10, 500, 100);
-            panel.add(table);
-            TitledBorder title;
-            title = BorderFactory.createTitledBorder("Student Request and Message");
-            panel.setBorder(title);
-            mainList.add(panel, gbc1, 0);
+        // code to add message panel 1
+        JPanel panel = new JPanel();
+        System.out.println("this is the student message:");
+        System.out.println(messagePair.getStudentMsg().toString());
+        JTable table = ViewUtility.MessageTable.buildStudentTable(messagePair.getStudentMsg(), closeOffersModel.getBid());
+        ViewUtility.resizeColumns(table);
+        table.setBounds(10, 10, 500, 100);
+        panel.add(table);
+        TitledBorder title;
+        title = BorderFactory.createTitledBorder("Student Request and Message");
+        panel.setBorder(title);
+        mainList.add(panel, gbc1, 0);
     }
 
     protected void createButtons() {
@@ -158,5 +140,9 @@ public class CloseOfferView extends ViewTemplate {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
+    }
+
+    protected void refreshButtons(){
+        errorLabel.setText(closeOffersModel.getErrorText());
     }
 }
