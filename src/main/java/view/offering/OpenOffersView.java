@@ -38,7 +38,6 @@ public class OpenOffersView extends viewTemplate{
     }
 
     protected void updateContent() {
-
         // getting the constants from the model
         otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
         myBidInfo = openOffersModel.getMyOffer();

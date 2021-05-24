@@ -19,7 +19,6 @@ public class StudentView extends DashboardView {
         super(dashboardModel);
         makeMainPanel();
         String name = dashboardModel.getName();
-
         updateView();
         updateButtons();
         makeFrame("Student " + name + "'s Dashboard", JFrame.EXIT_ON_CLOSE);
