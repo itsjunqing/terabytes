@@ -31,7 +31,7 @@ public class ExpiryService {
                 System.out.println("From ExpiryService: Bid is a Has Offer + creating Contract..");
                 BidInfo lastBidInfo = offers.get(offers.size()-1);
                 // default of 6 months is set automatically
-                Contract contract = BuilderService.buildContract(bid, lastBidInfo);
+                Contract contract = BuilderService.contractBuilder().buildContract(bid, lastBidInfo);
                 ApiService.contractApi().add(contract);
             } else {
                 System.out.println("From ExpiryService: Bid has No Offer + doing nothing..");

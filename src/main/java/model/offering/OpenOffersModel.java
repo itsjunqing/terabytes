@@ -114,7 +114,7 @@ public class OpenOffersModel extends BasicModel {
             // Mark bid as closed
             ApiService.bidApi().close(bidId, new Bid(new Date()));
 
-            return BuilderService.buildContract(getBid(), bidInfo);
+            return BuilderService.contractBuilder().buildContract(getBid(), bidInfo);
         }
         errorText = "Bid Has Expired";
         oSubject.notifyObservers();

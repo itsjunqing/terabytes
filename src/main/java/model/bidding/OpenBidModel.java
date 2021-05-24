@@ -27,7 +27,7 @@ public class OpenBidModel extends BiddingModel {
      * @param bp a Preference object
      */
     public OpenBidModel(String userId, Preference bp) {
-        Bid bid = BuilderService.buildBid(userId, bp, "Open");
+        Bid bid = BuilderService.bidBuilder().buildBid(userId, bp, "Open");
         Bid bidCreated = ApiService.bidApi().add(bid);
         initModel(userId, bidCreated);
     }
@@ -80,7 +80,7 @@ public class OpenBidModel extends BiddingModel {
         BidInfo bidInfo = openBidOffers.get(selection-1);
         markBidClose();
         if (!expiryService.checkIsExpired(currentBid)){
-            return BuilderService.buildContract(currentBid, bidInfo);
+            return BuilderService.contractBuilder().buildContract(currentBid, bidInfo);
         }
         errorText = "This Bid has expired or closed down, please close and refresh main page";
         oSubject.notifyObservers();

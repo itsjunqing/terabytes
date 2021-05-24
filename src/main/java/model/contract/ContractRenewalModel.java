@@ -109,7 +109,7 @@ public class ContractRenewalModel extends BasicModel {
     public Contract getContractWithNewTerms(int selection, BidInfo newTerms, String tutorUsername) {
         Contract oldContract = allContracts.get(selection-1);
         User tutor = Utility.getUser(tutorUsername);
-        return BuilderService.buildContract(oldContract, newTerms, tutor.getId());
+        return BuilderService.contractBuilder().buildContract(oldContract, newTerms, tutor.getId());
     }
 
     /**
@@ -121,7 +121,7 @@ public class ContractRenewalModel extends BasicModel {
     public Contract getContractWithOldTerms(int selection, String tutorUsername) {
         Contract oldContract = allContracts.get(selection-1);
         User tutor = Utility.getUser(tutorUsername);
-        return BuilderService.buildContract(oldContract, tutor.getId());
+        return BuilderService.contractBuilder().buildContract(oldContract, tutor.getId());
     }
 
 
