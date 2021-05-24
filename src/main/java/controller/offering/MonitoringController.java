@@ -1,6 +1,7 @@
 package controller.offering;
 
 import controller.EventListener;
+import entity.Constants;
 import model.offering.MonitoringModel;
 import scheduler.Scheduler;
 import stream.Bid;
@@ -32,7 +33,7 @@ public class MonitoringController implements EventListener {
         SwingUtilities.invokeLater(() -> {
             // Construct the view and the scheduler to update automatically
             this.monitoringView = new MonitoringView(monitoringModel);
-            this.scheduler = new Scheduler();
+            this.scheduler = new Scheduler(Constants.MONITORING_FREQ);
             initObserving();
             listenViewActions();
         });

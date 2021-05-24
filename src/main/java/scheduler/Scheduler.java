@@ -1,5 +1,6 @@
 package scheduler;
 
+import model.AbstractModel;
 import observer.OSubject;
 
 import java.util.Timer;
@@ -10,14 +11,16 @@ import java.util.TimerTask;
  */
 public class Scheduler extends OSubject {
 
-    private int frequency = 10; // Scheduled interval for every 5 seconds
+    private int frequency;
     private Timer timer;
+    private AbstractModel abstractModel;
 
     /**
      * Constructs a Scheduler
      */
-    public Scheduler(){
+    public Scheduler(int frequency) {
         this.timer = new Timer();
+        this.frequency = frequency;
         runTasks();
     }
 

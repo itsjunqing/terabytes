@@ -11,5 +11,7 @@ public final class Constants {
     public final static int LOGIN_EXPIRY_MONTHS = 1;
     public final static int DEFAULT_CONTRACT_DURATION = 6; // months
 
+    public final static int MONITORING_FREQ = 10; // seconds
+
 
 }
