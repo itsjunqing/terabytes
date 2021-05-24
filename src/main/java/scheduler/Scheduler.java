@@ -1,6 +1,5 @@
 package scheduler;
 
-import model.AbstractModel;
 import observer.OSubject;
 
 import java.util.Timer;
@@ -13,7 +12,6 @@ public class Scheduler extends OSubject {
 
     private int frequency;
     private Timer timer;
-    private AbstractModel abstractModel;
 
     /**
      * Constructs a Scheduler
