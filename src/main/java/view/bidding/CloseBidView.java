@@ -3,9 +3,9 @@ package view.bidding;
 import entity.MessageBidInfo;
 import lombok.Getter;
 import model.bidding.CloseBidModel;
-import observer.Observer;
 import stream.Bid;
 import view.ViewUtility;
+import view.template.viewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -15,36 +15,23 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class CloseBidView implements Observer {
+public class CloseBidView extends viewTemplate {
     private CloseBidModel closeBidModel;
-    private JPanel mainPanel;
-    private JPanel openBidPanel;
-    private JPanel buttonPanel;
     private JComboBox offerSelection;
     private JButton refreshButton;
     private JButton viewMessageButton;
     private JButton selectOfferButton;
-    private JFrame frame;
     private JLabel errorLabel;
     private JLabel timeLeft;
+    private int bidIndex;
+    private List<MessageBidInfo> messageBidInfoList;
+    private Bid bid;
 
     public CloseBidView(CloseBidModel closeBidModel) {
         this.closeBidModel = closeBidModel;
-
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1,2));
-        frame = new JFrame("Closed Offers");
-
+        makeMainPanel();
         updateContent();
-
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(mainPanel);
-//        frame.pack();
-        frame.setMinimumSize(new Dimension(860, 400));
-        frame.setMaximumSize(new Dimension(860, 1000));
-        frame.setPreferredSize(new Dimension(860, 500));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        makeFrame("Closed Offers", JFrame.DISPOSE_ON_CLOSE);
     }
 
     public void dispose() {
@@ -53,29 +40,29 @@ public class CloseBidView implements Observer {
 
     private void updateContent() {
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        Bid bid = closeBidModel.getBid();
-        List<MessageBidInfo> messageBidInfoList = new ArrayList<>(closeBidModel.getCloseBidOffers());
+        bid = closeBidModel.getBid();
+        messageBidInfoList = new ArrayList<>(closeBidModel.getCloseBidOffers());
         Collections.reverse(messageBidInfoList);
-        int bidIndex = messageBidInfoList.size();
-        updateView(messageBidInfoList, bid);
-        updateButtons(bidIndex);
+        bidIndex = messageBidInfoList.size();
+        updateView();
+        updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
 
-    private void refreshContent(){
+    protected void refreshContent(){
         // query of bid offers need to be done outside to ensure consistent update to both openBidPanel and buttonPanel
-        Bid bid = closeBidModel.getBid();
-        List<MessageBidInfo> messageBidInfoList = new ArrayList<>(closeBidModel.getCloseBidOffers());
+        bid = closeBidModel.getBid();
+        messageBidInfoList = new ArrayList<>(closeBidModel.getCloseBidOffers());
         Collections.reverse(messageBidInfoList);
-        int bidIndex = messageBidInfoList.size();
-        updateView(messageBidInfoList, bid);
-        refreshButtons(bidIndex);
+        bidIndex = messageBidInfoList.size();
+        updateView();
+        refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
 
-    private void refreshButtons(int bidIndex){
+    protected void refreshButtons(){
         // refreshing jcombobox
         offerSelection.removeAllItems();
         for (int i = 1; i < bidIndex + 1; i++) {
@@ -92,14 +79,14 @@ public class CloseBidView implements Observer {
         timeLeft.setText(time);
     }
 
-    private void updateView(List<MessageBidInfo> messageBidInfoList, Bid bid) {
+    protected void updateView() {
         // to be used upon refresh to update both openBidPanel and buttonPanel
-        if (openBidPanel != null) {
-            openBidPanel.removeAll();
+        if (contentPanel != null) {
+            contentPanel.removeAll();
         } else {
-            openBidPanel = new JPanel();
-            openBidPanel.setLayout(new BorderLayout());
-            mainPanel.add(openBidPanel);
+            contentPanel = new JPanel();
+            contentPanel.setLayout(new BorderLayout());
+            mainPanel.add(contentPanel);
         }
 
         JPanel mainList = new JPanel(new GridBagLayout());
@@ -113,7 +100,7 @@ public class CloseBidView implements Observer {
         JScrollPane jScrollPane = new JScrollPane(mainList);
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        openBidPanel.add(jScrollPane);
+        contentPanel.add(jScrollPane);
 
         int bidIndex = messageBidInfoList.size();
         for (MessageBidInfo b : messageBidInfoList) {
@@ -135,7 +122,7 @@ public class CloseBidView implements Observer {
         }
     }
 
-    private void updateButtons(int count) {
+    protected void updateButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();
@@ -168,7 +155,7 @@ public class CloseBidView implements Observer {
 
         // add offer selection menu
         offerSelection = new JComboBox<>();
-        for (int i = 1; i < count + 1; i++) {
+        for (int i = 1; i < bidIndex + 1; i++) {
             offerSelection.addItem(i);
         }
         panel.add(offerSelection, gbc2);
@@ -206,11 +193,6 @@ public class CloseBidView implements Observer {
         System.out.println("this is the index of the selection");
         System.out.println(offerSelection.getSelectedIndex());
         return Integer.parseInt(offerSelection.getSelectedItem().toString());
-    }
-
-    @Override
-    public void update() {
-        refreshContent();
     }
 }
 

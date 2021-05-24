@@ -3,8 +3,8 @@ package view.offering;
 import entity.MessagePair;
 import lombok.Getter;
 import model.offering.CloseOffersModel;
-import observer.Observer;
 import view.ViewUtility;
+import view.template.viewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -12,40 +12,25 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 
 @Getter
-public class CloseOfferView implements Observer {
+public class CloseOfferView extends viewTemplate {
 
     private CloseOffersModel closeOffersModel;
-    private JPanel mainPanel;
-    private JPanel openBidPanel;
-    private JPanel buttonPanel;
     private JButton refreshButton;
     private JButton respondMessageButton;
-    private JFrame frame;
-    private JLabel errorLabel;
 
     public CloseOfferView(CloseOffersModel closeOffersModel) {
         this.closeOffersModel = closeOffersModel;
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1,2));
-        frame = new JFrame("Close Message View");
-
+        makeMainPanel();
         updateView();
         updateButtons();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(mainPanel);
-//        frame.pack();
-        frame.setMinimumSize(new Dimension(860, 400));
-        frame.setMaximumSize(new Dimension(860, 1000));
-        frame.setPreferredSize(new Dimension(860, 500));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        makeFrame("Close Message View", JFrame.DISPOSE_ON_CLOSE);
     }
 
     public void dispose() {
         this.frame.dispose();
     }
 
-    private void refreshContent(){
+    protected void refreshContent(){
         // refreshing jcombobox
         updateView();
         refreshButtons();
@@ -53,20 +38,20 @@ public class CloseOfferView implements Observer {
 //        frame.pack();
     }
 
-    private void refreshButtons(){
+    protected void refreshButtons(){
         errorLabel.setText(closeOffersModel.getErrorText());
     }
 
-    private void updateView() {
+    protected void updateView() {
         MessagePair messagePair = closeOffersModel.getMessagePair();
 
         // to be used upon refresh to update both openBidPanel and buttonPanel
-        if (openBidPanel != null) {
-            openBidPanel.removeAll();
+        if (contentPanel != null) {
+            contentPanel.removeAll();
         } else {
-            openBidPanel = new JPanel();
-            openBidPanel.setLayout(new BorderLayout());
-            mainPanel.add(openBidPanel);
+            contentPanel = new JPanel();
+            contentPanel.setLayout(new BorderLayout());
+            mainPanel.add(contentPanel);
         }
         if (messagePair == null){
             return;
@@ -83,7 +68,7 @@ public class CloseOfferView implements Observer {
         JScrollPane jScrollPane = new JScrollPane(mainList);
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        openBidPanel.add(jScrollPane);
+        contentPanel.add(jScrollPane);
 
         // Code to add open bid panel
 
@@ -137,7 +122,7 @@ public class CloseOfferView implements Observer {
             mainList.add(panel, gbc1, 0);
     }
 
-    private void updateButtons() {
+    protected void updateButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();
@@ -176,10 +161,5 @@ public class CloseOfferView implements Observer {
         gbc1.fill = GridBagConstraints.HORIZONTAL;
         mainList.add(panel, gbc1, 0);
         buttonPanel.add(mainList, BorderLayout.CENTER);
-    }
-
-    @Override
-    public void update() {
-        refreshContent();
     }
 }

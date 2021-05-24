@@ -2,9 +2,9 @@ package view.contract;
 
 import lombok.Getter;
 import model.contract.ContractRenewalModel;
-import observer.Observer;
 import stream.Contract;
 import view.ViewUtility;
+import view.template.viewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -14,52 +14,37 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class ContractRenewalView implements Observer {
+public class ContractRenewalView extends viewTemplate {
 
     private ContractRenewalModel contractRenewalModel;
 
-    private JPanel mainPanel; // mainPanel holds both contractPanel and buttons
-    private JPanel contractPanel; // used to clear and update the content, only this need to be updated
     private JButton refreshButton;
     private JButton renewContractButton;
-    private JLabel errorLabel;
-    private JFrame frame;
-    private JPanel buttonPanel;
 
     public ContractRenewalView(ContractRenewalModel contractRenewalModel) {
         this.contractRenewalModel = contractRenewalModel;
-
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1,2));
-        frame = new JFrame("Contract Renewal View");
-        updateContracts();
+        makeMainPanel();
+        updateView();
         updateButtons();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(mainPanel);
-
-        frame.setMinimumSize(new Dimension(860, 400));
-        frame.setMaximumSize(new Dimension(860, 1000));
-        frame.setPreferredSize(new Dimension(860, 500));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        makeFrame("Contract Renewal View", JFrame.DISPOSE_ON_CLOSE);
     }
 
-    private void updateContent(){
-        updateContracts();
+    protected void refreshContent(){
+        updateView();
         refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
         System.out.println("ContractRenewalView refreshing..");
 //        frame.pack();
     }
 
-    public void updateContracts() {
+    protected void updateView() {
         // if contractPanel already constructed, just remove the contents (only one item inside - mainList)
-        if (contractPanel != null) {
-            contractPanel.removeAll();
+        if (contentPanel != null) {
+            contentPanel.removeAll();
         } else {
-            contractPanel = new JPanel();
-            contractPanel.setLayout(new BorderLayout());
-            mainPanel.add(contractPanel);
+            contentPanel = new JPanel();
+            contentPanel.setLayout(new BorderLayout());
+            mainPanel.add(contentPanel);
         }
 
         JPanel mainList = new JPanel(new GridBagLayout());
@@ -73,7 +58,7 @@ public class ContractRenewalView implements Observer {
         JScrollPane jScrollPane = new JScrollPane(mainList);
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        contractPanel.add(jScrollPane);
+        contentPanel.add(jScrollPane);
 
         // get the list of contracts and update accordingly
         List<Contract> contractList = new ArrayList<>(contractRenewalModel.getExpiredContracts());
@@ -97,11 +82,11 @@ public class ContractRenewalView implements Observer {
         }
     }
 
-    private void refreshButtons(){
+    protected void refreshButtons(){
         errorLabel.setText(contractRenewalModel.getErrorText());
     }
 
-    private void updateButtons() {
+    protected void updateButtons() {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
         } else {
@@ -142,8 +127,4 @@ public class ContractRenewalView implements Observer {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    @Override
-    public void update() {
-        updateContent();
-    }
 }

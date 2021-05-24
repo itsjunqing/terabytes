@@ -6,6 +6,7 @@ import model.offering.MonitoringModel;
 import observer.Observer;
 import stream.Bid;
 import view.ViewUtility;
+import view.template.viewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -16,18 +17,13 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class MonitoringView implements Observer {
+public class MonitoringView extends viewTemplate {
 
     private MonitoringModel monitoringModel;
-
-    private JPanel mainPanel;
-    private JPanel monitoringPanel;
-    private JPanel buttonPanel;
     private JComboBox bidSelection;
     private JButton viewOffersButton;
-
-    private JLabel errorLabel;
-    private JFrame frame;
+    private List<Bid> monitoringBids;
+    private int bidListSize;
 
     /**
      * Constructor that creates the main frame and calls
@@ -36,22 +32,10 @@ public class MonitoringView implements Observer {
      */
     public MonitoringView(MonitoringModel monitoringModel) {
         this.monitoringModel = monitoringModel;
-
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1,2));
-        frame = new JFrame("Monitoring Dashboard");
+        makeMainPanel();
         // Updating the panels in the frame
         updateContent();
-
-        // Setting the frame
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.add(mainPanel);
-//        frame.pack();
-        frame.setMinimumSize(new Dimension(860, 400));
-        frame.setMaximumSize(new Dimension(1000, 1000));
-        frame.setPreferredSize(new Dimension(860, 500));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        makeFrame("Monitoring Dashboard", JFrame.DISPOSE_ON_CLOSE);
     }
 
     public void dispose() {
@@ -61,11 +45,12 @@ public class MonitoringView implements Observer {
     /**
      * Function to create the panel for the first time
      */
-    private void updateContent() {
-        List<Bid> monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
+    protected void updateContent() {
+        monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
         Collections.reverse(monitoringBids);
-        updateView(monitoringBids);
-        updateButtons(monitoringBids.size());
+        updateView();
+        bidListSize = monitoringBids.size();
+        updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
@@ -73,17 +58,18 @@ public class MonitoringView implements Observer {
      * Function to refresh the content of the panels without
      * unnecessarily creating new panels
      */
-    private void refreshContent(){
-        List<Bid> monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
+    protected void refreshContent(){
+        monitoringBids = new ArrayList<>(monitoringModel.getMonitoringBids());
         Collections.reverse(monitoringBids);
-        updateView(monitoringBids);
-        refreshButtons(monitoringBids.size());
+        updateView();
+        bidListSize = monitoringBids.size();
+        refreshButtons();
         errorLabel.setText(monitoringModel.getErrorText());
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
 
-    private void refreshButtons(int bidListSize){
+    protected void refreshButtons(){
         bidSelection.removeAllItems();
         for (int i = 1; i < bidListSize + 1; i++) {
             bidSelection.addItem(i);
@@ -94,13 +80,13 @@ public class MonitoringView implements Observer {
     /**
      * function to create the information panel
      */
-    private void updateView(List<Bid> monitoringBids) {
-        if (monitoringPanel != null) {
-            monitoringPanel.removeAll();
+    protected void updateView() {
+        if (contentPanel != null) {
+            contentPanel.removeAll();
         } else {
-            monitoringPanel = new JPanel();
-            monitoringPanel.setLayout(new BorderLayout());
-            mainPanel.add(monitoringPanel);
+            contentPanel = new JPanel();
+            contentPanel.setLayout(new BorderLayout());
+            mainPanel.add(contentPanel);
         }
 
         JPanel mainList = new JPanel(new GridBagLayout());
@@ -114,7 +100,7 @@ public class MonitoringView implements Observer {
         JScrollPane jScrollPane = new JScrollPane(mainList);
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        monitoringPanel.add(jScrollPane);
+        contentPanel.add(jScrollPane);
 
         // initialize gridBagConstraints
         GridBagConstraints gbc1 = new GridBagConstraints();
@@ -159,7 +145,7 @@ public class MonitoringView implements Observer {
         }
     }
 
-    private void updateButtons(int bidSize) {
+    protected void updateButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();
@@ -181,7 +167,7 @@ public class MonitoringView implements Observer {
 
         // add choose bid combobox
         bidSelection = new JComboBox();
-        for (int i = 1; i < bidSize + 1; i ++){
+        for (int i = 1; i < bidListSize + 1; i ++){
             bidSelection.addItem(i);
         }
         panel.add(bidSelection, gbc2);
@@ -212,8 +198,5 @@ public class MonitoringView implements Observer {
         return Integer.parseInt(bidSelection.getSelectedItem().toString());
     }
 
-    @Override
-    public void update() {
-        refreshContent();
-    }
+
 }

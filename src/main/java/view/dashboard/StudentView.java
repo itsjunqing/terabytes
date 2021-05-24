@@ -17,31 +17,23 @@ public class StudentView extends DashboardView {
 
     public StudentView(DashboardModel dashboardModel) {
         super(dashboardModel);
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(1,2));
+        makeMainPanel();
         String name = dashboardModel.getName();
-        frame = new JFrame("Student " + name + "'s Dashboard");
-        updateContracts();
-        addButtons();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(mainPanel);
-        // resizing if its smaller than the default size
-        frame.setMinimumSize(new Dimension(860, 400));
-        frame.setMaximumSize(new Dimension(860, 1000));
-        frame.setPreferredSize(new Dimension(860, 500));
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+
+        updateView();
+        updateButtons();
+        makeFrame("Student " + name + "'s Dashboard", JFrame.EXIT_ON_CLOSE);
     }
 
     @Override
-    public void updateContracts() {
+    public void updateView() {
         // if contractPanel already constructed, just remove the contents (only one item inside - mainList)
-        if (contractPanel != null) {
-            contractPanel.removeAll();
+        if (contentPanel != null) {
+            contentPanel.removeAll();
         } else {
-            contractPanel = new JPanel();
-            contractPanel.setLayout(new BorderLayout());
-            mainPanel.add(contractPanel);
+            contentPanel = new JPanel();
+            contentPanel.setLayout(new BorderLayout());
+            mainPanel.add(contentPanel);
         }
 
         JPanel mainList = new JPanel(new GridBagLayout());
@@ -55,7 +47,7 @@ public class StudentView extends DashboardView {
         JScrollPane jScrollPane = new JScrollPane(mainList);
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        contractPanel.add(jScrollPane);
+        contentPanel.add(jScrollPane);
 
         // get the list of contracts and update accordingly
         List<Contract> contractList = new ArrayList<>(getDashboardModel().getTopFiveContracts());
@@ -79,7 +71,7 @@ public class StudentView extends DashboardView {
         }
     }
 
-    private void addButtons() {
+    protected void updateButtons() {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
         } else {
@@ -124,8 +116,8 @@ public class StudentView extends DashboardView {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    @Override
-    public void update() {
-        refreshContent();
+    public void refreshButtons(){
+        errorLabel.setText(dashboardModel.getErrorText());
     }
+
 }

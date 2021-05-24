@@ -17,14 +17,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class OpenOffersView extends viewTemplate  {
-    private JPanel openBidPanel;
-    private JPanel buttonPanel;
+public class OpenOffersView extends viewTemplate{
     private JButton refreshButton;
     private JButton respondButton;
     private JButton buyOutButton;
     private OpenOffersModel openOffersModel;
-    private JLabel errorLabel;
+    private List<BidInfo> otherBidInfo;
+    private BidInfo myBidInfo;
+    private Bid bid;
 
     public OpenOffersView(OpenOffersModel offeringModel) {
         this.openOffersModel = offeringModel;
@@ -37,47 +37,47 @@ public class OpenOffersView extends viewTemplate  {
         this.frame.dispose();
     }
 
-    private void updateContent() {
+    protected void updateContent() {
 
         // getting the constants from the model
-        List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
-        BidInfo myBidInfo = openOffersModel.getMyOffer();
-        Bid bid = openOffersModel.getBid();
+        otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
+        myBidInfo = openOffersModel.getMyOffer();
+        bid = openOffersModel.getBid();
         // making the frames 
-        updateView(otherBidInfo, myBidInfo, bid);
+        updateView();
         updateButtons();
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
 
-    private void refreshContent(){
+    protected void refreshContent(){
         // getting the constants from the model
-        List<BidInfo> otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
+        otherBidInfo = new ArrayList<>(openOffersModel.getOpenOffers());
 
         System.out.println("From OpenOffersView refreshContent function");
         otherBidInfo.stream().forEach(e -> System.out.println(e.toString()));
 
-        BidInfo myBidInfo = openOffersModel.getMyOffer();
-        Bid bid = openOffersModel.getBid();
+        myBidInfo = openOffersModel.getMyOffer();
+        bid = openOffersModel.getBid();
         // making the frames
-        updateView(otherBidInfo, myBidInfo, bid);
+        updateView();
         refreshButtons();
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
 
-    private void refreshButtons(){
+    protected void refreshButtons(){
         errorLabel.setText(openOffersModel.getErrorText());
     }
 
-    private void updateView(List<BidInfo> otherBidInfo, BidInfo myBidInfo, Bid bid) {
+    protected void updateView() {
         // to be used upon refresh to update both openBidPanel and buttonPanel
-        if (openBidPanel != null) {
-            openBidPanel.removeAll();
+        if (contentPanel != null) {
+            contentPanel.removeAll();
         } else {
-            openBidPanel = new JPanel();
-            openBidPanel.setLayout(new BorderLayout());
-            mainPanel.add(openBidPanel);
+            contentPanel = new JPanel();
+            contentPanel.setLayout(new BorderLayout());
+            mainPanel.add(contentPanel);
         }
         // if bid has expired, return empty panel
         if (bid.getDateClosedDown() != null){
@@ -95,7 +95,7 @@ public class OpenOffersView extends viewTemplate  {
         JScrollPane jScrollPane = new JScrollPane(mainList);
         jScrollPane.getVerticalScrollBar().setUnitIncrement(15);
         jScrollPane.getViewport().setScrollMode(JViewport.SIMPLE_SCROLL_MODE);
-        openBidPanel.add(jScrollPane);
+        contentPanel.add(jScrollPane);
 
         // initialize gridBagConstraits
         GridBagConstraints gbc1 = new GridBagConstraints();
@@ -163,7 +163,7 @@ public class OpenOffersView extends viewTemplate  {
         mainList.add(requestPanel, gbc1, 0);
     }
 
-    private void updateButtons() {
+    protected void updateButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();
@@ -211,8 +211,5 @@ public class OpenOffersView extends viewTemplate  {
         buttonPanel.add(mainList, BorderLayout.CENTER);
     }
 
-    @Override
-    public void update() {
-        refreshContent();
-    }
+
 }
