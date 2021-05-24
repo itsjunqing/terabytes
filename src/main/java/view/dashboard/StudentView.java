@@ -20,7 +20,7 @@ public class StudentView extends DashboardView {
         makeMainPanel();
         String name = dashboardModel.getName();
         updateView();
-        updateButtons();
+        createButtons();
         makeFrame("Student " + name + "'s Dashboard", JFrame.EXIT_ON_CLOSE);
     }
 
@@ -70,7 +70,7 @@ public class StudentView extends DashboardView {
         }
     }
 
-    protected void updateButtons() {
+    protected void createButtons() {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
         } else {

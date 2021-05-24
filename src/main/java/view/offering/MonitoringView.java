@@ -3,7 +3,6 @@ package view.offering;
 import entity.BidInfo;
 import lombok.Getter;
 import model.offering.MonitoringModel;
-import observer.Observer;
 import stream.Bid;
 import view.ViewUtility;
 import view.template.viewTemplate;
@@ -50,7 +49,7 @@ public class MonitoringView extends viewTemplate {
         Collections.reverse(monitoringBids);
         updateView();
         bidListSize = monitoringBids.size();
-        updateButtons();
+        createButtons();
         SwingUtilities.updateComponentTreeUI(frame);
     }
 
@@ -145,7 +144,7 @@ public class MonitoringView extends viewTemplate {
         }
     }
 
-    protected void updateButtons() {
+    protected void createButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();

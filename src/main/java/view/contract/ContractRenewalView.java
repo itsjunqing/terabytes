@@ -25,7 +25,7 @@ public class ContractRenewalView extends viewTemplate {
         this.contractRenewalModel = contractRenewalModel;
         makeMainPanel();
         updateView();
-        updateButtons();
+        createButtons();
         makeFrame("Contract Renewal View", JFrame.DISPOSE_ON_CLOSE);
     }
 
@@ -86,7 +86,7 @@ public class ContractRenewalView extends viewTemplate {
         errorLabel.setText(contractRenewalModel.getErrorText());
     }
 
-    protected void updateButtons() {
+    protected void createButtons() {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
         } else {

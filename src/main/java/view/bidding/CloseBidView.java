@@ -45,7 +45,7 @@ public class CloseBidView extends viewTemplate {
         Collections.reverse(messageBidInfoList);
         bidIndex = messageBidInfoList.size();
         updateView();
-        updateButtons();
+        createButtons();
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
@@ -122,7 +122,7 @@ public class CloseBidView extends viewTemplate {
         }
     }
 
-    protected void updateButtons() {
+    protected void createButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();

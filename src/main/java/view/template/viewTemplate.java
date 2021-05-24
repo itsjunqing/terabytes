@@ -66,7 +66,7 @@ public abstract class viewTemplate implements Observer{
     /**
      * method to create the button panel
      */
-    abstract protected void updateButtons();
+    abstract protected void createButtons();
 
     /**
      * Method to both create the contents of the content

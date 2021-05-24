@@ -45,7 +45,7 @@ public class OfferingView extends viewTemplate {
         bidSize = bidList.size();
         Collections.reverse(bidList);
         updateView();
-        updateButtons();
+        createButtons();
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
@@ -78,7 +78,7 @@ public class OfferingView extends viewTemplate {
      * Function to initialise the button panel for the
      * first time
      */
-    protected void updateButtons() {
+    protected void createButtons() {
         if (buttonPanel != null) {
             buttonPanel.removeAll();
         } else {

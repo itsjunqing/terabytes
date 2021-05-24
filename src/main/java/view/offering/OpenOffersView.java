@@ -3,7 +3,6 @@ package view.offering;
 import entity.BidInfo;
 import lombok.Getter;
 import model.offering.OpenOffersModel;
-import observer.Observer;
 import stream.Bid;
 import view.ViewUtility;
 import view.template.viewTemplate;
@@ -44,7 +43,7 @@ public class OpenOffersView extends viewTemplate{
         bid = openOffersModel.getBid();
         // making the frames 
         updateView();
-        updateButtons();
+        createButtons();
         SwingUtilities.updateComponentTreeUI(frame);
 //        frame.pack();
     }
@@ -162,7 +161,7 @@ public class OpenOffersView extends viewTemplate{
         mainList.add(requestPanel, gbc1, 0);
     }
 
-    protected void updateButtons() {
+    protected void createButtons() {
         // constructs buttonPanel and add into the mainPanel of the view
         if (buttonPanel != null) {
             buttonPanel.removeAll();
