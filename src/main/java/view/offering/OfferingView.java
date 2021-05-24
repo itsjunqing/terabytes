@@ -36,7 +36,6 @@ public class OfferingView implements Observer {
         mainPanel.setLayout(new GridLayout(1,2));
         frame = new JFrame("Tutor Offering View");
         updateContent();
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(mainPanel);
 //        frame.pack();
         frame.setMinimumSize(new Dimension(860, 400));
@@ -44,6 +43,8 @@ public class OfferingView implements Observer {
         frame.setPreferredSize(new Dimension(860, 500));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
     }
 
     private void updateContent() {
