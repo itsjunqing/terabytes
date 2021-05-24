@@ -25,7 +25,6 @@ public class OfferingView extends ViewTemplate {
     public OfferingView(OfferingModel offeringModel) {
         this.offeringModel = offeringModel;
         makeMainPanel();
-        frame = new JFrame("Tutor Offering View");
         makeFrame("Tutor Offering View", JFrame.DISPOSE_ON_CLOSE);
         updateContent();
     }
