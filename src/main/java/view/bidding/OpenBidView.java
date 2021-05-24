@@ -27,8 +27,8 @@ public class OpenBidView extends ViewTemplate {
         this.openBidModel = openBidModel;
         System.out.println(this.getClass().getName() + " is initiating");
         makeMainPanel();
-        updateContent();
         makeFrame("Open Offers", JFrame.DISPOSE_ON_CLOSE);
+        updateContent();
     }
 
     public void dispose() {

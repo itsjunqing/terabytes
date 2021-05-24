@@ -28,8 +28,8 @@ public class CloseBidView extends ViewTemplate {
     public CloseBidView(CloseBidModel closeBidModel) {
         this.closeBidModel = closeBidModel;
         makeMainPanel();
-        updateContent();
         makeFrame("Closed Offers", JFrame.DISPOSE_ON_CLOSE);
+        updateContent();
     }
 
     public void dispose() {

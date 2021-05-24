@@ -30,9 +30,9 @@ public class MonitoringView extends ViewTemplate {
     public MonitoringView(MonitoringModel monitoringModel) {
         this.monitoringModel = monitoringModel;
         makeMainPanel();
+        makeFrame("Monitoring Dashboard", JFrame.DISPOSE_ON_CLOSE);
         // Updating the panels in the frame
         updateContent();
-        makeFrame("Monitoring Dashboard", JFrame.DISPOSE_ON_CLOSE);
     }
 
     public void dispose() {

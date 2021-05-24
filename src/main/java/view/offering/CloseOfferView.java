@@ -22,8 +22,8 @@ public class CloseOfferView extends ViewTemplate {
         this.closeOffersModel = closeOffersModel;
         makeMainPanel();
         updateView();
-        createButtons();
         makeFrame("Close Message View", JFrame.DISPOSE_ON_CLOSE);
+        createButtons();
     }
 
     public void dispose() {

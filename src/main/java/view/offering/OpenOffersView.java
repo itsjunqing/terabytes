@@ -26,8 +26,8 @@ public class OpenOffersView extends ViewTemplate {
     public OpenOffersView(OpenOffersModel offeringModel) {
         this.openOffersModel = offeringModel;
         makeMainPanel();
-        updateContent();
         makeFrame("All Open Offers for this Bid", JFrame.DISPOSE_ON_CLOSE);
+        updateContent();
     }
 
     public void dispose() {

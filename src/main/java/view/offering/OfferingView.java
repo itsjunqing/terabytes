@@ -26,8 +26,8 @@ public class OfferingView extends ViewTemplate {
         this.offeringModel = offeringModel;
         makeMainPanel();
         frame = new JFrame("Tutor Offering View");
-        updateContent();
         makeFrame("Tutor Offering View", JFrame.DISPOSE_ON_CLOSE);
+        updateContent();
     }
 
     private List<Bid> getBidList() {

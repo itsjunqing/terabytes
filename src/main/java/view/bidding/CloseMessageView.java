@@ -22,8 +22,8 @@ public class CloseMessageView extends ViewTemplate {
         this.messagePair = messagePair;
         this.bid = bid;
         makeMainPanel();
-        updateContent();
         makeFrame("Closed Messages", JFrame.DISPOSE_ON_CLOSE);
+        updateContent();
     }
 
     public void dispose() {
