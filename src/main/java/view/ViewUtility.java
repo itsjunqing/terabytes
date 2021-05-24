@@ -19,8 +19,6 @@ public class ViewUtility {
     public static final int STUDENT_CODE = 0;
     public static final int TUTOR_CODE = 1;
 
-
-
     public static Integer[] competencies = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     public static Integer[] sessions = {1, 2, 3, 4, 5};
     public static String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday"};
@@ -28,7 +26,6 @@ public class ViewUtility {
             "3:00PM", "4:00PM", "5:00PM", "6:00PM", "7:00PM"};
     public static Integer[] durations = {1, 2, 3, 4, 5};
     public static String[] freeLessons = {"Yes", "No"};
-
 
     public static String errorMessage = "This Bid has expired, please make a new one";
     public static String closeMessage = "This Bid has expired or closed down, please close and refresh main page";

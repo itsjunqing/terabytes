@@ -186,5 +186,4 @@ public class OpenOffersView extends ViewTemplate {
         return openOffersModel.getMyOffer();
     }
 
-
 }
