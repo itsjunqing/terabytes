@@ -5,6 +5,7 @@ import model.offering.OfferingModel;
 import observer.Observer;
 import stream.Bid;
 import view.ViewUtility;
+import view.template.viewTemplate;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -14,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Getter
-public class OfferingView implements Observer {
+public class OfferingView extends viewTemplate {
 
     private OfferingModel offeringModel;
 
@@ -34,6 +35,7 @@ public class OfferingView implements Observer {
 
         mainPanel = new JPanel();
         mainPanel.setLayout(new GridLayout(1,2));
+
         frame = new JFrame("Tutor Offering View");
         updateContent();
         frame.add(mainPanel);
