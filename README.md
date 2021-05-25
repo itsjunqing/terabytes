@@ -3,31 +3,39 @@
 FIT3077 student-matching system
 
 
-## How to run this application
+# How to run this application
 
-### From the command line
+## From the command line
 
 1. install maven
 2. mvn compile
 3. mvn exec:java -Dexec.mainClass=engine.Driver
 
-### From an IDE
+## From an IDE
 
 1. Open this in IntelilJ IDEA
 2. Go to Preferences -> GUI Designer -> Generate GUI into Java source codes
 3. Run Driver class
 
-### User accounts information (updated for Assignment 3)
+## User accounts information (updated for Assignment 3)
 
 We have created separate clean test accounts to facilitate the marker in testing functionality.
 
-Note: For the tests or demonstration to be done cleanly, it is strongly encouraged to: 
-1. Uncomment the lines of ```LoginModel loginModel = new LoginModel();
-        LoginView loginView = new LoginView();
-        LoginController loginController = new LoginController(loginModel, loginView);```
-2. Run the `mainScript()` in Driver
+### Note: For the tests or demonstration to be done cleanly, it is strongly encouraged to: 
+1. Go to `Driver.java` in `engine` package
+2. Uncomment the lines of :
+    ```java
+    LoginModel loginModel = new LoginModel();
+    LoginView loginView = new LoginView();
+    LoginController loginController = new LoginController(loginModel, loginView);
+    ```
+3. Run the `mainScript()` in Driver
 
-**For Requirement 1: Monitoring Dashboard**<br>
+This will reset all the accounts to default state where functionality can be done clearly and cleanly. 
+
+
+### Accounts Information
+**For Requirement 1: Monitoring Dashboard**</br>
 Note: The bids to be monitored must be manually created by the student accounts below before the tutors can subscribe to them
 
 Username: dummystudent<br>
