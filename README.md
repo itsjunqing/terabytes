@@ -17,13 +17,26 @@ FIT3077 student-matching system
 2. Go to Preferences -> GUI Designer -> Generate GUI into Java source codes
 3. Run Driver class
 
-### User accounts information
+### User accounts information (updated for Assignment 3)
 
 We have created separate clean test accounts to facilitate the marker in testing functionality.
 
+**For Requirement 2: Student receives expiry notification**
+Username: expirystudent<br>
+Password: expirystudent
+
+**For Requirement 2: Tutor receives expiry notification**
+Username: dummytutor3<br>
+Password: dummytutor3
+
+**For Requirement 2+3: Student renews a contract**
+Username: renewalstudent<br>
+Password: renewalstudent
+
+## Nick, pls update
 **For Student, we have created a test account**
 
-Username: studenttest1<br>
+Username: ex<br>
 Password: studenttest1
 
 **For Tutor, we have created 2 test accounts:**
