@@ -9,10 +9,14 @@ public class Driver {
         LoginModel loginModel = new LoginModel();
         LoginView loginView = new LoginView();
         LoginController loginController = new LoginController(loginModel, loginView);
-//        mainScript();
     }
 
+
+    /**
+     * Disclaimer: This script is only run mainly for testing and system demonstration
+     */
     public static void mainScript() {
+
         TestScript.clearAllData();
         // Generate about to expire for testing expiry notification upon login
         TestScript.generateAboutToExpireContracts("expirystudent", "dummytutor3");

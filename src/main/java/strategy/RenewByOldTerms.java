@@ -22,7 +22,6 @@ public class RenewByOldTerms implements RenewStrategy {
         this.contractRenewalModel = contractRenewalModel;
     }
 
-
     /**
      * Execute renewal process by:
      * 1) Getting the contract to be renewed (whose terms are to be reused)

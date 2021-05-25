@@ -43,7 +43,6 @@ public class ContractBuilder {
                 lesson, bid.getAdditionalInfo().getPreference());
     }
 
-
     /**
      * Builds a Contract from an old Contract with new terms and new tutor
      * @param contract old contract

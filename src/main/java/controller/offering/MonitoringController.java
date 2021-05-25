@@ -89,27 +89,3 @@ public class MonitoringController implements EventListener {
     }
 }
 
-
-
-//    private void handleSelection(ActionEvent e){
-//        List <Bid> selectedBids = subscriptionSelectionView.getBidJList().getSelectedValuesList();
-//        subscriptionSelectionView.dispose();
-//        monitoringModel.setSelectedBids(selectedBids);
-//        SwingUtilities.invokeLater(() -> {
-//            monitoringView = new MonitoringView(monitoringModel);
-//            monitoringView.getRespondButton().addActionListener(this::handleRespond);
-//            monitoringView.getBuyOutButton().addActionListener(this::handleBuyOut);
-//            // if the window is closed, end the scheduller
-//            monitoringView.getFrame().addWindowListener(new WindowAdapter() {
-//                @Override
-//                public void windowClosing(WindowEvent e) {
-//                    System.out.println("Monitoring Frame is Closing");
-//                    dispose();
-//                    e.getWindow().dispose();
-//                }
-//            });
-//            this.monitoringModel.attach(monitoringView);
-//            scheduler = Scheduler.getInstance();
-//            scheduler.oSubject.attach(monitoringModel); // scheduler (subject) will notify observer (monitoring) every 5 seconds
-//        });
-//    }
