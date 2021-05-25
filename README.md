@@ -21,6 +21,31 @@ FIT3077 student-matching system
 
 We have created separate clean test accounts to facilitate the marker in testing functionality.
 
+**For Requirement 1: Monitoring Dashboard**
+Note: The bids to be monitored must be manually created by the student accounts below before the tutors can subscribe to them
+
+Username: dummystudent<br>
+Password: dummystudent
+
+Username: dummystudent1<br>
+Password: dummystudent1
+
+Username: dummytutor<br>
+Password: dummytutor
+
+Username: dummytutor1<br>
+Password: dummytutor1
+
+**For Requirement 2: Contract length**
+Note: The bid and corresponding offers must be created by the student and the tutor, followed by the student accepting the offer before the Contract length can be specified
+
+Username: dummystudent<br>
+Password: dummystudent
+
+Username: dummytutor<br>
+Password: dummytutor
+
+
 **For Requirement 2: Student receives expiry notification**
 Username: expirystudent<br>
 Password: expirystudent
@@ -29,28 +54,41 @@ Password: expirystudent
 Username: dummytutor3<br>
 Password: dummytutor3
 
-**For Requirement 2+3: Student renews a contract**
+**For Requirement 2: Automatic termination of countract**
+Username: almostexpiredstudent<br>
+Password: almostexpiredstudent
+
+**For Requirement 2+3: Student renews a contract with same tutor**
 Username: renewalstudent<br>
 Password: renewalstudent
 
-## Nick, pls update
-**For Student, we have created a test account**
+Username: dummytutor1<br>
+Password: dummytutor1
 
-Username: ex<br>
-Password: studenttest1
+**For Requirement 2+3: Student renews a contract with different tutor**
+Username: renewalstudent<br>
+Password: renewalstudent
 
-**For Tutor, we have created 2 test accounts:**
+Username: dummytutor<br>
+Password: dummytutor
 
-Username: tutortest1<br>
-Password: tutortest1
+**For Requirement 3: Student can only renew contract with tutor that has the required competency**
+Note: dummytutor and dummytutor1 has competency of 10, while dummytutor2 and dummytutor3 has competency of 5.
 
-Username: tutortest2<br>
-Password: tutortest2
+We provide a script to generate contracts with different competency requirements. If competency of 3 is selected, all dummy tutors (0-3) can be used in renewal, if 4 is provided, then only dummytutor and dummytutor1 can be used in renewal
 
-##### Disclaimer for tutortest1: 
-- tutortest1 contains all qualifications
-- tutortest1 contains all competencies of each subject at level 5
+Username: renewalstudent<br>
+Password: renewalstudent
 
-##### Disclaimer for tutortest2: 
-- tutortest2 contains all qualifications
-- tutortest2 contains all competencies of each subject at level 10
+Username: dummytutor<br>
+Password: dummytutor
+
+Username: dummytutor1<br>
+Password: dummytutor1
+
+Username: dummytutor2<br>
+Password: dummytutor2
+
+Username: dummytutor3<br>
+Password: dummytutor3
+
