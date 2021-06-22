@@ -26,7 +26,7 @@ The application includes the following functionalities, which are extensible:
 - Contract renewal for renewing expired contracts 
 
 ## Installation Guide
-Clone the project then choose one of the following options to execute. \
+Clone the project then choose one of the following options to execute.
 
 ### From the command line
 1. install maven
@@ -47,7 +47,12 @@ Username: dummytutor\
 Password: dummytutor
 
 ## Documents Directories
-For design documents: refer to `app_docs`
+For design documents: refer to `app_docs`\
 For application demo: refer to `app_demo`
 
-
+## Application screenshots
+<div align="center">
+	<img src="./app_screenshots/login.png" width="40%" height="40%">
+	<img src="./app_screenshots/student-dashboard.png" width="80%" height="80%">
+	<img src="./app_screenshots/tutor-dashboard.png" width="80%" height="80%">
+</div>
