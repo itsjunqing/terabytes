@@ -1,108 +1,53 @@
- # terabytes
+# FIT3077 Tutor-Student Matching System
 
-FIT3077 student-matching system
+## Project Background
+This project represents the final submission for [FIT3077 Software Architecture](https://handbook.monash.edu/2021/units/FIT3077) unit. 
+The objective of this project is to design and build an online tutor matching application that places prospective students in touch with private tutors. It connects student to tutors through bidding and contract formation process. 
+Students can initiate bids in the bid marketplace alongside with preferences such as day, time, subject, qualification, rate, etc. 
+Tutors can browse the bid marketplace to either buyout the bids or offer an alternative bid to the students. 
+Upon agreement by student or tutor, a contract is then formed between the both parties with a specified contract duration. 
 
+Our system applies the following architectures/design in building the application: 
+- [Model-View Controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) for overall architecture
+- [Adapter pattern](https://refactoring.guru/design-patterns/adapter) to serialize JSONs to corresponding objects
+- [Template pattern](https://refactoring.guru/design-patterns/template-method) to generalize common views across different user interfaces
+- [Observer pattern](https://refactoring.guru/design-patterns/observer) to notify the views to update when invoked by users
+- [Strategy pattern](https://refactoring.guru/design-patterns/strategy) to switch different methods of renewing a contract between student and tutor
+- [Builder pattern](https://refactoring.guru/design-patterns/builder) to build objects used throughout the application
 
-# How to run this application
+The application includes the following functionalities, which are extensible: 
+- Login system by tutor/student
+- Student and tutor home dashboard showing the contracts signed
+- Tutor monitoring dashboard showing the bids to be monitored / bookmarked by tutors 
+- Bidding system for tutors to bid on the students' requirements: 
+	- Open bidding: where tutors are allowed to provide offers for the students' bids or buy out immediately
+	- Close bidding: where tutors can respond and provide offers to student' bid request through messages 
+- Contract formation and signing between students and tutors 
+- Contract renewal for renewing expired contracts 
 
-## From the command line
+## Installation Guide
+Clone the project then choose one of the following options to execute. \
 
+### From the command line
 1. install maven
-2. mvn compile
-3. mvn exec:java -Dexec.mainClass=engine.Driver
+2. `mvn compile`
+3. `mvn exec:java -Dexec.mainClass=engine.Driver`
 
-## From an IDE
-
+### From an IDE
 1. Open this in IntelilJ IDEA
 2. Go to Preferences -> GUI Designer -> Generate GUI into Java source codes
 3. Run Driver class
 
-## User accounts information (updated for Assignment 3)
-
-We have created separate clean test accounts to facilitate the marker in testing functionality.
-
-### Note: For the tests or demonstration to be done cleanly, it is strongly encouraged to: 
-1. Go to `Driver.java` in `engine` package
-2. Uncomment the lines of :
-    ```java
-    LoginModel loginModel = new LoginModel();
-    LoginView loginView = new LoginView();
-    LoginController loginController = new LoginController(loginModel, loginView);
-    ```
-3. Run the `mainScript()` in Driver
-
-This will reset all the accounts to default state where functionality can be done clearly and cleanly. 
-
-
-### Accounts Information
-**For Requirement 1: Monitoring Dashboard**</br>
-Note: The bids to be monitored must be manually created by the student accounts below before the tutors can subscribe to them
-
-Username: dummystudent<br>
+### Login Credentials
+Use the following accounts to login:\
+Username: dummystudent\
 Password: dummystudent
 
-Username: dummystudent1<br>
-Password: dummystudent1
-
-Username: dummytutor<br>
+Username: dummytutor\
 Password: dummytutor
 
-Username: dummytutor1<br>
-Password: dummytutor1
+## Documents Directories
+For design documents: refer to `app_docs`
+For application demo: refer to `app_demo`
 
-**For Requirement 2: Contract length**<br>
-Note: The bid and corresponding offers must be created by the student and the tutor, followed by the student accepting the offer before the Contract length can be specified
-
-Username: dummystudent<br>
-Password: dummystudent
-
-Username: dummytutor<br>
-Password: dummytutor
-
-
-**For Requirement 2: Student receives expiry notification**<br>
-Username: expirystudent<br>
-Password: expirystudent
-
-**For Requirement 2: Tutor receives expiry notification**<br>
-Username: dummytutor3<br>
-Password: dummytutor3
-
-**For Requirement 2: Automatic termination of countract**<br>
-Username: almostexpiredstudent<br>
-Password: almostexpiredstudent
-
-**For Requirement 2+3: Student renews a contract with same tutor**<br>
-Username: renewalstudent<br>
-Password: renewalstudent
-
-Username: dummytutor1<br>
-Password: dummytutor1
-
-**For Requirement 2+3: Student renews a contract with different tutor**<br>
-Username: renewalstudent<br>
-Password: renewalstudent
-
-Username: dummytutor<br>
-Password: dummytutor
-
-**For Requirement 3: Student can only renew contract with tutor that has the required competency**<br>
-Note: dummytutor and dummytutor1 has competency of 10, while dummytutor2 and dummytutor3 has competency of 5.
-
-We provide a script to generate contracts with different competency requirements. If competency of 3 is selected, all dummy tutors (0-3) can be used in renewal, if 4 is provided, then only dummytutor and dummytutor1 can be used in renewal
-
-Username: renewalstudent<br>
-Password: renewalstudent
-
-Username: dummytutor<br>
-Password: dummytutor
-
-Username: dummytutor1<br>
-Password: dummytutor1
-
-Username: dummytutor2<br>
-Password: dummytutor2
-
-Username: dummytutor3<br>
-Password: dummytutor3
 
