@@ -1,13 +1,12 @@
-# FIT3077 Tutor-Student Matching System
+# TeraBytes: Tutor-Student Matching App
 
-## Project Background
-This project represents the final submission for [FIT3077 Software Architecture](https://handbook.monash.edu/2021/units/FIT3077) unit. 
-The objective of this project is to design and build an online tutor matching application that places prospective students in touch with private tutors. It connects student to tutors through bidding and contract formation process. 
-Students can initiate bids in the bid marketplace alongside with preferences such as day, time, subject, qualification, rate, etc. 
-Tutors can browse the bid marketplace to either buyout the bids or offer an alternative bid to the students. 
-Upon agreement by student or tutor, a contract is then formed between the both parties with a specified contract duration. 
+## Preface
 
-Our system applies the following architectures/design in building the application: 
+TeraBytes is a project that aims to connect an students to tutors through a bididng and contract formation system. It helps to place prospective students in touch with private tutors. 
+
+Students can initiate bids in the bid marketplace alongside with preferences such as day, time, subject, qualification, rate, etc. <br>Tutors can browse the bid marketplace to either buyout the bids or offer an alternative bid to the students. <br>Upon agreement by student or tutor, a contract is then formed between the both parties with a specified contract duration. 
+
+The system applies the following architectures/design in building the application: 
 - [Model-View Controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) for overall architecture
 - [Adapter pattern](https://refactoring.guru/design-patterns/adapter) to serialize JSONs to corresponding objects
 - [Template pattern](https://refactoring.guru/design-patterns/template-method) to generalize common views across different user interfaces
@@ -46,13 +45,18 @@ Password: dummystudent
 Username: dummytutor\
 Password: dummytutor
 
-## Documents Directories
-For design documents: refer to `app_docs`\
-For application demo: refer to `app_demo`
+## Directories
+For design documents: refer to [app_docs](./app_docs/)\
+For application demo: refer to [app_demo](./app_demo/)
 
-## Application screenshots
+## Screenshots
 <div align="center">
 	<img src="./app_screenshots/login.png" width="40%" height="40%">
 	<img src="./app_screenshots/student-dashboard.png" width="80%" height="80%">
 	<img src="./app_screenshots/tutor-dashboard.png" width="80%" height="80%">
 </div>
+
+## License
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)<br>
+This project is licensed under [Apache License 2.0](https://opensource.org/licenses/Apache-2.0). All main conditions require preservation of copyright and license notices. View [LICENSE](/LICENSE) for more information.
+
